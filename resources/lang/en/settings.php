@@ -40,6 +40,9 @@ return [
     'app_disable_comments' => 'Disable Comments',
     'app_disable_comments_toggle' => 'Disable comments',
     'app_disable_comments_desc' => 'Disables comments across all pages in the application. <br> Existing comments are not shown.',
+    'app_inherit_from_shelf' => 'Inherit book permission from shelf',
+    'app_inherit_from_shelf_desc' => 'The permission of the shelf will be copied to the book, when assigning it to a shelf. All other permissions of the book will be overwritten.',
+    'app_inherit_from_shelf_toggle' => 'Enable inheritance',
 
     // Registration Settings
     'reg_settings' => 'Registration',
@@ -159,8 +162,9 @@ return [
         'ru' => 'Русский',
         'uk' => 'Українська',
         'zh_CN' => '简体中文',
-	'zh_TW' => '繁體中文',
-	'hu' => 'Magyar'
+        'zh_TW' => '繁體中文',
+        'hu' => 'Magyar',
+        'tr' => 'Türkçe',
     ]
     //!////////////////////////////////
 ];

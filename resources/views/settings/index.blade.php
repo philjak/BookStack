@@ -7,9 +7,10 @@
             <div class="py-m">
                 @include('settings.navbar', ['selected' => 'settings'])
             </div>
-            <div class="text-right mb-l px-m">
-                <br>
-                BookStack @if(strpos($version, 'v') !== 0) version @endif {{ $version }}
+            <div class="text-right p-m">
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/BookStackApp/BookStack/releases">
+                    BookStack @if(strpos($version, 'v') !== 0) version @endif {{ $version }}
+                </a>
             </div>
         </div>
 
@@ -64,6 +65,20 @@
                                 'name' => 'setting-app-disable-comments',
                                 'value' => setting('app-disable-comments'),
                                 'label' => trans('settings.app_disable_comments_toggle'),
+                            ])
+                        </div>
+                    </div>
+
+                    <div class="grid half gap-xl">
+                        <div>
+                            <label class="setting-list-label">{{ trans('settings.app_inherit_from_shelf') }}</label>
+                            <p class="small">{!! trans('settings.app_inherit_from_shelf_desc') !!}</p>
+                        </div>
+                        <div>
+                            @include('components.toggle-switch', [
+                                'name' => 'setting-app-inherit-from-shelf',
+                                'value' => setting('app-inherit-from-shelf'),
+                                'label' => trans('settings.app_inherit_from_shelf_toggle'),
                             ])
                         </div>
                     </div>
