@@ -21,7 +21,7 @@
                     <a href="{{$bookChild->getUrl()}}" class="entity-chip text-book" style="color: var(--color-page-draft) !important">
                     @icon('page-draft')
                 @else
-                    <a href="{{$bookChild->getUrl()}}" class="entity-chip text-book">
+                    <a href="{{$bookChild->getUrl()}}" class="entity-chip text-book" style="color: var(--color-page) !important">
                     @icon('page')
                 @endif
                 {{ $bookChild->name }}
