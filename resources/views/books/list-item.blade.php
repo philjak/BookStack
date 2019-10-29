@@ -17,6 +17,9 @@
                 @if ($bookChild->isA('chapter'))
                     <a href="{{$bookChild->getUrl()}}" class="entity-chip text-book" style="color: var(--color-chapter) !important">
                     @icon('chapter')
+                @elseif ($bookChild->draft)
+                    <a href="{{$bookChild->getUrl()}}" class="entity-chip text-book" style="color: var(--color-page-draft) !important">
+                    @icon('page-draft')
                 @else
                     <a href="{{$bookChild->getUrl()}}" class="entity-chip text-book">
                     @icon('page')
