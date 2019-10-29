@@ -43,6 +43,9 @@ return [
     'app_show_pages_in_shelf_view' => 'Detailed shelf view',
     'app_show_pages_in_shelf_view_desc' => 'Shows all pages and chapters of a book inside the shelf view.',
     'app_show_pages_in_shelf_view_toggle' => 'Enable detailed view',
+    'app_inherit_from_shelf' => 'Inherit book permission from shelf',
+    'app_inherit_from_shelf_desc' => 'The permission of the shelf will be copied to the book, when assigning it to a shelf. All other permissions of the book will be overwritten.',
+    'app_inherit_from_shelf_toggle' => 'Enable inheritance',
 
     // Registration Settings
     'reg_settings' => 'Registration',

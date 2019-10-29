@@ -71,6 +71,20 @@
 
                     <div class="grid half gap-xl">
                         <div>
+                            <label class="setting-list-label">{{ trans('settings.app_disable_comments') }}</label>
+                            <p class="small">{!! trans('settings.app_disable_comments_desc') !!}</p>
+                        </div>
+                        <div>
+                            @include('components.toggle-switch', [
+                                'name' => 'setting-app-disable-comments',
+                                'value' => setting('app-disable-comments'),
+                                'label' => trans('settings.app_disable_comments_toggle'),
+                            ])
+                        </div>
+                    </div>
+
+                    <div class="grid half gap-xl">
+                        <div>
                             <label class="setting-list-label">{{ trans('settings.app_show_pages_in_shelf_view') }}</label>
                             <p class="small">{!! trans('settings.app_show_pages_in_shelf_view_desc') !!}</p>
                         </div>
