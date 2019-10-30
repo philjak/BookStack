@@ -18,6 +18,7 @@
                             <a @click="updateLanguage('C#')">C#</a>
                             <a @click="updateLanguage('Go')">Go</a>
                             <a @click="updateLanguage('HTML')">HTML</a>
+                            <a @click="updateLanguage('INI')">INI</a>
                             <a @click="updateLanguage('Java')">Java</a>
                             <a @click="updateLanguage('JavaScript')">JavaScript</a>
                             <a @click="updateLanguage('JSON')">JSON</a>

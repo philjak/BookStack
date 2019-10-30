@@ -63,6 +63,13 @@ return [
     'maint_image_cleanup_warning' => ':count potentially unused images were found. Are you sure you want to delete these images?',
     'maint_image_cleanup_success' => ':count potentially unused images found and deleted!',
     'maint_image_cleanup_nothing_found' => 'No unused images found, Nothing deleted!',
+    'maint_send_test_email' => 'Send a Test Email',
+    'maint_send_test_email_desc' => 'This sends a test email to your email address specified in your profile.',
+    'maint_send_test_email_run' => 'Send test email',
+    'maint_send_test_email_success' => 'Email sent to :address',
+    'maint_send_test_email_mail_subject' => 'Test Email',
+    'maint_send_test_email_mail_greeting' => 'Email delivery seems to work!',
+    'maint_send_test_email_mail_text' => 'Congratulations! As you received this email notification, your email settings seem to be configured properly.',
 
     // Role Settings
     'roles' => 'Roles',
@@ -135,9 +142,8 @@ return [
     'users_social_connected' => ':socialAccount account was successfully attached to your profile.',
     'users_social_disconnected' => ':socialAccount account was successfully disconnected from your profile.',
 
-    //! Since these labels are already localized this array does not need to be
-    //! translated in the language-specific files.
-    //! DELETE BELOW IF COPIED FROM EN
+    //! If editing translations files directly please ignore this in all
+    //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
     'language_select' => [
         'en' => 'English',
@@ -152,7 +158,7 @@ return [
         'sk' => 'Slovensky',
         'cs' => 'Česky',
         'sv' => 'Svenska',
-        'kr' => '한국어',
+        'ko' => '한국어',
         'ja' => '日本語',
         'pl' => 'Polski',
         'it' => 'Italian',
