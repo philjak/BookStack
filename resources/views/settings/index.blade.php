@@ -79,6 +79,21 @@
                                 'name' => 'setting-app-show-pages-in-shelf-view',
                                 'value' => setting('app-show-pages-in-shelf-view'),
                                 'label' => trans('settings.app_show_pages_in_shelf_view_toggle'),
+                                 ])
+                        </div>
+                    </div>
+
+                    <div class="grid half gap-xl">
+                        <div>
+                            <label class="setting-list-label">{{ trans('settings.app_inherit_from_shelf') }}</label>
+                            <p class="small">{!! trans('settings.app_inherit_from_shelf_desc') !!}</p>
+                        </div>
+                        <div>
+                            @include('components.toggle-switch', [
+                                'name' => 'setting-app-inherit-from-shelf',
+                                'value' => setting('app-inherit-from-shelf'),
+                                'label' => trans('settings.app_inherit_from_shelf_toggle'),
+
                             ])
                         </div>
                     </div>

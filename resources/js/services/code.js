@@ -16,6 +16,7 @@ import 'codemirror/mode/mllike/mllike';
 import 'codemirror/mode/nginx/nginx';
 import 'codemirror/mode/php/php';
 import 'codemirror/mode/powershell/powershell';
+import 'codemirror/mode/properties/properties';
 import 'codemirror/mode/python/python';
 import 'codemirror/mode/ruby/ruby';
 import 'codemirror/mode/rust/rust';
@@ -28,6 +29,8 @@ import 'codemirror/mode/yaml/yaml';
 // Addons
 import 'codemirror/addon/scroll/scrollpastend';
 
+// Mapping of potential languages or formats from user input
+// to their proper codemirror modes.
 const modeMap = {
     css: 'css',
     c: 'text/x-csrc',
@@ -42,6 +45,7 @@ const modeMap = {
     haskell: 'haskell',
     hs: 'haskell',
     html: 'htmlmixed',
+    ini: 'properties',
     javascript: 'javascript',
     json: {name: 'javascript', json: true},
     js: 'javascript',
@@ -54,6 +58,7 @@ const modeMap = {
     ml: 'mllike',
     nginx: 'nginx',
     powershell: 'powershell',
+    properties: 'properties',
     ocaml: 'mllike',
     php: 'php',
     py: 'python',

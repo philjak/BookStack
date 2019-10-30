@@ -1,8 +1,8 @@
 <?php
 /**
  * Authentication Language Lines
- * The following language lines are used during authentication for various / Під час автентифікації використовуються наступні лінії мов для різних повідомлень
- * messages that we need to display to the user. / які нам потрібно показати користувачеві.
+ * The following language lines are used during authentication for various
+ * messages that we need to display to the user.
  */
 return [
 
@@ -64,4 +64,14 @@ return [
     'email_not_confirmed_click_link' => 'Будь-ласка, натисніть на посилання в електронному листі, яке було надіслано після реєстрації.',
     'email_not_confirmed_resend' => 'Якщо ви не можете знайти електронний лист, ви можете повторно надіслати підтвердження електронною поштою, на формі нижче.',
     'email_not_confirmed_resend_button' => 'Повторне підтвердження електронної пошти',
+
+    // User Invite
+    'user_invite_email_subject' => 'Вас запросили приєднатися до :appName!',
+    'user_invite_email_greeting' => 'Для вас створено обліковий запис на :appName.',
+    'user_invite_email_text' => 'Натисніть кнопку нижче, щоб встановити пароль облікового запису та отримати доступ:',
+    'user_invite_email_action' => 'Встановити пароль облікового запису',
+    'user_invite_page_welcome' => 'Ласкаво просимо до :appName!',
+    'user_invite_page_text' => 'Для завершення процесу створення облікового запису та отримання доступу вам потрібно задати пароль, який буде використовуватися для входу в :appName в майбутньому.',
+    'user_invite_page_confirm_button' => 'Підтвердити пароль',
+    'user_invite_success' => 'Встановлено пароль, тепер у вас є доступ до :appName!'
 ];
