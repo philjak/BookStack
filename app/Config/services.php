@@ -123,6 +123,7 @@ return [
         'base_dn' => env('LDAP_BASE_DN', false),
         'user_filter' => env('LDAP_USER_FILTER', '(&(uid=${user}))'),
         'version' => env('LDAP_VERSION', false),
+        'id_attribute' => env('LDAP_ID_ATTRIBUTE', 'uid'),
         'email_attribute' => env('LDAP_EMAIL_ATTRIBUTE', 'mail'),
         'display_name_attribute' => env('LDAP_DISPLAY_NAME_ATTRIBUTE', 'cn'),
         'follow_referrals' => env('LDAP_FOLLOW_REFERRALS', false),
@@ -130,6 +131,6 @@ return [
         'group_attribute' => env('LDAP_GROUP_ATTRIBUTE', 'memberOf'),
         'remove_from_groups' => env('LDAP_REMOVE_FROM_GROUPS', false),
         'tls_insecure' => env('LDAP_TLS_INSECURE', false),
-    ]
+    ],
 
 ];

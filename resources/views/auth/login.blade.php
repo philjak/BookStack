@@ -45,7 +45,17 @@
                 @endforeach
             @endif
 
-            @if(setting('registration-enabled', false))
+            @if($samlEnabled)
+                <hr class="my-l">
+                <div>
+                    <a id="saml-login" class="button outline block svg" href="{{ url("/saml2/login") }}">
+                       @icon('saml2')
+                      {{ trans('auth.log_in_with', ['socialDriver' => config('saml2.name')]) }}
+                    </a>
+                </div>
+            @endif
+
+            @if(setting('registration-enabled') && config('auth.method') !== 'ldap')
                 <div class="text-center pb-s">
                     <hr class="my-l">
                     <a href="{{ url('/register') }}">{{ trans('auth.dont_have_account') }}</a>

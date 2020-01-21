@@ -89,7 +89,7 @@ class RegisterController extends Controller
      */
     protected function checkRegistrationAllowed()
     {
-        if (!setting('registration-enabled')) {
+        if (!setting('registration-enabled') || config('auth.method') === 'ldap') {
             throw new UserRegistrationException(trans('auth.registrations_disabled'), '/login');
         }
     }
@@ -103,7 +103,11 @@ class RegisterController extends Controller
     {
         $this->checkRegistrationAllowed();
         $socialDrivers = $this->socialAuthService->getActiveDrivers();
-        return view('auth.register', ['socialDrivers' => $socialDrivers]);
+        $samlEnabled = (config('saml2.enabled') === true) && (config('saml2.auto_register') === true);
+        return view('auth.register', [
+            'socialDrivers' => $socialDrivers,
+            'samlEnabled' => $samlEnabled,
+        ]);
     }
 
     /**

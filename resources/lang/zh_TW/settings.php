@@ -41,12 +41,22 @@ return [
     'app_disable_comments_toggle' => 'Disable comments',
     'app_disable_comments_desc' => '在App的所有頁面上關閉評論，已經存在的評論也不會顯示。',
 
+    // Color settings
+    'content_colors' => 'Content Colors',
+    'content_colors_desc' => 'Sets colors for all elements in the page organisation hierarchy. Choosing colors with a similar brightness to the default colors is recommended for readability.',
+    'bookshelf_color' => 'Shelf Color',
+    'book_color' => 'Book Color',
+    'chapter_color' => 'Chapter Color',
+    'page_color' => 'Page Color',
+    'page_draft_color' => 'Page Draft Color',
+
     // Registration Settings
     'reg_settings' => '註冊設定',
     'reg_enable' => 'Enable Registration',
     'reg_enable_toggle' => 'Enable registration',
     'reg_enable_desc' => 'When registration is enabled user will be able to sign themselves up as an application user. Upon registration they are given a single, default user role.',
     'reg_default_role' => '註冊後的預設使用者角色',
+    'reg_enable_ldap_warning' => 'The option above is not used while LDAP authentication is active. User accounts for non-existing members will be auto-created if authentication, against the LDAP system in use, is successful.',
     'reg_email_confirmation' => 'Email Confirmation',
     'reg_email_confirmation_toggle' => 'Require email confirmation',
     'reg_confirm_email_desc' => '如果使用網域名稱限制，則需要Email驗證，並且本設定將被忽略。',
@@ -63,6 +73,13 @@ return [
     'maint_image_cleanup_warning' => '發現了 :count 張可能未使用的圖像。您確定要刪除這些圖像嗎？',
     'maint_image_cleanup_success' => '找到並刪除了 :count 張可能未使用的圖像！',
     'maint_image_cleanup_nothing_found' => '找不到未使用的圖像，沒有刪除！',
+    'maint_send_test_email' => 'Send a Test Email',
+    'maint_send_test_email_desc' => 'This sends a test email to your email address specified in your profile.',
+    'maint_send_test_email_run' => 'Send test email',
+    'maint_send_test_email_success' => 'Email sent to :address',
+    'maint_send_test_email_mail_subject' => 'Test Email',
+    'maint_send_test_email_mail_greeting' => 'Email delivery seems to work!',
+    'maint_send_test_email_mail_text' => 'Congratulations! As you received this email notification, your email settings seem to be configured properly.',
 
     // Role Settings
     'roles' => '角色',
@@ -86,6 +103,7 @@ return [
     'role_manage_entity_permissions' => '管理所有圖書，章節和頁面的權限',
     'role_manage_own_entity_permissions' => '管理自己的圖書，章節和頁面的權限',
     'role_manage_page_templates' => 'Manage page templates',
+    'role_access_api' => 'Access system API',
     'role_manage_settings' => '管理App設定',
     'role_asset' => '資源項目',
     'role_asset_desc' => '對系統內資源的預設權限將由這裡的權限控制。若有單獨設定在書本、章節和頁面上的權限，將會覆蓋這裡的權限設定。',
@@ -134,6 +152,32 @@ return [
     'users_social_disconnect' => '解除連結帳號',
     'users_social_connected' => ':socialAccount 帳號已經成功連結到您的資料。',
     'users_social_disconnected' => ':socialAccount 帳號已經成功解除連結。',
+    'users_api_tokens' => 'API Tokens',
+    'users_api_tokens_none' => 'No API tokens have been created for this user',
+    'users_api_tokens_create' => 'Create Token',
+    'users_api_tokens_expires' => 'Expires',
+    'users_api_tokens_docs' => 'API Documentation',
+
+    // API Tokens
+    'user_api_token_create' => 'Create API Token',
+    'user_api_token_name' => 'Name',
+    'user_api_token_name_desc' => 'Give your token a readable name as a future reminder of its intended purpose.',
+    'user_api_token_expiry' => 'Expiry Date',
+    'user_api_token_expiry_desc' => 'Set a date at which this token expires. After this date, requests made using this token will no longer work. Leaving this field blank will set an expiry 100 years into the future.',
+    'user_api_token_create_secret_message' => 'Immediately after creating this token a "Token ID"" & "Token Secret" will be generated and displayed. The secret will only be shown a single time so be sure to copy the value to somewhere safe and secure before proceeding.',
+    'user_api_token_create_success' => 'API token successfully created',
+    'user_api_token_update_success' => 'API token successfully updated',
+    'user_api_token' => 'API Token',
+    'user_api_token_id' => 'Token ID',
+    'user_api_token_id_desc' => 'This is a non-editable system generated identifier for this token which will need to be provided in API requests.',
+    'user_api_token_secret' => 'Token Secret',
+    'user_api_token_secret_desc' => 'This is a system generated secret for this token which will need to be provided in API requests. This will only be displayed this one time so copy this value to somewhere safe and secure.',
+    'user_api_token_created' => 'Token Created :timeAgo',
+    'user_api_token_updated' => 'Token Updated :timeAgo',
+    'user_api_token_delete' => 'Delete Token',
+    'user_api_token_delete_warning' => 'This will fully delete this API token with the name \':tokenName\' from the system.',
+    'user_api_token_delete_confirm' => 'Are you sure you want to delete this API token?',
+    'user_api_token_delete_success' => 'API token successfully deleted',
 
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.

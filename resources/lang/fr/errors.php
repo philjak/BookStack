@@ -13,10 +13,17 @@ return [
     'email_already_confirmed' => 'Cet e-mail a déjà été validé, vous pouvez vous connecter.',
     'email_confirmation_invalid' => 'Cette confirmation est invalide. Veuillez essayer de vous inscrire à nouveau.',
     'email_confirmation_expired' => 'Le jeton de confirmation est périmé. Un nouvel e-mail vous a été envoyé.',
+    'email_confirmation_awaiting' => 'The email address for the account in use needs to be confirmed',
     'ldap_fail_anonymous' => 'L\'accès LDAP anonyme n\'a pas abouti',
     'ldap_fail_authed' => 'L\'accès LDAP n\'a pas abouti avec cet utilisateur et ce mot de passe',
     'ldap_extension_not_installed' => 'L\'extension LDAP PHP n\'est pas installée',
     'ldap_cannot_connect' => 'Impossible de se connecter au serveur LDAP, la connexion initiale a échoué',
+    'saml_already_logged_in' => 'Déjà connecté',
+    'saml_user_not_registered' => 'L\'utilisateur :name n\'est pas enregistré et l\'enregistrement automatique est désactivé',
+    'saml_no_email_address' => 'Impossible de trouver une adresse e-mail, pour cet utilisateur, dans les données fournies par le système d\'authentification externe',
+    'saml_invalid_response_id' => 'La requête du système d\'authentification externe n\'est pas reconnue par un processus démarré par cette application. Naviguer après une connexion peut causer ce problème.',
+    'saml_fail_authed' => 'Connexion avec :system échoue, le système n\'a pas fourni l\'autorisation réussie',
+    'saml_email_exists' => 'L\'enregistrement a échoué car un utilisateur existe déjà avec l\'adresse e-mail ":email"',
     'social_no_action_defined' => 'Pas d\'action définie',
     'social_login_bad_response' => "Erreur pendant la tentative de connexion à :socialAccount : \n:error",
     'social_account_in_use' => 'Ce compte :socialAccount est déjà utilisé. Essayez de vous connecter via :socialAccount.',
@@ -81,5 +88,13 @@ return [
     'error_occurred' => 'Une erreur est survenue',
     'app_down' => ':appName n\'est pas en service pour le moment',
     'back_soon' => 'Nous serons bientôt de retour.',
+
+    // API errors
+    'api_no_authorization_found' => 'No authorization token found on the request',
+    'api_bad_authorization_format' => 'An authorization token was found on the request but the format appeared incorrect',
+    'api_user_token_not_found' => 'No matching API token was found for the provided authorization token',
+    'api_incorrect_token_secret' => 'The secret provided for the given used API token is incorrect',
+    'api_user_no_api_permission' => 'The owner of the used API token does not have permission to make API calls',
+    'api_user_token_expired' => 'The authorization token used has expired',
 
 ];

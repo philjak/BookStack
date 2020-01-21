@@ -190,6 +190,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/users/{id}', 'UserController@update');
         Route::delete('/users/{id}', 'UserController@destroy');
 
+        // User API Tokens
+        Route::get('/users/{userId}/create-api-token', 'UserApiTokenController@create');
+        Route::post('/users/{userId}/create-api-token', 'UserApiTokenController@store');
+        Route::get('/users/{userId}/api-tokens/{tokenId}', 'UserApiTokenController@edit');
+        Route::put('/users/{userId}/api-tokens/{tokenId}', 'UserApiTokenController@update');
+        Route::get('/users/{userId}/api-tokens/{tokenId}/delete', 'UserApiTokenController@delete');
+        Route::delete('/users/{userId}/api-tokens/{tokenId}', 'UserApiTokenController@destroy');
+
         // Roles
         Route::get('/roles', 'PermissionController@listRoles');
         Route::get('/roles/new', 'PermissionController@createRole');
@@ -218,6 +226,13 @@ Route::get('/register/confirm/awaiting', 'Auth\ConfirmEmailController@showAwaiti
 Route::post('/register/confirm/resend', 'Auth\ConfirmEmailController@resend');
 Route::get('/register/confirm/{token}', 'Auth\ConfirmEmailController@confirm');
 Route::post('/register', 'Auth\RegisterController@postRegister');
+
+// SAML routes
+Route::get('/saml2/login', 'Auth\Saml2Controller@login');
+Route::get('/saml2/logout', 'Auth\Saml2Controller@logout');
+Route::get('/saml2/metadata', 'Auth\Saml2Controller@metadata');
+Route::get('/saml2/sls', 'Auth\Saml2Controller@sls');
+Route::post('/saml2/acs', 'Auth\Saml2Controller@acs');
 
 // User invitation routes
 Route::get('/register/invite/{token}', 'Auth\UserInviteController@showSetPassword');

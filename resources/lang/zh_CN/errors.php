@@ -13,10 +13,17 @@ return [
     'email_already_confirmed' => 'Email已被确认，请尝试登录。',
     'email_confirmation_invalid' => '此确认令牌无效或已被使用，请重新注册。',
     'email_confirmation_expired' => '确认令牌已过期，已发送新的确认电子邮件。',
+    'email_confirmation_awaiting' => 'The email address for the account in use needs to be confirmed',
     'ldap_fail_anonymous' => '使用匿名绑定的LDAP访问失败。',
     'ldap_fail_authed' => '带有标识名称和密码的LDAP访问失败。',
     'ldap_extension_not_installed' => '未安装LDAP PHP扩展程序',
     'ldap_cannot_connect' => '无法连接到ldap服务器，初始连接失败',
+    'saml_already_logged_in' => '您已经登陆了',
+    'saml_user_not_registered' => '用户 :name 未注册且自动注册功能已被禁用',
+    'saml_no_email_address' => '无法找到有效Email地址，此用户数据由外部身份验证系统托管',
+    'saml_invalid_response_id' => '来自外部身份验证系统的请求没有被本应用程序认证，在登录后返回上一页可能会导致此问题。',
+    'saml_fail_authed' => '使用 :system 登录失败，登录系统未返回成功登录授权信息。',
+    'saml_email_exists' => '注册失败，因此已经有用户使用了 ":email" 此Email地址了',
     'social_no_action_defined' => '没有定义行为',
     'social_login_bad_response' => "在 :socialAccount 登录时遇到错误：\n:error",
     'social_account_in_use' => ':socialAccount 账户已被使用，请尝试通过 :socialAccount 选项登录。',
@@ -27,14 +34,14 @@ return [
     'social_account_register_instructions' => '如果您还没有帐户，您可以使用 :socialAccount 选项注册账户。',
     'social_driver_not_found' => '未找到社交驱动程序',
     'social_driver_not_configured' => '您的:socialAccount社交设置不正确。',
-    'invite_token_expired' => 'This invitation link has expired. You can instead try to reset your account password.',
+    'invite_token_expired' => '此邀请链接已过期。 您可以尝试重置您的帐户密码。',
 
     // System
     'path_not_writable' => '无法上传到文件路径“:filePath”，请确保它可写入服务器。',
     'cannot_get_image_from_url' => '无法从 :url 中获取图片',
     'cannot_create_thumbs' => '服务器无法创建缩略图，请检查您是否安装了GD PHP扩展。',
     'server_upload_limit' => '服务器不允许上传此大小的文件。 请尝试较小的文件。',
-    'uploaded'  => 'The server does not allow uploads of this size. Please try a smaller file size.',
+    'uploaded'  => '服务器不允许上传此大小的文件。 请尝试较小的文件。',
     'image_upload_error' => '上传图片时发生错误',
     'image_upload_type_error' => '上传的图像类型无效',
     'file_upload_timeout' => '文件上传已超时。',
@@ -65,7 +72,7 @@ return [
     'role_cannot_be_edited' => '无法编辑该角色',
     'role_system_cannot_be_deleted' => '无法删除系统角色',
     'role_registration_default_cannot_delete' => '无法删除设置为默认注册的角色',
-    'role_cannot_remove_only_admin' => 'This user is the only user assigned to the administrator role. Assign the administrator role to another user before attempting to remove it here.',
+    'role_cannot_remove_only_admin' => '该用户是分配给管理员角色的唯一用户。 在尝试在此处删除管理员角色之前，请将其分配给其他用户。',
 
     // Comments
     'comment_list' => '提取评论时出现错误。',
@@ -81,5 +88,13 @@ return [
     'error_occurred' => '出现错误',
     'app_down' => ':appName现在正在关闭',
     'back_soon' => '请耐心等待网站的恢复。',
+
+    // API errors
+    'api_no_authorization_found' => 'No authorization token found on the request',
+    'api_bad_authorization_format' => 'An authorization token was found on the request but the format appeared incorrect',
+    'api_user_token_not_found' => 'No matching API token was found for the provided authorization token',
+    'api_incorrect_token_secret' => 'The secret provided for the given used API token is incorrect',
+    'api_user_no_api_permission' => 'The owner of the used API token does not have permission to make API calls',
+    'api_user_token_expired' => 'The authorization token used has expired',
 
 ];
