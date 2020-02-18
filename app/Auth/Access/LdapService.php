@@ -1,10 +1,9 @@
 <?php namespace BookStack\Auth\Access;
 
 use BookStack\Auth\User;
-use BookStack\Auth\UserRepo;
+use BookStack\Exceptions\JsonDebugException;
 use BookStack\Exceptions\LdapException;
 use ErrorException;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 /**
  * Class LdapService
@@ -16,17 +15,15 @@ class LdapService extends ExternalAuthService
     protected $ldap;
     protected $ldapConnection;
     protected $config;
-    protected $userRepo;
     protected $enabled;
 
     /**
      * LdapService constructor.
      */
-    public function __construct(Ldap $ldap, UserRepo $userRepo)
+    public function __construct(Ldap $ldap)
     {
         $this->ldap = $ldap;
         $this->config = config('services.ldap');
-        $this->userRepo = $userRepo;
         $this->enabled = config('auth.method') === 'ldap';
     }
 
@@ -47,6 +44,13 @@ class LdapService extends ExternalAuthService
     {
         $ldapConnection = $this->getConnection();
         $this->bindSystemUser($ldapConnection);
+
+        // Clean attributes
+        foreach ($attributes as $index => $attribute) {
+            if (strpos($attribute, 'BIN;') === 0) {
+                $attributes[$index] = substr($attribute, strlen('BIN;'));
+            }
+        }
 
         // Find user
         $userFilter = $this->buildFilter($this->config['user_filter'], ['user' => $userName]);
@@ -80,46 +84,62 @@ class LdapService extends ExternalAuthService
         }
 
         $userCn = $this->getUserResponseProperty($user, 'cn', null);
-        return [
+        $formatted = [
             'uid'   => $this->getUserResponseProperty($user, $idAttr, $user['dn']),
             'name'  => $this->getUserResponseProperty($user, $displayNameAttr, $userCn),
             'dn'    => $user['dn'],
             'email' => $this->getUserResponseProperty($user, $emailAttr, null),
         ];
+
+        if ($this->config['dump_user_details']) {
+            throw new JsonDebugException([
+                'details_from_ldap' => $user,
+                'details_bookstack_parsed' => $formatted,
+            ]);
+        }
+
+        return $formatted;
     }
 
     /**
      * Get a property from an LDAP user response fetch.
      * Handles properties potentially being part of an array.
+     * If the given key is prefixed with 'BIN;', that indicator will be stripped
+     * from the key and any fetched values will be converted from binary to hex.
      */
     protected function getUserResponseProperty(array $userDetails, string $propertyKey, $defaultValue)
     {
+        $isBinary = strpos($propertyKey, 'BIN;') === 0;
         $propertyKey = strtolower($propertyKey);
-        if (isset($userDetails[$propertyKey])) {
-            return (is_array($userDetails[$propertyKey]) ? $userDetails[$propertyKey][0] : $userDetails[$propertyKey]);
+        $value = $defaultValue;
+
+        if ($isBinary) {
+            $propertyKey = substr($propertyKey, strlen('BIN;'));
         }
 
-        return $defaultValue;
+        if (isset($userDetails[$propertyKey])) {
+            $value = (is_array($userDetails[$propertyKey]) ? $userDetails[$propertyKey][0] : $userDetails[$propertyKey]);
+            if ($isBinary) {
+                $value = bin2hex($value);
+            }
+        }
+
+        return $value;
     }
 
     /**
      * Check if the given credentials are valid for the given user.
      * @throws LdapException
      */
-    public function validateUserCredentials(Authenticatable $user, string $username, string $password): bool
+    public function validateUserCredentials(?array $ldapUserDetails, string $password): bool
     {
-        $ldapUser = $this->getUserDetails($username);
-        if ($ldapUser === null) {
-            return false;
-        }
-
-        if ($ldapUser['uid'] !== $user->external_auth_id) {
+        if (is_null($ldapUserDetails)) {
             return false;
         }
 
         $ldapConnection = $this->getConnection();
         try {
-            $ldapBind = $this->ldap->bind($ldapConnection, $ldapUser['dn'], $password);
+            $ldapBind = $this->ldap->bind($ldapConnection, $ldapUserDetails['dn'], $password);
         } catch (ErrorException $e) {
             $ldapBind = false;
         }

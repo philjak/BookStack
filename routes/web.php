@@ -211,10 +211,12 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 // Social auth routes
-Route::get('/login/service/{socialDriver}', 'Auth\LoginController@getSocialLogin');
-Route::get('/login/service/{socialDriver}/callback', 'Auth\RegisterController@socialCallback');
-Route::get('/login/service/{socialDriver}/detach', 'Auth\RegisterController@detachSocialAccount');
-Route::get('/register/service/{socialDriver}', 'Auth\RegisterController@socialRegister');
+Route::get('/login/service/{socialDriver}', 'Auth\SocialController@getSocialLogin');
+Route::get('/login/service/{socialDriver}/callback', 'Auth\SocialController@socialCallback');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/login/service/{socialDriver}/detach', 'Auth\SocialController@detachSocialAccount');
+});
+Route::get('/register/service/{socialDriver}', 'Auth\SocialController@socialRegister');
 
 // Login/Logout routes
 Route::get('/login', 'Auth\LoginController@getLogin');
@@ -228,7 +230,7 @@ Route::get('/register/confirm/{token}', 'Auth\ConfirmEmailController@confirm');
 Route::post('/register', 'Auth\RegisterController@postRegister');
 
 // SAML routes
-Route::get('/saml2/login', 'Auth\Saml2Controller@login');
+Route::post('/saml2/login', 'Auth\Saml2Controller@login');
 Route::get('/saml2/logout', 'Auth\Saml2Controller@logout');
 Route::get('/saml2/metadata', 'Auth\Saml2Controller@metadata');
 Route::get('/saml2/sls', 'Auth\Saml2Controller@sls');
