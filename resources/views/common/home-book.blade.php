@@ -18,8 +18,9 @@
                     <span>{{ trans('entities.books_create') }}</span>
                 </a>
             @endif
-            @include('partials.view-toggle', ['view' => $view, 'type' => 'book'])
+            @include('partials.view-toggle', ['view' => $view, 'type' => 'books'])
             @include('components.expand-toggle', ['target' => '.entity-list.compact .entity-item-snippet', 'key' => 'home-details'])
+            @include('partials.dark-mode-toggle', ['classes' => 'text-muted icon-list-item text-primary'])
         </div>
     </div>
 @stop
