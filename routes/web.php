@@ -104,22 +104,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/{userId}', 'UserController@showProfilePage');
 
     // Image routes
-    Route::group(['prefix' => 'images'], function () {
-
-        // Gallery
-        Route::get('/gallery', 'Images\GalleryImageController@list');
-        Route::post('/gallery', 'Images\GalleryImageController@create');
-
-        // Drawio
-        Route::get('/drawio', 'Images\DrawioImageController@list');
-        Route::get('/drawio/base64/{id}', 'Images\DrawioImageController@getAsBase64');
-        Route::post('/drawio', 'Images\DrawioImageController@create');
-
-        // Shared gallery & draw.io endpoint
-        Route::get('/usage/{id}', 'Images\ImageController@usage');
-        Route::put('/{id}', 'Images\ImageController@update');
-        Route::delete('/{id}', 'Images\ImageController@destroy');
-    });
+    Route::get('/images/gallery', 'Images\GalleryImageController@list');
+    Route::post('/images/gallery', 'Images\GalleryImageController@create');
+    Route::get('/images/drawio', 'Images\DrawioImageController@list');
+    Route::get('/images/drawio/base64/{id}', 'Images\DrawioImageController@getAsBase64');
+    Route::post('/images/drawio', 'Images\DrawioImageController@create');
+    Route::get('/images/edit/{id}', 'Images\ImageController@edit');
+    Route::put('/images/{id}', 'Images\ImageController@update');
+    Route::delete('/images/{id}', 'Images\ImageController@destroy');
 
     // Attachments routes
     Route::get('/attachments/{id}', 'AttachmentController@get');
@@ -146,9 +138,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ajax/search/entities', 'SearchController@searchEntitiesAjax');
 
     // Comments
-    Route::post('/ajax/page/{pageId}/comment', 'CommentController@savePageComment');
-    Route::put('/ajax/comment/{id}', 'CommentController@update');
-    Route::delete('/ajax/comment/{id}', 'CommentController@destroy');
+    Route::post('/comment/{pageId}', 'CommentController@savePageComment');
+    Route::put('/comment/{id}', 'CommentController@update');
+    Route::delete('/comment/{id}', 'CommentController@destroy');
 
     // Links
     Route::get('/link/{id}', 'PageController@redirectFromLink');
