@@ -43,7 +43,7 @@ return [
     'reset_password' => 'Återställ lösenord',
     'reset_password_send_instructions' => 'Ange din e-postadress nedan så skickar vi ett mail med en länk för att återställa ditt lösenord.',
     'reset_password_send_button' => 'Skicka återställningslänk',
-    'reset_password_sent_success' => 'En länk för att återställa lösenordet har skickats till :email.',
+    'reset_password_sent' => 'A password reset link will be sent to :email if that email address is found in the system.',
     'reset_password_success' => 'Ditt lösenord har återställts.',
     'email_reset_subject' => 'Återställ ditt lösenord till :appName',
     'email_reset_text' => 'Du får detta mail eftersom vi fått en begäran om att återställa lösenordet till ditt konto.',
@@ -66,12 +66,12 @@ return [
     'email_not_confirmed_resend_button' => 'Skicka bekräftelse på nytt',
 
     // User Invite
-    'user_invite_email_subject' => 'You have been invited to join :appName!',
-    'user_invite_email_greeting' => 'An account has been created for you on :appName.',
-    'user_invite_email_text' => 'Click the button below to set an account password and gain access:',
-    'user_invite_email_action' => 'Set Account Password',
-    'user_invite_page_welcome' => 'Welcome to :appName!',
-    'user_invite_page_text' => 'To finalise your account and gain access you need to set a password which will be used to log-in to :appName on future visits.',
-    'user_invite_page_confirm_button' => 'Confirm Password',
-    'user_invite_success' => 'Password set, you now have access to :appName!'
+    'user_invite_email_subject' => 'Du har blivit inbjuden att gå med i :appName!',
+    'user_invite_email_greeting' => 'Ett konto har skapats för dig i :appName.',
+    'user_invite_email_text' => 'Klicka på knappen nedan för att ange ett lösenord och få tillgång:',
+    'user_invite_email_action' => 'Ange kontolösenord',
+    'user_invite_page_welcome' => 'Välkommen till :appName!',
+    'user_invite_page_text' => 'För att slutföra ditt konto och få åtkomst måste du ange ett lösenord som kommer att användas för att logga in på :appName vid framtida besök.',
+    'user_invite_page_confirm_button' => 'Bekräfta lösenord',
+    'user_invite_success' => 'Lösenord satt, du har nu tillgång till :appName!'
 ];

@@ -43,7 +43,7 @@ return [
     'reset_password' => 'Passwort vergessen',
     'reset_password_send_instructions' => 'Bitte geben Sie Ihre E-Mail-Adresse ein. Danach erhalten Sie eine E-Mail mit einem Link zum Zurücksetzen Ihres Passwortes.',
     'reset_password_send_button' => 'Passwort zurücksetzen',
-    'reset_password_sent_success' => 'Eine E-Mail mit dem Link zum Zurücksetzen Ihres Passwortes wurde an :email gesendet.',
+    'reset_password_sent' => 'Ein Link zum Zurücksetzen des Passworts wird an :email gesendet, wenn diese E-Mail-Adresse im System gefunden wird.',
     'reset_password_success' => 'Ihr Passwort wurde erfolgreich zurückgesetzt.',
     'email_reset_subject' => 'Passwort zurücksetzen für :appName',
     'email_reset_text' => 'Sie erhalten diese E-Mail, weil jemand versucht hat, Ihr Passwort zurückzusetzen.',
@@ -66,12 +66,12 @@ return [
     'email_not_confirmed_resend_button' => 'Bestätigungs-E-Mail erneut senden',
 
     // User Invite
-    'user_invite_email_subject' => 'You have been invited to join :appName!',
-    'user_invite_email_greeting' => 'An account has been created for you on :appName.',
-    'user_invite_email_text' => 'Click the button below to set an account password and gain access:',
-    'user_invite_email_action' => 'Set Account Password',
-    'user_invite_page_welcome' => 'Welcome to :appName!',
-    'user_invite_page_text' => 'To finalise your account and gain access you need to set a password which will be used to log-in to :appName on future visits.',
-    'user_invite_page_confirm_button' => 'Confirm Password',
-    'user_invite_success' => 'Password set, you now have access to :appName!'
+    'user_invite_email_subject' => 'Du wurdest eingeladen :appName beizutreten!',
+    'user_invite_email_greeting' => 'Ein Konto wurde für Sie auf :appName erstellt.',
+    'user_invite_email_text' => 'Klicken Sie auf die Schaltfläche unten, um ein Passwort festzulegen und Zugriff zu erhalten:',
+    'user_invite_email_action' => 'Account-Passwort festlegen',
+    'user_invite_page_welcome' => 'Willkommen bei :appName!',
+    'user_invite_page_text' => 'Um die Anmeldung abzuschließen und Zugriff auf :appName zu bekommen muss noch ein Passwort festgelegt werden. Dieses wird in Zukunft zum Einloggen benötigt.',
+    'user_invite_page_confirm_button' => 'Passwort wiederholen',
+    'user_invite_success' => 'Passwort gesetzt, Sie haben nun Zugriff auf :appName!'
 ];

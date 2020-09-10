@@ -38,6 +38,7 @@ return [
     'reset' => 'Réinitialiser',
     'remove' => 'Enlever',
     'add' => 'Ajouter',
+    'fullscreen' => 'Plein écran',
 
     // Sort Options
     'sort_options' => 'Options de tri',
@@ -65,9 +66,11 @@ return [
     'profile_menu' => 'Menu du profil',
     'view_profile' => 'Voir le profil',
     'edit_profile' => 'Modifier le profil',
+    'dark_mode' => 'Mode sombre',
+    'light_mode' => 'Mode clair',
 
     // Layout tabs
-    'tab_info' => 'Info',
+    'tab_info' => 'Informations',
     'tab_content' => 'Contenu',
 
     // Email Content

@@ -16,7 +16,10 @@ use BookStack\Entities\Repos\PageRepo;
 use BookStack\Settings\SettingService;
 use BookStack\Uploads\HttpFetcher;
 use Illuminate\Support\Env;
+use Illuminate\Support\Facades\Log;
 use Mockery;
+use Monolog\Handler\TestHandler;
+use Monolog\Logger;
 use Throwable;
 
 trait SharedTestHelpers
@@ -69,14 +72,14 @@ trait SharedTestHelpers
     }
 
     /**
-     * Get an instance of a user with 'viewer' permissions
-     * @param $attributes
-     * @return mixed
+     * Get an instance of a user with 'viewer' permissions.
      */
-    protected function getViewer($attributes = [])
+    protected function getViewer(array $attributes = []): User
     {
         $user = Role::getRole('viewer')->users()->first();
-        if (!empty($attributes)) $user->forceFill($attributes)->save();
+        if (!empty($attributes)) {
+            $user->forceFill($attributes)->save();
+        }
         return $user;
     }
 
@@ -260,6 +263,39 @@ trait SharedTestHelpers
         $toIncludeStr = print_r($mapToInclude, true);
         $toCheckStr = print_r($mapToCheck, true);
         self::assertThat($passed, self::isTrue(), "Failed asserting that given map:\n\n{$toCheckStr}\n\nincludes:\n\n{$toIncludeStr}");
+    }
+
+    /**
+     * Assert a permission error has occurred.
+     */
+    protected function assertPermissionError($response)
+    {
+        if ($response instanceof BrowserKitTest) {
+            $response = \Illuminate\Foundation\Testing\TestResponse::fromBaseResponse($response->response);
+        }
+
+        $response->assertRedirect('/');
+        $this->assertSessionHas('error');
+        $error = session()->pull('error');
+        $this->assertStringStartsWith('You do not have permission to access', $error);
+    }
+
+    /**
+     * Set a test handler as the logging interface for the application.
+     * Allows capture of logs for checking against during tests.
+     */
+    protected function withTestLogger(): TestHandler
+    {
+        $monolog = new Logger('testing');
+        $testHandler = new TestHandler();
+        $monolog->pushHandler($testHandler);
+
+        Log::extend('testing', function() use ($monolog) {
+            return $monolog;
+        });
+        Log::setDefaultDriver('testing');
+
+        return $testHandler;
     }
 
 }

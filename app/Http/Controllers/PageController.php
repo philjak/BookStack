@@ -163,6 +163,8 @@ class PageController extends Controller
     public function getPageAjax(int $pageId)
     {
         $page = $this->pageRepo->getById($pageId);
+        $page->setHidden(array_diff($page->getHidden(), ['html', 'markdown']));
+        $page->addHidden(['book']);
         return response()->json($page);
     }
 
@@ -304,11 +306,12 @@ class PageController extends Controller
         $this->checkOwnablePermission('page-delete', $page);
 
         $book = $page->book;
+        $parent = $page->chapter ?? $book;
         $this->pageRepo->destroy($page);
         Activity::addMessage('page_delete', $page->name, $book->id);
 
         $this->showSuccessNotification(trans('entities.pages_delete_success'));
-        return redirect($book->getUrl());
+        return redirect($parent->getUrl());
     }
 
     /**

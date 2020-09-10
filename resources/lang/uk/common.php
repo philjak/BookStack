@@ -38,6 +38,7 @@ return [
     'reset' => 'Скинути',
     'remove' => 'Видалити',
     'add' => 'Додати',
+    'fullscreen' => 'Fullscreen',
 
     // Sort Options
     'sort_options' => 'Параметри сортування',
@@ -59,12 +60,14 @@ return [
     'grid_view' => 'Вигляд Сіткою',
     'list_view' => 'Вигляд Списком',
     'default' => 'За замовчуванням',
-    'breadcrumb' => 'Breadcrumb',
+    'breadcrumb' => 'Навігація',
 
     // Header
     'profile_menu' => 'Меню профілю',
     'view_profile' => 'Переглянути профіль',
     'edit_profile' => 'Редагувати профіль',
+    'dark_mode' => 'Dark Mode',
+    'light_mode' => 'Light Mode',
 
     // Layout tabs
     'tab_info' => 'Інфо',

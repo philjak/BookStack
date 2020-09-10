@@ -28,8 +28,10 @@ class BookshelfRepo
      */
     public function getAllPaginated(int $count = 20, string $sort = 'name', string $order = 'asc'): LengthAwarePaginator
     {
-        return Bookshelf::visible()->with('visibleBooks')
-            ->orderBy($sort, $order)->paginate($count);
+        return Bookshelf::visible()
+            ->with('visibleBooks')
+            ->orderBy($sort, $order)
+            ->paginate($count);
     }
 
     /**
@@ -91,10 +93,14 @@ class BookshelfRepo
     /**
      * Create a new shelf in the system.
      */
-    public function update(Bookshelf $shelf, array $input, array $bookIds): Bookshelf
+    public function update(Bookshelf $shelf, array $input, ?array $bookIds): Bookshelf
     {
         $this->baseRepo->update($shelf, $input);
-        $this->updateBooks($shelf, $bookIds);
+
+        if (!is_null($bookIds)) {
+            $this->updateBooks($shelf, $bookIds);
+        }
+
         return $shelf;
     }
 
@@ -123,7 +129,7 @@ class BookshelfRepo
      * @throws ImageUploadException
      * @throws Exception
      */
-    public function updateCoverImage(Bookshelf $shelf, UploadedFile $coverImage = null, bool $removeImage = false)
+    public function updateCoverImage(Bookshelf $shelf, ?UploadedFile $coverImage, bool $removeImage = false)
     {
         $this->baseRepo->updateCoverImage($shelf, $coverImage, $removeImage);
     }
@@ -139,15 +145,15 @@ class BookshelfRepo
     /**
      * Copy down the permissions of the given shelf to all child books.
      */
-    public function copyDownPermissions(Bookshelf $shelf): int
+    public function copyDownPermissions(Bookshelf $shelf, $checkUserPermissions = true): int
     {
         $shelfPermissions = $shelf->permissions()->get(['role_id', 'action'])->toArray();
-        $shelfBooks = $shelf->books()->get();
+        $shelfBooks = $shelf->books()->get(['id', 'restricted']);
         $updatedBookCount = 0;
 
         /** @var Book $book */
         foreach ($shelfBooks as $book) {
-            if (!userCan('restrictions-manage', $book)) {
+            if ($checkUserPermissions && !userCan('restrictions-manage', $book)) {
                 continue;
             }
             $book->permissions()->delete();

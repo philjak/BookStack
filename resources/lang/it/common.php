@@ -38,6 +38,7 @@ return [
     'reset' => 'Azzera',
     'remove' => 'Rimuovi',
     'add' => 'Aggiungi',
+    'fullscreen' => 'Schermo intero',
 
     // Sort Options
     'sort_options' => 'Opzioni Ordinamento',
@@ -65,6 +66,8 @@ return [
     'profile_menu' => 'Menu del profilo',
     'view_profile' => 'Visualizza Profilo',
     'edit_profile' => 'Modifica Profilo',
+    'dark_mode' => 'Dark Mode',
+    'light_mode' => 'Light Mode',
 
     // Layout tabs
     'tab_info' => 'Info',

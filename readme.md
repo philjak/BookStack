@@ -2,16 +2,19 @@
 
 [![GitHub release](https://img.shields.io/github/release/BookStackApp/BookStack.svg)](https://github.com/BookStackApp/BookStack/releases/latest)
 [![license](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/BookStackApp/BookStack/blob/master/LICENSE)
+[![Crowdin](https://badges.crowdin.net/bookstack/localized.svg)](https://crowdin.com/project/bookstack)
 [![Build Status](https://github.com/BookStackApp/BookStack/workflows/phpunit/badge.svg)](https://github.com/BookStackApp/BookStack/actions)
 [![Discord](https://img.shields.io/static/v1?label=Chat&message=Discord&color=738adb&logo=discord)](https://discord.gg/ztkBqR2)
 
-A platform for storing and organising information and documentation. General information and documentation for BookStack can be found at https://www.bookstackapp.com/.
+A platform for storing and organising information and documentation. Details for BookStack can be found on the official website at https://www.bookstackapp.com/.
 
 * [Installation Instructions](https://www.bookstackapp.com/docs/admin/installation)
 * [Documentation](https://www.bookstackapp.com/docs)
 * [Demo Instance](https://demo.bookstackapp.com)
     * [Admin Login](https://demo.bookstackapp.com/login?email=admin@example.com&password=password)
 * [BookStack Blog](https://www.bookstackapp.com/blog)
+* [Issue List](https://github.com/BookStackApp/BookStack/issues)
+* [Discord Chat](https://discord.gg/ztkBqR2)
 
 ## 📚 Project Definition
 
@@ -25,7 +28,7 @@ In regards to development philosophy, BookStack has a relaxed, open & positive a
 
 Below is a high-level road map view for BookStack to provide a sense of direction of where the project is going. This can change at any point and does not reflect many features and improvements that will also be included as part of the journey along this road map. For more granular detail of what will be included in upcoming releases you can review the project milestones as defined in the "Release Process" section below.
 
-- **Platform REST API** *(In Design)*
+- **Platform REST API** *(Base Implemented, In review and roll-out)*
     - *A REST API covering, at minimum, control of core content models (Books, Chapters, Pages) for automation and platform extension.*
 - **Editor Alignment & Review**
     - *Review the page editors with goal of achieving increased interoperability & feature parity while also considering collaborative editing potential.*
@@ -48,7 +51,7 @@ All development on BookStack is currently done on the master branch. When it's t
 
 * [Node.js](https://nodejs.org/en/) v10.0+
 
-SASS is used to help the CSS development and the JavaScript is run through babel to allow for writing ES6 code. This is done using webpack. To run the build task you can use the following commands:
+This project uses SASS for CSS development and this is built, along with the JavaScript, using a range of npm scripts. The below npm commands can be used to install the dependencies & run the build tasks:
 
 ``` bash
 # Install NPM Dependencies
@@ -77,7 +80,7 @@ Once done you can run `php vendor/bin/phpunit` in the application root directory
 
 ### 📜 Code Standards
 
-PHP code within BookStack is generally to [PSR-2](http://www.php-fig.org/psr/psr-2/) standards. From the BookStack root folder you can run `./vendor/bin/phpcs` to check code is formatted correctly and `./vendor/bin/phpcbf` to auto-fix non-PSR-2 code.
+PHP code within BookStack is generally to [PSR-2](http://www.php-fig.org/psr/psr-2/) standards. From the BookStack root folder you can run `./vendor/bin/phpcs` to check code is formatted correctly and `./vendor/bin/phpcbf` to auto-fix non-PSR-2 code. Please don't auto-fix code unless it's related to changes you've made otherwise you'll likely cause git conflicts.
 
 ### 🐋 Development using Docker
 
@@ -107,28 +110,19 @@ The docker-compose setup runs an instance of [MailHog](https://github.com/mailho
 
 ## 🌎 Translations
 
-All text strings can be found in the `resources/lang` folder where each language option has its own folder. To add a new language you should copy the `en` folder to an new folder (eg. `fr` for french) then go through and translate all text strings in those files, leaving the keys and file-names intact. If a language string is missing then the `en` translation will be used. To show the language option in the user preferences language drop-down you will need to add your language to the options found at the bottom of the `resources/lang/en/settings.php` file. A system-wide language can also be set in the `.env` file like so: `APP_LANG=en`.
+Translations for text within BookStack is managed through the [BookStack project on Crowdin](https://crowdin.com/project/bookstack). Some strings have colon-prefixed variables in such as `:userName`. Leave these values as they are as they will be replaced at run-time. Crowdin is the preferred way to provide translations, otherwise the raw translations files can be found within the `resources/lang` path.
 
-You will also need to add the language to the `locales` array in the `config/app.php` file.
+If you'd like a new language to be added to Crowdin, for you to be able to provide translations for, please [open a new issue here](https://github.com/BookStackApp/BookStack/issues/new?template=language_request.md).
 
-There is a script available which compares translation content to `en` files to see what items are missing or redundant. This can be ran like so from your BookStack install folder:
-
-```bash
-# Syntax
-php resources/lang/check.php <lang>
-
-# Examples
-php resources/lang/check.php fr
-php resources/lang/check.php pt_BR
-```
-
-Some strings have colon-prefixed variables in such as `:userName`. Leave these values as they are as they will be replaced at run-time.
+Please note, translations in BookStack are provided to the "Crowdin Global Translation Memory" which helps BookStack and other projects with finding translations. If you are not happy with contributing to this then providing translations to BookStack, even manually via GitHub, is not advised.
 
 ## 🎁 Contributing, Issues & Pull Requests
 
 Feel free to create issues to request new features or to report bugs & problems. Just please follow the template given when creating the issue.
 
-Pull requests are welcome. Unless a small tweak or language update, It may be best to open the pull request early or create an issue for your intended change to discuss how it will fit in to the project and plan out the merge. Pull requests should be created from the `master` branch since they will be merged back into `master` once done. Please do not build from or request a merge into the `release` branch as this is only for publishing releases. If you are looking to alter CSS or JavaScript content please edit the source files found in `resources/assets`. Any CSS or JS files within `public` are built from these source files and therefore should not be edited directly.
+Pull requests are welcome. Unless a small tweak or language update, It may be best to open the pull request early or create an issue for your intended change to discuss how it will fit in to the project and plan out the merge. Just because a feature request exists, or is tagged, does not mean that feature would be accepted into the core project.
+
+Pull requests should be created from the `master` branch since they will be merged back into `master` once done. Please do not build from or request a merge into the `release` branch as this is only for publishing releases. If you are looking to alter CSS or JavaScript content please edit the source files found in `resources/assets`. Any CSS or JS files within `public` are built from these source files and therefore should not be edited directly.
 
 The project's code of conduct [can be found here](https://github.com/BookStackApp/BookStack/blob/master/.github/CODE_OF_CONDUCT.md).
 
@@ -156,13 +150,14 @@ The BookStack source is provided under the MIT License. The libraries used by, a
 
 The great people that have worked to build and improve BookStack can [be seen here](https://github.com/BookStackApp/BookStack/graphs/contributors).
 
+The wonderful people that have provided translations, either through GitHub or via Crowdin [can be seen here](https://github.com/BookStackApp/BookStack/blob/master/.github/translators.txt).
+
 These are the great open-source projects used to help build BookStack:
 
 * [Laravel](http://laravel.com/)
 * [TinyMCE](https://www.tinymce.com/)
 * [CodeMirror](https://codemirror.net)
-* [Vue.js](http://vuejs.org/)
-* [Sortable](https://github.com/SortableJS/Sortable) & [Vue.Draggable](https://github.com/SortableJS/Vue.Draggable)
+* [Sortable](https://github.com/SortableJS/Sortable)
 * [Google Material Icons](https://material.io/icons/)
 * [Dropzone.js](http://www.dropzonejs.com/)
 * [clipboard.js](https://clipboardjs.com/)
@@ -175,3 +170,4 @@ These are the great open-source projects used to help build BookStack:
 * [WKHTMLtoPDF](http://wkhtmltopdf.org/index.html)
 * [Draw.io](https://github.com/jgraph/drawio)
 * [Laravel Stats](https://github.com/stefanzweifel/laravel-stats)
+* [OneLogin's SAML PHP Toolkit](https://github.com/onelogin/php-saml)

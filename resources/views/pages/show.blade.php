@@ -11,7 +11,7 @@
     </div>
 
     <main class="content-wrap card">
-        <div class="page-content" page-display="{{ $page->id }}">
+        <div class="page-content clearfix" page-display="{{ $page->id }}">
             @include('pages.pointer', ['page' => $page])
             @include('pages.page-display')
         </div>
@@ -37,14 +37,7 @@
         <div id="page-attachments" class="mb-l">
             <h5>{{ trans('entities.pages_attachments') }}</h5>
             <div class="body">
-                @foreach($page->attachments as $attachment)
-                    <div class="attachment icon-list">
-                        <a class="icon-list-item py-xs" href="{{ $attachment->getUrl() }}" @if($attachment->external) target="_blank" @endif>
-                            <span class="icon">@icon($attachment->external ? 'export' : 'file')</span>
-                            <span>{{ $attachment->name }}</span>
-                        </a>
-                    </div>
-                @endforeach
+                @include('attachments.list', ['attachments' => $page->attachments])
             </div>
         </div>
     @endif
@@ -113,7 +106,7 @@
     </div>
 
     <div class="actions mb-xl">
-        <h5>Actions</h5>
+        <h5>{{ trans('common.actions') }}</h5>
 
         <div class="icon-list text-primary">
 

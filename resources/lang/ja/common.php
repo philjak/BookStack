@@ -38,6 +38,7 @@ return [
     'reset' => 'リセット',
     'remove' => '削除',
     'add' => '追加',
+    'fullscreen' => 'Fullscreen',
 
     // Sort Options
     'sort_options' => 'Sort Options',
@@ -65,6 +66,8 @@ return [
     'profile_menu' => 'Profile Menu',
     'view_profile' => 'プロフィール表示',
     'edit_profile' => 'プロフィール編集',
+    'dark_mode' => 'Dark Mode',
+    'light_mode' => 'Light Mode',
 
     // Layout tabs
     'tab_info' => 'Info',

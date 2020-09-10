@@ -7,7 +7,6 @@ use BookStack\Auth\UserRepo;
 use BookStack\Exceptions\UserUpdateException;
 use BookStack\Uploads\ImageRepo;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -20,10 +19,6 @@ class UserController extends Controller
 
     /**
      * UserController constructor.
-     * @param User $user
-     * @param UserRepo $userRepo
-     * @param UserInviteService $inviteService
-     * @param ImageRepo $imageRepo
      */
     public function __construct(User $user, UserRepo $userRepo, UserInviteService $inviteService, ImageRepo $imageRepo)
     {
@@ -36,8 +31,6 @@ class UserController extends Controller
 
     /**
      * Display a listing of the users.
-     * @param Request $request
-     * @return Response
      */
     public function index(Request $request)
     {
@@ -55,7 +48,6 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new user.
-     * @return Response
      */
     public function create()
     {
@@ -67,16 +59,15 @@ class UserController extends Controller
 
     /**
      * Store a newly created user in storage.
-     * @param  Request $request
-     * @return Response
      * @throws UserUpdateException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
         $this->checkPermission('users-manage');
         $validationRules = [
-            'name'             => 'required',
-            'email'            => 'required|email|unique:users,email'
+            'name'  => 'required',
+            'email' => 'required|email|unique:users,email'
         ];
 
         $authMethod = config('auth.method');
@@ -85,7 +76,7 @@ class UserController extends Controller
         if ($authMethod === 'standard' && !$sendInvite) {
             $validationRules['password'] = 'required|min:6';
             $validationRules['password-confirm'] = 'required|same:password';
-        } elseif ($authMethod === 'ldap') {
+        } elseif ($authMethod === 'ldap' || $authMethod === 'saml2') {
             $validationRules['external_auth_id'] = 'required';
         }
         $this->validate($request, $validationRules);
@@ -94,7 +85,7 @@ class UserController extends Controller
 
         if ($authMethod === 'standard') {
             $user->password = bcrypt($request->get('password', Str::random(32)));
-        } elseif ($authMethod === 'ldap') {
+        } elseif ($authMethod === 'ldap' || $authMethod === 'saml2') {
             $user->external_auth_id = $request->get('external_auth_id');
         }
 
@@ -116,33 +107,33 @@ class UserController extends Controller
 
     /**
      * Show the form for editing the specified user.
-     * @param  int              $id
-     * @param \BookStack\Auth\Access\SocialAuthService $socialAuthService
-     * @return Response
      */
-    public function edit($id, SocialAuthService $socialAuthService)
+    public function edit(int $id, SocialAuthService $socialAuthService)
     {
         $this->checkPermissionOrCurrentUser('users-manage', $id);
 
-        $user = $this->user->findOrFail($id);
+        $user = $this->user->newQuery()->with(['apiTokens'])->findOrFail($id);
 
         $authMethod = ($user->system_name) ? 'system' : config('auth.method');
 
         $activeSocialDrivers = $socialAuthService->getActiveDrivers();
         $this->setPageTitle(trans('settings.user_profile'));
         $roles = $this->userRepo->getAllRoles();
-        return view('users.edit', ['user' => $user, 'activeSocialDrivers' => $activeSocialDrivers, 'authMethod' => $authMethod, 'roles' => $roles]);
+        return view('users.edit', [
+            'user' => $user,
+            'activeSocialDrivers' => $activeSocialDrivers,
+            'authMethod' => $authMethod,
+            'roles' => $roles
+        ]);
     }
 
     /**
      * Update the specified user in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Response
      * @throws UserUpdateException
      * @throws \BookStack\Exceptions\ImageUploadException
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         $this->preventAccessInDemoMode();
         $this->checkPermissionOrCurrentUser('users-manage', $id);
@@ -153,7 +144,7 @@ class UserController extends Controller
             'password'         => 'min:6|required_with:password_confirm',
             'password-confirm' => 'same:password|required_with:password',
             'setting'          => 'array',
-            'profile_image'    => $this->imageRepo->getImageValidationRules(),
+            'profile_image'    => 'nullable|' . $this->getImageValidationRules(),
         ]);
 
         $user = $this->userRepo->getById($id);
@@ -189,7 +180,7 @@ class UserController extends Controller
         }
 
         // Save profile image if in request
-        if ($request->has('profile_image')) {
+        if ($request->hasFile('profile_image')) {
             $imageUpload = $request->file('profile_image');
             $this->imageRepo->destroyImage($user->avatar);
             $image = $this->imageRepo->saveNew($imageUpload, 'user', $user->id);
@@ -210,10 +201,8 @@ class UserController extends Controller
 
     /**
      * Show the user delete page.
-     * @param int $id
-     * @return \Illuminate\View\View
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         $this->checkPermissionOrCurrentUser('users-manage', $id);
 
@@ -224,11 +213,9 @@ class UserController extends Controller
 
     /**
      * Remove the specified user from storage.
-     * @param  int $id
-     * @return Response
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $this->preventAccessInDemoMode();
         $this->checkPermissionOrCurrentUser('users-manage', $id);
@@ -253,8 +240,6 @@ class UserController extends Controller
 
     /**
      * Show the user profile page
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showProfilePage($id)
     {
@@ -274,34 +259,32 @@ class UserController extends Controller
 
     /**
      * Update the user's preferred book-list display setting.
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function switchBookView(Request $request, $id)
+    public function switchBooksView(Request $request, int $id)
     {
         return $this->switchViewType($id, $request, 'books');
     }
 
     /**
      * Update the user's preferred shelf-list display setting.
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function switchShelfView(Request $request, $id)
+    public function switchShelvesView(Request $request, int $id)
     {
         return $this->switchViewType($id, $request, 'bookshelves');
     }
 
     /**
-     * For a type of list, switch with stored view type for a user.
-     * @param integer $userId
-     * @param Request $request
-     * @param string $listName
-     * @return \Illuminate\Http\RedirectResponse
+     * Update the user's preferred shelf-view book list display setting.
      */
-    protected function switchViewType($userId, Request $request, string $listName)
+    public function switchShelfView(Request $request, int $id)
+    {
+        return $this->switchViewType($id, $request, 'bookshelf');
+    }
+
+    /**
+     * For a type of list, switch with stored view type for a user.
+     */
+    protected function switchViewType(int $userId, Request $request, string $listName)
     {
         $this->checkPermissionOrCurrentUser('users-manage', $userId);
 
@@ -319,10 +302,6 @@ class UserController extends Controller
 
     /**
      * Change the stored sort type for a particular view.
-     * @param Request $request
-     * @param string $id
-     * @param string $type
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function changeSort(Request $request, string $id, string $type)
     {
@@ -334,11 +313,17 @@ class UserController extends Controller
     }
 
     /**
+     * Toggle dark mode for the current user.
+     */
+    public function toggleDarkMode()
+    {
+        $enabled = setting()->getForCurrentUser('dark-mode-enabled', false);
+        setting()->putUser(user(), 'dark-mode-enabled', $enabled ? 'false' : 'true');
+        return redirect()->back();
+    }
+
+    /**
      * Update the stored section expansion preference for the given user.
-     * @param Request $request
-     * @param string $id
-     * @param string $key
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function updateExpansionPreference(Request $request, string $id, string $key)
     {
@@ -357,10 +342,6 @@ class UserController extends Controller
 
     /**
      * Changed the stored preference for a list sort order.
-     * @param int $userId
-     * @param Request $request
-     * @param string $listName
-     * @return \Illuminate\Http\RedirectResponse
      */
     protected function changeListSort(int $userId, Request $request, string $listName)
     {

@@ -25,7 +25,7 @@
         </div>
 
         <div class="text-right">
-            <nav class="header-links" >
+            <nav class="header-links">
                 <div class="links text-center">
                     @if (hasAppAccess())
                         <a class="hide-over-l" href="{{ url('/search') }}">@icon('search'){{ trans('common.search') }}</a>
@@ -42,21 +42,21 @@
                     @endif
 
                     @if(!signedInUser())
-                        @if(setting('registration-enabled', false))
-                            <a href="{{ url('/register') }}">@icon('new-user') {{ trans('auth.sign_up') }}</a>
+                        @if(setting('registration-enabled') && config('auth.method') === 'standard')
+                            <a href="{{ url('/register') }}">@icon('new-user'){{ trans('auth.sign_up') }}</a>
                         @endif
-                        <a href="{{ url('/login') }}">@icon('login') {{ trans('auth.log_in') }}</a>
+                        <a href="{{ url('/login')  }}">@icon('login'){{ trans('auth.log_in') }}</a>
                     @endif
                 </div>
                 @if(signedInUser())
                     <?php $currentUser = user(); ?>
-                    <div class="dropdown-container" dropdown>
-                        <span class="user-name py-s hide-under-l" dropdown-toggle
+                    <div class="dropdown-container" component="dropdown">
+                        <span class="user-name py-s hide-under-l" refs="dropdown@toggle"
                               aria-haspopup="true" aria-expanded="false" aria-label="{{ trans('common.profile_menu') }}" tabindex="0">
                             <img class="avatar" src="{{$currentUser->getAvatar(30)}}" alt="{{ $currentUser->name }}">
                             <span class="name">{{ $currentUser->getShortName(9) }}</span> @icon('caret-down')
                         </span>
-                        <ul class="dropdown-menu" role="menu">
+                        <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
                             <li>
                                 <a href="{{ url("/user/{$currentUser->id}") }}">@icon('user'){{ trans('common.view_profile') }}</a>
                             </li>
@@ -64,7 +64,15 @@
                                 <a href="{{ url("/settings/users/{$currentUser->id}") }}">@icon('edit'){{ trans('common.edit_profile') }}</a>
                             </li>
                             <li>
-                                <a href="{{ url('/logout') }}">@icon('logout'){{ trans('auth.logout') }}</a>
+                                @if(config('auth.method') === 'saml2')
+                                    <a href="{{ url('/saml2/logout') }}">@icon('logout'){{ trans('auth.logout') }}</a>
+                                @else
+                                    <a href="{{ url('/logout') }}">@icon('logout'){{ trans('auth.logout') }}</a>
+                                @endif
+                            </li>
+                            <li><hr></li>
+                            <li>
+                                @include('partials.dark-mode-toggle')
                             </li>
                         </ul>
                     </div>

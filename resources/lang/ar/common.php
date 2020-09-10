@@ -38,6 +38,7 @@ return [
     'reset' => 'إعادة تعيين',
     'remove' => 'إزالة',
     'add' => 'إضافة',
+    'fullscreen' => 'Fullscreen',
 
     // Sort Options
     'sort_options' => 'Sort Options',
@@ -65,6 +66,8 @@ return [
     'profile_menu' => 'Profile Menu',
     'view_profile' => 'عرض الملف الشخصي',
     'edit_profile' => 'تعديل الملف الشخصي',
+    'dark_mode' => 'Dark Mode',
+    'light_mode' => 'Light Mode',
 
     // Layout tabs
     'tab_info' => 'Info',

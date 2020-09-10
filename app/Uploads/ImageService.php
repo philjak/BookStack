@@ -124,29 +124,24 @@ class ImageService extends UploadService
     }
 
     /**
-     * Saves a new image
-     * @param string $imageName
-     * @param string $imageData
-     * @param string $type
-     * @param int $uploadedTo
-     * @return Image
+     * Save a new image into storage.
      * @throws ImageUploadException
      */
-    private function saveNew($imageName, $imageData, $type, $uploadedTo = 0)
+    private function saveNew(string $imageName, string $imageData, string $type, int $uploadedTo = 0): Image
     {
         $storage = $this->getStorage($type);
         $secureUploads = setting('app-secure-images');
-        $imageName = str_replace(' ', '-', $imageName);
+        $fileName = $this->cleanImageFileName($imageName);
 
         $imagePath = '/uploads/images/' . $type . '/' . Date('Y-m') . '/';
 
-        while ($storage->exists($imagePath . $imageName)) {
-            $imageName = Str::random(3) . $imageName;
+        while ($storage->exists($imagePath . $fileName)) {
+            $fileName = Str::random(3) . $fileName;
         }
 
-        $fullPath = $imagePath . $imageName;
+        $fullPath = $imagePath . $fileName;
         if ($secureUploads) {
-            $fullPath = $imagePath . Str::random(16) . '-' . $imageName;
+            $fullPath = $imagePath . Str::random(16) . '-' . $fileName;
         }
 
         try {
@@ -175,6 +170,23 @@ class ImageService extends UploadService
         return $image;
     }
 
+    /**
+     * Clean up an image file name to be both URL and storage safe.
+     */
+    protected function cleanImageFileName(string $name): string
+    {
+        $name = str_replace(' ', '-', $name);
+        $nameParts = explode('.', $name);
+        $extension = array_pop($nameParts);
+        $name = implode('.', $nameParts);
+        $name = Str::slug($name);
+
+        if (strlen($name) === 0) {
+            $name = Str::random(10);
+        }
+
+        return  $name . '.' . $extension;
+    }
 
     /**
      * Checks if the image is a gif. Returns true if it is, else false.
@@ -223,6 +235,7 @@ class ImageService extends UploadService
         $storage->setVisibility($thumbFilePath, 'public');
         $this->cache->put('images-' . $image->id . '-' . $thumbFilePath, $thumbFilePath, 60 * 60 * 72);
 
+
         return $this->getPublicUrl($thumbFilePath);
     }
 
@@ -254,7 +267,16 @@ class ImageService extends UploadService
         } else {
             $thumb->fit($width, $height);
         }
-        return (string)$thumb->encode();
+
+        $thumbData = (string)$thumb->encode();
+
+        // Use original image data if we're keeping the ratio
+        // and the resizing does not save any space.
+        if ($keepRatio && strlen($thumbData) > strlen($imageData)) {
+            return $imageData;
+        }
+
+        return $thumbData;
     }
 
     /**
@@ -283,11 +305,9 @@ class ImageService extends UploadService
 
     /**
      * Destroys an image at the given path.
-     * Searches for image thumbnails in addition to main provided path..
-     * @param string $path
-     * @return bool
+     * Searches for image thumbnails in addition to main provided path.
      */
-    protected function destroyImagesFromPath(string $path)
+    protected function destroyImagesFromPath(string $path): bool
     {
         $storage = $this->getStorage();
 
@@ -297,8 +317,7 @@ class ImageService extends UploadService
 
         // Delete image files
         $imagesToDelete = $allImages->filter(function ($imagePath) use ($imageFileName) {
-            $expectedIndex = strlen($imagePath) - strlen($imageFileName);
-            return strpos($imagePath, $imageFileName) === $expectedIndex;
+            return basename($imagePath) === $imageFileName;
         });
         $storage->delete($imagesToDelete->all());
 

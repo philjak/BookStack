@@ -1,18 +1,18 @@
 import MarkdownIt from "markdown-it";
 import mdTasksLists from 'markdown-it-task-lists';
 import code from '../services/code';
+import Clipboard from "../services/clipboard";
 import {debounce} from "../services/util";
 
 import DrawIO from "../services/drawio";
 
 class MarkdownEditor {
 
-    constructor(elem) {
-        this.elem = elem;
+    setup() {
+        this.elem = this.$el;
 
-        const pageEditor = document.getElementById('page-editor');
-        this.pageId = pageEditor.getAttribute('page-id');
-        this.textDirection = pageEditor.getAttribute('text-direction');
+        this.pageId = this.$opts.pageId;
+        this.textDirection = this.$opts.textDirection;
 
         this.markdown = new MarkdownIt({html: true});
         this.markdown.use(mdTasksLists, {label: true});
@@ -26,12 +26,18 @@ class MarkdownEditor {
 
         this.onMarkdownScroll = this.onMarkdownScroll.bind(this);
 
-        this.display.addEventListener('load', () => {
+        const displayLoad = () => {
             this.displayDoc = this.display.contentDocument;
             this.init();
-        });
+        };
 
-        window.$events.emitPublic(elem, 'editor-markdown::setup', {
+        if (this.display.contentDocument.readyState === 'complete') {
+            displayLoad();
+        } else {
+            this.display.addEventListener('load', displayLoad.bind(this));
+        }
+
+        window.$events.emitPublic(this.elem, 'editor-markdown::setup', {
             markdownIt: this.markdown,
             displayEl: this.display,
             codeMirrorInstance: this.cm,
@@ -75,6 +81,7 @@ class MarkdownEditor {
                 return;
             }
             if (action === 'insertDrawing') this.actionStartDrawing();
+            if (action === 'fullscreen') this.actionFullScreen();
         });
 
         // Mobile section toggling
@@ -125,7 +132,13 @@ class MarkdownEditor {
 
     loadStylesIntoDisplay() {
         if (this.displayStylesLoaded) return;
-        this.displayDoc.documentElement.className = 'markdown-editor-display';
+        this.displayDoc.documentElement.classList.add('markdown-editor-display');
+        // Set display to be dark mode if parent is
+
+        if (document.documentElement.classList.contains('dark-mode')) {
+            this.displayDoc.documentElement.style.backgroundColor = '#222';
+            this.displayDoc.documentElement.classList.add('dark-mode');
+        }
 
         this.displayDoc.head.innerHTML = '';
         const styles = document.head.querySelectorAll('style,link[rel=stylesheet]');
@@ -215,20 +228,16 @@ class MarkdownEditor {
 
         // Handle image paste
         cm.on('paste', (cm, event) => {
-            const clipboardItems = event.clipboardData.items;
-            if (!event.clipboardData || !clipboardItems) return;
+            const clipboard = new Clipboard(event.clipboardData || event.dataTransfer);
 
-            // Don't handle if clipboard includes text content
-            for (let clipboardItem of clipboardItems) {
-                if (clipboardItem.type.includes('text/')) {
-                    return;
-                }
+            // Don't handle the event ourselves if no items exist of contains table-looking data
+            if (!clipboard.hasItems() || clipboard.containsTabularData()) {
+                return;
             }
 
-            for (let clipboardItem of clipboardItems) {
-                if (clipboardItem.type.includes("image")) {
-                    uploadImage(clipboardItem.getAsFile());
-                }
+            const images = clipboard.getImages();
+            for (const image of images) {
+                uploadImage(image);
             }
         });
 
@@ -246,13 +255,15 @@ class MarkdownEditor {
                 });
             }
 
-            if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+            const clipboard = new Clipboard(event.dataTransfer);
+            if (clipboard.hasItems()) {
                 const cursorPos = cm.coordsChar({left: event.pageX, top: event.pageY});
                 cm.setCursor(cursorPos);
                 event.stopPropagation();
                 event.preventDefault();
-                for (let i = 0; i < event.dataTransfer.files.length; i++) {
-                    uploadImage(event.dataTransfer.files[i]);
+                const images = clipboard.getImages();
+                for (const image of images) {
+                    uploadImage(image);
                 }
             }
 
@@ -411,17 +422,23 @@ class MarkdownEditor {
         });
     }
 
+    getDrawioUrl() {
+        const drawioUrlElem = document.querySelector('[drawio-url]');
+        return drawioUrlElem ? drawioUrlElem.getAttribute('drawio-url') : false;
+    }
+
     // Show draw.io if enabled and handle save.
     actionStartDrawing() {
-        if (document.querySelector('[drawio-enabled]').getAttribute('drawio-enabled') !== 'true') return;
-        let cursorPos = this.cm.getCursor('from');
+        const url = this.getDrawioUrl();
+        if (!url) return;
 
-        DrawIO.show(() => {
+        const cursorPos = this.cm.getCursor('from');
+
+        DrawIO.show(url,() => {
             return Promise.resolve('');
         }, (pngData) => {
-            // let id = "image-" + Math.random().toString(16).slice(2);
-            // let loadingImage = window.baseUrl('/loading.gif');
-            let data = {
+
+            const data = {
                 image: pngData,
                 uploaded_to: Number(document.getElementById('page-editor').getAttribute('page-id'))
             };
@@ -445,15 +462,15 @@ class MarkdownEditor {
 
     // Show draw.io if enabled and handle save.
     actionEditDrawing(imgContainer) {
-        const drawingDisabled = document.querySelector('[drawio-enabled]').getAttribute('drawio-enabled') !== 'true';
-        if (drawingDisabled) {
+        const drawioUrl = this.getDrawioUrl();
+        if (!drawioUrl) {
             return;
         }
 
         const cursorPos = this.cm.getCursor('from');
         const drawingId = imgContainer.getAttribute('drawio-diagram');
 
-        DrawIO.show(() => {
+        DrawIO.show(drawioUrl, () => {
             return DrawIO.load(drawingId);
         }, (pngData) => {
 
@@ -479,6 +496,13 @@ class MarkdownEditor {
                 console.log(err);
             });
         });
+    }
+
+    // Make the editor full screen
+    actionFullScreen() {
+        const alreadyFullscreen = this.elem.classList.contains('fullscreen');
+        this.elem.classList.toggle('fullscreen', !alreadyFullscreen);
+        document.body.classList.toggle('markdown-fullscreen', !alreadyFullscreen);
     }
 
     // Scroll to a specified text
@@ -537,6 +561,11 @@ class MarkdownEditor {
             this.cm.setValue(content);
             const prependLineCount = markdown.split('\n').length;
             this.cm.setCursor(cursorPos.line + prependLineCount, cursorPos.ch);
+        });
+
+        // Focus on editor
+        window.$events.listen('editor::focus', () => {
+            this.cm.focus();
         });
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Validation\ValidationException;
 
 abstract class Controller extends BaseController
 {
@@ -133,23 +134,6 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Create the response for when a request fails validation.
-     * @param  \Illuminate\Http\Request  $request
-     * @param  array  $errors
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    protected function buildFailedValidationResponse(Request $request, array $errors)
-    {
-        if ($request->expectsJson()) {
-            return response()->json(['validation' => $errors], 422);
-        }
-
-        return redirect()->to($this->getRedirectUrl())
-            ->withInput($request->input())
-            ->withErrors($errors, $this->errorBag());
-    }
-
-    /**
      * Create a response that forces a download in the browser.
      * @param string $content
      * @param string $fileName
@@ -195,6 +179,6 @@ abstract class Controller extends BaseController
      */
     protected function getImageValidationRules(): string
     {
-        return 'image_extension|no_double_extension|mimes:jpeg,png,gif,bmp,webp,tiff';
+        return 'image_extension|no_double_extension|mimes:jpeg,png,gif,webp';
     }
 }

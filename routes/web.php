@@ -104,22 +104,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/{userId}', 'UserController@showProfilePage');
 
     // Image routes
-    Route::group(['prefix' => 'images'], function () {
-
-        // Gallery
-        Route::get('/gallery', 'Images\GalleryImageController@list');
-        Route::post('/gallery', 'Images\GalleryImageController@create');
-
-        // Drawio
-        Route::get('/drawio', 'Images\DrawioImageController@list');
-        Route::get('/drawio/base64/{id}', 'Images\DrawioImageController@getAsBase64');
-        Route::post('/drawio', 'Images\DrawioImageController@create');
-
-        // Shared gallery & draw.io endpoint
-        Route::get('/usage/{id}', 'Images\ImageController@usage');
-        Route::put('/{id}', 'Images\ImageController@update');
-        Route::delete('/{id}', 'Images\ImageController@destroy');
-    });
+    Route::get('/images/gallery', 'Images\GalleryImageController@list');
+    Route::post('/images/gallery', 'Images\GalleryImageController@create');
+    Route::get('/images/drawio', 'Images\DrawioImageController@list');
+    Route::get('/images/drawio/base64/{id}', 'Images\DrawioImageController@getAsBase64');
+    Route::post('/images/drawio', 'Images\DrawioImageController@create');
+    Route::get('/images/edit/{id}', 'Images\ImageController@edit');
+    Route::put('/images/{id}', 'Images\ImageController@update');
+    Route::delete('/images/{id}', 'Images\ImageController@destroy');
 
     // Attachments routes
     Route::get('/attachments/{id}', 'AttachmentController@get');
@@ -127,6 +119,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/attachments/upload/{id}', 'AttachmentController@uploadUpdate');
     Route::post('/attachments/link', 'AttachmentController@attachLink');
     Route::put('/attachments/{id}', 'AttachmentController@update');
+    Route::get('/attachments/edit/{id}', 'AttachmentController@getUpdateForm');
     Route::get('/attachments/get/page/{pageId}', 'AttachmentController@listForPage');
     Route::put('/attachments/sort/page/{pageId}', 'AttachmentController@sortForPage');
     Route::delete('/attachments/{id}', 'AttachmentController@delete');
@@ -137,8 +130,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('/ajax/page/{id}', 'PageController@ajaxDestroy');
 
     // Tag routes (AJAX)
-    Route::group(['prefix' => 'ajax/tags'], function() {
-        Route::get('/get/{entityType}/{entityId}', 'TagController@getForEntity');
+    Route::group(['prefix' => 'ajax/tags'], function () {
         Route::get('/suggest/names', 'TagController@getNameSuggestions');
         Route::get('/suggest/values', 'TagController@getValueSuggestions');
     });
@@ -146,9 +138,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/ajax/search/entities', 'SearchController@searchEntitiesAjax');
 
     // Comments
-    Route::post('/ajax/page/{pageId}/comment', 'CommentController@savePageComment');
-    Route::put('/ajax/comment/{id}', 'CommentController@update');
-    Route::delete('/ajax/comment/{id}', 'CommentController@destroy');
+    Route::post('/comment/{pageId}', 'CommentController@savePageComment');
+    Route::put('/comment/{id}', 'CommentController@update');
+    Route::delete('/comment/{id}', 'CommentController@destroy');
 
     // Links
     Route::get('/link/{id}', 'PageController@redirectFromLink');
@@ -181,14 +173,24 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/users', 'UserController@index');
         Route::get('/users/create', 'UserController@create');
         Route::get('/users/{id}/delete', 'UserController@delete');
-        Route::patch('/users/{id}/switch-book-view', 'UserController@switchBookView');
+        Route::patch('/users/{id}/switch-books-view', 'UserController@switchBooksView');
+        Route::patch('/users/{id}/switch-shelves-view', 'UserController@switchShelvesView');
         Route::patch('/users/{id}/switch-shelf-view', 'UserController@switchShelfView');
         Route::patch('/users/{id}/change-sort/{type}', 'UserController@changeSort');
         Route::patch('/users/{id}/update-expansion-preference/{key}', 'UserController@updateExpansionPreference');
+        Route::patch('/users/toggle-dark-mode', 'UserController@toggleDarkMode');
         Route::post('/users/create', 'UserController@store');
         Route::get('/users/{id}', 'UserController@edit');
         Route::put('/users/{id}', 'UserController@update');
         Route::delete('/users/{id}', 'UserController@destroy');
+
+        // User API Tokens
+        Route::get('/users/{userId}/create-api-token', 'UserApiTokenController@create');
+        Route::post('/users/{userId}/create-api-token', 'UserApiTokenController@store');
+        Route::get('/users/{userId}/api-tokens/{tokenId}', 'UserApiTokenController@edit');
+        Route::put('/users/{userId}/api-tokens/{tokenId}', 'UserApiTokenController@update');
+        Route::get('/users/{userId}/api-tokens/{tokenId}/delete', 'UserApiTokenController@delete');
+        Route::delete('/users/{userId}/api-tokens/{tokenId}', 'UserApiTokenController@destroy');
 
         // Roles
         Route::get('/roles', 'PermissionController@listRoles');
@@ -203,10 +205,12 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 // Social auth routes
-Route::get('/login/service/{socialDriver}', 'Auth\LoginController@getSocialLogin');
-Route::get('/login/service/{socialDriver}/callback', 'Auth\RegisterController@socialCallback');
-Route::get('/login/service/{socialDriver}/detach', 'Auth\RegisterController@detachSocialAccount');
-Route::get('/register/service/{socialDriver}', 'Auth\RegisterController@socialRegister');
+Route::get('/login/service/{socialDriver}', 'Auth\SocialController@getSocialLogin');
+Route::get('/login/service/{socialDriver}/callback', 'Auth\SocialController@socialCallback');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/login/service/{socialDriver}/detach', 'Auth\SocialController@detachSocialAccount');
+});
+Route::get('/register/service/{socialDriver}', 'Auth\SocialController@socialRegister');
 
 // Login/Logout routes
 Route::get('/login', 'Auth\LoginController@getLogin');
@@ -218,6 +222,13 @@ Route::get('/register/confirm/awaiting', 'Auth\ConfirmEmailController@showAwaiti
 Route::post('/register/confirm/resend', 'Auth\ConfirmEmailController@resend');
 Route::get('/register/confirm/{token}', 'Auth\ConfirmEmailController@confirm');
 Route::post('/register', 'Auth\RegisterController@postRegister');
+
+// SAML routes
+Route::post('/saml2/login', 'Auth\Saml2Controller@login');
+Route::get('/saml2/logout', 'Auth\Saml2Controller@logout');
+Route::get('/saml2/metadata', 'Auth\Saml2Controller@metadata');
+Route::get('/saml2/sls', 'Auth\Saml2Controller@sls');
+Route::post('/saml2/acs', 'Auth\Saml2Controller@acs');
 
 // User invitation routes
 Route::get('/register/invite/{token}', 'Auth\UserInviteController@showSetPassword');

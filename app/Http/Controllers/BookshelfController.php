@@ -85,12 +85,12 @@ class BookshelfController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'description' => 'string|max:1000',
-            'image' => $this->getImageValidationRules(),
+            'image' => 'nullable|' . $this->getImageValidationRules(),
         ]);
 
         $bookIds = explode(',', $request->get('books', ''));
         $shelf = $this->bookshelfRepo->create($request->all(), $bookIds);
-        $this->bookshelfRepo->updateCoverImage($shelf);
+        $this->bookshelfRepo->updateCoverImage($shelf, $request->file('image', null));
 
         Activity::add($shelf, 'bookshelf_create');
         return redirect($shelf->getUrl());
@@ -107,10 +107,12 @@ class BookshelfController extends Controller
 
         Views::add($shelf);
         $this->entityContextManager->setShelfContext($shelf->id);
+        $view = setting()->getForCurrentUser('bookshelf_view_type', config('app.views.books'));
 
         $this->setPageTitle($shelf->getShortName());
         return view('shelves.show', [
             'shelf' => $shelf,
+            'view' => $view,
             'activity' => Activity::entityActivity($shelf, 20, 1)
         ]);
     }
@@ -146,7 +148,7 @@ class BookshelfController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'description' => 'string|max:1000',
-            'image' => $this->imageRepo->getImageValidationRules(),
+            'image' => 'nullable|' . $this->getImageValidationRules(),
         ]);
 
 

@@ -18,7 +18,7 @@ return [
 
     // Chapters
     'chapter_create'              => 'создал главу',
-    'chapter_create_notification' => 'глава успешно создана',
+    'chapter_create_notification' => 'Глава успешно создана',
     'chapter_update'              => 'обновил главу',
     'chapter_update_notification' => 'Глава успешно обновлена',
     'chapter_delete'              => 'удалил главу',
@@ -36,12 +36,12 @@ return [
     'book_sort_notification'      => 'Книга успешно отсортирована',
 
     // Bookshelves
-    'bookshelf_create'            => 'created Bookshelf',
-    'bookshelf_create_notification'    => 'Bookshelf Successfully Created',
-    'bookshelf_update'                 => 'updated bookshelf',
-    'bookshelf_update_notification'    => 'Bookshelf Successfully Updated',
-    'bookshelf_delete'                 => 'deleted bookshelf',
-    'bookshelf_delete_notification'    => 'Bookshelf Successfully Deleted',
+    'bookshelf_create'            => 'создал полку',
+    'bookshelf_create_notification'    => 'Полка успешно создана',
+    'bookshelf_update'                 => 'обновил полку',
+    'bookshelf_update_notification'    => 'Полка успешно обновлена',
+    'bookshelf_delete'                 => 'удалил полку',
+    'bookshelf_delete_notification'    => 'Полка успешно удалена',
 
     // Other
     'commented_on'                => 'прокомментировал',

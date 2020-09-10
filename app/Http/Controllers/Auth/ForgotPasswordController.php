@@ -5,7 +5,7 @@ namespace BookStack\Http\Controllers\Auth;
 use BookStack\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
-use Password;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
@@ -30,6 +30,7 @@ class ForgotPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+        $this->middleware('guard:standard');
         parent::__construct();
     }
 
@@ -51,8 +52,8 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        if ($response === Password::RESET_LINK_SENT) {
-            $message = trans('auth.reset_password_sent_success', ['email' => $request->get('email')]);
+        if ($response === Password::RESET_LINK_SENT || $response === Password::INVALID_USER) {
+            $message = trans('auth.reset_password_sent', ['email' => $request->get('email')]);
             $this->showSuccessNotification($message);
             return back()->with('status', trans($response));
         }

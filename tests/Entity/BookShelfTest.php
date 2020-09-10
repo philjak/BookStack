@@ -1,13 +1,17 @@
-<?php namespace Tests;
+<?php namespace Tests\Entity;
 
-use BookStack\Auth\Role;
 use BookStack\Auth\User;
 use BookStack\Entities\Book;
 use BookStack\Entities\Bookshelf;
+use BookStack\Uploads\Image;
 use Illuminate\Support\Str;
+use Tests\TestCase;
+use Tests\Uploads\UsesImages;
 
 class BookShelfTest extends TestCase
 {
+
+    use UsesImages;
 
     public function test_shelves_shows_in_header_if_have_view_permissions()
     {
@@ -52,6 +56,25 @@ class BookShelfTest extends TestCase
         $resp->assertElementContains('a', 'New Shelf');
     }
 
+    public function test_book_not_visible_in_shelf_list_view_if_user_cant_view_shelf()
+    {
+        config()->set([
+            'app.views.bookshelves' => 'list',
+        ]);
+        $shelf = Bookshelf::query()->first();
+        $book = $shelf->books()->first();
+
+        $resp = $this->asEditor()->get('/shelves');
+        $resp->assertSee($book->name);
+        $resp->assertSee($book->getUrl());
+
+        $this->setEntityRestrictions($book, []);
+
+        $resp = $this->asEditor()->get('/shelves');
+        $resp->assertDontSee($book->name);
+        $resp->assertDontSee($book->getUrl());
+    }
+
     public function test_shelves_create()
     {
         $booksToInclude = Book::take(2)->get();
@@ -81,6 +104,26 @@ class BookShelfTest extends TestCase
 
         $this->assertDatabaseHas('bookshelves_books', ['bookshelf_id' => $shelf->id, 'book_id' => $booksToInclude[0]->id]);
         $this->assertDatabaseHas('bookshelves_books', ['bookshelf_id' => $shelf->id, 'book_id' => $booksToInclude[1]->id]);
+    }
+
+    public function test_shelves_create_sets_cover_image()
+    {
+        $shelfInfo = [
+            'name' => 'My test book' . Str::random(4),
+            'description' => 'Test book description ' . Str::random(10)
+        ];
+
+        $imageFile = $this->getTestImage('shelf-test.png');
+        $resp = $this->asEditor()->call('POST', '/shelves', $shelfInfo, [], ['image' => $imageFile]);
+        $resp->assertRedirect();
+
+        $lastImage = Image::query()->orderByDesc('id')->firstOrFail();
+        $shelf = Bookshelf::query()->where('name', '=', $shelfInfo['name'])->first();
+        $this->assertDatabaseHas('bookshelves', [
+            'id' => $shelf->id,
+            'image_id' => $lastImage->id,
+        ]);
+        $this->assertEquals($lastImage->id, $shelf->cover->id);
     }
 
     public function test_shelf_view()
@@ -240,4 +283,32 @@ class BookShelfTest extends TestCase
         $pageVisit->assertElementNotContains('.breadcrumbs', $shelf->getShortName());
     }
 
+    public function test_bookshelves_show_on_book()
+    {
+        // Create shelf
+        $shelfInfo = [
+            'name' => 'My test shelf' . Str::random(4),
+            'description' => 'Test shelf description ' . Str::random(10)
+        ];
+
+        $this->asEditor()->post('/shelves', $shelfInfo);
+        $shelf = Bookshelf::where('name', '=', $shelfInfo['name'])->first();
+
+        // Create book and add to shelf
+        $this->asEditor()->post($shelf->getUrl('/create-book'), [
+            'name' => 'Test book name',
+            'description' => 'Book in shelf description'
+        ]);
+
+        $newBook = Book::query()->orderBy('id', 'desc')->first();
+
+        $resp = $this->asEditor()->get($newBook->getUrl());
+        $resp->assertElementContains('.tri-layout-left-contents', $shelfInfo['name']);
+
+        // Remove shelf
+        $this->delete($shelf->getUrl());
+
+        $resp = $this->asEditor()->get($newBook->getUrl());
+        $resp->assertDontSee($shelfInfo['name']);
+    }
 }

@@ -5,15 +5,18 @@ import Clipboard from "clipboard/dist/clipboard.min";
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/clike/clike';
 import 'codemirror/mode/diff/diff';
+import 'codemirror/mode/fortran/fortran';
 import 'codemirror/mode/go/go';
+import 'codemirror/mode/haskell/haskell';
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/julia/julia';
 import 'codemirror/mode/lua/lua';
-import 'codemirror/mode/haskell/haskell';
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/mode/mllike/mllike';
 import 'codemirror/mode/nginx/nginx';
+import 'codemirror/mode/perl/perl';
+import 'codemirror/mode/pascal/pascal';
 import 'codemirror/mode/php/php';
 import 'codemirror/mode/powershell/powershell';
 import 'codemirror/mode/properties/properties';
@@ -29,8 +32,9 @@ import 'codemirror/mode/yaml/yaml';
 // Addons
 import 'codemirror/addon/scroll/scrollpastend';
 
-// Mapping of potential languages or formats from user input
-// to their proper codemirror modes.
+// Mapping of possible languages or formats from user input to their codemirror modes.
+// Value can be a mode string or a function that will receive the code content & return the mode string.
+// The function option is used in the event the exact mode could be dynamic depending on the code.
 const modeMap = {
     css: 'css',
     c: 'text/x-csrc',
@@ -41,6 +45,8 @@ const modeMap = {
     'c#': 'text/x-csharp',
     csharp: 'text/x-csharp',
     diff: 'diff',
+    for: 'fortran',
+    fortran: 'fortran',
     go: 'go',
     haskell: 'haskell',
     hs: 'haskell',
@@ -57,10 +63,16 @@ const modeMap = {
     markdown: 'markdown',
     ml: 'mllike',
     nginx: 'nginx',
+    perl: 'perl',
+    pl: 'perl',
     powershell: 'powershell',
     properties: 'properties',
     ocaml: 'mllike',
-    php: 'php',
+    pascal: 'text/x-pascal',
+    pas: 'text/x-pascal',
+    php: (content) => {
+        return content.includes('<?php') ? 'php' : 'text/x-php';
+    },
     py: 'python',
     python: 'python',
     ruby: 'ruby',
@@ -81,9 +93,20 @@ const modeMap = {
  * Highlight pre elements on a page
  */
 function highlight() {
-    let codeBlocks = document.querySelectorAll('.page-content pre, .comment-box .content pre');
-    for (let i = 0; i < codeBlocks.length; i++) {
-        highlightElem(codeBlocks[i]);
+    const codeBlocks = document.querySelectorAll('.page-content pre, .comment-box .content pre');
+    for (const codeBlock of codeBlocks) {
+        highlightElem(codeBlock);
+    }
+}
+
+/**
+ * Highlight all code blocks within the given parent element
+ * @param {HTMLElement} parent
+ */
+function highlightWithin(parent) {
+    const codeBlocks = parent.querySelectorAll('pre');
+    for (const codeBlock of codeBlocks) {
+        highlightElem(codeBlock);
     }
 }
 
@@ -92,16 +115,17 @@ function highlight() {
  * @param {HTMLElement} elem
  */
 function highlightElem(elem) {
-    let innerCodeElem = elem.querySelector('code[class^=language-]');
+    const innerCodeElem = elem.querySelector('code[class^=language-]');
+    elem.innerHTML = elem.innerHTML.replace(/<br\s*[\/]?>/gi ,'\n');
+    const content = elem.textContent.trimEnd();
+
     let mode = '';
     if (innerCodeElem !== null) {
-        let langName = innerCodeElem.className.replace('language-', '');
-        mode = getMode(langName);
+        const langName = innerCodeElem.className.replace('language-', '');
+        mode = getMode(langName, content);
     }
-    elem.innerHTML = elem.innerHTML.replace(/<br\s*[\/]?>/gi ,'\n');
-    let content = elem.textContent.trim();
 
-    let cm = CodeMirror(function(elt) {
+    const cm = CodeMirror(function(elt) {
         elem.parentNode.replaceChild(elt, elem);
     }, {
         value: content,
@@ -142,12 +166,24 @@ function addCopyIcon(cmInstance) {
 
 /**
  * Search for a codemirror code based off a user suggestion
- * @param suggestion
+ * @param {String} suggestion
+ * @param {String} content
  * @returns {string}
  */
-function getMode(suggestion) {
+function getMode(suggestion, content) {
     suggestion = suggestion.trim().replace(/^\./g, '').toLowerCase();
-    return (typeof modeMap[suggestion] !== 'undefined') ? modeMap[suggestion] : '';
+
+    const modeMapType = typeof modeMap[suggestion];
+
+    if (modeMapType === 'undefined') {
+        return '';
+    }
+
+    if (modeMapType === 'function') {
+        return modeMap[suggestion](content);
+    }
+
+    return modeMap[suggestion];
 }
 
 /**
@@ -155,7 +191,8 @@ function getMode(suggestion) {
  * @returns {*|string}
  */
 function getTheme() {
-    return window.codeTheme || 'base16-light';
+    const darkMode = document.documentElement.classList.contains('dark-mode');
+    return window.codeTheme || (darkMode ? 'darcula' : 'default');
 }
 
 /**
@@ -165,8 +202,8 @@ function getTheme() {
  * @returns {{wrap: Element, editor: *}}
  */
 function wysiwygView(elem) {
-    let doc = elem.ownerDocument;
-    let codeElem = elem.querySelector('code');
+    const doc = elem.ownerDocument;
+    const codeElem = elem.querySelector('code');
 
     let lang = (elem.className || '').replace('language-', '');
     if (lang === '' && codeElem) {
@@ -174,9 +211,9 @@ function wysiwygView(elem) {
     }
 
     elem.innerHTML = elem.innerHTML.replace(/<br\s*[\/]?>/gi ,'\n');
-    let content = elem.textContent;
-    let newWrap = doc.createElement('div');
-    let newTextArea = doc.createElement('textarea');
+    const content = elem.textContent;
+    const newWrap = doc.createElement('div');
+    const newTextArea = doc.createElement('textarea');
 
     newWrap.className = 'CodeMirrorContainer';
     newWrap.setAttribute('data-lang', lang);
@@ -192,7 +229,7 @@ function wysiwygView(elem) {
         newWrap.appendChild(elt);
     }, {
         value: content,
-        mode:  getMode(lang),
+        mode:  getMode(lang, content),
         lineNumbers: true,
         lineWrapping: false,
         theme: getTheme(),
@@ -211,14 +248,14 @@ function wysiwygView(elem) {
  * @returns {*}
  */
 function popupEditor(elem, modeSuggestion) {
-    let content = elem.textContent;
+    const content = elem.textContent;
 
     return CodeMirror(function(elt) {
         elem.parentNode.insertBefore(elt, elem);
         elem.style.display = 'none';
     }, {
         value: content,
-        mode:  getMode(modeSuggestion),
+        mode:  getMode(modeSuggestion, content),
         lineNumbers: true,
         lineWrapping: false,
         theme: getTheme()
@@ -230,8 +267,8 @@ function popupEditor(elem, modeSuggestion) {
  * @param cmInstance
  * @param modeSuggestion
  */
-function setMode(cmInstance, modeSuggestion) {
-      cmInstance.setOption('mode', getMode(modeSuggestion));
+function setMode(cmInstance, modeSuggestion, content) {
+      cmInstance.setOption('mode', getMode(modeSuggestion, content));
 }
 
 /**
@@ -242,8 +279,16 @@ function setMode(cmInstance, modeSuggestion) {
 function setContent(cmInstance, codeContent) {
     cmInstance.setValue(codeContent);
     setTimeout(() => {
-        cmInstance.refresh();
+        updateLayout(cmInstance);
     }, 10);
+}
+
+/**
+ * Update the layout (codemirror refresh) of a cm instance.
+ * @param cmInstance
+ */
+function updateLayout(cmInstance) {
+    cmInstance.refresh();
 }
 
 /**
@@ -281,10 +326,12 @@ function getMetaKey() {
 
 export default {
     highlight: highlight,
+    highlightWithin: highlightWithin,
     wysiwygView: wysiwygView,
     popupEditor: popupEditor,
     setMode: setMode,
     setContent: setContent,
+    updateLayout: updateLayout,
     markdownEditor: markdownEditor,
     getMetaKey: getMetaKey,
 };

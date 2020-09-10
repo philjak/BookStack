@@ -11,7 +11,7 @@ class Localization
      * Array of right-to-left locales
      * @var array
      */
-    protected $rtlLocales = ['ar'];
+    protected $rtlLocales = ['ar', 'he'];
 
     /**
      * Map of BookStack locale names to best-estimate system locale names.
@@ -19,22 +19,27 @@ class Localization
      */
     protected $localeMap = [
         'ar' => 'ar',
+        'da' => 'da_DK',
         'de' => 'de_DE',
         'de_informal' => 'de_DE',
         'en' => 'en_GB',
         'es' => 'es_ES',
         'es_AR' => 'es_AR',
         'fr' => 'fr_FR',
+        'he' => 'he_IL',
         'it' => 'it_IT',
         'ja' => 'ja',
         'ko' => 'ko_KR',
         'nl' => 'nl_NL',
         'pl' => 'pl_PL',
+        'pt' => 'pl_PT',
         'pt_BR' => 'pt_BR',
         'ru' => 'ru',
         'sk' => 'sk_SK',
+        'sl' => 'sl_SI',
         'sv' => 'sv_SE',
         'uk' => 'uk_UA',
+        'vi' => 'vi_VN',
         'zh_CN' => 'zh_CN',
         'zh_TW' => 'zh_TW',
         'tr' => 'tr_TR',

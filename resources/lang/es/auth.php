@@ -6,15 +6,15 @@
  */
 return [
 
-    'failed' => 'Las credenciales no concuerdan con nuestros registros.',
-    'throttle' => 'Demasiados intentos fallidos de conexión. Por favor intente nuevamente en :seconds segundos.',
+    'failed' => 'Estas credenciales no coinciden con nuestros registros.',
+    'throttle' => 'Demasiados intentos de inicio de sesión. Por favor, inténtalo de nuevo en :seconds segundos.',
 
     // Login & Register
     'sign_up' => 'Registrarse',
     'log_in' => 'Acceder',
     'log_in_with' => 'Acceder con :socialDriver',
     'sign_up_with' => 'Registrarse con :socialDriver',
-    'logout' => 'Salir',
+    'logout' => 'Cerrar sesión',
 
     'name' => 'Nombre',
     'username' => 'Usuario',
@@ -43,7 +43,7 @@ return [
     'reset_password' => 'Resetear Contraseña',
     'reset_password_send_instructions' => 'Introduzca su correo electrónico a continuación y le será enviado un correo con un link para la restauración',
     'reset_password_send_button' => 'Enviar Enlace de Reseteo',
-    'reset_password_sent_success' => 'Un enlace para resetear la contraseña ha sido enviado a :email.',
+    'reset_password_sent' => 'Un enlace para cambiar la contraseña será enviado a su dirección de correo electrónico si existe en nuestro sistema.',
     'reset_password_success' => 'Su password ha sido reseteado de manera éxitosa.',
     'email_reset_subject' => 'Resetee la contraseña de :appName',
     'email_reset_text' => 'Está recibiendo este correo electrónico debido a que recibimos una solicitud de reseteo de contraseña de su cuenta.',
