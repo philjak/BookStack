@@ -401,6 +401,11 @@ function listenForBookStackEditorEvents(editor) {
         editor.setContent(content);
     });
 
+    // Insert editor content at the current location
+    window.$events.listen('editor::insert', ({html}) => {
+        editor.insertContent(html);
+    });
+
     // Focus on the editor
     window.$events.listen('editor::focus', () => {
         editor.focus();
@@ -638,6 +643,7 @@ class WysiwygEditor {
 
                 });
 
+                // Custom drop event handling
                 editor.on('drop', function (event) {
                     let dom = editor.dom,
                         rng = tinymce.dom.RangeUtils.getCaretRangeFromPoint(event.clientX, event.clientY, editor.getDoc());
