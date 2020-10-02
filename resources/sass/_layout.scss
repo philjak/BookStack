@@ -121,14 +121,30 @@ body.flexbox {
   position: relative;
 }
 
+.flex-container-row {
+  display: flex;
+  flex-direction: row;
+  &.v-center {
+    align-items: center;
+  }
+}
+
 .flex-container-column {
   display: flex;
   flex-direction: column;
 }
 
+.flex-container-column.wrap, .flex-container-row.wrap {
+  flex-wrap: wrap;
+}
+
 .flex {
   min-height: 0;
   flex: 1;
+  &.fit-content {
+    flex-basis: auto;
+    flex-grow: 0;
+  }
 }
 
 .justify-flex-end {

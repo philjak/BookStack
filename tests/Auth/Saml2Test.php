@@ -196,24 +196,6 @@ class Saml2Test extends TestCase
         });
     }
 
-    public function test_user_registration_with_existing_email()
-    {
-        config()->set([
-            'saml2.onelogin.strict' => false,
-        ]);
-
-        $viewer = $this->getViewer();
-        $viewer->email = 'user@example.com';
-        $viewer->save();
-
-        $this->withPost(['SAMLResponse' => $this->acsPostData], function () {
-            $acsPost = $this->post('/saml2/acs');
-            $acsPost->assertRedirect('/');
-            $errorMessage = session()->get('error');
-            $this->assertEquals('A user with the email user@example.com already exists but with different credentials.', $errorMessage);
-        });
-    }
-
     public function test_saml_routes_are_only_active_if_saml_enabled()
     {
         config()->set(['auth.method' => 'standard']);
@@ -317,6 +299,33 @@ class Saml2Test extends TestCase
 
         $homeGet = $this->get('/');
         $homeGet->assertRedirect('/register/confirm/awaiting');
+    }
+
+    public function test_login_where_existing_non_saml_user_shows_warning()
+    {
+        $this->post('/saml2/login');
+        config()->set(['saml2.onelogin.strict' => false]);
+
+        // Make the user pre-existing in DB with different auth_id
+        User::query()->forceCreate([
+            'email' => 'user@example.com',
+            'external_auth_id' => 'old_system_user_id',
+            'email_confirmed' => false,
+            'name' => 'Barry Scott'
+        ]);
+
+        $this->withPost(['SAMLResponse' => $this->acsPostData], function () {
+            $acsPost = $this->post('/saml2/acs');
+            $acsPost->assertRedirect('/login');
+            $this->assertFalse($this->isAuthenticated());
+            $this->assertDatabaseHas('users', [
+                'email' => 'user@example.com',
+                'external_auth_id' => 'old_system_user_id',
+            ]);
+
+            $loginGet = $this->get('/login');
+            $loginGet->assertSee("A user with the email user@example.com already exists but with different credentials");
+        });
     }
 
     protected function withGet(array $options, callable $callback)

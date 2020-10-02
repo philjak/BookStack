@@ -201,12 +201,10 @@ class Entity extends Ownable
     }
 
     /**
-     * Allows checking of the exact class, Used to check entity type.
-     * Cleaner method for is_a.
-     * @param $type
-     * @return bool
+     * Check if this instance or class is a certain type of entity.
+     * Examples of $type are 'page', 'book', 'chapter'
      */
-    public static function isA($type)
+    public static function isA(string $type): bool
     {
         return static::getType() === strtolower($type);
     }
@@ -238,10 +236,8 @@ class Entity extends Ownable
 
     /**
      * Gets a limited-length version of the entities name.
-     * @param int $length
-     * @return string
      */
-    public function getShortName($length = 25)
+    public function getShortName(int $length = 25): string
     {
         if (mb_strlen($this->name) <= $length) {
             return $this->name;

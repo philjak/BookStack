@@ -256,7 +256,7 @@ class MarkdownEditor {
             }
 
             const clipboard = new Clipboard(event.dataTransfer);
-            if (clipboard.hasItems()) {
+            if (clipboard.hasItems() && clipboard.getImages().length > 0) {
                 const cursorPos = cm.coordsChar({left: event.pageX, top: event.pageY});
                 cm.setCursor(cursorPos);
                 event.stopPropagation();
@@ -561,6 +561,12 @@ class MarkdownEditor {
             this.cm.setValue(content);
             const prependLineCount = markdown.split('\n').length;
             this.cm.setCursor(cursorPos.line + prependLineCount, cursorPos.ch);
+        });
+
+        // Insert editor content at the current location
+        window.$events.listen('editor::insert', (eventContent) => {
+            const markdown = getContentToInsert(eventContent);
+            this.cm.replaceSelection(markdown);
         });
 
         // Focus on editor
