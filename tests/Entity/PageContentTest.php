@@ -71,6 +71,25 @@ class PageContentTest extends TestCase
         $pageResp->assertSee($content);
     }
 
+    public function test_page_includes_rendered_on_book_export()
+    {
+        $page = Page::query()->first();
+        $secondPage = Page::query()
+            ->where('book_id', '!=', $page->book_id)
+            ->first();
+
+        $content = '<p id="bkmrk-meow">my cat is awesome and scratchy</p>';
+        $secondPage->html = $content;
+        $secondPage->save();
+
+        $page->html = "{{@{$secondPage->id}#bkmrk-meow}}";
+        $page->save();
+
+        $this->asEditor();
+        $htmlContent = $this->get($page->book->getUrl('/export/html'));
+        $htmlContent->assertSee('my cat is awesome and scratchy');
+    }
+
     public function test_page_content_scripts_removed_by_default()
     {
         $this->asEditor();
@@ -241,6 +260,23 @@ class PageContentTest extends TestCase
 
         $updatedPage = Page::where('id', '=', $page->id)->first();
         $this->assertEquals(substr_count($updatedPage->html, "bkmrk-test\""), 1);
+    }
+
+    public function test_anchors_referencing_non_bkmrk_ids_rewritten_after_save()
+    {
+        $this->asEditor();
+        $page = Page::first();
+
+        $content = '<h1 id="non-standard-id">test</h1><p><a href="#non-standard-id">link</a></p>';
+        $this->put($page->getUrl(), [
+            'name' => $page->name,
+            'html' => $content,
+            'summary' => ''
+        ]);
+
+        $updatedPage = Page::where('id', '=', $page->id)->first();
+        $this->assertStringContainsString('id="bkmrk-test"', $updatedPage->html);
+        $this->assertStringContainsString('href="#bkmrk-test"', $updatedPage->html);
     }
 
     public function test_get_page_nav_sets_correct_properties()
