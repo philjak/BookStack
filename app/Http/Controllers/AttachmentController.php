@@ -25,7 +25,6 @@ class AttachmentController extends Controller
         $this->attachmentService = $attachmentService;
         $this->attachment = $attachment;
         $this->pageRepo = $pageRepo;
-        parent::__construct();
     }
 
 
@@ -110,7 +109,7 @@ class AttachmentController extends Controller
         try {
             $this->validate($request, [
                 'attachment_edit_name' => 'required|string|min:1|max:255',
-                'attachment_edit_url' =>  'string|min:1|max:255'
+                'attachment_edit_url' =>  'string|min:1|max:255|safe_url'
             ]);
         } catch (ValidationException $exception) {
             return response()->view('attachments.manager-edit-form', array_merge($request->only(['attachment_edit_name', 'attachment_edit_url']), [
@@ -145,7 +144,7 @@ class AttachmentController extends Controller
             $this->validate($request, [
                 'attachment_link_uploaded_to' => 'required|integer|exists:pages,id',
                 'attachment_link_name' => 'required|string|min:1|max:255',
-                'attachment_link_url' =>  'required|string|min:1|max:255'
+                'attachment_link_url' =>  'required|string|min:1|max:255|safe_url'
             ]);
         } catch (ValidationException $exception) {
             return response()->view('attachments.manager-link-form', array_merge($request->only(['attachment_link_name', 'attachment_link_url']), [
@@ -161,7 +160,7 @@ class AttachmentController extends Controller
 
         $attachmentName = $request->get('attachment_link_name');
         $link = $request->get('attachment_link_url');
-        $attachment = $this->attachmentService->saveNewFromLink($attachmentName, $link, $pageId);
+        $attachment = $this->attachmentService->saveNewFromLink($attachmentName, $link, intval($pageId));
 
         return view('attachments.manager-link-form', [
             'pageId' => $pageId,

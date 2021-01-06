@@ -1,6 +1,6 @@
 <?php namespace Tests\Api;
 
-use BookStack\Entities\Book;
+use BookStack\Entities\Models\Book;
 use Tests\TestCase;
 
 class BooksApiTest extends TestCase
@@ -75,7 +75,10 @@ class BooksApiTest extends TestCase
             ],
             'updated_by' => [
                 'name' => $book->createdBy->name,
-            ]
+            ],
+            'owned_by' => [
+                'name' => $book->ownedBy->name
+            ],
         ]);
     }
 

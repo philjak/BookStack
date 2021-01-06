@@ -1,8 +1,7 @@
 <?php namespace BookStack\Http\Controllers\Api;
 
-use BookStack\Facades\Activity;
 use BookStack\Entities\Repos\BookshelfRepo;
-use BookStack\Entities\Bookshelf;
+use BookStack\Entities\Models\Bookshelf;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
@@ -31,7 +30,6 @@ class BookshelfApiController extends ApiController
 
     /**
      * BookshelfApiController constructor.
-     * @param BookshelfRepo $bookshelfRepo
      */
     public function __construct(BookshelfRepo $bookshelfRepo)
     {
@@ -45,7 +43,7 @@ class BookshelfApiController extends ApiController
     {
         $shelves = Bookshelf::visible();
         return $this->apiListingResponse($shelves, [
-            'id', 'name', 'slug', 'description', 'created_at', 'updated_at', 'created_by', 'updated_by', 'image_id',
+            'id', 'name', 'slug', 'description', 'created_at', 'updated_at', 'created_by', 'updated_by', 'owned_by', 'image_id',
         ]);
     }
 
@@ -63,7 +61,6 @@ class BookshelfApiController extends ApiController
         $bookIds = $request->get('books', []);
         $shelf = $this->bookshelfRepo->create($requestData, $bookIds);
 
-        Activity::add($shelf, 'bookshelf_create', $shelf->id);
         return response()->json($shelf);
     }
 
@@ -73,7 +70,7 @@ class BookshelfApiController extends ApiController
     public function read(string $id)
     {
         $shelf = Bookshelf::visible()->with([
-            'tags', 'cover', 'createdBy', 'updatedBy',
+            'tags', 'cover', 'createdBy', 'updatedBy', 'ownedBy',
             'books' => function (BelongsToMany $query) {
                 $query->visible()->get(['id', 'name', 'slug']);
             }
@@ -94,19 +91,17 @@ class BookshelfApiController extends ApiController
         $this->checkOwnablePermission('bookshelf-update', $shelf);
 
         $requestData = $this->validate($request, $this->rules['update']);
-
         $bookIds = $request->get('books', null);
 
         $shelf = $this->bookshelfRepo->update($shelf, $requestData, $bookIds);
-        Activity::add($shelf, 'bookshelf_update', $shelf->id);
-
         return response()->json($shelf);
     }
 
 
 
     /**
-     * Delete a single shelf from the system.
+     * Delete a single shelf.
+     * This will typically send the shelf to the recycle bin.
      * @throws Exception
      */
     public function delete(string $id)
@@ -115,8 +110,6 @@ class BookshelfApiController extends ApiController
         $this->checkOwnablePermission('bookshelf-delete', $shelf);
 
         $this->bookshelfRepo->destroy($shelf);
-        Activity::addMessage('bookshelf_delete', $shelf->name);
-
         return response('', 204);
     }
 }

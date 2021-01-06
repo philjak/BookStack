@@ -1,7 +1,7 @@
 <?php namespace Tests\Api;
 
-use BookStack\Entities\Book;
-use BookStack\Entities\Bookshelf;
+use BookStack\Entities\Models\Book;
+use BookStack\Entities\Models\Bookshelf;
 use Tests\TestCase;
 
 class ShelvesApiTest extends TestCase
@@ -85,7 +85,10 @@ class ShelvesApiTest extends TestCase
             ],
             'updated_by' => [
                 'name' => $shelf->createdBy->name,
-            ]
+            ],
+            'owned_by' => [
+                'name' => $shelf->ownedBy->name
+            ],
         ]);
     }
 

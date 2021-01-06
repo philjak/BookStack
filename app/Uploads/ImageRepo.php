@@ -1,7 +1,7 @@
 <?php namespace BookStack\Uploads;
 
 use BookStack\Auth\Permissions\PermissionService;
-use BookStack\Entities\Page;
+use BookStack\Entities\Models\Page;
 use BookStack\Exceptions\ImageUploadException;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -112,7 +112,7 @@ class ImageRepo
                 if ($filterType === 'page') {
                     $query->where('uploaded_to', '=', $contextPage->id);
                 } elseif ($filterType === 'book') {
-                    $validPageIds = $contextPage->book->pages()->get(['id'])->pluck('id')->toArray();
+                    $validPageIds = $contextPage->book->pages()->visible()->get(['id'])->pluck('id')->toArray();
                     $query->whereIn('uploaded_to', $validPageIds);
                 }
             };

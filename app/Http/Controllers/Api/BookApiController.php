@@ -1,9 +1,8 @@
 <?php namespace BookStack\Http\Controllers\Api;
 
-use BookStack\Entities\Book;
+use BookStack\Entities\Models\Book;
 use BookStack\Entities\Repos\BookRepo;
 use BookStack\Exceptions\NotifyException;
-use BookStack\Facades\Activity;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -26,9 +25,6 @@ class BookApiController extends ApiController
         ],
     ];
 
-    /**
-     * BooksApiController constructor.
-     */
     public function __construct(BookRepo $bookRepo)
     {
         $this->bookRepo = $bookRepo;
@@ -41,7 +37,7 @@ class BookApiController extends ApiController
     {
         $books = Book::visible();
         return $this->apiListingResponse($books, [
-            'id', 'name', 'slug', 'description', 'created_at', 'updated_at', 'created_by', 'updated_by', 'image_id',
+            'id', 'name', 'slug', 'description', 'created_at', 'updated_at', 'created_by', 'updated_by', 'owned_by', 'image_id',
         ]);
     }
 
@@ -55,8 +51,6 @@ class BookApiController extends ApiController
         $requestData = $this->validate($request, $this->rules['create']);
 
         $book = $this->bookRepo->create($requestData);
-        Activity::add($book, 'book_create', $book->id);
-
         return response()->json($book);
     }
 
@@ -65,7 +59,7 @@ class BookApiController extends ApiController
      */
     public function read(string $id)
     {
-        $book = Book::visible()->with(['tags', 'cover', 'createdBy', 'updatedBy'])->findOrFail($id);
+        $book = Book::visible()->with(['tags', 'cover', 'createdBy', 'updatedBy', 'ownedBy'])->findOrFail($id);
         return response()->json($book);
     }
 
@@ -80,15 +74,14 @@ class BookApiController extends ApiController
 
         $requestData = $this->validate($request, $this->rules['update']);
         $book = $this->bookRepo->update($book, $requestData);
-        Activity::add($book, 'book_update', $book->id);
 
         return response()->json($book);
     }
 
     /**
-     * Delete a single book from the system.
-     * @throws NotifyException
-     * @throws BindingResolutionException
+     * Delete a single book.
+     * This will typically send the book to the recycle bin.
+     * @throws \Exception
      */
     public function delete(string $id)
     {
@@ -96,8 +89,6 @@ class BookApiController extends ApiController
         $this->checkOwnablePermission('book-delete', $book);
 
         $this->bookRepo->destroy($book);
-        Activity::addMessage('book_delete', $book->name);
-
         return response('', 204);
     }
 }
