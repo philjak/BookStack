@@ -1,7 +1,8 @@
 <?php namespace BookStack\Http\Controllers\Api;
 
-use BookStack\Entities\Book;
-use BookStack\Entities\Chapter;
+use BookStack\Actions\ActivityType;
+use BookStack\Entities\Models\Book;
+use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Repos\ChapterRepo;
 use BookStack\Facades\Activity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -42,7 +43,7 @@ class ChapterApiController extends ApiController
         $chapters = Chapter::visible();
         return $this->apiListingResponse($chapters, [
             'id', 'book_id', 'name', 'slug', 'description', 'priority',
-            'created_at', 'updated_at', 'created_by', 'updated_by',
+            'created_at', 'updated_at', 'created_by', 'updated_by', 'owned_by',
         ]);
     }
 
@@ -58,8 +59,6 @@ class ChapterApiController extends ApiController
         $this->checkOwnablePermission('chapter-create', $book);
 
         $chapter = $this->chapterRepo->create($request->all(), $book);
-        Activity::add($chapter, 'chapter_create', $book->id);
-
         return response()->json($chapter->load(['tags']));
     }
 
@@ -68,7 +67,7 @@ class ChapterApiController extends ApiController
      */
     public function read(string $id)
     {
-        $chapter = Chapter::visible()->with(['tags', 'createdBy', 'updatedBy', 'pages' => function (HasMany $query) {
+        $chapter = Chapter::visible()->with(['tags', 'createdBy', 'updatedBy', 'ownedBy', 'pages' => function (HasMany $query) {
             $query->visible()->get(['id', 'name', 'slug']);
         }])->findOrFail($id);
         return response()->json($chapter);
@@ -83,13 +82,12 @@ class ChapterApiController extends ApiController
         $this->checkOwnablePermission('chapter-update', $chapter);
 
         $updatedChapter = $this->chapterRepo->update($chapter, $request->all());
-        Activity::add($chapter, 'chapter_update', $chapter->book->id);
-
         return response()->json($updatedChapter->load(['tags']));
     }
 
     /**
-     * Delete a chapter from the system.
+     * Delete a chapter.
+     * This will typically send the chapter to the recycle bin.
      */
     public function delete(string $id)
     {
@@ -97,8 +95,6 @@ class ChapterApiController extends ApiController
         $this->checkOwnablePermission('chapter-delete', $chapter);
 
         $this->chapterRepo->destroy($chapter);
-        Activity::addMessage('chapter_delete', $chapter->name, $chapter->book->id);
-
         return response('', 204);
     }
 }

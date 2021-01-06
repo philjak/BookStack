@@ -13,6 +13,7 @@ class MarkdownEditor {
 
         this.pageId = this.$opts.pageId;
         this.textDirection = this.$opts.textDirection;
+        this.imageUploadErrorText = this.$opts.imageUploadErrorText;
 
         this.markdown = new MarkdownIt({html: true});
         this.markdown.use(mdTasksLists, {label: true});
@@ -373,7 +374,7 @@ class MarkdownEditor {
                 const newContent = `[![${selectedText}](${resp.data.thumbs.display})](${resp.data.url})`;
                 replaceContent(placeHolderText, newContent);
             }).catch(err => {
-                window.$events.emit('error', trans('errors.image_upload_error'));
+                window.$events.emit('error', context.imageUploadErrorText);
                 replaceContent(placeHolderText, selectedText);
                 console.log(err);
             });
@@ -440,10 +441,10 @@ class MarkdownEditor {
 
             const data = {
                 image: pngData,
-                uploaded_to: Number(document.getElementById('page-editor').getAttribute('page-id'))
+                uploaded_to: Number(this.pageId),
             };
 
-            window.$http.post(window.baseUrl('/images/drawio'), data).then(resp => {
+            window.$http.post("/images/drawio", data).then(resp => {
                 this.insertDrawing(resp.data, cursorPos);
                 DrawIO.close();
             }).catch(err => {
@@ -476,10 +477,10 @@ class MarkdownEditor {
 
             let data = {
                 image: pngData,
-                uploaded_to: Number(document.getElementById('page-editor').getAttribute('page-id'))
+                uploaded_to: Number(this.pageId),
             };
 
-            window.$http.post(window.baseUrl(`/images/drawio`), data).then(resp => {
+            window.$http.post("/images/drawio", data).then(resp => {
                 let newText = `<div drawio-diagram="${resp.data.id}"><img src="${resp.data.url}"></div>`;
                 let newContent = this.cm.getValue().split('\n').map(line => {
                     if (line.indexOf(`drawio-diagram="${drawingId}"`) !== -1) {
@@ -492,7 +493,7 @@ class MarkdownEditor {
                 this.cm.focus();
                 DrawIO.close();
             }).catch(err => {
-                window.$events.emit('error', trans('errors.image_upload_error'));
+                window.$events.emit('error', this.imageUploadErrorText);
                 console.log(err);
             });
         });

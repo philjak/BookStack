@@ -2,17 +2,29 @@
 
 use BookStack\Exceptions\FileUploadException;
 use Exception;
+use Illuminate\Contracts\Filesystem\Factory as FileSystem;
+use Illuminate\Contracts\Filesystem\Filesystem as FileSystemInstance;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class AttachmentService extends UploadService
+class AttachmentService
 {
+
+    protected $fileSystem;
+
+    /**
+     * AttachmentService constructor.
+     */
+    public function __construct(FileSystem $fileSystem)
+    {
+        $this->fileSystem = $fileSystem;
+    }
+
 
     /**
      * Get the storage that will be used for storing files.
-     * @return \Illuminate\Contracts\Filesystem\Filesystem
      */
-    protected function getStorage()
+    protected function getStorage(): FileSystemInstance
     {
         $storageType = config('filesystems.attachments');
 
@@ -88,12 +100,8 @@ class AttachmentService extends UploadService
 
     /**
      * Save a new File attachment from a given link and name.
-     * @param string $name
-     * @param string $link
-     * @param int $page_id
-     * @return Attachment
      */
-    public function saveNewFromLink($name, $link, $page_id)
+    public function saveNewFromLink(string $name, string $link, int $page_id): Attachment
     {
         $largestExistingOrder = Attachment::where('uploaded_to', '=', $page_id)->max('order');
         return Attachment::forceCreate([
@@ -123,13 +131,11 @@ class AttachmentService extends UploadService
 
     /**
      * Update the details of a file.
-     * @param Attachment $attachment
-     * @param $requestData
-     * @return Attachment
      */
-    public function updateFile(Attachment $attachment, $requestData)
+    public function updateFile(Attachment $attachment, array $requestData): Attachment
     {
         $attachment->name = $requestData['name'];
+
         if (isset($requestData['link']) && trim($requestData['link']) !== '') {
             $attachment->path = $requestData['link'];
             if (!$attachment->external) {
@@ -137,6 +143,7 @@ class AttachmentService extends UploadService
                 $attachment->external = true;
             }
         }
+
         $attachment->save();
         return $attachment;
     }
