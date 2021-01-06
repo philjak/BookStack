@@ -12,7 +12,7 @@
 
 @if (setting()->get('app-show-pages-in-shelf-view'))
     <div class="entity-shelf-books grid third gap-y-xs entity-list-item-children">
-        @foreach((new BookStack\Entities\Managers\BookContents($book))->getTree(true) as $bookChild)
+        @foreach((new BookStack\Entities\Tools\BookContents($book))->getTree(true) as $bookChild)
             <div>
                 @if ($bookChild->isA('chapter'))
                     <a href="{{$bookChild->getUrl()}}" class="entity-chip text-book" style="color: var(--color-chapter)">
