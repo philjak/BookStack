@@ -132,3 +132,5 @@ Kauê Sena (kaue.sena.ks) :: Portuguese, Brazilian
 MatthieuParis :: French
 Douradinho :: Portuguese, Brazilian
 Gaku Yaguchi (tama11) :: Japanese
+johnroyer :: Chinese Traditional
+jackaaa :: Chinese Traditional

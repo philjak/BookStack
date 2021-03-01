@@ -3,6 +3,7 @@
 if (env('FORCE_SSL')){
     \URL::forceScheme('https');
 }
+Route::get('/status', 'StatusController@show');
 Route::get('/robots.txt', 'HomeController@getRobots');
 
 // Authenticated routes...
