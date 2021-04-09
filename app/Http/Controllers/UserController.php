@@ -300,7 +300,7 @@ class UserController extends Controller
      */
     public function changeSort(Request $request, string $id, string $type)
     {
-        $validSortTypes = ['books', 'bookshelves'];
+        $validSortTypes = ['books', 'bookshelves', 'shelf_books'];
         if (!in_array($type, $validSortTypes)) {
             return redirect()->back(500);
         }
@@ -343,7 +343,7 @@ class UserController extends Controller
         $this->checkPermissionOrCurrentUser('users-manage', $userId);
 
         $sort = $request->get('sort');
-        if (!in_array($sort, ['name', 'created_at', 'updated_at'])) {
+        if (!in_array($sort, ['name', 'created_at', 'updated_at', 'default'])) {
             $sort = 'name';
         }
 
