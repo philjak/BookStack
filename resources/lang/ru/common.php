@@ -65,6 +65,7 @@ return [
     'breadcrumb' => 'Навигация',
 
     // Header
+    'header_menu_expand' => 'Развернуть меню заголовка',
     'profile_menu' => 'Меню профиля',
     'view_profile' => 'Посмотреть профиль',
     'edit_profile' => 'Редактировать профиль',
@@ -73,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Информация',
+    'tab_info_label' => 'Вкладка: Показать вторичную информацию',
     'tab_content' => 'Содержание',
+    'tab_content_label' => 'Вкладка: Показать основной контент',
 
     // Email Content
     'email_action_help' => 'Если у вас возникли проблемы с нажатием кнопки \':actionText\', то скопируйте и вставьте указанный URL-адрес в свой браузер:',
