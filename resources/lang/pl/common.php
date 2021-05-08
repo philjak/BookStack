@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Sortuj rosnąco',
     'sort_descending' => 'Sortuj malejąco',
     'sort_name' => 'Nazwa',
+    'sort_default' => 'Default',
     'sort_created_at' => 'Data utworzenia',
     'sort_updated_at' => 'Data aktualizacji',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Ścieżka nawigacji',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Menu profilu',
     'view_profile' => 'Zobacz profil',
     'edit_profile' => 'Edytuj profil',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informacje',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'Treść',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'Jeśli masz problem z kliknięciem przycisku ":actionText", skopiuj i wklej poniższy adres URL w nowej karcie swojej przeglądarki:',
@@ -80,6 +84,6 @@ return [
 
     // Footer Link Options
     // Not directly used but available for convenience to users.
-    'privacy_policy' => 'Privacy Policy',
-    'terms_of_service' => 'Terms of Service',
+    'privacy_policy' => 'Polityka prywatności',
+    'terms_of_service' => 'Warunki usługi',
 ];

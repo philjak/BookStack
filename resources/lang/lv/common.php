@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Kārtot Augoši',
     'sort_descending' => 'Kārtot Dilstoši',
     'sort_name' => 'Vārds',
+    'sort_default' => 'Noklusējums',
     'sort_created_at' => 'Izveidošanas Datums',
     'sort_updated_at' => 'Atjaunināšanas datums',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Navigācija',
 
     // Header
+    'header_menu_expand' => 'Izvērst galvenes izvēlni',
     'profile_menu' => 'Profila izvēlne',
     'view_profile' => 'Apskatīt profilu',
     'edit_profile' => 'Rediģēt profilu',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informācija',
+    'tab_info_label' => 'Tab: Rādīt sekundāro informāciju',
     'tab_content' => 'Saturs',
+    'tab_content_label' => 'Tab: Rādīt galveno saturu',
 
     // Email Content
     'email_action_help' => 'Ja ir problēmas noklikšķināt ":actionText" pogu, nokopē un ievieto saiti savā interneta pārlūkā:',

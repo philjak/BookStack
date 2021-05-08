@@ -8,8 +8,8 @@
 return [
 
     // Standard laravel validation lines
-    'accepted'             => 'Cal que accepteu el camp :attribute.',
-    'active_url'           => 'El camp :attribute no és un URL vàlid.',
+    'accepted'             => 'Cal que acceptis :attribute.',
+    'active_url'           => 'L\':attribute no és un URL vàlid.',
     'after'                => 'El camp :attribute ha de ser una data posterior a :date.',
     'alpha'                => 'El camp :attribute només pot contenir lletres.',
     'alpha_dash'           => 'El camp :attribute només pot contenir lletres, números, guions i guions baixos.',
@@ -78,7 +78,6 @@ return [
         'string'  => 'El camp :attribute no pot tenir menys de :min caràcters.',
         'array'   => 'El camp :attribute no pot tenir menys de :min elements.',
     ],
-    'no_double_extension'  => 'El camp :attribute només pot tenir una única extensió de fitxer.',
     'not_in'               => 'El camp :attribute seleccionat no és vàlid.',
     'not_regex'            => 'El format del camp :attribute no és vàlid.',
     'numeric'              => 'El camp :attribute ha de ser un número.',

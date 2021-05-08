@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'По возрастанию',
     'sort_descending' => 'По убыванию',
     'sort_name' => 'По имени',
+    'sort_default' => 'По умолчанию',
     'sort_created_at' => 'По дате создания',
     'sort_updated_at' => 'По дате обновления',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Навигация',
 
     // Header
+    'header_menu_expand' => 'Развернуть меню заголовка',
     'profile_menu' => 'Меню профиля',
     'view_profile' => 'Посмотреть профиль',
     'edit_profile' => 'Редактировать профиль',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Информация',
+    'tab_info_label' => 'Вкладка: Показать вторичную информацию',
     'tab_content' => 'Содержание',
+    'tab_content_label' => 'Вкладка: Показать основной контент',
 
     // Email Content
     'email_action_help' => 'Если у вас возникли проблемы с нажатием кнопки \':actionText\', то скопируйте и вставьте указанный URL-адрес в свой браузер:',
@@ -80,6 +84,6 @@ return [
 
     // Footer Link Options
     // Not directly used but available for convenience to users.
-    'privacy_policy' => 'Privacy Policy',
-    'terms_of_service' => 'Terms of Service',
+    'privacy_policy' => 'Политика конфиденциальности',
+    'terms_of_service' => 'Условия использования',
 ];

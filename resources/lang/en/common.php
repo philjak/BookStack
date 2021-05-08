@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Sort Ascending',
     'sort_descending' => 'Sort Descending',
     'sort_name' => 'Name',
+    'sort_default' => 'Default',
     'sort_created_at' => 'Created Date',
     'sort_updated_at' => 'Updated Date',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Breadcrumb',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Profile Menu',
     'view_profile' => 'View Profile',
     'edit_profile' => 'Edit Profile',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Info',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'Content',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'If you’re having trouble clicking the ":actionText" button, copy and paste the URL below into your web browser:',

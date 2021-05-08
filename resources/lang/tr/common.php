@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Artan Sıralama',
     'sort_descending' => 'Azalan Sıralama',
     'sort_name' => 'İsim',
+    'sort_default' => 'Default',
     'sort_created_at' => 'Oluşturulma Tarihi',
     'sort_updated_at' => 'Güncelleme Tarihi',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Gezinti Menüsü',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Profil Menüsü',
     'view_profile' => 'Profili Görüntüle',
     'edit_profile' => 'Profili Düzenle',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Bilgi',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'İçerik',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => '":actionText" butonuna tıklamada sorun yaşıyorsanız, aşağıda bulunan bağlantıyı kopyalayıp tarayıcınıza yapıştırın:',

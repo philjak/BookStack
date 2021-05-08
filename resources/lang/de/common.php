@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Aufsteigend sortieren',
     'sort_descending' => 'Absteigend sortieren',
     'sort_name' => 'Name',
+    'sort_default' => 'Standard',
     'sort_created_at' => 'Erstellungsdatum',
     'sort_updated_at' => 'Aktualisierungsdatum',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Brotkrumen',
 
     // Header
+    'header_menu_expand' => 'Header-Menü erweitern',
     'profile_menu' => 'Profilmenü',
     'view_profile' => 'Profil ansehen',
     'edit_profile' => 'Profil bearbeiten',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Info',
+    'tab_info_label' => 'Tab: Sekundäre Informationen anzeigen',
     'tab_content' => 'Inhalt',
+    'tab_content_label' => 'Tab: Hauptinhalt anzeigen',
 
     // Email Content
     'email_action_help' => 'Sollte es beim Anklicken der Schaltfläche ":action_text" Probleme geben, öffnen Sie folgende URL in Ihrem Browser:',

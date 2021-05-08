@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Növekvő sorrend',
     'sort_descending' => 'Csökkenő sorrend',
     'sort_name' => 'Név',
+    'sort_default' => 'Default',
     'sort_created_at' => 'Létrehozás dátuma',
     'sort_updated_at' => 'Frissítés dátuma',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Morzsa',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Profil menü',
     'view_profile' => 'Profil megtekintése',
     'edit_profile' => 'Profil szerkesztése',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Információ',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'Tartalom',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'Probléma esetén a lenti ":actionText" gombra kell kattintani, majd ki kell másolni a lenti webcímet és be kell illeszteni egy böngészőbe:',

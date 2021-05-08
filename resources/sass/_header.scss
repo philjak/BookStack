@@ -191,6 +191,11 @@ header .search-box {
       @include lightDark(color, #000, #fff);
       text-decoration: none;
     }
+    &:focus {
+      @include lightDark(background-color, #eee, #333);
+      outline-color: var(--color-primary);
+      color: var(--color-primary);
+    }
   }
   header .dropdown-container {
     display: block;
@@ -216,17 +221,22 @@ header .search-box {
   z-index: 5;
   background-color: #FFF;
   border-bottom: 1px solid #DDD;
+  @include lightDark(border-bottom-color, #DDD, #333);
   box-shadow: $bs-card;
 }
 .tri-layout-mobile-tab {
   text-align: center;
   border-bottom: 3px solid #BBB;
   cursor: pointer;
+  margin: 0;
+  @include lightDark(background-color, #FFF, #222);
+  @include lightDark(border-bottom-color, #BBB, #333);
   &:first-child {
     border-inline-end: 1px solid #DDD;
+    @include lightDark(border-inline-end-color, #DDD, #000);
   }
-  &.active {
-    border-bottom-color: currentColor;
+  &[aria-selected="true"] {
+    border-bottom-color: currentColor !important;
   }
 }
 
@@ -269,7 +279,7 @@ header .search-box {
 .dropdown-search {
   position: relative;
   .dropdown-search-toggle {
-    padding: 6px;
+    padding: $-xs;
     border: 1px solid transparent;
     border-radius: 4px;
     &:hover {
@@ -278,6 +288,14 @@ header .search-box {
   }
   .svg-icon {
     margin-inline-end: 0;
+  }
+}
+
+.dropdown-search-toggle.compact {
+  padding: $-xxs $-xs;
+  .avatar {
+    height: 22px;
+    width: 22px;
   }
 }
 

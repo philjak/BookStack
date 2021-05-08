@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Razvrsti naraščajoče',
     'sort_descending' => 'Razvrsti padajoče',
     'sort_name' => 'Ime',
+    'sort_default' => 'Default',
     'sort_created_at' => 'Datum nastanka',
     'sort_updated_at' => 'Datum posodobitve',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Pot',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Meni profila',
     'view_profile' => 'Ogled profila',
     'edit_profile' => 'Uredi profil',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informacije',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'Vsebina',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'V kolikor imate težave s klikom na gumb ":actionText", kopirajte in prilepite spodnjo povezavo v vaš brskalnik:',

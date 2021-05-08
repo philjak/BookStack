@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Tri ascendant',
     'sort_descending' => 'Tri descendant',
     'sort_name' => 'Nom',
+    'sort_default' => 'Défaut',
     'sort_created_at' => 'Date de création',
     'sort_updated_at' => 'Date de mise à jour',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Fil d\'Ariane',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Menu du profil',
     'view_profile' => 'Voir le profil',
     'edit_profile' => 'Modifier le profil',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informations',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'Contenu',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'Si vous rencontrez des problèmes pour cliquer sur le bouton ":actionText", copiez et collez l\'adresse ci-dessous dans votre navigateur :',

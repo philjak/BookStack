@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Sort Ascending',
     'sort_descending' => 'Sort Descending',
     'sort_name' => 'שם',
+    'sort_default' => 'Default',
     'sort_created_at' => 'תאריך יצירה',
     'sort_updated_at' => 'תאריך עדכון',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Breadcrumb',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Profile Menu',
     'view_profile' => 'הצג פרופיל',
     'edit_profile' => 'ערוך פרופיל',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'מידע',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'תוכן',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'אם לא ניתן ללחות על כפתור ״:actionText״, יש להעתיק ולהדביק את הכתובת למטה אל דפדפן האינטרנט שלך:',

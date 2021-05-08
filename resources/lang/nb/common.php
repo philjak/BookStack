@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Stigende sortering',
     'sort_descending' => 'Synkende sortering',
     'sort_name' => 'Navn',
+    'sort_default' => 'Default',
     'sort_created_at' => 'Dato opprettet',
     'sort_updated_at' => 'Dato oppdatert',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Brødsmuler',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Profilmeny',
     'view_profile' => 'Vis profil',
     'edit_profile' => 'Endre Profile',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informasjon',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'Innhold',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'Om du har problemer med å trykke på «:actionText»-knappen, bruk nettadressen under for å gå direkte dit:',

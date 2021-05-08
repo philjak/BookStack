@@ -47,6 +47,7 @@ return [
     'sort_ascending' => 'Zoradiť vzostupne',
     'sort_descending' => 'Zoradiť zostupne',
     'sort_name' => 'Meno',
+    'sort_default' => 'Default',
     'sort_created_at' => 'Dátum vytvorenia',
     'sort_updated_at' => 'Aktualizované dňa',
 
@@ -64,6 +65,7 @@ return [
     'breadcrumb' => 'Breadcrumb',
 
     // Header
+    'header_menu_expand' => 'Expand Header Menu',
     'profile_menu' => 'Menu profilu',
     'view_profile' => 'Zobraziť profil',
     'edit_profile' => 'Upraviť profil',
@@ -72,7 +74,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informácie',
+    'tab_info_label' => 'Tab: Show Secondary Information',
     'tab_content' => 'Obsah',
+    'tab_content_label' => 'Tab: Show Primary Content',
 
     // Email Content
     'email_action_help' => 'Ak máte problém klinkúť na tlačidlo ":actionText", skopírujte a vložte URL uvedenú nižšie do Vášho prehliadača:',

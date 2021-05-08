@@ -42,7 +42,7 @@ Below is a high-level road map view for BookStack to provide a sense of directio
 
 BookStack releases are each assigned a version number, such as "v0.25.2", in the format `v<phase>.<feature>.<patch>`. A change only in the `patch` number indicates a fairly minor release that mainly contains fixes and therefore is very unlikely to cause breakages upon update. A change in the `feature` number indicates a release which will generally bring new features in addition to fixes and enhancements. These releases have a small chance of introducing breaking changes upon update so it's worth checking for any notes in the [update guide](https://www.bookstackapp.com/docs/admin/updates/). A change in the `phase` indicates a much large change in BookStack that will likely incur breakages requiring manual intervention.
 
-Each BookStack release will have a [milestone](https://github.com/BookStackApp/BookStack/milestones) created with issues & pull requests assigned to it to define what will be in that release. Milestones are built up then worked through until complete at which point, after some testing and documentation updates, the release will be deployed. 
+Each BookStack release will have a [milestone](https://github.com/BookStackApp/BookStack/milestones) created with issues & pull requests assigned to it to define what will be in that release. Milestones are built up then worked through until complete at which point, after some testing and documentation updates, the release will be deployed.
 
 For feature releases, and some patch releases, the release will be accompanied by a post on the [BookStack blog](https://www.bookstackapp.com/blog/) which will provide additional detail on features, changes & updates otherwise the [GitHub release page](https://github.com/BookStackApp/BookStack/releases) will show a list of changes. You can sign up to be alerted to new BookStack blogs posts (once per week maximum) [at this link](https://updates.bookstackapp.com/signup/bookstack-news-and-updates).
 
@@ -102,11 +102,27 @@ If all the conditions are met, you can proceed with the following steps:
 
 If needed, You'll be able to run any artisan commands via docker-compose like so:
 
- ```shell script
-docker-compose run app php artisan list 
+```bash
+docker-compose run app php artisan list
 ```
 
 The docker-compose setup runs an instance of [MailHog](https://github.com/mailhog/MailHog) and sets environment variables to redirect any BookStack-sent emails to MailHog. You can view this mail via the MailHog web interface on `localhost:8025`. You can change the port MailHog is accessible on by setting a `DEV_MAIL_PORT` environment variable.
+
+#### Running tests
+
+After starting the general development Docker, migrate & seed the testing database:
+
+ ```bash
+# This only needs to be done once
+docker-compose run app php artisan migrate --database=mysql_testing
+docker-compose run app php artisan db:seed --class=DummyContentSeeder --database=mysql_testing
+```
+
+Once the database has been migrated & seeded, you can run the tests like so:
+
+ ```bash
+docker-compose run app php vendor/bin/phpunit
+```
 
 ## 🌎 Translations
 
