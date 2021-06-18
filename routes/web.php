@@ -17,7 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Shelves
     Route::get('/create-shelf', 'BookshelfController@create');
-    Route::group(['prefix' => 'shelves'], function() {
+    Route::group(['prefix' => 'shelves'], function () {
         Route::get('/', 'BookshelfController@index');
         Route::post('/', 'BookshelfController@store');
         Route::get('/{slug}/edit', 'BookshelfController@edit');
@@ -155,8 +155,14 @@ Route::group(['middleware' => 'auth'], function () {
     // User Search
     Route::get('/search/users/select', 'UserSearchController@forSelect');
 
+    // Template System
     Route::get('/templates', 'PageTemplateController@list');
     Route::get('/templates/{templateId}', 'PageTemplateController@get');
+
+    // Favourites
+    Route::get('/favourites', 'FavouriteController@index');
+    Route::post('/favourites/add', 'FavouriteController@add');
+    Route::post('/favourites/remove', 'FavouriteController@remove');
 
     // Other Pages
     Route::get('/', 'HomeController@index');
@@ -223,7 +229,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/login/service/{socialDriver}', 'Auth\SocialController@login');
 Route::get('/login/service/{socialDriver}/callback', 'Auth\SocialController@callback');
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/login/service/{socialDriver}/detach', 'Auth\SocialController@detach');
+    Route::post('/login/service/{socialDriver}/detach', 'Auth\SocialController@detach');
 });
 Route::get('/register/service/{socialDriver}', 'Auth\SocialController@register');
 
@@ -257,4 +263,4 @@ Route::post('/password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail
 Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::fallback('HomeController@getNotFound');
+Route::fallback('HomeController@getNotFound')->name('fallback');

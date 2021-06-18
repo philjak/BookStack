@@ -43,6 +43,10 @@ return [
     'bookshelf_delete'                 => 'Estante borrado',
     'bookshelf_delete_notification'    => 'Estante borrado exitosamente',
 
+    // Favourites
+    'favourite_add_notification' => '".name" se añadió a sus favoritos',
+    'favourite_remove_notification' => '".name" se eliminó de sus favoritos',
+
     // Other
     'commented_on'                => 'comentado',
     'permissions_update'          => 'permisos actualizados',

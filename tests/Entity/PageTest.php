@@ -71,6 +71,33 @@ class PageTest extends TestCase
         $redirectReq->assertNotificationContains('Page Successfully Deleted');
     }
 
+    public function test_page_full_delete_removes_all_revisions()
+    {
+        /** @var Page $page */
+        $page = Page::query()->first();
+        $page->revisions()->create([
+            'html' => '<p>ducks</p>',
+            'name' => 'my page revision',
+            'type' => 'draft',
+        ]);
+        $page->revisions()->create([
+            'html' => '<p>ducks</p>',
+            'name' => 'my page revision',
+            'type' => 'revision',
+        ]);
+
+        $this->assertDatabaseHas('page_revisions', [
+            'page_id' => $page->id,
+        ]);
+
+        $this->asEditor()->delete($page->getUrl());
+        $this->asAdmin()->post('/settings/recycle-bin/empty');
+
+        $this->assertDatabaseMissing('page_revisions', [
+            'page_id' => $page->id,
+        ]);
+    }
+
     public function test_page_copy()
     {
         $page = Page::first();
@@ -159,6 +186,29 @@ class PageTest extends TestCase
             'name' => 'My copied test page',
             'created_by' => $viewer->id,
             'book_id' => $newBook->id,
+        ]);
+    }
+
+    public function test_empty_markdown_still_saves_without_error()
+    {
+        $this->setSettings(['app-editor' => 'markdown']);
+        $book = Book::query()->first();
+
+        $this->asEditor()->get($book->getUrl('/create-page'));
+        $draft = Page::query()->where('book_id', '=', $book->id)
+            ->where('draft', '=', true)->first();
+
+        $details = [
+            'name' => 'my page',
+            'markdown' => '',
+        ];
+        $resp = $this->post($book->getUrl("/draft/{$draft->id}"), $details);
+        $resp->assertRedirect();
+
+        $this->assertDatabaseHas('pages', [
+            'markdown' => $details['markdown'],
+            'id' => $draft->id,
+            'draft' => false
         ]);
     }
 }

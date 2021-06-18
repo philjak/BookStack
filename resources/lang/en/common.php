@@ -40,6 +40,10 @@ return [
     'remove' => 'Remove',
     'add' => 'Add',
     'fullscreen' => 'Fullscreen',
+    'favourite' => 'Favourite',
+    'unfavourite' => 'Unfavourite',
+    'next' => 'Next',
+    'previous' => 'Previous',
 
     // Sort Options
     'sort_options' => 'Sort Options',
@@ -56,6 +60,7 @@ return [
     'no_activity' => 'No activity to show',
     'no_items' => 'No items available',
     'back_to_top' => 'Back to top',
+    'skip_to_main_content' => 'Skip to main content',
     'toggle_details' => 'Toggle Details',
     'toggle_thumbnails' => 'Toggle Thumbnails',
     'details' => 'Details',

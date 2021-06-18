@@ -5,6 +5,18 @@
     </div>
 @endif
 
+@if(count($favourites) > 0)
+    <div id="top-favourites" class="mb-xl">
+        <h5>
+            <a href="{{ url('/favourites') }}" class="no-color">{{ trans('entities.my_most_viewed_favourites') }}</a>
+        </h5>
+        @include('partials.entity-list', [
+            'entities' => $favourites,
+            'style' => 'compact',
+        ])
+    </div>
+@endif
+
 <div class="mb-xl">
     <h5>{{ trans('entities.' . (auth()->check() ? 'my_recently_viewed' : 'books_recent')) }}</h5>
     @include('partials.entity-list', [

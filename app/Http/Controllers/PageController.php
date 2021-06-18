@@ -1,19 +1,19 @@
 <?php namespace BookStack\Http\Controllers;
 
+use BookStack\Actions\View;
 use BookStack\Entities\Tools\BookContents;
+use BookStack\Entities\Tools\NextPreviousContentLocator;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Entities\Tools\PageEditActivity;
 use BookStack\Entities\Models\Page;
 use BookStack\Entities\Repos\PageRepo;
 use BookStack\Entities\Tools\PermissionsUpdater;
 use BookStack\Exceptions\NotFoundException;
-use BookStack\Exceptions\NotifyException;
 use BookStack\Exceptions\PermissionsException;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Throwable;
-use Views;
 
 class PageController extends Controller
 {
@@ -142,7 +142,9 @@ class PageController extends Controller
             $page->load(['comments.createdBy']);
         }
 
-        Views::add($page);
+        $nextPreviousLocator = new NextPreviousContentLocator($page, $sidebarTree);
+
+        View::incrementFor($page);
         $this->setPageTitle($page->getShortName());
         return view('pages.show', [
             'page' => $page,
@@ -150,7 +152,9 @@ class PageController extends Controller
             'current' => $page,
             'sidebarTree' => $sidebarTree,
             'commentsEnabled' => $commentsEnabled,
-            'pageNav' => $pageNav
+            'pageNav' => $pageNav,
+            'next' => $nextPreviousLocator->getNext(),
+            'previous' => $nextPreviousLocator->getPrevious(),
         ]);
     }
 
@@ -243,8 +247,8 @@ class PageController extends Controller
 
         $updateTime = $draft->updated_at->timestamp;
         return response()->json([
-            'status'    => 'success',
-            'message'   => trans('entities.pages_edit_draft_save_at'),
+            'status' => 'success',
+            'message' => trans('entities.pages_edit_draft_save_at'),
             'timestamp' => $updateTime
         ]);
     }
@@ -267,7 +271,7 @@ class PageController extends Controller
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
         $this->checkOwnablePermission('page-delete', $page);
-        $this->setPageTitle(trans('entities.pages_delete_named', ['pageName'=>$page->getShortName()]));
+        $this->setPageTitle(trans('entities.pages_delete_named', ['pageName' => $page->getShortName()]));
         return view('pages.delete', [
             'book' => $page->book,
             'page' => $page,
@@ -283,7 +287,7 @@ class PageController extends Controller
     {
         $page = $this->pageRepo->getById($pageId);
         $this->checkOwnablePermission('page-update', $page);
-        $this->setPageTitle(trans('entities.pages_delete_draft_named', ['pageName'=>$page->getShortName()]));
+        $this->setPageTitle(trans('entities.pages_delete_draft_named', ['pageName' => $page->getShortName()]));
         return view('pages.delete', [
             'book' => $page->book,
             'page' => $page,
@@ -295,7 +299,6 @@ class PageController extends Controller
      * Remove the specified page from storage.
      * @throws NotFoundException
      * @throws Throwable
-     * @throws NotifyException
      */
     public function destroy(string $bookSlug, string $pageSlug)
     {
@@ -311,7 +314,6 @@ class PageController extends Controller
     /**
      * Remove the specified draft page from storage.
      * @throws NotFoundException
-     * @throws NotifyException
      * @throws Throwable
      */
     public function destroyDraft(string $bookSlug, int $pageId)
@@ -340,9 +342,9 @@ class PageController extends Controller
             ->paginate(20)
             ->setPath(url('/pages/recently-updated'));
 
-        return view('pages.detailed-listing', [
+        return view('common.detailed-listing-paginated', [
             'title' => trans('entities.recently_updated_pages'),
-            'pages' => $pages
+            'entities' => $pages
         ]);
     }
 
@@ -380,7 +382,7 @@ class PageController extends Controller
         try {
             $parent = $this->pageRepo->move($page, $entitySelection);
         } catch (Exception $exception) {
-            if ($exception instanceof  PermissionsException) {
+            if ($exception instanceof PermissionsException) {
                 $this->showPermissionError();
             }
 
@@ -424,7 +426,7 @@ class PageController extends Controller
         try {
             $pageCopy = $this->pageRepo->copy($page, $entitySelection, $newName);
         } catch (Exception $exception) {
-            if ($exception instanceof  PermissionsException) {
+            if ($exception instanceof PermissionsException) {
                 $this->showPermissionError();
             }
 
@@ -445,7 +447,7 @@ class PageController extends Controller
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
         $this->checkOwnablePermission('restrictions-manage', $page);
         return view('pages.permissions', [
-            'page'  => $page,
+            'page' => $page,
         ]);
     }
 

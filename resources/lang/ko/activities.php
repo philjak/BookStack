@@ -43,6 +43,10 @@ return [
     'bookshelf_delete'                 => '삭제된 서가',
     'bookshelf_delete_notification'    => '서가 지움',
 
+    // Favourites
+    'favourite_add_notification' => '":name" has been added to your favourites',
+    'favourite_remove_notification' => '":name" has been removed from your favourites',
+
     // Other
     'commented_on'                => '댓글 쓰기',
     'permissions_update'          => 'updated permissions',

@@ -33,13 +33,17 @@ return [
     'copy' => 'Копирай',
     'reply' => 'Отговори',
     'delete' => 'Изтрий',
-    'delete_confirm' => 'Confirm Deletion',
+    'delete_confirm' => 'Потвърдете изтриването',
     'search' => 'Търси',
     'search_clear' => 'Изчисти търсенето',
     'reset' => 'Нулирай',
     'remove' => 'Премахване',
     'add' => 'Добави',
     'fullscreen' => 'Пълен екран',
+    'favourite' => 'Favourite',
+    'unfavourite' => 'Unfavourite',
+    'next' => 'Next',
+    'previous' => 'Previous',
 
     // Sort Options
     'sort_options' => 'Опции за сортиране',
@@ -84,6 +88,6 @@ return [
 
     // Footer Link Options
     // Not directly used but available for convenience to users.
-    'privacy_policy' => 'Privacy Policy',
-    'terms_of_service' => 'Terms of Service',
+    'privacy_policy' => 'Лични данни',
+    'terms_of_service' => 'Общи условия',
 ];

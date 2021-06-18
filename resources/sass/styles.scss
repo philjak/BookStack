@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "reset";
 @import "variables";
 @import "mixins";
@@ -109,8 +111,8 @@ $btt-size: 40px;
   color: #FFF;
   fill: #FFF;
   svg {
-    width: $btt-size / 1.5;
-    height: $btt-size / 1.5;
+    width: math.div($btt-size, 1.5);
+    height: math.div($btt-size, 1.5);
     margin-inline-end: 4px;
   }
   width: $btt-size;
@@ -131,6 +133,23 @@ $btt-size: 40px;
     position: relative;
     vertical-align: top;
     line-height: 2;
+  }
+}
+
+.skip-to-content-link {
+  position: fixed;
+  top: -$-xxl;
+  left: 0;
+  background-color: #FFF;
+  z-index: 15;
+  border-radius: 0 4px 4px 0;
+  display: block;
+  box-shadow: $bs-dark;
+  font-weight: bold;
+  &:focus {
+    top: $-xl;
+    outline-offset: -10px;
+    outline: 2px dotted var(--color-primary);
   }
 }
 
