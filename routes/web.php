@@ -51,6 +51,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/{bookSlug}/sort', 'BookSortController@update');
         Route::get('/{bookSlug}/export/html', 'BookExportController@html');
         Route::get('/{bookSlug}/export/pdf', 'BookExportController@pdf');
+        Route::get('/{bookSlug}/export/markdown', 'BookExportController@markdown');
+        Route::get('/{bookSlug}/export/zip', 'BookExportController@zip');
         Route::get('/{bookSlug}/export/plaintext', 'BookExportController@plainText');
 
         // Pages
@@ -61,6 +63,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{bookSlug}/page/{pageSlug}', 'PageController@show');
         Route::get('/{bookSlug}/page/{pageSlug}/export/pdf', 'PageExportController@pdf');
         Route::get('/{bookSlug}/page/{pageSlug}/export/html', 'PageExportController@html');
+        Route::get('/{bookSlug}/page/{pageSlug}/export/markdown', 'PageExportController@markdown');
         Route::get('/{bookSlug}/page/{pageSlug}/export/plaintext', 'PageExportController@plainText');
         Route::get('/{bookSlug}/page/{pageSlug}/edit', 'PageController@edit');
         Route::get('/{bookSlug}/page/{pageSlug}/move', 'PageController@showMove');
@@ -95,6 +98,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{bookSlug}/chapter/{chapterSlug}/permissions', 'ChapterController@showPermissions');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/export/pdf', 'ChapterExportController@pdf');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/export/html', 'ChapterExportController@html');
+        Route::get('/{bookSlug}/chapter/{chapterSlug}/export/markdown', 'ChapterExportController@markdown');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/export/plaintext', 'ChapterExportController@plainText');
         Route::put('/{bookSlug}/chapter/{chapterSlug}/permissions', 'ChapterController@permissions');
         Route::get('/{bookSlug}/chapter/{chapterSlug}/delete', 'ChapterController@showDelete');
@@ -170,7 +174,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/custom-head-content', 'HomeController@customHeadContent');
 
     // Settings
-    Route::group(['prefix' => 'settings'], function() {
+    Route::group(['prefix' => 'settings'], function () {
         Route::get('/', 'SettingController@index')->name('settings');
         Route::post('/', 'SettingController@update');
 
@@ -222,7 +226,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/roles/{id}', 'RoleController@edit');
         Route::put('/roles/{id}', 'RoleController@update');
     });
-
 });
 
 // Social auth routes
