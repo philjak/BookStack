@@ -1,4 +1,6 @@
-<?php namespace BookStack\Theming;
+<?php
+
+namespace BookStack\Theming;
 
 use BookStack\Auth\Access\SocialAuthService;
 
@@ -26,6 +28,7 @@ class ThemeService
      *
      * If a callback returns a non-null value, this method will
      * stop and return that value itself.
+     *
      * @return mixed
      */
     public function dispatch(string $event, ...$args)
@@ -36,6 +39,7 @@ class ThemeService
                 return $result;
             }
         }
+
         return null;
     }
 
@@ -45,7 +49,7 @@ class ThemeService
     public function readThemeActions()
     {
         $themeActionsFile = theme_path('functions.php');
-        if (file_exists($themeActionsFile)) {
+        if ($themeActionsFile && file_exists($themeActionsFile)) {
             require $themeActionsFile;
         }
     }

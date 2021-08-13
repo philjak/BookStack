@@ -6,6 +6,10 @@
     option:entity-search:entity-type="chapter"
 @stop
 
+@push('social-meta')
+    <meta property="og:description" content="{{ Str::limit($chapter->description, 100, '...') }}">
+@endpush
+
 @section('body')
 
     <div class="mb-m print-hidden">

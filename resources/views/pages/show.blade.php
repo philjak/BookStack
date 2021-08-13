@@ -1,5 +1,9 @@
 @extends('tri-layout')
 
+@push('social-meta')
+    <meta property="og:description" content="{{ Str::limit($page->text, 100, '...') }}">
+@endpush
+
 @section('body')
 
     <div class="mb-m print-hidden">

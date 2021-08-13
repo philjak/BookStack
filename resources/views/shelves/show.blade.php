@@ -1,5 +1,12 @@
 @extends('tri-layout')
 
+@push('social-meta')
+    <meta property="og:description" content="{{ Str::limit($shelf->description, 100, '...') }}">
+    @if($shelf->cover)
+        <meta property="og:image" content="{{ $shelf->getBookCover() }}">
+    @endif
+@endpush
+
 @section('body')
 
     <div class="mb-s">
