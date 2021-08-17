@@ -1,7 +1,10 @@
-<?php namespace BookStack\Entities\Models;
+<?php
+
+namespace BookStack\Entities\Models;
 
 use BookStack\Actions\Activity;
 use BookStack\Actions\Comment;
+use BookStack\Actions\Favourite;
 use BookStack\Actions\Tag;
 use BookStack\Actions\View;
 use BookStack\Auth\Permissions\EntityPermission;
@@ -9,7 +12,9 @@ use BookStack\Auth\Permissions\JointPermission;
 use BookStack\Entities\Tools\SearchIndex;
 use BookStack\Entities\Tools\SlugGenerator;
 use BookStack\Facades\Permissions;
+use BookStack\Interfaces\Favouritable;
 use BookStack\Interfaces\Sluggable;
+use BookStack\Interfaces\Viewable;
 use BookStack\Model;
 use BookStack\Traits\HasCreatorAndUpdater;
 use BookStack\Traits\HasOwner;
@@ -24,21 +29,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * The base class for book-like items such as pages, chapters & books.
  * This is not a database model in itself but extended.
  *
- * @property int $id
- * @property string $name
- * @property string $slug
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property int $created_by
- * @property int $updated_by
- * @property boolean $restricted
+ * @property int        $id
+ * @property string     $name
+ * @property string     $slug
+ * @property Carbon     $created_at
+ * @property Carbon     $updated_at
+ * @property int        $created_by
+ * @property int        $updated_by
+ * @property bool       $restricted
  * @property Collection $tags
+ *
  * @method static Entity|Builder visible()
  * @method static Entity|Builder hasPermission(string $permission)
  * @method static Builder withLastView()
  * @method static Builder withViewCount()
  */
-abstract class Entity extends Model implements Sluggable
+abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
 {
     use SoftDeletes;
     use HasCreatorAndUpdater;
@@ -151,11 +157,12 @@ abstract class Entity extends Model implements Sluggable
     }
 
     /**
-     * Get the comments for an entity
+     * Get the comments for an entity.
      */
     public function comments(bool $orderByCreated = true): MorphMany
     {
         $query = $this->morphMany(Comment::class, 'entity');
+
         return $orderByCreated ? $query->orderBy('created_at', 'asc') : $query;
     }
 
@@ -202,7 +209,7 @@ abstract class Entity extends Model implements Sluggable
 
     /**
      * Check if this instance or class is a certain type of entity.
-     * Examples of $type are 'page', 'book', 'chapter'
+     * Examples of $type are 'page', 'book', 'chapter'.
      */
     public static function isA(string $type): bool
     {
@@ -215,6 +222,7 @@ abstract class Entity extends Model implements Sluggable
     public static function getType(): string
     {
         $className = array_slice(explode('\\', static::class), -1, 1)[0];
+
         return strtolower($className);
     }
 
@@ -226,6 +234,7 @@ abstract class Entity extends Model implements Sluggable
         if (mb_strlen($this->name) <= $length) {
             return $this->name;
         }
+
         return mb_substr($this->name, 0, $length - 3) . '...';
     }
 
@@ -245,14 +254,14 @@ abstract class Entity extends Model implements Sluggable
         $text = $this->getText();
 
         if (mb_strlen($text) > $length) {
-            $text = mb_substr($text, 0, $length-3) . '...';
+            $text = mb_substr($text, 0, $length - 3) . '...';
         }
 
         return trim($text);
     }
 
     /**
-     * Get the url of this entity
+     * Get the url of this entity.
      */
     abstract public function getUrl(string $path = '/'): string;
 
@@ -263,12 +272,13 @@ abstract class Entity extends Model implements Sluggable
      */
     public function getParent(): ?Entity
     {
-        if ($this->isA('page')) {
+        if ($this instanceof Page) {
             return $this->chapter_id ? $this->chapter()->withTrashed()->first() : $this->book()->withTrashed()->first();
         }
-        if ($this->isA('chapter')) {
+        if ($this instanceof Chapter) {
             return $this->book()->withTrashed()->first();
         }
+
         return null;
     }
 
@@ -282,7 +292,7 @@ abstract class Entity extends Model implements Sluggable
     }
 
     /**
-     * Index the current entity for search
+     * Index the current entity for search.
      */
     public function indexForSearch()
     {
@@ -295,6 +305,25 @@ abstract class Entity extends Model implements Sluggable
     public function refreshSlug(): string
     {
         $this->slug = app(SlugGenerator::class)->generate($this);
+
         return $this->slug;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function favourites(): MorphMany
+    {
+        return $this->morphMany(Favourite::class, 'favouritable');
+    }
+
+    /**
+     * Check if the entity is a favourite of the current user.
+     */
+    public function isFavourite(): bool
+    {
+        return $this->favourites()
+            ->where('user_id', '=', user()->id)
+            ->exists();
     }
 }

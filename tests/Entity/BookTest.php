@@ -1,4 +1,6 @@
-<?php namespace Tests\Entity;
+<?php
+
+namespace Tests\Entity;
 
 use BookStack\Entities\Models\Book;
 use Tests\TestCase;
@@ -30,5 +32,20 @@ class BookTest extends TestCase
 
         $redirectReq = $this->get($deleteReq->baseResponse->headers->get('location'));
         $redirectReq->assertNotificationContains('Book Successfully Deleted');
+    }
+
+    public function test_next_previous_navigation_controls_show_within_book_content()
+    {
+        $book = Book::query()->first();
+        $chapter = $book->chapters->first();
+
+        $resp = $this->asEditor()->get($chapter->getUrl());
+        $resp->assertElementContains('#sibling-navigation', 'Next');
+        $resp->assertElementContains('#sibling-navigation', substr($chapter->pages[0]->name, 0, 20));
+
+        $resp = $this->get($chapter->pages[0]->getUrl());
+        $resp->assertElementContains('#sibling-navigation', substr($chapter->pages[1]->name, 0, 20));
+        $resp->assertElementContains('#sibling-navigation', 'Previous');
+        $resp->assertElementContains('#sibling-navigation', substr($chapter->name, 0, 20));
     }
 }

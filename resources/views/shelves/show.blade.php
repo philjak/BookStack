@@ -1,5 +1,12 @@
 @extends('tri-layout')
 
+@push('social-meta')
+    <meta property="og:description" content="{{ Str::limit($shelf->description, 100, '...') }}">
+    @if($shelf->cover)
+        <meta property="og:image" content="{{ $shelf->getBookCover() }}">
+    @endif
+@endpush
+
 @section('body')
 
     <div class="mb-s">
@@ -131,6 +138,11 @@
                     <span>@icon('delete')</span>
                     <span>{{ trans('common.delete') }}</span>
                 </a>
+            @endif
+
+            @if(signedInUser())
+                <hr class="primary-background">
+                @include('partials.entity-favourite-action', ['entity' => $shelf])
             @endif
 
         </div>

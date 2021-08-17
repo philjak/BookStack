@@ -1,7 +1,8 @@
-<?php namespace BookStack\Util;
+<?php
+
+namespace BookStack\Util;
 
 use DOMDocument;
-use DOMNode;
 use DOMNodeList;
 use DOMXPath;
 
@@ -16,6 +17,7 @@ class HtmlContentFilter
             return $html;
         }
 
+        $html = '<body>' . $html . '</body>';
         libxml_use_internal_errors(true);
         $doc = new DOMDocument();
         $doc->loadHTML(mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8'));
@@ -44,7 +46,7 @@ class HtmlContentFilter
         // Remove 'on*' attributes
         $onAttributes = $xPath->query('//@*[starts-with(name(), \'on\')]');
         foreach ($onAttributes as $attr) {
-            /** @var \DOMAttr $attr*/
+            /** @var \DOMAttr $attr */
             $attrName = $attr->nodeName;
             $attr->parentNode->removeAttribute($attrName);
         }
@@ -61,11 +63,10 @@ class HtmlContentFilter
     /**
      * Removed all of the given DOMNodes.
      */
-    static protected function removeNodes(DOMNodeList $nodes): void
+    protected static function removeNodes(DOMNodeList $nodes): void
     {
         foreach ($nodes as $node) {
             $node->parentNode->removeChild($node);
         }
     }
-
 }

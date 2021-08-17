@@ -1,5 +1,7 @@
 <?php
 
+$SAML2_IDP_AUTHNCONTEXT = env('SAML2_IDP_AUTHNCONTEXT', true);
+
 return [
 
     // Display name, shown to users, for SAML2 option
@@ -28,7 +30,6 @@ return [
 
     // Overrides, in JSON format, to the configuration passed to underlying onelogin library.
     'onelogin_overrides' => env('SAML2_ONELOGIN_OVERRIDES', null),
-
 
     'onelogin' => [
         // If 'strict' is True, then the PHP Toolkit will reject unsigned
@@ -79,7 +80,7 @@ return [
             'NameIDFormat' => 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
             // Usually x509cert and privateKey of the SP are provided by files placed at
             // the certs folder. But we can also provide them with the following parameters
-            'x509cert' => '',
+            'x509cert'   => '',
             'privateKey' => '',
         ],
         // Identity Provider Data that we want connect with our SP
@@ -138,6 +139,14 @@ return [
             //          0 => '<cert2-string>',
             //      )
             // ),
+        ],
+        'security' => [
+            // SAML2 Authn context
+            // When set to false no AuthContext will be sent in the AuthNRequest,
+            // When set to true (Default) you will get an AuthContext 'exact' 'urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport'.
+            // Multiple forced values can be passed via a space separated array, For example:
+            // SAML2_IDP_AUTHNCONTEXT="urn:federation:authentication:windows urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"
+            'requestedAuthnContext' => is_string($SAML2_IDP_AUTHNCONTEXT) ? explode(' ', $SAML2_IDP_AUTHNCONTEXT) : $SAML2_IDP_AUTHNCONTEXT,
         ],
     ],
 

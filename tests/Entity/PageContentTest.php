@@ -1,16 +1,22 @@
-<?php namespace Tests\Entity;
+<?php
 
-use BookStack\Entities\Tools\PageContent;
+namespace Tests\Entity;
+
 use BookStack\Entities\Models\Page;
+use BookStack\Entities\Tools\PageContent;
 use Tests\TestCase;
+use Tests\Uploads\UsesImages;
 
 class PageContentTest extends TestCase
 {
+    use UsesImages;
+
+    protected $base64Jpeg = '/9j/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEBAgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/yQALCAABAAEBAREA/8wABgAQEAX/2gAIAQEAAD8A0s8g/9k=';
 
     public function test_page_includes()
     {
-        $page = Page::first();
-        $secondPage = Page::where('id', '!=', $page->id)->first();
+        $page = Page::query()->first();
+        $secondPage = Page::query()->where('id', '!=', $page->id)->first();
 
         $secondPage->html = "<p id='section1'>Hello, This is a test</p><p id='section2'>This is a second block of content</p>";
         $secondPage->save();
@@ -38,8 +44,8 @@ class PageContentTest extends TestCase
 
     public function test_saving_page_with_includes()
     {
-        $page = Page::first();
-        $secondPage = Page::where('id', '!=', $page->id)->first();
+        $page = Page::query()->first();
+        $secondPage = Page::query()->where('id', '!=', $page->id)->first();
 
         $this->asEditor();
         $includeTag = '{{@' . $secondPage->id . '}}';
@@ -56,8 +62,8 @@ class PageContentTest extends TestCase
 
     public function test_page_includes_do_not_break_tables()
     {
-        $page = Page::first();
-        $secondPage = Page::where('id', '!=', $page->id)->first();
+        $page = Page::query()->first();
+        $secondPage = Page::query()->where('id', '!=', $page->id)->first();
 
         $content = '<table id="table"><tbody><tr><td>test</td></tr></tbody></table>';
         $secondPage->html = $content;
@@ -93,7 +99,7 @@ class PageContentTest extends TestCase
     public function test_page_content_scripts_removed_by_default()
     {
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
         $script = 'abc123<script>console.log("hello-test")</script>abc123';
         $page->html = "escape {$script}";
         $page->save();
@@ -116,7 +122,7 @@ class PageContentTest extends TestCase
         ];
 
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         foreach ($checks as $check) {
             $page->html = $check;
@@ -127,7 +133,6 @@ class PageContentTest extends TestCase
             $pageView->assertElementNotContains('.page-content', '<script>');
             $pageView->assertElementNotContains('.page-content', '</script>');
         }
-
     }
 
     public function test_iframe_js_and_base64_urls_are_removed()
@@ -137,11 +142,11 @@ class PageContentTest extends TestCase
             '<iframe SRC=" javascript: alert(document.cookie)"></iframe>',
             '<iframe src="data:text/html;base64,PHNjcmlwdD5hbGVydCgnaGVsbG8nKTwvc2NyaXB0Pg==" frameborder="0"></iframe>',
             '<iframe src=" data:text/html;base64,PHNjcmlwdD5hbGVydCgnaGVsbG8nKTwvc2NyaXB0Pg==" frameborder="0"></iframe>',
-            '<iframe srcdoc="<script>window.alert(document.cookie)</script>"></iframe>'
+            '<iframe srcdoc="<script>window.alert(document.cookie)</script>"></iframe>',
         ];
 
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         foreach ($checks as $check) {
             $page->html = $check;
@@ -156,18 +161,17 @@ class PageContentTest extends TestCase
             $pageView->assertElementNotContains('.page-content', 'data:');
             $pageView->assertElementNotContains('.page-content', 'base64');
         }
-
     }
 
     public function test_javascript_uri_links_are_removed()
     {
         $checks = [
             '<a id="xss" href="javascript:alert(document.cookie)>Click me</a>',
-            '<a id="xss" href="javascript: alert(document.cookie)>Click me</a>'
+            '<a id="xss" href="javascript: alert(document.cookie)>Click me</a>',
         ];
 
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         foreach ($checks as $check) {
             $page->html = $check;
@@ -179,16 +183,17 @@ class PageContentTest extends TestCase
             $pageView->assertElementNotContains('.page-content', 'href=javascript:');
         }
     }
+
     public function test_form_actions_with_javascript_are_removed()
     {
         $checks = [
             '<form><input id="xss" type=submit formaction=javascript:alert(document.domain) value=Submit><input></form>',
             '<form ><button id="xss" formaction=javascript:alert(document.domain)>Click me</button></form>',
-            '<form id="xss" action=javascript:alert(document.domain)><input type=submit value=Submit></form>'
+            '<form id="xss" action=javascript:alert(document.domain)><input type=submit value=Submit></form>',
         ];
 
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         foreach ($checks as $check) {
             $page->html = $check;
@@ -203,7 +208,7 @@ class PageContentTest extends TestCase
             $pageView->assertElementNotContains('.page-content', 'formaction=javascript:');
         }
     }
-    
+
     public function test_metadata_redirects_are_removed()
     {
         $checks = [
@@ -211,7 +216,7 @@ class PageContentTest extends TestCase
         ];
 
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         foreach ($checks as $check) {
             $page->html = $check;
@@ -225,10 +230,11 @@ class PageContentTest extends TestCase
             $pageView->assertElementNotContains('.page-content', 'external_url');
         }
     }
+
     public function test_page_inline_on_attributes_removed_by_default()
     {
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
         $script = '<p onmouseenter="console.log(\'test\')">Hello</p>';
         $page->html = "escape {$script}";
         $page->save();
@@ -251,7 +257,7 @@ class PageContentTest extends TestCase
         ];
 
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         foreach ($checks as $check) {
             $page->html = $check;
@@ -261,13 +267,12 @@ class PageContentTest extends TestCase
             $pageView->assertStatus(200);
             $pageView->assertElementNotContains('.page-content', 'onclick');
         }
-
     }
 
     public function test_page_content_scripts_show_when_configured()
     {
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
         config()->push('app.allow_content_scripts', 'true');
 
         $script = 'abc123<script>console.log("hello-test")</script>abc123';
@@ -282,7 +287,7 @@ class PageContentTest extends TestCase
     public function test_page_inline_on_attributes_show_if_configured()
     {
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
         config()->push('app.allow_content_scripts', 'true');
 
         $script = '<p onmouseenter="console.log(\'test\')">Hello</p>';
@@ -297,14 +302,14 @@ class PageContentTest extends TestCase
     public function test_duplicate_ids_does_not_break_page_render()
     {
         $this->asEditor();
-        $pageA = Page::first();
+        $pageA = Page::query()->first();
         $pageB = Page::query()->where('id', '!=', $pageA->id)->first();
 
         $content = '<ul id="bkmrk-xxx-%28"></ul> <ul id="bkmrk-xxx-%28"></ul>';
         $pageA->html = $content;
         $pageA->save();
 
-        $pageB->html = '<ul id="bkmrk-xxx-%28"></ul> <p>{{@'. $pageA->id .'#test}}</p>';
+        $pageB->html = '<ul id="bkmrk-xxx-%28"></ul> <p>{{@' . $pageA->id . '#test}}</p>';
         $pageB->save();
 
         $pageView = $this->get($pageB->getUrl());
@@ -314,33 +319,33 @@ class PageContentTest extends TestCase
     public function test_duplicate_ids_fixed_on_page_save()
     {
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         $content = '<ul id="bkmrk-test"><li>test a</li><li><ul id="bkmrk-test"><li>test b</li></ul></li></ul>';
         $pageSave = $this->put($page->getUrl(), [
-            'name' => $page->name,
-            'html' => $content,
-            'summary' => ''
+            'name'    => $page->name,
+            'html'    => $content,
+            'summary' => '',
         ]);
         $pageSave->assertRedirect();
 
-        $updatedPage = Page::where('id', '=', $page->id)->first();
-        $this->assertEquals(substr_count($updatedPage->html, "bkmrk-test\""), 1);
+        $updatedPage = Page::query()->where('id', '=', $page->id)->first();
+        $this->assertEquals(substr_count($updatedPage->html, 'bkmrk-test"'), 1);
     }
 
     public function test_anchors_referencing_non_bkmrk_ids_rewritten_after_save()
     {
         $this->asEditor();
-        $page = Page::first();
+        $page = Page::query()->first();
 
         $content = '<h1 id="non-standard-id">test</h1><p><a href="#non-standard-id">link</a></p>';
         $this->put($page->getUrl(), [
-            'name' => $page->name,
-            'html' => $content,
-            'summary' => ''
+            'name'    => $page->name,
+            'html'    => $content,
+            'summary' => '',
         ]);
 
-        $updatedPage = Page::where('id', '=', $page->id)->first();
+        $updatedPage = Page::query()->where('id', '=', $page->id)->first();
         $this->assertStringContainsString('id="bkmrk-test"', $updatedPage->html);
         $this->assertStringContainsString('href="#bkmrk-test"', $updatedPage->html);
     }
@@ -354,21 +359,21 @@ class PageContentTest extends TestCase
         $this->assertCount(3, $navMap);
         $this->assertArrayMapIncludes([
             'nodeName' => 'h1',
-            'link' => '#testa',
-            'text' => 'Hello',
-            'level' => 1,
+            'link'     => '#testa',
+            'text'     => 'Hello',
+            'level'    => 1,
         ], $navMap[0]);
         $this->assertArrayMapIncludes([
             'nodeName' => 'h2',
-            'link' => '#testb',
-            'text' => 'There',
-            'level' => 2,
+            'link'     => '#testb',
+            'text'     => 'There',
+            'level'    => 2,
         ], $navMap[1]);
         $this->assertArrayMapIncludes([
             'nodeName' => 'h3',
-            'link' => '#testc',
-            'text' => 'Donkey',
-            'level' => 3,
+            'link'     => '#testc',
+            'text'     => 'Donkey',
+            'level'    => 3,
         ], $navMap[2]);
     }
 
@@ -381,8 +386,8 @@ class PageContentTest extends TestCase
         $this->assertCount(1, $navMap);
         $this->assertArrayMapIncludes([
             'nodeName' => 'h1',
-            'link' => '#testa',
-            'text' => 'Hello'
+            'link'     => '#testa',
+            'text'     => 'Hello',
         ], $navMap[0]);
     }
 
@@ -395,15 +400,15 @@ class PageContentTest extends TestCase
         $this->assertCount(3, $navMap);
         $this->assertArrayMapIncludes([
             'nodeName' => 'h4',
-            'level' => 1,
+            'level'    => 1,
         ], $navMap[0]);
         $this->assertArrayMapIncludes([
             'nodeName' => 'h5',
-            'level' => 2,
+            'level'    => 2,
         ], $navMap[1]);
         $this->assertArrayMapIncludes([
             'nodeName' => 'h6',
-            'level' => 3,
+            'level'    => 3,
         ], $navMap[2]);
     }
 
@@ -432,7 +437,7 @@ class PageContentTest extends TestCase
 | Paragraph   | Text        |';
         $this->put($page->getUrl(), [
             'name' => $page->name,  'markdown' => $content,
-            'html' => '', 'summary' => ''
+            'html' => '', 'summary' => '',
         ]);
 
         $page->refresh();
@@ -451,7 +456,7 @@ class PageContentTest extends TestCase
 - [x] Item b';
         $this->put($page->getUrl(), [
             'name' => $page->name,  'markdown' => $content,
-            'html' => '', 'summary' => ''
+            'html' => '', 'summary' => '',
         ]);
 
         $page->refresh();
@@ -470,7 +475,7 @@ class PageContentTest extends TestCase
         $content = '~~some crossed out text~~';
         $this->put($page->getUrl(), [
             'name' => $page->name,  'markdown' => $content,
-            'html' => '', 'summary' => ''
+            'html' => '', 'summary' => '',
         ]);
 
         $page->refresh();
@@ -478,5 +483,84 @@ class PageContentTest extends TestCase
 
         $pageView = $this->get($page->getUrl());
         $pageView->assertElementExists('.page-content p > s');
+    }
+
+    public function test_page_markdown_single_html_comment_saving()
+    {
+        $this->asEditor();
+        $page = Page::query()->first();
+
+        $content = '<!-- Test Comment -->';
+        $this->put($page->getUrl(), [
+            'name' => $page->name,  'markdown' => $content,
+            'html' => '', 'summary' => '',
+        ]);
+
+        $page->refresh();
+        $this->assertStringMatchesFormat($content, $page->html);
+
+        $pageView = $this->get($page->getUrl());
+        $pageView->assertStatus(200);
+        $pageView->assertSee($content);
+    }
+
+    public function test_base64_images_get_extracted_from_page_content()
+    {
+        $this->asEditor();
+        $page = Page::query()->first();
+
+        $this->put($page->getUrl(), [
+            'name' => $page->name, 'summary' => '',
+            'html' => '<p>test<img src="data:image/jpeg;base64,' . $this->base64Jpeg . '"/></p>',
+        ]);
+
+        $page->refresh();
+        $this->assertStringMatchesFormat('%A<p%A>test<img src="http://localhost/uploads/images/gallery/%A.jpeg">%A</p>%A', $page->html);
+
+        $matches = [];
+        preg_match('/src="http:\/\/localhost(.*?)"/', $page->html, $matches);
+        $imagePath = $matches[1];
+        $imageFile = public_path($imagePath);
+        $this->assertEquals(base64_decode($this->base64Jpeg), file_get_contents($imageFile));
+
+        $this->deleteImage($imagePath);
+    }
+
+    public function test_base64_images_get_extracted_when_containing_whitespace()
+    {
+        $this->asEditor();
+        $page = Page::query()->first();
+
+        $base64PngWithWhitespace = "iVBORw0KGg\noAAAANSUhE\tUgAAAAEAAAA BCA   YAAAAfFcSJAAA\n\t ACklEQVR4nGMAAQAABQAB";
+        $base64PngWithoutWhitespace = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQAB';
+        $this->put($page->getUrl(), [
+            'name' => $page->name, 'summary' => '',
+            'html' => '<p>test<img src="data:image/png;base64,' . $base64PngWithWhitespace . '"/></p>',
+        ]);
+
+        $page->refresh();
+        $this->assertStringMatchesFormat('%A<p%A>test<img src="http://localhost/uploads/images/gallery/%A.png">%A</p>%A', $page->html);
+
+        $matches = [];
+        preg_match('/src="http:\/\/localhost(.*?)"/', $page->html, $matches);
+        $imagePath = $matches[1];
+        $imageFile = public_path($imagePath);
+        $this->assertEquals(base64_decode($base64PngWithoutWhitespace), file_get_contents($imageFile));
+
+        $this->deleteImage($imagePath);
+    }
+
+    public function test_base64_images_blanked_if_not_supported_extension_for_extract()
+    {
+        $this->asEditor();
+        $page = Page::query()->first();
+
+        $this->put($page->getUrl(), [
+            'name' => $page->name, 'summary' => '',
+            'html' => '<p>test<img src="data:image/jiff;base64,' . $this->base64Jpeg . '"/></p>',
+        ]);
+
+        $page->refresh();
+        $this->assertStringContainsString('<img src=""', $page->html);
     }
 }

@@ -1,4 +1,6 @@
-<?php namespace BookStack\Uploads;
+<?php
+
+namespace BookStack\Uploads;
 
 use BookStack\Auth\User;
 use BookStack\Exceptions\HttpFetchException;
@@ -26,6 +28,7 @@ class UserAvatars
         }
 
         try {
+            $this->destroyAllForUser($user);
             $avatar = $this->saveAvatarImage($user);
             $user->avatar()->associate($avatar);
             $user->save();
@@ -35,7 +38,37 @@ class UserAvatars
     }
 
     /**
+     * Assign a new avatar image to the given user using the given image data.
+     */
+    public function assignToUserFromExistingData(User $user, string $imageData, string $extension): void
+    {
+        try {
+            $this->destroyAllForUser($user);
+            $avatar = $this->createAvatarImageFromData($user, $imageData, $extension);
+            $user->avatar()->associate($avatar);
+            $user->save();
+        } catch (Exception $e) {
+            Log::error('Failed to save user avatar image');
+        }
+    }
+
+    /**
+     * Destroy all user avatars uploaded to the given user.
+     */
+    public function destroyAllForUser(User $user)
+    {
+        $profileImages = Image::query()->where('type', '=', 'user')
+            ->where('uploaded_to', '=', $user->id)
+            ->get();
+
+        foreach ($profileImages as $image) {
+            $this->imageService->destroy($image);
+        }
+    }
+
+    /**
      * Save an avatar image from an external service.
+     *
      * @throws Exception
      */
     protected function saveAvatarImage(User $user, int $size = 500): Image
@@ -44,14 +77,23 @@ class UserAvatars
         $email = strtolower(trim($user->email));
 
         $replacements = [
-            '${hash}' => md5($email),
-            '${size}' => $size,
+            '${hash}'  => md5($email),
+            '${size}'  => $size,
             '${email}' => urlencode($email),
         ];
 
         $userAvatarUrl = strtr($avatarUrl, $replacements);
-        $imageName = str_replace(' ', '-', $user->id . '-avatar.png');
         $imageData = $this->getAvatarImageData($userAvatarUrl);
+
+        return $this->createAvatarImageFromData($user, $imageData, 'png');
+    }
+
+    /**
+     * Creates a new image instance and saves it in the system as a new user avatar image.
+     */
+    protected function createAvatarImageFromData(User $user, string $imageData, string $extension): Image
+    {
+        $imageName = str_replace(' ', '-', $user->id . '-avatar.' . $extension);
 
         $image = $this->imageService->saveNew($imageName, $imageData, 'user', $user->id);
         $image->created_by = $user->id;
@@ -63,6 +105,7 @@ class UserAvatars
 
     /**
      * Gets an image from url and returns it as a string of image data.
+     *
      * @throws Exception
      */
     protected function getAvatarImageData(string $url): string
@@ -72,6 +115,7 @@ class UserAvatars
         } catch (HttpFetchException $exception) {
             throw new Exception(trans('errors.cannot_get_image_from_url', ['url' => $url]));
         }
+
         return $imageData;
     }
 
@@ -81,6 +125,7 @@ class UserAvatars
     protected function avatarFetchEnabled(): bool
     {
         $fetchUrl = $this->getAvatarUrl();
+
         return is_string($fetchUrl) && strpos($fetchUrl, 'http') === 0;
     }
 

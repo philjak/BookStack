@@ -1,4 +1,6 @@
-<?php namespace BookStack\Uploads;
+<?php
+
+namespace BookStack\Uploads;
 
 use BookStack\Exceptions\ImageUploadException;
 use DB;
@@ -6,8 +8,9 @@ use ErrorException;
 use Exception;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Filesystem\Factory as FileSystem;
-use Illuminate\Contracts\Filesystem\Filesystem as FileSystemInstance;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Filesystem\Filesystem as FileSystemInstance;
+use Illuminate\Contracts\Filesystem\Filesystem as Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Exception\NotSupportedException;
 use Intervention\Image\ImageManager;
@@ -49,8 +52,10 @@ class ImageService
 
     /**
      * Saves a new image from an upload.
-     * @return mixed
+     *
      * @throws ImageUploadException
+     *
+     * @return mixed
      */
     public function saveNewFromUpload(
         UploadedFile $uploadedFile,
@@ -72,20 +77,23 @@ class ImageService
 
     /**
      * Save a new image from a uri-encoded base64 string of data.
+     *
      * @throws ImageUploadException
      */
     public function saveNewFromBase64Uri(string $base64Uri, string $name, string $type, int $uploadedTo = 0): Image
     {
         $splitData = explode(';base64,', $base64Uri);
         if (count($splitData) < 2) {
-            throw new ImageUploadException("Invalid base64 image data provided");
+            throw new ImageUploadException('Invalid base64 image data provided');
         }
         $data = base64_decode($splitData[1]);
+
         return $this->saveNew($name, $data, $type, $uploadedTo);
     }
 
     /**
      * Save a new image into storage.
+     *
      * @throws ImageUploadException
      */
     public function saveNew(string $imageName, string $imageData, string $type, int $uploadedTo = 0): Image
@@ -94,7 +102,7 @@ class ImageService
         $secureUploads = setting('app-secure-images');
         $fileName = $this->cleanImageFileName($imageName);
 
-        $imagePath = '/uploads/images/' . $type . '/' . Date('Y-m') . '/';
+        $imagePath = '/uploads/images/' . $type . '/' . date('Y-m') . '/';
 
         while ($storage->exists($imagePath . $fileName)) {
             $fileName = Str::random(3) . $fileName;
@@ -106,18 +114,19 @@ class ImageService
         }
 
         try {
-            $storage->put($fullPath, $imageData, ['visibility' => 'public']);
+            $this->saveImageDataInPublicSpace($storage, $fullPath, $imageData);
         } catch (Exception $e) {
             \Log::error('Error when attempting image upload:' . $e->getMessage());
+
             throw new ImageUploadException(trans('errors.path_not_writable', ['filePath' => $fullPath]));
         }
 
         $imageDetails = [
-            'name' => $imageName,
-            'path' => $fullPath,
-            'url' => $this->getPublicUrl($fullPath),
-            'type' => $type,
-            'uploaded_to' => $uploadedTo
+            'name'        => $imageName,
+            'path'        => $fullPath,
+            'url'         => $this->getPublicUrl($fullPath),
+            'type'        => $type,
+            'uploaded_to' => $uploadedTo,
         ];
 
         if (user()->id !== 0) {
@@ -128,7 +137,27 @@ class ImageService
 
         $image = $this->image->newInstance();
         $image->forceFill($imageDetails)->save();
+
         return $image;
+    }
+
+    /**
+     * Save image data for the given path in the public space, if possible,
+     * for the provided storage mechanism.
+     */
+    protected function saveImageDataInPublicSpace(Storage $storage, string $path, string $data)
+    {
+        $storage->put($path, $data);
+
+        // Set visibility when a non-AWS-s3, s3-like storage option is in use.
+        // Done since this call can break s3-like services but desired for other image stores.
+        // Attempting to set ACL during above put request requires different permissions
+        // hence would technically be a breaking change for actual s3 usage.
+        $usingS3 = strtolower(config('filesystems.images')) === 's3';
+        $usingS3Like = $usingS3 && !is_null(config('filesystems.disks.s3.endpoint'));
+        if (!$usingS3Like) {
+            $storage->setVisibility($path, 'public');
+        }
     }
 
     /**
@@ -161,13 +190,16 @@ class ImageService
      * Get the thumbnail for an image.
      * If $keepRatio is true only the width will be used.
      * Checks the cache then storage to avoid creating / accessing the filesystem on every check.
+     *
      * @param Image $image
-     * @param int $width
-     * @param int $height
-     * @param bool $keepRatio
-     * @return string
+     * @param int   $width
+     * @param int   $height
+     * @param bool  $keepRatio
+     *
      * @throws Exception
      * @throws ImageUploadException
+     *
+     * @return string
      */
     public function getThumbnail(Image $image, $width = 220, $height = 220, $keepRatio = false)
     {
@@ -190,21 +222,23 @@ class ImageService
 
         $thumbData = $this->resizeImage($storage->get($imagePath), $width, $height, $keepRatio);
 
-        $storage->put($thumbFilePath, $thumbData, ['visibility' => 'public']);
+        $this->saveImageDataInPublicSpace($storage, $thumbFilePath, $thumbData);
         $this->cache->put('images-' . $image->id . '-' . $thumbFilePath, $thumbFilePath, 60 * 60 * 72);
-
 
         return $this->getPublicUrl($thumbFilePath);
     }
 
     /**
      * Resize image data.
+     *
      * @param string $imageData
-     * @param int $width
-     * @param int $height
-     * @param bool $keepRatio
-     * @return string
+     * @param int    $width
+     * @param int    $height
+     * @param bool   $keepRatio
+     *
      * @throws ImageUploadException
+     *
+     * @return string
      */
     protected function resizeImage(string $imageData, $width = 220, $height = null, bool $keepRatio = true)
     {
@@ -214,6 +248,7 @@ class ImageService
             if ($e instanceof ErrorException || $e instanceof NotSupportedException) {
                 throw new ImageUploadException(trans('errors.cannot_create_thumbs'));
             }
+
             throw $e;
         }
 
@@ -226,7 +261,7 @@ class ImageService
             $thumb->fit($width, $height);
         }
 
-        $thumbData = (string)$thumb->encode();
+        $thumbData = (string) $thumb->encode();
 
         // Use original image data if we're keeping the ratio
         // and the resizing does not save any space.
@@ -239,17 +274,20 @@ class ImageService
 
     /**
      * Get the raw data content from an image.
+     *
      * @throws FileNotFoundException
      */
     public function getImageData(Image $image): string
     {
         $imagePath = $image->path;
         $storage = $this->getStorage();
+
         return $storage->get($imagePath);
     }
 
     /**
      * Destroy an image along with its revisions, thumbnails and remaining folders.
+     *
      * @throws Exception
      */
     public function destroy(Image $image)
@@ -294,7 +332,8 @@ class ImageService
     {
         $files = $storage->files($path);
         $folders = $storage->directories($path);
-        return (count($files) === 0 && count($folders) === 0);
+
+        return count($files) === 0 && count($folders) === 0;
     }
 
     /**
@@ -330,6 +369,7 @@ class ImageService
                     }
                 }
             });
+
         return $deletedPaths;
     }
 
@@ -338,6 +378,7 @@ class ImageService
      * Attempts to convert the URL to a system storage url then
      * fetch the data from the disk or storage location.
      * Returns null if the image data cannot be fetched from storage.
+     *
      * @throws FileNotFoundException
      */
     public function imageUriToBase64(string $uri): ?string
@@ -380,6 +421,7 @@ class ImageService
             if (strpos(strtolower($url), 'uploads/images') === 0) {
                 return trim($url, '/');
             }
+
             return null;
         }
 
@@ -423,6 +465,7 @@ class ImageService
         }
 
         $basePath = ($this->storageUrl == false) ? url('/') : $this->storageUrl;
+
         return rtrim($basePath, '/') . $filePath;
     }
 }

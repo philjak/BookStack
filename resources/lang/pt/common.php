@@ -40,6 +40,10 @@ return [
     'remove' => 'Remover',
     'add' => 'Adicionar',
     'fullscreen' => 'Ecrã completo',
+    'favourite' => 'Favourite',
+    'unfavourite' => 'Unfavourite',
+    'next' => 'Next',
+    'previous' => 'Previous',
 
     // Sort Options
     'sort_options' => 'Opções de Ordenação',
@@ -65,7 +69,7 @@ return [
     'breadcrumb' => 'Caminho',
 
     // Header
-    'header_menu_expand' => 'Expand Header Menu',
+    'header_menu_expand' => 'Expandir Menu de Cabeçalho',
     'profile_menu' => 'Menu de Perfil',
     'view_profile' => 'Visualizar Perfil',
     'edit_profile' => 'Editar Perfil',
@@ -74,9 +78,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informações',
-    'tab_info_label' => 'Tab: Show Secondary Information',
+    'tab_info_label' => 'Separador: Mostrar Informação Secundária',
     'tab_content' => 'Conteúdo',
-    'tab_content_label' => 'Tab: Show Primary Content',
+    'tab_content_label' => 'Separador: Mostrar Conteúdo Primário',
 
     // Email Content
     'email_action_help' => 'Se estiver com problemas ao carregar no botão ":actionText", copie e cole o URL abaixo no seu navegador:',

@@ -1,4 +1,6 @@
-<?php namespace BookStack\Auth;
+<?php
+
+namespace BookStack\Auth;
 
 use Activity;
 use BookStack\Entities\EntityProvider;
@@ -8,13 +10,11 @@ use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Page;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exceptions\UserUpdateException;
-use BookStack\Uploads\Image;
 use BookStack\Uploads\UserAvatars;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Images;
 use Log;
 
 class UserRepo
@@ -84,7 +84,7 @@ class UserRepo
         return $query->paginate($count);
     }
 
-     /**
+    /**
      * Creates a new user and attaches a role to them.
      */
     public function registerNew(array $data, bool $emailConfirmed = false): User
@@ -98,6 +98,7 @@ class UserRepo
 
     /**
      * Assign a user to a system-level role.
+     *
      * @throws NotFoundException
      */
     public function attachSystemRole(User $user, string $systemRoleName)
@@ -128,6 +129,7 @@ class UserRepo
 
     /**
      * Set the assigned user roles via an array of role IDs.
+     *
      * @throws UserUpdateException
      */
     public function setUserRoles(User $user, array $roles)
@@ -143,7 +145,7 @@ class UserRepo
      * Check if the given user is the last admin and their new roles no longer
      * contains the admin role.
      */
-    protected function demotingLastAdmin(User $user, array $newRoles) : bool
+    protected function demotingLastAdmin(User $user, array $newRoles): bool
     {
         if ($this->isOnlyAdmin($user)) {
             $adminRole = Role::getSystemRole('admin');
@@ -161,10 +163,10 @@ class UserRepo
     public function create(array $data, bool $emailConfirmed = false): User
     {
         $details = [
-            'name'     => $data['name'],
-            'email'    => $data['email'],
-            'password' => bcrypt($data['password']),
-            'email_confirmed' => $emailConfirmed,
+            'name'             => $data['name'],
+            'email'            => $data['email'],
+            'password'         => bcrypt($data['password']),
+            'email_confirmed'  => $emailConfirmed,
             'external_auth_id' => $data['external_auth_id'] ?? '',
         ];
 
@@ -178,22 +180,18 @@ class UserRepo
 
     /**
      * Remove the given user from storage, Delete all related content.
+     *
      * @throws Exception
      */
     public function destroy(User $user, ?int $newOwnerId = null)
     {
         $user->socialAccounts()->delete();
         $user->apiTokens()->delete();
+        $user->favourites()->delete();
         $user->delete();
-        
-        // Delete user profile images
-        $profileImages = Image::query()->where('type', '=', 'user')
-            ->where('uploaded_to', '=', $user->id)
-            ->get();
 
-        foreach ($profileImages as $image) {
-            Images::destroy($image);
-        }
+        // Delete user profile images
+        $this->userAvatar->destroyAllForUser($user);
 
         if (!empty($newOwnerId)) {
             $newOwner = User::query()->find($newOwnerId);
@@ -208,7 +206,7 @@ class UserRepo
      */
     protected function migrateOwnership(User $fromUser, User $toUser)
     {
-        $entities = (new EntityProvider)->all();
+        $entities = (new EntityProvider())->all();
         foreach ($entities as $instance) {
             $instance->newQuery()->where('owned_by', '=', $fromUser->id)
                 ->update(['owned_by' => $toUser->id]);
@@ -249,11 +247,12 @@ class UserRepo
     public function getAssetCounts(User $user): array
     {
         $createdBy = ['created_by' => $user->id];
+
         return [
-            'pages'    =>  Page::visible()->where($createdBy)->count(),
-            'chapters'    =>  Chapter::visible()->where($createdBy)->count(),
-            'books'    =>  Book::visible()->where($createdBy)->count(),
-            'shelves'    =>  Bookshelf::visible()->where($createdBy)->count(),
+            'pages'       => Page::visible()->where($createdBy)->count(),
+            'chapters'    => Chapter::visible()->where($createdBy)->count(),
+            'books'       => Book::visible()->where($createdBy)->count(),
+            'shelves'     => Bookshelf::visible()->where($createdBy)->count(),
         ];
     }
 

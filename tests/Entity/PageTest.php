@@ -1,4 +1,6 @@
-<?php namespace Tests\Entity;
+<?php
+
+namespace Tests\Entity;
 
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Page;
@@ -6,7 +8,6 @@ use Tests\TestCase;
 
 class PageTest extends TestCase
 {
-
     public function test_page_view_when_creator_is_deleted_but_owner_exists()
     {
         $page = Page::query()->first();
@@ -33,22 +34,22 @@ class PageTest extends TestCase
 
         $details = [
             'markdown' => '# a title',
-            'html' => '<h1>a title</h1>',
-            'name' => 'my page',
+            'html'     => '<h1>a title</h1>',
+            'name'     => 'my page',
         ];
         $resp = $this->post($book->getUrl("/draft/{$draft->id}"), $details);
         $resp->assertRedirect();
 
         $this->assertDatabaseHas('pages', [
             'markdown' => $details['markdown'],
-            'name' => $details['name'],
-            'id' => $draft->id,
-            'draft' => false
+            'name'     => $details['name'],
+            'id'       => $draft->id,
+            'draft'    => false,
         ]);
 
         $draft->refresh();
-        $resp = $this->get($draft->getUrl("/edit"));
-        $resp->assertSee("# a title");
+        $resp = $this->get($draft->getUrl('/edit'));
+        $resp->assertSee('# a title');
     }
 
     public function test_page_delete()
@@ -71,6 +72,33 @@ class PageTest extends TestCase
         $redirectReq->assertNotificationContains('Page Successfully Deleted');
     }
 
+    public function test_page_full_delete_removes_all_revisions()
+    {
+        /** @var Page $page */
+        $page = Page::query()->first();
+        $page->revisions()->create([
+            'html' => '<p>ducks</p>',
+            'name' => 'my page revision',
+            'type' => 'draft',
+        ]);
+        $page->revisions()->create([
+            'html' => '<p>ducks</p>',
+            'name' => 'my page revision',
+            'type' => 'revision',
+        ]);
+
+        $this->assertDatabaseHas('page_revisions', [
+            'page_id' => $page->id,
+        ]);
+
+        $this->asEditor()->delete($page->getUrl());
+        $this->asAdmin()->post('/settings/recycle-bin/empty');
+
+        $this->assertDatabaseMissing('page_revisions', [
+            'page_id' => $page->id,
+        ]);
+    }
+
     public function test_page_copy()
     {
         $page = Page::first();
@@ -85,7 +113,7 @@ class PageTest extends TestCase
 
         $movePageResp = $this->post($page->getUrl('/copy'), [
             'entity_selection' => 'book:' . $newBook->id,
-            'name' => 'My copied test page'
+            'name'             => 'My copied test page',
         ]);
         $pageCopy = Page::where('name', '=', 'My copied test page')->first();
 
@@ -104,7 +132,7 @@ class PageTest extends TestCase
 
         $this->asEditor()->post($page->getUrl('/copy'), [
             'entity_selection' => 'book:' . $newBook->id,
-            'name' => 'My copied test page'
+            'name'             => 'My copied test page',
         ]);
         $pageCopy = Page::where('name', '=', 'My copied test page')->first();
 
@@ -121,7 +149,7 @@ class PageTest extends TestCase
         $resp->assertSee('Copy Page');
 
         $movePageResp = $this->post($page->getUrl('/copy'), [
-            'name' => 'My copied test page'
+            'name' => 'My copied test page',
         ]);
 
         $pageCopy = Page::where('name', '=', 'My copied test page')->first();
@@ -151,14 +179,37 @@ class PageTest extends TestCase
 
         $movePageResp = $this->post($page->getUrl('/copy'), [
             'entity_selection' => 'book:' . $newBook->id,
-            'name' => 'My copied test page'
+            'name'             => 'My copied test page',
         ]);
         $movePageResp->assertRedirect();
 
         $this->assertDatabaseHas('pages', [
-            'name' => 'My copied test page',
+            'name'       => 'My copied test page',
             'created_by' => $viewer->id,
-            'book_id' => $newBook->id,
+            'book_id'    => $newBook->id,
+        ]);
+    }
+
+    public function test_empty_markdown_still_saves_without_error()
+    {
+        $this->setSettings(['app-editor' => 'markdown']);
+        $book = Book::query()->first();
+
+        $this->asEditor()->get($book->getUrl('/create-page'));
+        $draft = Page::query()->where('book_id', '=', $book->id)
+            ->where('draft', '=', true)->first();
+
+        $details = [
+            'name'     => 'my page',
+            'markdown' => '',
+        ];
+        $resp = $this->post($book->getUrl("/draft/{$draft->id}"), $details);
+        $resp->assertRedirect();
+
+        $this->assertDatabaseHas('pages', [
+            'markdown' => $details['markdown'],
+            'id'       => $draft->id,
+            'draft'    => false,
         ]);
     }
 }

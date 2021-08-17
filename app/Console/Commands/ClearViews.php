@@ -2,6 +2,7 @@
 
 namespace BookStack\Console\Commands;
 
+use BookStack\Actions\View;
 use Illuminate\Console\Command;
 
 class ClearViews extends Command
@@ -22,7 +23,6 @@ class ClearViews extends Command
 
     /**
      * Create a new command instance.
-     *
      */
     public function __construct()
     {
@@ -36,7 +36,7 @@ class ClearViews extends Command
      */
     public function handle()
     {
-        \Views::resetAll();
+        View::clearAll();
         $this->comment('Views cleared');
     }
 }

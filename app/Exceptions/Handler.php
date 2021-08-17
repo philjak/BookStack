@@ -9,7 +9,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -36,9 +35,10 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * @param Exception $exception
-     * @return void
      *
      * @throws Exception
+     *
+     * @return void
      */
     public function report(Exception $exception)
     {
@@ -48,37 +48,15 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param Exception $e
+     * @param \Illuminate\Http\Request $request
+     * @param Exception                $e
+     *
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
     {
         if ($this->isApiRequest($request)) {
             return $this->renderApiException($e);
-        }
-
-        // Handle notify exceptions which will redirect to the
-        // specified location then show a notification message.
-        if ($this->isExceptionType($e, NotifyException::class)) {
-            $message = $this->getOriginalMessage($e);
-            if (!empty($message)) {
-                session()->flash('error', $message);
-            }
-            return redirect($e->redirectLocation);
-        }
-
-        // Handle pretty exceptions which will show a friendly application-fitting page
-        // Which will include the basic message to point the user roughly to the cause.
-        if ($this->isExceptionType($e, PrettyException::class)  && !config('app.debug')) {
-            $message = $this->getOriginalMessage($e);
-            $code = ($e->getCode() === 0) ? 500 : $e->getCode();
-            return response()->view('errors/' . $code, ['message' => $message], $code);
-        }
-
-        // Handle 404 errors with a loaded session to enable showing user-specific information
-        if ($this->isExceptionType($e, NotFoundHttpException::class)) {
-            return \Route::respondWithRoute('fallback');
         }
 
         return parent::render($request, $e);
@@ -107,7 +85,7 @@ class Handler extends ExceptionHandler
         $responseData = [
             'error' => [
                 'message' => $e->getMessage(),
-            ]
+            ],
         ];
 
         if ($e instanceof ValidationException) {
@@ -116,38 +94,16 @@ class Handler extends ExceptionHandler
         }
 
         $responseData['error']['code'] = $code;
+
         return new JsonResponse($responseData, $code, $headers);
-    }
-
-    /**
-     * Check the exception chain to compare against the original exception type.
-     */
-    protected function isExceptionType(Exception $e, string $type): bool
-    {
-        do {
-            if (is_a($e, $type)) {
-                return true;
-            }
-        } while ($e = $e->getPrevious());
-        return false;
-    }
-
-    /**
-     * Get original exception message.
-     */
-    protected function getOriginalMessage(Exception $e): string
-    {
-        do {
-            $message = $e->getMessage();
-        } while ($e = $e->getPrevious());
-        return $message;
     }
 
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param \Illuminate\Http\Request                 $request
+     * @param \Illuminate\Auth\AuthenticationException $exception
+     *
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)
@@ -162,8 +118,9 @@ class Handler extends ExceptionHandler
     /**
      * Convert a validation exception into a JSON response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Validation\ValidationException  $exception
+     * @param \Illuminate\Http\Request                   $request
+     * @param \Illuminate\Validation\ValidationException $exception
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     protected function invalidJson($request, ValidationException $exception)

@@ -40,6 +40,10 @@ return [
     'remove' => 'Noņemt',
     'add' => 'Pievienot',
     'fullscreen' => 'Pilnekrāns',
+    'favourite' => 'Pievienot favorītiem',
+    'unfavourite' => 'Noņemt no favorītiem',
+    'next' => 'Nākamais',
+    'previous' => 'Iepriekšējais',
 
     // Sort Options
     'sort_options' => 'Kārtošanas Opcijas',

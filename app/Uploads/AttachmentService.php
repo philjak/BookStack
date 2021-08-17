@@ -1,15 +1,18 @@
-<?php namespace BookStack\Uploads;
+<?php
+
+namespace BookStack\Uploads;
 
 use BookStack\Exceptions\FileUploadException;
 use Exception;
 use Illuminate\Contracts\Filesystem\Factory as FileSystem;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Filesystem\Filesystem as FileSystemInstance;
 use Illuminate\Support\Str;
+use Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AttachmentService
 {
-
     protected $fileSystem;
 
     /**
@@ -19,7 +22,6 @@ class AttachmentService
     {
         $this->fileSystem = $fileSystem;
     }
-
 
     /**
      * Get the storage that will be used for storing files.
@@ -38,21 +40,23 @@ class AttachmentService
 
     /**
      * Get an attachment from storage.
-     * @param Attachment $attachment
-     * @return string
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     *
+     * @throws FileNotFoundException
      */
-    public function getAttachmentFromStorage(Attachment $attachment)
+    public function getAttachmentFromStorage(Attachment $attachment): string
     {
         return $this->getStorage()->get($attachment->path);
     }
 
     /**
      * Store a new attachment upon user upload.
+     *
      * @param UploadedFile $uploadedFile
-     * @param int $page_id
-     * @return Attachment
+     * @param int          $page_id
+     *
      * @throws FileUploadException
+     *
+     * @return Attachment
      */
     public function saveNewUpload(UploadedFile $uploadedFile, $page_id)
     {
@@ -61,13 +65,13 @@ class AttachmentService
         $largestExistingOrder = Attachment::where('uploaded_to', '=', $page_id)->max('order');
 
         $attachment = Attachment::forceCreate([
-            'name' => $attachmentName,
-            'path' => $attachmentPath,
-            'extension' => $uploadedFile->getClientOriginalExtension(),
+            'name'        => $attachmentName,
+            'path'        => $attachmentPath,
+            'extension'   => $uploadedFile->getClientOriginalExtension(),
             'uploaded_to' => $page_id,
-            'created_by' => user()->id,
-            'updated_by' => user()->id,
-            'order' => $largestExistingOrder + 1
+            'created_by'  => user()->id,
+            'updated_by'  => user()->id,
+            'order'       => $largestExistingOrder + 1,
         ]);
 
         return $attachment;
@@ -76,10 +80,13 @@ class AttachmentService
     /**
      * Store a upload, saving to a file and deleting any existing uploads
      * attached to that file.
+     *
      * @param UploadedFile $uploadedFile
-     * @param Attachment $attachment
-     * @return Attachment
+     * @param Attachment   $attachment
+     *
      * @throws FileUploadException
+     *
+     * @return Attachment
      */
     public function saveUpdatedUpload(UploadedFile $uploadedFile, Attachment $attachment)
     {
@@ -95,6 +102,7 @@ class AttachmentService
         $attachment->external = false;
         $attachment->extension = $uploadedFile->getClientOriginalExtension();
         $attachment->save();
+
         return $attachment;
     }
 
@@ -104,15 +112,16 @@ class AttachmentService
     public function saveNewFromLink(string $name, string $link, int $page_id): Attachment
     {
         $largestExistingOrder = Attachment::where('uploaded_to', '=', $page_id)->max('order');
+
         return Attachment::forceCreate([
-            'name' => $name,
-            'path' => $link,
-            'external' => true,
-            'extension' => '',
+            'name'        => $name,
+            'path'        => $link,
+            'external'    => true,
+            'extension'   => '',
             'uploaded_to' => $page_id,
-            'created_by' => user()->id,
-            'updated_by' => user()->id,
-            'order' => $largestExistingOrder + 1
+            'created_by'  => user()->id,
+            'updated_by'  => user()->id,
+            'order'       => $largestExistingOrder + 1,
         ]);
     }
 
@@ -127,7 +136,6 @@ class AttachmentService
                 ->update(['order' => $index]);
         }
     }
-
 
     /**
      * Update the details of a file.
@@ -145,21 +153,25 @@ class AttachmentService
         }
 
         $attachment->save();
+
         return $attachment;
     }
 
     /**
      * Delete a File from the database and storage.
+     *
      * @param Attachment $attachment
+     *
      * @throws Exception
      */
     public function deleteFile(Attachment $attachment)
     {
         if ($attachment->external) {
             $attachment->delete();
+
             return;
         }
-        
+
         $this->deleteFileInStorage($attachment);
         $attachment->delete();
     }
@@ -167,6 +179,7 @@ class AttachmentService
     /**
      * Delete a file from the filesystem it sits on.
      * Cleans any empty leftover folders.
+     *
      * @param Attachment $attachment
      */
     protected function deleteFileInStorage(Attachment $attachment)
@@ -181,17 +194,20 @@ class AttachmentService
     }
 
     /**
-     * Store a file in storage with the given filename
+     * Store a file in storage with the given filename.
+     *
      * @param UploadedFile $uploadedFile
-     * @return string
+     *
      * @throws FileUploadException
+     *
+     * @return string
      */
     protected function putFileInStorage(UploadedFile $uploadedFile)
     {
         $attachmentData = file_get_contents($uploadedFile->getRealPath());
 
         $storage = $this->getStorage();
-        $basePath = 'uploads/files/' . Date('Y-m-M') . '/';
+        $basePath = 'uploads/files/' . date('Y-m-M') . '/';
 
         $uploadFileName = Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
         while ($storage->exists($basePath . $uploadFileName)) {
@@ -199,10 +215,12 @@ class AttachmentService
         }
 
         $attachmentPath = $basePath . $uploadFileName;
+
         try {
             $storage->put($attachmentPath, $attachmentData);
         } catch (Exception $e) {
-            \Log::error('Error when attempting file upload:' . $e->getMessage());
+            Log::error('Error when attempting file upload:' . $e->getMessage());
+
             throw new FileUploadException(trans('errors.path_not_writable', ['filePath' => $attachmentPath]));
         }
 

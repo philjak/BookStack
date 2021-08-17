@@ -1,4 +1,6 @@
-<?php namespace BookStack\Theming;
+<?php
+
+namespace BookStack\Theming;
 
 use BookStack\Auth\Access\SocialAuthService;
 
@@ -26,6 +28,7 @@ class ThemeService
      *
      * If a callback returns a non-null value, this method will
      * stop and return that value itself.
+     *
      * @return mixed
      */
     public function dispatch(string $event, ...$args)
@@ -36,6 +39,7 @@ class ThemeService
                 return $result;
             }
         }
+
         return null;
     }
 
@@ -45,7 +49,7 @@ class ThemeService
     public function readThemeActions()
     {
         $themeActionsFile = theme_path('functions.php');
-        if (file_exists($themeActionsFile)) {
+        if ($themeActionsFile && file_exists($themeActionsFile)) {
             require $themeActionsFile;
         }
     }
@@ -53,9 +57,9 @@ class ThemeService
     /**
      * @see SocialAuthService::addSocialDriver
      */
-    public function addSocialDriver(string $driverName, array $config, string $socialiteHandler)
+    public function addSocialDriver(string $driverName, array $config, string $socialiteHandler, callable $configureForRedirect = null)
     {
         $socialAuthService = app()->make(SocialAuthService::class);
-        $socialAuthService->addSocialDriver($driverName, $config, $socialiteHandler);
+        $socialAuthService->addSocialDriver($driverName, $config, $socialiteHandler, $configureForRedirect);
     }
 }

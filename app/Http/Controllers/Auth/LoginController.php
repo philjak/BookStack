@@ -12,6 +12,7 @@ use BookStack\Http\Controllers\Controller;
 use BookStack\Theming\ThemeEvents;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -29,7 +30,7 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Redirection paths
+     * Redirection paths.
      */
     protected $redirectTo = '/';
     protected $redirectPath = '/';
@@ -73,8 +74,8 @@ class LoginController extends Controller
 
         if ($request->has('email')) {
             session()->flashInput([
-                'email' => $request->get('email'),
-                'password' => (config('app.env') === 'demo') ? $request->get('password', '') : ''
+                'email'    => $request->get('email'),
+                'password' => (config('app.env') === 'demo') ? $request->get('password', '') : '',
             ]);
         }
 
@@ -88,18 +89,19 @@ class LoginController extends Controller
         }
 
         return view('auth.login', [
-          'socialDrivers' => $socialDrivers,
-          'authMethod' => $authMethod,
+            'socialDrivers' => $socialDrivers,
+            'authMethod'    => $authMethod,
         ]);
     }
 
     /**
      * Handle a login request to the application.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @param \Illuminate\Http\Request $request
      *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
@@ -114,6 +116,7 @@ class LoginController extends Controller
             $this->fireLockoutEvent($request);
 
             Activity::logFailedLogin($username);
+
             return $this->sendLockoutResponse($request);
         }
 
@@ -123,6 +126,7 @@ class LoginController extends Controller
             }
         } catch (LoginAttemptException $exception) {
             Activity::logFailedLogin($username);
+
             return $this->sendLoginAttemptExceptionResponse($exception, $request);
         }
 
@@ -132,14 +136,16 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         Activity::logFailedLogin($username);
+
         return $this->sendFailedLoginResponse($request);
     }
 
     /**
      * The user has been authenticated.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
+     * @param \Illuminate\Http\Request $request
+     * @param mixed                    $user
+     *
      * @return mixed
      */
     protected function authenticated(Request $request, $user)
@@ -154,16 +160,18 @@ class LoginController extends Controller
 
         Theme::dispatch(ThemeEvents::AUTH_LOGIN, auth()->getDefaultDriver(), $user);
         $this->logActivity(ActivityType::AUTH_LOGIN, $user);
+
         return redirect()->intended($this->redirectPath());
     }
 
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
+     * @param \Illuminate\Http\Request $request
      *
      * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return void
      */
     protected function validateLogin(Request $request)
     {
@@ -197,5 +205,21 @@ class LoginController extends Controller
         }
 
         return redirect('/login');
+    }
+
+    /**
+     * Get the failed login response instance.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => [trans('auth.failed')],
+        ])->redirectTo('/login');
     }
 }

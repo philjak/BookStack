@@ -27,6 +27,8 @@ return [
     'images' => '이미지',
     'my_recent_drafts' => '내 최근의 초안 문서',
     'my_recently_viewed' => '내가 읽은 문서',
+    'my_most_viewed_favourites' => 'My Most Viewed Favourites',
+    'my_favourites' => 'My Favourites',
     'no_pages_viewed' => '문서 없음',
     'no_pages_recently_created' => '문서 없음',
     'no_pages_recently_updated' => '문서 없음',
