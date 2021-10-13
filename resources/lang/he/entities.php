@@ -36,6 +36,7 @@ return [
     'export_html' => 'דף אינטרנט',
     'export_pdf' => 'קובץ PDF',
     'export_text' => 'טקסט רגיל',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'הרשאות',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'הרשאות מדף',
     'shelves_permissions_updated' => 'הרשאות מדף עודכנו',
     'shelves_permissions_active' => 'הרשאות מדף פעילות',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'העתק הרשאות מדף אל הספרים',
     'shelves_copy_permissions' => 'העתק הרשאות',
     'shelves_copy_permissions_explain' => 'פעולה זו תעתיק את כל הרשאות המדף לכל הספרים המשוייכים למדף זה. לפני הביצוע, יש לוודא שכל הרשאות המדף אכן נשמרו.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'דף חדש',
     'pages_editing_draft_notification' => 'הינך עורך טיוטה אשר נשמרה לאחרונה ב :timeDiff',
     'pages_draft_edited_notification' => 'דף זה עודכן מאז, מומלץ להתעלם מהטיוטה הזו.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count משתמשים החלו לערוך דף זה',
         'start_b' => ':userName החל לערוך דף זה',

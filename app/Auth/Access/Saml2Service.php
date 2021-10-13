@@ -2,14 +2,11 @@
 
 namespace BookStack\Auth\Access;
 
-use BookStack\Actions\ActivityType;
 use BookStack\Auth\User;
 use BookStack\Exceptions\JsonDebugException;
 use BookStack\Exceptions\SamlException;
+use BookStack\Exceptions\StoppedAuthenticationException;
 use BookStack\Exceptions\UserRegistrationException;
-use BookStack\Facades\Activity;
-use BookStack\Facades\Theme;
-use BookStack\Theming\ThemeEvents;
 use Exception;
 use Illuminate\Support\Str;
 use OneLogin\Saml2\Auth;
@@ -25,16 +22,16 @@ class Saml2Service extends ExternalAuthService
 {
     protected $config;
     protected $registrationService;
-    protected $user;
+    protected $loginService;
 
     /**
      * Saml2Service constructor.
      */
-    public function __construct(RegistrationService $registrationService, User $user)
+    public function __construct(RegistrationService $registrationService, LoginService $loginService)
     {
         $this->config = config('saml2');
         $this->registrationService = $registrationService;
-        $this->user = $user;
+        $this->loginService = $loginService;
     }
 
     /**
@@ -332,7 +329,7 @@ class Saml2Service extends ExternalAuthService
      */
     protected function getOrRegisterUser(array $userDetails): ?User
     {
-        $user = $this->user->newQuery()
+        $user = User::query()
           ->where('external_auth_id', '=', $userDetails['external_id'])
           ->first();
 
@@ -357,6 +354,7 @@ class Saml2Service extends ExternalAuthService
      * @throws SamlException
      * @throws JsonDebugException
      * @throws UserRegistrationException
+     * @throws StoppedAuthenticationException
      */
     public function processLoginCallback(string $samlID, array $samlAttributes): User
     {
@@ -389,9 +387,7 @@ class Saml2Service extends ExternalAuthService
             $this->syncWithGroups($user, $groups);
         }
 
-        auth()->login($user);
-        Activity::add(ActivityType::AUTH_LOGIN, "saml2; {$user->logDescriptor()}");
-        Theme::dispatch(ThemeEvents::AUTH_LOGIN, 'saml2', $user);
+        $this->loginService->login($user, 'saml2');
 
         return $user;
     }

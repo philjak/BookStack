@@ -36,6 +36,7 @@ return [
     'export_html' => 'Webb-fil',
     'export_pdf' => 'PDF-fil',
     'export_text' => 'Textfil',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'Rättigheter',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Bokhyllerättigheter',
     'shelves_permissions_updated' => 'Bokhyllerättigheterna har ändrats',
     'shelves_permissions_active' => 'Bokhyllerättigheterna är aktiva',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'Kopiera rättigheter till böcker',
     'shelves_copy_permissions' => 'Kopiera rättigheter',
     'shelves_copy_permissions_explain' => 'Detta kommer kopiera hyllans rättigheter till alla böcker på den. Se till att du har sparat alla ändringar innan du går vidare.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Ny sida',
     'pages_editing_draft_notification' => 'Du redigerar just nu ett utkast som senast sparades :timeDiff.',
     'pages_draft_edited_notification' => 'Denna sida har uppdaterats sen dess. Vi rekommenderar att du förkastar dina ändringar.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count har börjat redigera den här sidan',
         'start_b' => ':userName har börjat redigera den här sidan',

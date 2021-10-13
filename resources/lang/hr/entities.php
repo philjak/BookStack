@@ -36,6 +36,7 @@ return [
     'export_html' => 'Web File',
     'export_pdf' => 'PDF File',
     'export_text' => 'Text File',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'Dopuštenja',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Dopuštenja za policu',
     'shelves_permissions_updated' => 'Ažurirana dopuštenja za policu',
     'shelves_permissions_active' => 'Aktivirana dopuštenja za policu',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'Kopiraj dopuštenja za knjige',
     'shelves_copy_permissions' => 'Kopiraj dopuštenja',
     'shelves_copy_permissions_explain' => 'Ovo će promijeniti trenutna dopuštenja za policu i knjige u njoj. Prije aktivacije provjerite jesu li sve dopuštenja za ovu policu spremljena.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Nova stranica',
     'pages_editing_draft_notification' => 'Uređujete nacrt stranice posljednji put spremljen :timeDiff.',
     'pages_draft_edited_notification' => 'Ova je stranica u međuvremenu ažurirana. Preporučujemo da odbacite ovaj nacrt.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count korisnika koji uređuju ovu stranicu',
         'start_b' => ':userName je počeo uređivati ovu stranicu',

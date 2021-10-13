@@ -651,9 +651,9 @@ class LdapTest extends TestCase
             'services.ldap.remove_from_groups' => true,
         ]);
 
-        $this->commonLdapMocks(1, 1, 3, 4, 3, 2);
+        $this->commonLdapMocks(1, 1, 6, 8, 6, 4);
         $this->mockLdap->shouldReceive('searchAndGetEntries')
-            ->times(3)
+            ->times(6)
             ->andReturn(['count' => 1, 0 => [
                 'uid'      => [$user->name],
                 'cn'       => [$user->name],
@@ -665,7 +665,8 @@ class LdapTest extends TestCase
                 ],
             ]]);
 
-        $this->followingRedirects()->mockUserLogin()->assertSee('Thanks for registering!');
+        $login = $this->followingRedirects()->mockUserLogin();
+        $login->assertSee('Thanks for registering!');
         $this->assertDatabaseHas('users', [
             'email'           => $user->email,
             'email_confirmed' => false,
@@ -677,8 +678,13 @@ class LdapTest extends TestCase
             'role_id' => $roleToReceive->id,
         ]);
 
+        $this->assertNull(auth()->user());
+
         $homePage = $this->get('/');
-        $homePage->assertRedirect('/register/confirm/awaiting');
+        $homePage->assertRedirect('/login');
+
+        $login = $this->followingRedirects()->mockUserLogin();
+        $login->assertSee('Email Address Not Confirmed');
     }
 
     public function test_failed_logins_are_logged_when_message_configured()

@@ -27,8 +27,8 @@ return [
     'images' => 'Imagens',
     'my_recent_drafts' => 'Os Meus Rascunhos Recentes',
     'my_recently_viewed' => 'Visualizados Recentemente Por Mim',
-    'my_most_viewed_favourites' => 'My Most Viewed Favourites',
-    'my_favourites' => 'My Favourites',
+    'my_most_viewed_favourites' => 'Os Meus Favoritos Mais Visualizados',
+    'my_favourites' => 'Os Meus Favoritos',
     'no_pages_viewed' => 'Você não viu nenhuma página',
     'no_pages_recently_created' => 'Nenhuma página foi recentemente criada',
     'no_pages_recently_updated' => 'Nenhuma página foi recentemente atualizada',
@@ -36,6 +36,7 @@ return [
     'export_html' => 'Arquivo Web contido',
     'export_pdf' => 'Arquivo PDF',
     'export_text' => 'Arquivo Texto',
+    'export_md' => 'Ficheiro Markdown',
 
     // Permissions and restrictions
     'permissions' => 'Permissões',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Permissões da Estante',
     'shelves_permissions_updated' => 'Permissões da Estante de Livros Atualizada',
     'shelves_permissions_active' => 'Permissões da Estante de Livros Ativas',
+    'shelves_permissions_cascade_warning' => 'As permissões nas estantes não são passadas automaticamente em efeito dominó para os livros contidos. Isto acontece porque um livro pode existir em várias prateleiras. As permissões podem, no entanto, ser copiadas para livros filhos usando a opção encontrada abaixo.',
     'shelves_copy_permissions_to_books' => 'Copiar Permissões para Livros',
     'shelves_copy_permissions' => 'Copiar Permissões',
     'shelves_copy_permissions_explain' => 'Isto aplicará as configurações de permissões atuais desta estante a todos os livros nela contidos. Antes de ativar, assegure-se de que quaisquer alterações nas permissões desta estante foram guardadas.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Nova Página',
     'pages_editing_draft_notification' => 'Você está atualmente a editar um rascunho que foi guardado pela última vez a :timeDiff.',
     'pages_draft_edited_notification' => 'Esta página entretanto já foi atualizada. É recomendado que você descarte este rascunho.',
+    'pages_draft_page_changed_since_creation' => 'Esta página foi atualizada desde que este rascunho foi criado. É recomendável que descarte este rascunho ou tenha cuidado para não sobrescrever nenhuma alteração de página.',
     'pages_draft_edit_active' => [
         'start_a' => ':count usuários iniciaram a edição dessa página',
         'start_b' => ':userName iniciou a edição desta página',

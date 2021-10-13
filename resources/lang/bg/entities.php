@@ -36,6 +36,7 @@ return [
     'export_html' => 'Прикачени уеб файлове',
     'export_pdf' => 'PDF файл',
     'export_text' => 'Обикновен текстов файл',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'Права',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Настройки за достъп до рафта с книги',
     'shelves_permissions_updated' => 'Настройките за достъп до рафта с книги е обновен',
     'shelves_permissions_active' => 'Настройките за достъп до рафта с книги е активен',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'Копирай настойките за достъп към книгите',
     'shelves_copy_permissions' => 'Копирай настройките за достъп',
     'shelves_copy_permissions_explain' => 'Това ще приложи настоящите настройки за достъп на този рафт с книги за всички книги, съдържащи се в него. Преди да активирате, уверете се, че всички промени в настройките за достъп на този рафт са запазени.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Нова страница',
     'pages_editing_draft_notification' => 'В момента редактирате чернова, която беше последно обновена :timeDiff.',
     'pages_draft_edited_notification' => 'Тази страница беше актуализирана от тогава. Препоръчително е да изтриете настоящата чернова.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count потребителя започнаха да редактират настоящата страница',
         'start_b' => ':userName в момента редактира тази страница',

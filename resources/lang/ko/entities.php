@@ -36,6 +36,7 @@ return [
     'export_html' => 'Contained Web(.html) 파일',
     'export_pdf' => 'PDF 파일',
     'export_text' => 'Plain Text(.txt) 파일',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => '권한',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => '서가 권한',
     'shelves_permissions_updated' => '서가 권한 바꿈',
     'shelves_permissions_active' => '서가 권한 허용함',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => '권한 맞춤',
     'shelves_copy_permissions' => '실행',
     'shelves_copy_permissions_explain' => '서가의 모든 책자에 이 권한을 적용합니다. 서가의 권한을 저장했는지 확인하세요.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => '제목 없음',
     'pages_editing_draft_notification' => ':timeDiff에 초안 문서입니다.',
     'pages_draft_edited_notification' => '최근에 수정한 문서이기 때문에 초안 문서를 폐기하는 편이 좋습니다.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count명이 이 문서를 수정하고 있습니다.',
         'start_b' => ':userName이 이 문서를 수정하고 있습니다.',

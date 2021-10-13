@@ -4,6 +4,7 @@ namespace Tests;
 
 use BookStack\Auth\Permissions\PermissionService;
 use BookStack\Auth\Permissions\PermissionsRepo;
+use BookStack\Auth\Permissions\RolePermission;
 use BookStack\Auth\Role;
 use BookStack\Auth\User;
 use BookStack\Entities\Models\Book;
@@ -18,6 +19,7 @@ use BookStack\Entities\Repos\PageRepo;
 use BookStack\Settings\SettingService;
 use BookStack\Uploads\HttpFetcher;
 use Illuminate\Foundation\Testing\Assert as PHPUnit;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Env;
 use Illuminate\Support\Facades\Log;
 use Mockery;
@@ -87,7 +89,7 @@ trait SharedTestHelpers
     /**
      * Get a user that's not a system user such as the guest user.
      */
-    public function getNormalUser()
+    public function getNormalUser(): User
     {
         return User::query()->where('system_name', '=', null)->get()->last();
     }
@@ -185,6 +187,19 @@ trait SharedTestHelpers
     }
 
     /**
+     * Completely remove the given permission name from the given user.
+     */
+    protected function removePermissionFromUser(User $user, string $permission)
+    {
+        $permission = RolePermission::query()->where('name', '=', $permission)->first();
+        /** @var Role $role */
+        foreach ($user->roles as $role) {
+            $role->detachPermission($permission);
+        }
+        $user->clearPermissionCache();
+    }
+
+    /**
      * Create a new basic role for testing purposes.
      */
     protected function createNewRole(array $permissions = []): Role
@@ -194,6 +209,27 @@ trait SharedTestHelpers
         $roleData['permissions'] = array_flip($permissions);
 
         return $permissionRepo->saveNewRole($roleData);
+    }
+
+    /**
+     * Create a group of entities that belong to a specific user.
+     *
+     * @return array{book: Book, chapter: Chapter, page: Page}
+     */
+    protected function createEntityChainBelongingToUser(User $creatorUser, ?User $updaterUser = null): array
+    {
+        if (empty($updaterUser)) {
+            $updaterUser = $creatorUser;
+        }
+
+        $userAttrs = ['created_by' => $creatorUser->id, 'owned_by' => $creatorUser->id, 'updated_by' => $updaterUser->id];
+        $book = factory(Book::class)->create($userAttrs);
+        $chapter = factory(Chapter::class)->create(array_merge(['book_id' => $book->id], $userAttrs));
+        $page = factory(Page::class)->create(array_merge(['book_id' => $book->id, 'chapter_id' => $chapter->id], $userAttrs));
+        $restrictionService = $this->app[PermissionService::class];
+        $restrictionService->buildJointPermissionsForEntity($book);
+
+        return compact('book', 'chapter', 'page');
     }
 
     /**
@@ -274,8 +310,17 @@ trait SharedTestHelpers
     private function isPermissionError($response): bool
     {
         return $response->status() === 302
-            && $response->headers->get('Location') === url('/')
-            && strpos(session()->pull('error', ''), 'You do not have permission to access') === 0;
+            && (
+                (
+                    $response->headers->get('Location') === url('/')
+                    && strpos(session()->pull('error', ''), 'You do not have permission to access') === 0
+                )
+                ||
+                (
+                    $response instanceof JsonResponse &&
+                    $response->json(['error' => 'You do not have permission to perform the requested action.'])
+                )
+            );
     }
 
     /**

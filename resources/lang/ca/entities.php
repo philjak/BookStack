@@ -36,6 +36,7 @@ return [
     'export_html' => 'Fitxer web independent',
     'export_pdf' => 'Fitxer PDF',
     'export_text' => 'Fitxer de text sense format',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'Permisos',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Permisos del prestatge',
     'shelves_permissions_updated' => 'S\'han actualitzat els permisos del prestatge',
     'shelves_permissions_active' => 'S\'han activat els permisos del prestatge',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'Copia els permisos als llibres',
     'shelves_copy_permissions' => 'Copia els permisos',
     'shelves_copy_permissions_explain' => 'Això aplicarà la configuració de permisos actual d\'aquest prestatge a tots els llibres que contingui. Abans d\'activar-ho, assegureu-vos que hàgiu desat qualsevol canvi als permisos d\'aquest prestatge.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Pàgina nova',
     'pages_editing_draft_notification' => 'Esteu editant un esborrany que es va desar per darrer cop :timeDiff.',
     'pages_draft_edited_notification' => 'Aquesta pàgina s\'ha actualitzat d\'ençà d\'aleshores. Us recomanem que descarteu aquest esborrany.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count usuaris han començat a editar aquesta pàgina',
         'start_b' => ':userName ha començat a editar aquesta pàgina',

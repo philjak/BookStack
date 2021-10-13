@@ -36,6 +36,7 @@ return [
     'export_html' => 'File Web Berisi',
     'export_pdf' => 'Dokumen PDF',
     'export_text' => 'Dokumen Teks Biasa',
+    'export_md' => 'File Markdown',
 
     // Permissions and restrictions
     'permissions' => 'Izin',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Izin Rak Buku',
     'shelves_permissions_updated' => 'Izin Rak Buku Diperbarui',
     'shelves_permissions_active' => 'Izin Rak Buku Aktif',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'Salin Izin ke Buku',
     'shelves_copy_permissions' => 'Salin Izin',
     'shelves_copy_permissions_explain' => 'Ini akan menerapkan setelan izin rak buku ini saat ini ke semua buku yang ada di dalamnya. Sebelum mengaktifkan, pastikan setiap perubahan pada izin rak buku ini telah disimpan.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Halaman Baru',
     'pages_editing_draft_notification' => 'Anda sedang menyunting konsep yang terakhir disimpan :timeDiff.',
     'pages_draft_edited_notification' => 'Halaman ini telah diperbarui sejak saat itu. Anda disarankan untuk membuang draf ini.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count pengguna sudah mulai mengedit halaman ini',
         'start_b' => ':userName telah memulai menyunting halaman ini',

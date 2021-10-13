@@ -45,7 +45,11 @@ return [
 
     // Favourites
     'favourite_add_notification' => '":name" добавлено в избранное',
-    'favourite_remove_notification' => ':name" удалено из избранного',
+    'favourite_remove_notification' => '":name" удалено из избранного',
+
+    // MFA
+    'mfa_setup_method_notification' => 'Двухфакторный метод авторизации успешно настроен',
+    'mfa_remove_method_notification' => 'Двухфакторный метод авторизации успешно удален',
 
     // Other
     'commented_on'                => 'прокомментировал',

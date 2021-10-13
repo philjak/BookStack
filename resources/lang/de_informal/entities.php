@@ -36,6 +36,7 @@ return [
     'export_html' => 'HTML-Datei',
     'export_pdf' => 'PDF-Datei',
     'export_text' => 'Textdatei',
+    'export_md' => 'Markdown-Dateir',
 
     // Permissions and restrictions
     'permissions' => 'Berechtigungen',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Regal-Berechtigungen',
     'shelves_permissions_updated' => 'Regal-Berechtigungen aktualisiert',
     'shelves_permissions_active' => 'Regal-Berechtigungen aktiv',
+    'shelves_permissions_cascade_warning' => 'Die Berechtigungen in Bücherregalen werden nicht automatisch auf enthaltene Bücher kaskadiert, weil ein Buch in mehreren Regalen existieren kann. Berechtigungen können jedoch mit der unten stehenden Option in untergeordnete Bücher kopiert werden.',
     'shelves_copy_permissions_to_books' => 'Kopiere die Berechtigungen zum Buch',
     'shelves_copy_permissions' => 'Berechtigungen kopieren',
     'shelves_copy_permissions_explain' => 'Hiermit werden die Berechtigungen des aktuellen Regals auf alle enthaltenen Bücher übertragen. Überprüfe vor der Aktivierung, ob alle Berechtigungsänderungen am aktuellen Regal gespeichert wurden.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Neue Seite',
     'pages_editing_draft_notification' => 'Du bearbeitest momenten einen Entwurf, der zuletzt :timeDiff gespeichert wurde.',
     'pages_draft_edited_notification' => 'Diese Seite wurde seit diesem Zeitpunkt verändert. Wir empfehlen Ihnen, diesen Entwurf zu verwerfen.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count Benutzer bearbeiten derzeit diese Seite.',
         'start_b' => ':userName bearbeitet jetzt diese Seite.',

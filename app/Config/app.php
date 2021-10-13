@@ -36,6 +36,11 @@ return [
     // Even when overridden the WYSIWYG editor may still escape script content.
     'allow_content_scripts' => env('ALLOW_CONTENT_SCRIPTS', false),
 
+    // Allow server-side fetches to be performed to potentially unknown
+    // and user-provided locations. Primarily used in exports when loading
+    // in externally referenced assets.
+    'allow_untrusted_server_fetching' => env('ALLOW_UNTRUSTED_SERVER_FETCHING', false),
+
     // Override the default behaviour for allowing crawlers to crawl the instance.
     // May be ignored if view has be overridden or modified.
     // Defaults to null since, if not set, 'app-public' status used instead.
@@ -56,7 +61,7 @@ return [
     'locale' => env('APP_LANG', 'en'),
 
     // Locales available
-    'locales' => ['en', 'ar', 'bg', 'bs', 'ca', 'cs', 'da', 'de', 'de_informal', 'es', 'es_AR', 'fa', 'fr', 'he', 'hr', 'hu', 'id', 'it', 'ja', 'ko', 'lv', 'nl', 'nb', 'pt', 'pt_BR', 'sk', 'sl', 'sv', 'pl',  'ru', 'th', 'tr', 'uk', 'vi', 'zh_CN', 'zh_TW'],
+    'locales' => ['en', 'ar', 'bg', 'bs', 'ca', 'cs', 'da', 'de', 'de_informal', 'es', 'es_AR', 'fa', 'fr', 'he', 'hr', 'hu', 'id', 'it', 'ja', 'ko', 'lt', 'lv', 'nl', 'nb', 'pt', 'pt_BR', 'sk', 'sl', 'sv', 'pl',  'ru', 'th', 'tr', 'uk', 'vi', 'zh_CN', 'zh_TW'],
 
     //  Application Fallback Locale
     'fallback_locale' => 'en',

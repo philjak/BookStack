@@ -1,9 +1,9 @@
-@extends('simple-layout')
+@extends('layouts.simple')
 
 @section('body')
     <div class="container small">
 
-        @include('settings.navbar-with-version', ['selected' => 'settings'])
+        @include('settings.parts.navbar-with-version', ['selected' => 'settings'])
 
         <div class="card content-wrap auto-height">
             <h2 id="features" class="list-heading">{{ trans('settings.app_features_security') }}</h2>
@@ -25,7 +25,7 @@
                             @endif
                         </div>
                         <div>
-                            @include('components.toggle-switch', [
+                            @include('form.toggle-switch', [
                                 'name' => 'setting-app-public',
                                 'value' => setting('app-public'),
                                 'label' => trans('settings.app_public_access_toggle'),
@@ -39,7 +39,7 @@
                             <p class="small">{{ trans('settings.app_secure_images_desc') }}</p>
                         </div>
                         <div>
-                            @include('components.toggle-switch', [
+                            @include('form.toggle-switch', [
                                 'name' => 'setting-app-secure-images',
                                 'value' => setting('app-secure-images'),
                                 'label' => trans('settings.app_secure_images_toggle'),
@@ -53,7 +53,7 @@
                             <p class="small">{!! trans('settings.app_disable_comments_desc') !!}</p>
                         </div>
                         <div>
-                            @include('components.toggle-switch', [
+                            @include('form.toggle-switch', [
                                 'name' => 'setting-app-disable-comments',
                                 'value' => setting('app-disable-comments'),
                                 'label' => trans('settings.app_disable_comments_toggle'),
@@ -114,7 +114,7 @@
                         </div>
                         <div class="pt-xs">
                             <input type="text" value="{{ setting('app-name', 'BookStack') }}" name="setting-app-name" id="setting-app-name">
-                            @include('components.toggle-switch', [
+                            @include('form.toggle-switch', [
                                 'name' => 'setting-app-name-header',
                                 'value' => setting('app-name-header'),
                                 'label' => trans('settings.app_name_header'),
@@ -141,7 +141,7 @@
                             <p class="small">{!! trans('settings.app_logo_desc') !!}</p>
                         </div>
                         <div class="pt-xs">
-                            @include('components.image-picker', [
+                            @include('form.image-picker', [
                                      'removeName' => 'setting-app-logo',
                                      'removeValue' => 'none',
                                      'defaultImage' => url('/logo.png'),
@@ -178,13 +178,13 @@
                         </div>
                         <div class="grid half pt-m">
                             <div>
-                                @include('components.setting-entity-color-picker', ['type' => 'bookshelf'])
-                                @include('components.setting-entity-color-picker', ['type' => 'book'])
-                                @include('components.setting-entity-color-picker', ['type' => 'chapter'])
+                                @include('settings.parts.setting-entity-color-picker', ['type' => 'bookshelf'])
+                                @include('settings.parts.setting-entity-color-picker', ['type' => 'book'])
+                                @include('settings.parts.setting-entity-color-picker', ['type' => 'chapter'])
                             </div>
                             <div>
-                                @include('components.setting-entity-color-picker', ['type' => 'page'])
-                                @include('components.setting-entity-color-picker', ['type' => 'page-draft'])
+                                @include('settings.parts.setting-entity-color-picker', ['type' => 'page'])
+                                @include('settings.parts.setting-entity-color-picker', ['type' => 'page-draft'])
                             </div>
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                             </select>
 
                             <div page-picker-container style="display: none;" class="mt-m">
-                                @include('components.page-picker', ['name' => 'setting-app-homepage', 'placeholder' => trans('settings.app_homepage_select'), 'value' => setting('app-homepage')])
+                                @include('settings.parts.page-picker', ['name' => 'setting-app-homepage', 'placeholder' => trans('settings.app_homepage_select'), 'value' => setting('app-homepage')])
                             </div>
                         </div>
                     </div>
@@ -211,7 +211,7 @@
                     <div>
                         <label for="setting-app-privacy-link" class="setting-list-label">{{ trans('settings.app_footer_links') }}</label>
                         <p class="small mb-m">{{ trans('settings.app_footer_links_desc') }}</p>
-                        @include('settings.footer-links', ['name' => 'setting-app-footer-links', 'value' => setting('app-footer-links', [])])
+                        @include('settings.parts.footer-links', ['name' => 'setting-app-footer-links', 'value' => setting('app-footer-links', [])])
                     </div>
 
 
@@ -244,7 +244,7 @@
                             <p class="small">{!! trans('settings.reg_enable_desc') !!}</p>
                         </div>
                         <div>
-                            @include('components.toggle-switch', [
+                            @include('form.toggle-switch', [
                                 'name' => 'setting-registration-enabled',
                                 'value' => setting('registration-enabled'),
                                 'label' => trans('settings.reg_enable_toggle')
@@ -284,7 +284,7 @@
                             <p class="small">{{ trans('settings.reg_confirm_email_desc') }}</p>
                         </div>
                         <div>
-                            @include('components.toggle-switch', [
+                            @include('form.toggle-switch', [
                                 'name' => 'setting-registration-confirmation',
                                 'value' => setting('registration-confirmation'),
                                 'label' => trans('settings.reg_email_confirmation_toggle')
@@ -302,5 +302,5 @@
 
     </div>
 
-    @include('components.entity-selector-popup', ['entityTypes' => 'page'])
+    @include('entities.selector-popup', ['entityTypes' => 'page'])
 @stop

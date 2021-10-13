@@ -36,6 +36,7 @@ return [
     'export_html' => 'Webfájlt tartalmaz',
     'export_pdf' => 'PDF fájl',
     'export_text' => 'Egyszerű szövegfájl',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'Jogosultságok',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Könyvespolc jogosultság',
     'shelves_permissions_updated' => 'Könyvespolc jogosultságok frissítve',
     'shelves_permissions_active' => 'Könyvespolc jogosultságok aktívak',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'Jogosultság másolása könyvekre',
     'shelves_copy_permissions' => 'Jogosultság másolása',
     'shelves_copy_permissions_explain' => 'Ez alkalmazni fogja ennek a könyvespolcnak az aktuális jogosultság beállításait az összes benne található könyvön. Aktiválás előtt ellenőrizni kell, hogy a könyvespolc jogosultságain végzett összes módosítás el lett mentve.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Új oldal',
     'pages_editing_draft_notification' => 'A jelenleg szerkesztett vázlat legutóbb ekkor volt elmentve: :timeDiff.',
     'pages_draft_edited_notification' => 'Ezt az oldalt azóta már frissítették. Javasolt ennek a vázlatnak az elvetése.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count felhasználók kezdte el szerkeszteni ezt az oldalt',
         'start_b' => ':userName elkezdte szerkeszteni ezt az oldalt',

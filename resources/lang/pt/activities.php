@@ -6,7 +6,7 @@
 return [
 
     // Pages
-    'page_create'                 => 'página criada',
+    'page_create'                 => 'criou a página',
     'page_create_notification'    => 'Página criada com sucesso',
     'page_update'                 => 'página atualizada',
     'page_update_notification'    => 'Página atualizada com sucesso',
@@ -44,8 +44,12 @@ return [
     'bookshelf_delete_notification'    => 'Estante eliminada com sucesso',
 
     // Favourites
-    'favourite_add_notification' => '":name" has been added to your favourites',
-    'favourite_remove_notification' => '":name" has been removed from your favourites',
+    'favourite_add_notification' => '":name" foi adicionado aos seus favoritos',
+    'favourite_remove_notification' => '":name" foi removido dos seus favoritos',
+
+    // MFA
+    'mfa_setup_method_notification' => 'Método de múltiplos-fatores configurado com sucesso',
+    'mfa_remove_method_notification' => 'Método de múltiplos-fatores removido com sucesso',
 
     // Other
     'commented_on'                => 'comentado a',
