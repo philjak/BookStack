@@ -36,6 +36,7 @@ return [
     'export_html' => 'صفحة ويب',
     'export_pdf' => 'ملف PDF',
     'export_text' => 'ملف نص عادي',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'الأذونات',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'أذونات رف الكتب',
     'shelves_permissions_updated' => 'تم تحديث أذونات رف الكتب',
     'shelves_permissions_active' => 'أذونات رف الكتب نشطة',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'نسخ أذونات الوصول إلى الكتب',
     'shelves_copy_permissions' => 'نسخ الأذونات',
     'shelves_copy_permissions_explain' => 'سيؤدي هذا إلى تطبيق إعدادات الأذونات الحالية لهذا الرف على جميع الكتب المتضمنة فيه. قبل التفعيل، تأكد من حفظ أي تغييرات في أذونات هذا الرف.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'صفحة جديدة',
     'pages_editing_draft_notification' => 'جارٍ تعديل مسودة لم يتم حفظها من :timeDiff.',
     'pages_draft_edited_notification' => 'تم تحديث هذه الصفحة منذ ذلك الوقت. من الأفضل التخلص من هذه المسودة.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count من المستخدمين بدأوا بتعديل هذه الصفحة',
         'start_b' => ':userName بدأ بتعديل هذه الصفحة',

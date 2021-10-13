@@ -1,11 +1,11 @@
-@extends('simple-layout')
+@extends('layouts.simple')
 
 @section('body')
 <div class="container">
 
     <div class="grid left-focus v-center no-row-gap">
         <div class="py-m">
-            @include('settings.navbar', ['selected' => 'audit'])
+            @include('settings.parts.navbar', ['selected' => 'audit'])
         </div>
     </div>
 
@@ -45,7 +45,7 @@
                      component="submit-on-change"
                      option:submit-on-change:filter='[name="user"]'>
                     <label for="owner">{{ trans('settings.audit_table_user') }}</label>
-                    @include('components.user-select', ['user' => $listDetails['user'] ? \BookStack\Auth\User::query()->find($listDetails['user']) : null, 'name' => 'user', 'compact' =>  true])
+                    @include('form.user-select', ['user' => $listDetails['user'] ? \BookStack\Auth\User::query()->find($listDetails['user']) : null, 'name' => 'user', 'compact' =>  true])
                 </div>
             </form>
         </div>
@@ -62,13 +62,14 @@
                     <a href="{{ sortUrl('/settings/audit', $listDetails, ['sort' => 'key']) }}">{{ trans('settings.audit_table_event') }}</a>
                 </th>
                 <th>{{ trans('settings.audit_table_related') }}</th>
+                <th>{{ trans('settings.audit_table_ip') }}</th>
                 <th>
                     <a href="{{ sortUrl('/settings/audit', $listDetails, ['sort' => 'created_at']) }}">{{ trans('settings.audit_table_date') }}</a></th>
             </tr>
             @foreach($activities as $activity)
                 <tr>
                     <td>
-                        @include('partials.table-user', ['user' => $activity->user, 'user_id' => $activity->user_id])
+                        @include('settings.parts.table-user', ['user' => $activity->user, 'user_id' => $activity->user_id])
                     </td>
                     <td>{{ $activity->type }}</td>
                     <td width="40%">
@@ -88,6 +89,7 @@
                             <div class="px-m">{{ $activity->detail }}</div>
                         @endif
                     </td>
+                    <td>{{ $activity->ip }}</td>
                     <td>{{ $activity->created_at }}</td>
                 </tr>
             @endforeach

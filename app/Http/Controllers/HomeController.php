@@ -10,7 +10,6 @@ use BookStack\Entities\Queries\TopFavourites;
 use BookStack\Entities\Repos\BookRepo;
 use BookStack\Entities\Repos\BookshelfRepo;
 use BookStack\Entities\Tools\PageContent;
-use Views;
 
 class HomeController extends Controller
 {
@@ -41,6 +40,7 @@ class HomeController extends Controller
             ->where('draft', false)
             ->orderBy('updated_at', 'desc')
             ->take($favourites->count() > 0 ? 6 : 12)
+            ->select(Page::$listAttributes)
             ->get();
 
         $homepageOptions = ['default', 'books', 'bookshelves', 'page'];
@@ -82,7 +82,7 @@ class HomeController extends Controller
             $shelves = app(BookshelfRepo::class)->getAllPaginated(18, $commonData['sort'], $commonData['order']);
             $data = array_merge($commonData, ['shelves' => $shelves]);
 
-            return view('common.home-shelves', $data);
+            return view('home.shelves', $data);
         }
 
         if ($homepageOption === 'books') {
@@ -90,36 +90,35 @@ class HomeController extends Controller
             $books = $bookRepo->getAllPaginated(18, $commonData['sort'], $commonData['order']);
             $data = array_merge($commonData, ['books' => $books]);
 
-            return view('common.home-book', $data);
+            return view('home.books', $data);
         }
 
         if ($homepageOption === 'page') {
             $homepageSetting = setting('app-homepage', '0:');
             $id = intval(explode(':', $homepageSetting)[0]);
+            /** @var Page $customHomepage */
             $customHomepage = Page::query()->where('draft', '=', false)->findOrFail($id);
             $pageContent = new PageContent($customHomepage);
-            $customHomepage->html = $pageContent->render(true);
+            $customHomepage->html = $pageContent->render(false);
 
-            return view('common.home-custom', array_merge($commonData, ['customHomepage' => $customHomepage]));
+            return view('home.specific-page', array_merge($commonData, ['customHomepage' => $customHomepage]));
         }
 
-        return view('common.home', $commonData);
+        return view('home.default', $commonData);
     }
 
     /**
      * Get custom head HTML, Used in ajax calls to show in editor.
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function customHeadContent()
     {
-        return view('partials.custom-head');
+        return view('common.custom-head');
     }
 
     /**
      * Show the view for /robots.txt.
      */
-    public function getRobots()
+    public function robots()
     {
         $sitePublic = setting('app-public', false);
         $allowRobots = config('app.allow_robots');
@@ -129,14 +128,14 @@ class HomeController extends Controller
         }
 
         return response()
-            ->view('common.robots', ['allowRobots' => $allowRobots])
+            ->view('misc.robots', ['allowRobots' => $allowRobots])
             ->header('Content-Type', 'text/plain');
     }
 
     /**
      * Show the route for 404 responses.
      */
-    public function getNotFound()
+    public function notFound()
     {
         return response()->view('errors.404', [], 404);
     }

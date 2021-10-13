@@ -36,6 +36,7 @@ return [
     'export_html' => 'Pilna satura web fails',
     'export_pdf' => 'PDF fails',
     'export_text' => 'Vienkāršs teksta fails',
+    'export_md' => 'Markdown fails',
 
     // Permissions and restrictions
     'permissions' => 'Atļaujas',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Grāmatplaukta atļaujas',
     'shelves_permissions_updated' => 'Grāmatplaukta atļaujas atjauninātas',
     'shelves_permissions_active' => 'Grāmatplaukta atļaujas ir aktīvas',
+    'shelves_permissions_cascade_warning' => 'Grāmatu plauktu atļaujas netiek automātiski pārvietotas uz grāmatām. Tas ir tāpēc, ka grāmata var atrasties vairākos plauktos. Tomēr atļaujas var nokopēt uz plauktam pievienotajām grāmatām, izmantojot zemāk norādīto opciju.',
     'shelves_copy_permissions_to_books' => 'Kopēt grāmatplaukta atļaujas uz grāmatām',
     'shelves_copy_permissions' => 'Kopēt atļaujas',
     'shelves_copy_permissions_explain' => 'Šis piemēros pašreizējās grāmatplaukta piekļuves tiesības visām tajā esošajām grāmatām. Pirms ieslēgšanas pārliecinieties, ka ir saglabātas izmaiņas grāmatplaukta piekļuves tiesībām.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Jauna lapa',
     'pages_editing_draft_notification' => 'Jūs pašlaik veicat izmaiņas melnrakstā, kurš pēdējo reizi ir saglabāts :timeDiff.',
     'pages_draft_edited_notification' => 'Šī lapa ir tikusi atjaunināta. Šo melnrakstu ieteicams atmest.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count lietotāji pašlaik veic izmaiņas šajā lapā',
         'start_b' => ':userName veic izmaiņas šajā lapā',

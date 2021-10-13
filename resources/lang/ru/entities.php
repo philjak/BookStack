@@ -36,6 +36,7 @@ return [
     'export_html' => 'Веб файл',
     'export_pdf' => 'PDF файл',
     'export_text' => 'Текстовый файл',
+    'export_md' => 'Markdown File',
 
     // Permissions and restrictions
     'permissions' => 'Разрешения',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Доступы к книжной полке',
     'shelves_permissions_updated' => 'Доступы к книжной полке обновлены',
     'shelves_permissions_active' => 'Действующие разрешения книжной полки',
+    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
     'shelves_copy_permissions_to_books' => 'Наследовать доступы книгам',
     'shelves_copy_permissions' => 'Копировать доступы',
     'shelves_copy_permissions_explain' => 'Это применит текущие настройки доступов этой книжной полки ко всем книгам, содержащимся внутри. Перед активацией убедитесь, что все изменения в доступах этой книжной полки сохранены.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Новая страница',
     'pages_editing_draft_notification' => 'В настоящее время вы редактируете черновик, который был сохранён :timeDiff.',
     'pages_draft_edited_notification' => 'Эта страница была обновлена до этого момента. Рекомендуется отменить этот черновик.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count пользователей начали редактирование этой страницы',
         'start_b' => ':userName начал редактирование этой страницы',
