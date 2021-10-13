@@ -45,7 +45,7 @@ class BookContents
      */
     public function getTree(bool $showDrafts = false, bool $renderPages = false): Collection
     {
-        $pages = $this->getPages($showDrafts);
+        $pages = $this->getPages($showDrafts, $renderPages);
         $chapters = Chapter::visible()->where('book_id', '=', $this->book->id)->get();
         $all = collect()->concat($pages)->concat($chapters);
         $chapterMap = $chapters->keyBy('id');
@@ -93,9 +93,11 @@ class BookContents
     /**
      * Get the visible pages within this book.
      */
-    protected function getPages(bool $showDrafts = false): Collection
+    protected function getPages(bool $showDrafts = false, bool $getPageContent = false): Collection
     {
-        $query = Page::visible()->where('book_id', '=', $this->book->id);
+        $query = Page::visible()
+            ->select($getPageContent ? Page::$contentAttributes : Page::$listAttributes)
+            ->where('book_id', '=', $this->book->id);
 
         if (!$showDrafts) {
             $query->where('draft', '=', false);

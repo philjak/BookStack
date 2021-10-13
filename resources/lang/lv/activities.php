@@ -47,6 +47,10 @@ return [
     'favourite_add_notification' => '":name" ir pievienots jūsu favorītiem',
     'favourite_remove_notification' => '":name" ir izņemts no jūsu favorītiem',
 
+    // MFA
+    'mfa_setup_method_notification' => '2FA funkcija aktivizēta',
+    'mfa_remove_method_notification' => '2FA funkcija noņemta',
+
     // Other
     'commented_on'                => 'komentēts',
     'permissions_update'          => 'atjaunoja atļaujas',

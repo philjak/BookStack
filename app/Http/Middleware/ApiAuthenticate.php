@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 
 class ApiAuthenticate
 {
-    use ChecksForEmailConfirmation;
-
     /**
      * Handle an incoming request.
      */
@@ -37,7 +35,6 @@ class ApiAuthenticate
         // Return if the user is already found to be signed in via session-based auth.
         // This is to make it easy to browser the API via browser after just logging into the system.
         if (signedInUser() || session()->isStarted()) {
-            $this->ensureEmailConfirmedIfRequested();
             if (!user()->can('access-api')) {
                 throw new ApiAuthException(trans('errors.api_user_no_api_permission'), 403);
             }
@@ -50,7 +47,6 @@ class ApiAuthenticate
 
         // Validate the token and it's users API access
         auth()->authenticate();
-        $this->ensureEmailConfirmedIfRequested();
     }
 
     /**

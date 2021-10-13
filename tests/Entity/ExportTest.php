@@ -2,6 +2,7 @@
 
 namespace Tests\Entity;
 
+use BookStack\Auth\Role;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Page;
@@ -228,6 +229,34 @@ class ExportTest extends TestCase
         $resp->assertSee('src="/uploads/svg_test.svg"');
     }
 
+    public function test_page_export_contained_html_does_not_allow_upward_traversal_with_local()
+    {
+        $contents = file_get_contents(public_path('.htaccess'));
+        config()->set('filesystems.images', 'local');
+
+        $page = Page::query()->first();
+        $page->html = '<img src="http://localhost/uploads/images/../../.htaccess"/>';
+        $page->save();
+
+        $resp = $this->asEditor()->get($page->getUrl('/export/html'));
+        $resp->assertDontSee(base64_encode($contents));
+    }
+
+    public function test_page_export_contained_html_does_not_allow_upward_traversal_with_local_secure()
+    {
+        $testFilePath = storage_path('logs/test.txt');
+        config()->set('filesystems.images', 'local_secure');
+        file_put_contents($testFilePath, 'I am a cat');
+
+        $page = Page::query()->first();
+        $page->html = '<img src="http://localhost/uploads/images/../../logs/test.txt"/>';
+        $page->save();
+
+        $resp = $this->asEditor()->get($page->getUrl('/export/html'));
+        $resp->assertDontSee(base64_encode('I am a cat'));
+        unlink($testFilePath);
+    }
+
     public function test_exports_removes_scripts_from_custom_head()
     {
         $entities = [
@@ -339,5 +368,46 @@ class ExportTest extends TestCase
         $resp->assertSee('# ' . $book->name);
         $resp->assertSee('# ' . $chapter->name);
         $resp->assertSee('# ' . $page->name);
+    }
+
+    public function test_export_option_only_visible_and_accessible_with_permission()
+    {
+        $book = Book::query()->whereHas('pages')->whereHas('chapters')->first();
+        $chapter = $book->chapters()->first();
+        $page = $chapter->pages()->first();
+        $entities = [$book, $chapter, $page];
+        $user = $this->getViewer();
+        $this->actingAs($user);
+
+        foreach ($entities as $entity) {
+            $resp = $this->get($entity->getUrl());
+            $resp->assertSee('/export/pdf');
+        }
+
+        /** @var Role $role */
+        $this->removePermissionFromUser($user, 'content-export');
+
+        foreach ($entities as $entity) {
+            $resp = $this->get($entity->getUrl());
+            $resp->assertDontSee('/export/pdf');
+            $resp = $this->get($entity->getUrl('/export/pdf'));
+            $this->assertPermissionError($resp);
+        }
+    }
+
+    public function test_wkhtmltopdf_only_used_when_allow_untrusted_is_true()
+    {
+        /** @var Page $page */
+        $page = Page::query()->first();
+
+        config()->set('snappy.pdf.binary', '/abc123');
+        config()->set('app.allow_untrusted_server_fetching', false);
+
+        $resp = $this->asEditor()->get($page->getUrl('/export/pdf'));
+        $resp->assertStatus(200); // Sucessful response with invalid snappy binary indicates dompdf usage.
+
+        config()->set('app.allow_untrusted_server_fetching', true);
+        $resp = $this->get($page->getUrl('/export/pdf'));
+        $resp->assertStatus(500); // Bad response indicates wkhtml usage
     }
 }

@@ -36,6 +36,7 @@ return [
     'export_html' => 'File Contenuto Web',
     'export_pdf' => 'File PDF',
     'export_text' => 'File di testo',
+    'export_md' => 'File Markdown',
 
     // Permissions and restrictions
     'permissions' => 'Permessi',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Permessi Libreria',
     'shelves_permissions_updated' => 'Permessi Libreria Aggiornati',
     'shelves_permissions_active' => 'Permessi Attivi Libreria',
+    'shelves_permissions_cascade_warning' => 'I permessi sugli scaffali non si estendono automaticamente ai libri contenuti. Questo avviene in quanto un libro può essere presente su più scaffali. I permessi possono comunque essere copiati ai libri contenuti usando l\'opzione qui sotto.',
     'shelves_copy_permissions_to_books' => 'Copia Permessi ai Libri',
     'shelves_copy_permissions' => 'Copia Permessi',
     'shelves_copy_permissions_explain' => 'Verranno applicati tutti i permessi della libreria ai libri contenuti. Prima di attivarlo, assicurati che ogni permesso di questa libreria sia salvato.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Nuova Pagina',
     'pages_editing_draft_notification' => 'Stai modificando una bozza che è stata salvata il :timeDiff.',
     'pages_draft_edited_notification' => 'Questa pagina è stata aggiornata. È consigliabile scartare questa bozza.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count hanno iniziato a modificare questa pagina',
         'start_b' => ':userName ha iniziato a modificare questa pagina',

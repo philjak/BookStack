@@ -27,8 +27,8 @@ return [
     'images' => 'Billeder',
     'my_recent_drafts' => 'Mine seneste kladder',
     'my_recently_viewed' => 'Mine senest viste',
-    'my_most_viewed_favourites' => 'My Most Viewed Favourites',
-    'my_favourites' => 'My Favourites',
+    'my_most_viewed_favourites' => 'Mine mest viste favoritter',
+    'my_favourites' => 'Mine favoritter',
     'no_pages_viewed' => 'Du har ikke besøgt nogle sider',
     'no_pages_recently_created' => 'Ingen sider er blevet oprettet for nyligt',
     'no_pages_recently_updated' => 'Ingen sider er blevet opdateret for nyligt',
@@ -36,6 +36,7 @@ return [
     'export_html' => 'Indeholdt webfil',
     'export_pdf' => 'PDF-fil',
     'export_text' => 'Almindelig tekstfil',
+    'export_md' => 'Markdown Fil',
 
     // Permissions and restrictions
     'permissions' => 'Rettigheder',
@@ -98,6 +99,7 @@ return [
     'shelves_permissions' => 'Reoltilladelser',
     'shelves_permissions_updated' => 'Reoltilladelser opdateret',
     'shelves_permissions_active' => 'Aktive reoltilladelser',
+    'shelves_permissions_cascade_warning' => 'Tilladelser på reoler nedarves ikke automatisk til indeholdte bøger. Dette skyldes, at en bog kan eksistere på flere hylder. Tilladelser kan dog kopieres ned til underliggende bøger ved hjælp af muligheden, der findes nedenfor.',
     'shelves_copy_permissions_to_books' => 'Kopier tilladelser til bøger',
     'shelves_copy_permissions' => 'Kopier tilladelser',
     'shelves_copy_permissions_explain' => 'Dette vil anvende de aktuelle tilladelsesindstillinger på denne boghylde på alle bøger indeholdt i. Før aktivering skal du sikre dig, at ændringer i tilladelserne til denne boghylde er blevet gemt.',
@@ -232,6 +234,7 @@ return [
     'pages_initial_name' => 'Ny side',
     'pages_editing_draft_notification' => 'Du redigerer en kladde der sidst var gemt :timeDiff.',
     'pages_draft_edited_notification' => 'Siden har været opdateret siden da. Det er anbefalet at du kasserer denne kladde.',
+    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
     'pages_draft_edit_active' => [
         'start_a' => ':count brugerer har begyndt at redigere denne side',
         'start_b' => ':userName er begyndt at redigere denne side',
