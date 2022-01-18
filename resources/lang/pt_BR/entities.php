@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Capítulos por Último',
     'books_sort_show_other' => 'Mostrar Outros Livros',
     'books_sort_save' => 'Salvar Nova Ordenação',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Capítulo',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Mover Capítulo',
     'chapters_move_named' => 'Mover Capítulo :chapterName',
     'chapter_move_success' => 'Capítulo movido para :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Permissões do Capítulo',
     'chapters_empty' => 'Nenhuma página existente nesse capítulo.',
     'chapters_permissions_active' => 'Permissões de Capítulo Ativas',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Adicione algumas tags para melhor categorizar seu conteúdo. \n Você pode atribuir valores às tags para uma organização mais complexa.",
     'tags_add' => 'Adicionar outra tag',
     'tags_remove' => 'Remover essa tag',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Anexos',
     'attachments_explain' => 'Faça o upload de alguns arquivos ou anexe links para serem exibidos na sua página. Eles estarão visíveis na barra lateral à direita.',
     'attachments_explain_instant_save' => 'Mudanças são salvas instantaneamente.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Tem certeza de que deseja excluir esta revisão?',
     'revision_restore_confirm' => 'Tem certeza que deseja restaurar esta revisão? O conteúdo atual da página será substituído.',
     'revision_delete_success' => 'Revisão excluída',
-    'revision_cannot_delete_latest' => 'Não é possível excluir a revisão mais recente.'
+    'revision_cannot_delete_latest' => 'Não é possível excluir a revisão mais recente.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Capítulos al final ',
     'books_sort_show_other' => 'Mostrar otros libros',
     'books_sort_save' => 'Guardar nuevo orden',
+    'books_copy' => 'Copiar Libro',
+    'books_copy_success' => 'Libro copiado correctamente',
 
     // Chapters
     'chapter' => 'Capítulo',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Mover capítulo',
     'chapters_move_named' => 'Mover Capítulo :chapterName',
     'chapter_move_success' => 'Capítulo movido a :bookName',
+    'chapters_copy' => 'Copiar Capítulo',
+    'chapters_copy_success' => 'Capítulo copiado correctamente',
     'chapters_permissions' => 'Permisos de capítulo',
     'chapters_empty' => 'No existen páginas en este capítulo.',
     'chapters_permissions_active' => 'Permisos de capítulo activos',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Agrege algunas etiquetas para mejorar la categorización de su contenido. \n Puede asignar un valor a una etiqueta para una organización a mayor detalle.",
     'tags_add' => 'Agregar otra etiqueta',
     'tags_remove' => 'Eliminar esta etiqueta',
+    'tags_usages' => 'Uso total de etiquetas',
+    'tags_assigned_pages' => 'Asignadas a páginas',
+    'tags_assigned_chapters' => 'Asignadas a capitulos',
+    'tags_assigned_books' => 'Asignadas a libros',
+    'tags_assigned_shelves' => 'Asignadas a estantes',
+    'tags_x_unique_values' => ':count valores únicos',
+    'tags_all_values' => 'Todos los valores',
+    'tags_view_tags' => 'Ver etiquetas',
+    'tags_view_existing_tags' => 'Ver etiquetas existentes',
+    'tags_list_empty_hint' => 'Las etiquetas se pueden asignar a través de la barra lateral del editor de páginas o mientras se editan los detalles de un libro, capítulo o estante.',
     'attachments' => 'Adjuntos',
     'attachments_explain' => 'Subir ficheros o agregar enlaces para mostrar en la página. Estos son visibles en la barra lateral de la página.',
     'attachments_explain_instant_save' => 'Los cambios son guardados de manera instantánea .',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => '¿Está seguro de que desea eliminar esta revisión?',
     'revision_restore_confirm' => '¿Está seguro de que desea restaurar esta revisión? El contenido actual de la página será reemplazado.',
     'revision_delete_success' => 'Revisión eliminada',
-    'revision_cannot_delete_latest' => 'No se puede eliminar la última revisión.'
+    'revision_cannot_delete_latest' => 'No se puede eliminar la última revisión.',
+
+    // Copy view
+    'copy_consider' => 'Por favor, tenga en cuenta lo siguiente al copiar el contenido.',
+    'copy_consider_permissions' => 'Los ajustes de permisos personalizados no serán copiados.',
+    'copy_consider_owner' => 'Usted se convertirá en el dueño de todo el contenido copiado.',
+    'copy_consider_images' => 'Los archivos de imagen de de las páginas no serán duplicados y las imágenes originales conservarán su relación con la página a la que fueron subidos originalmente.',
+    'copy_consider_attachments' => 'Los archivos adjuntos de la página no serán copiados.',
+    'copy_consider_access' => 'Un cambio de ubicación, propietario o permisos puede resultar en que este contenido sea accesible para aquellos que anteriormente no tuvieran acceso.',
 ];

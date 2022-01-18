@@ -6,6 +6,7 @@ use BookStack\Auth\Role;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Page;
+use BookStack\Entities\Tools\PdfGenerator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
@@ -139,7 +140,7 @@ class ExportTest extends TestCase
         $this->setSettings(['app-custom-head' => $customHeadContent]);
 
         $resp = $this->asEditor()->get($page->getUrl('/export/html'));
-        $resp->assertSee($customHeadContent);
+        $resp->assertSee($customHeadContent, false);
     }
 
     public function test_page_html_export_does_not_break_with_only_comments_in_custom_head()
@@ -151,7 +152,7 @@ class ExportTest extends TestCase
 
         $resp = $this->asEditor()->get($page->getUrl('/export/html'));
         $resp->assertStatus(200);
-        $resp->assertSee($customHeadContent);
+        $resp->assertSee($customHeadContent, false);
     }
 
     public function test_page_html_export_use_absolute_dates()
@@ -188,7 +189,7 @@ class ExportTest extends TestCase
         Storage::disk('local')->delete('uploads/images/gallery/svg_test.svg');
 
         $resp->assertStatus(200);
-        $resp->assertSee('<img src="data:image/svg+xml;base64');
+        $resp->assertSee('<img src="data:image/svg+xml;base64', false);
     }
 
     public function test_page_image_containment_works_on_multiple_images_within_a_single_line()
@@ -224,9 +225,9 @@ class ExportTest extends TestCase
         $storageDisk->delete('uploads/images/gallery/svg_test.svg');
         $storageDisk->delete('uploads/svg_test.svg');
 
-        $resp->assertDontSee('http://localhost/uploads/images/gallery/svg_test.svg');
+        $resp->assertDontSee('http://localhost/uploads/images/gallery/svg_test.svg', false);
         $resp->assertSee('http://localhost/uploads/svg_test.svg');
-        $resp->assertSee('src="/uploads/svg_test.svg"');
+        $resp->assertSee('src="/uploads/svg_test.svg"', false);
     }
 
     public function test_page_export_contained_html_does_not_allow_upward_traversal_with_local()
@@ -289,6 +290,24 @@ class ExportTest extends TestCase
         $resp->assertDontSee('ExportWizardTheFifth');
     }
 
+    public function test_page_pdf_export_converts_iframes_to_links()
+    {
+        $page = Page::query()->first()->forceFill([
+            'html'     => '<iframe width="560" height="315" src="//www.youtube.com/embed/ShqUjt33uOs"></iframe>',
+        ]);
+        $page->save();
+
+        $pdfHtml = '';
+        $mockPdfGenerator = $this->mock(PdfGenerator::class);
+        $mockPdfGenerator->shouldReceive('fromHtml')
+            ->with(\Mockery::capture($pdfHtml))
+            ->andReturn('');
+
+        $this->asEditor()->get($page->getUrl('/export/pdf'));
+        $this->assertStringNotContainsString('iframe>', $pdfHtml);
+        $this->assertStringContainsString('<p><a href="https://www.youtube.com/embed/ShqUjt33uOs">https://www.youtube.com/embed/ShqUjt33uOs</a></p>', $pdfHtml);
+    }
+
     public function test_page_markdown_export()
     {
         $page = Page::query()->first();
@@ -333,7 +352,7 @@ class ExportTest extends TestCase
         $page->save();
 
         $resp = $this->asEditor()->get($page->getUrl('/export/markdown'));
-        $resp->assertSee("# Dogcat\n\n<p class=\"callout info\">Some callout text</p>\n\nAnother line");
+        $resp->assertSee("# Dogcat\n\n<p class=\"callout info\">Some callout text</p>\n\nAnother line", false);
     }
 
     public function test_page_markdown_export_handles_bookstacks_wysiwyg_codeblock_format()
@@ -345,7 +364,7 @@ class ExportTest extends TestCase
         $page->save();
 
         $resp = $this->asEditor()->get($page->getUrl('/export/markdown'));
-        $resp->assertSee("# Dogcat\n\n```JavaScript\nvar a = 'cat';\n```\n\nAnother line");
+        $resp->assertSee("# Dogcat\n\n```JavaScript\nvar a = 'cat';\n```\n\nAnother line", false);
     }
 
     public function test_chapter_markdown_export()

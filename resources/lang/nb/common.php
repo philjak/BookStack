@@ -18,9 +18,9 @@ return [
     'name' => 'Navn',
     'description' => 'Beskrivelse',
     'role' => 'Rolle',
-    'cover_image' => 'Bokomslag',
+    'cover_image' => 'Forside',
     'cover_image_description' => 'Bildet bør være ca. 440x250px.',
-    
+
     // Actions
     'actions' => 'Handlinger',
     'view' => 'Vis',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Avfavorisér',
     'next' => 'Neste',
     'previous' => 'Forrige',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Sorteringsalternativer',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Listevisning',
     'default' => 'Standard',
     'breadcrumb' => 'Brødsmuler',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Utvid toppmeny',

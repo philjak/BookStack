@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Chapters Last',
     'books_sort_show_other' => 'Show Other Books',
     'books_sort_save' => 'Save New Order',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Chapter',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Move Chapter',
     'chapters_move_named' => 'Move Chapter :chapterName',
     'chapter_move_success' => 'Chapter moved to :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Chapter Permissions',
     'chapters_empty' => 'No pages are currently in this chapter.',
     'chapters_permissions_active' => 'Chapter Permissions Active',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Add some tags to better categorise your content. \n You can assign a value to a tag for more in-depth organisation.",
     'tags_add' => 'Add another tag',
     'tags_remove' => 'Remove this tag',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Attachments',
     'attachments_explain' => 'Upload some files or attach some links to display on your page. These are visible in the page sidebar.',
     'attachments_explain_instant_save' => 'Changes here are saved instantly.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Are you sure you want to delete this revision?',
     'revision_restore_confirm' => 'Are you sure you want to restore this revision? The current page contents will be replaced.',
     'revision_delete_success' => 'Revision deleted',
-    'revision_cannot_delete_latest' => 'Cannot delete the latest revision.'
+    'revision_cannot_delete_latest' => 'Cannot delete the latest revision.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

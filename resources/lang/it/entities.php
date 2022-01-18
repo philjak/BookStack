@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Capitoli Per Ultimi',
     'books_sort_show_other' => 'Mostra Altri Libri',
     'books_sort_save' => 'Salva il nuovo ordine',
+    'books_copy' => 'Copia Libro',
+    'books_copy_success' => 'Libro copiato con successo',
 
     // Chapters
     'chapter' => 'Capitolo',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Muovi Capitolo',
     'chapters_move_named' => 'Muovi il capitolo :chapterName',
     'chapter_move_success' => 'Capitolo mosso in :bookName',
+    'chapters_copy' => 'Copia Capitolo',
+    'chapters_copy_success' => 'Capitolo copiato con successo',
     'chapters_permissions' => 'Permessi Capitolo',
     'chapters_empty' => 'Non ci sono pagine in questo capitolo.',
     'chapters_permissions_active' => 'Permessi Capitolo Attivi',
@@ -234,7 +238,7 @@ return [
     'pages_initial_name' => 'Nuova Pagina',
     'pages_editing_draft_notification' => 'Stai modificando una bozza che è stata salvata il :timeDiff.',
     'pages_draft_edited_notification' => 'Questa pagina è stata aggiornata. È consigliabile scartare questa bozza.',
-    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
+    'pages_draft_page_changed_since_creation' => 'Questa pagina è stata aggiornata da quando è stata creata questa bozza. Si consiglia di scartare questa bozza o fare attenzione a non sovrascrivere alcun cambiamento di pagina.',
     'pages_draft_edit_active' => [
         'start_a' => ':count hanno iniziato a modificare questa pagina',
         'start_b' => ':userName ha iniziato a modificare questa pagina',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Aggiungi tag per categorizzare meglio il contenuto. \n Puoi assegnare un valore ai tag per una migliore organizzazione.",
     'tags_add' => 'Aggiungi un altro tag',
     'tags_remove' => 'Rimuovi questo tag',
+    'tags_usages' => 'Utilizzo totale dei tag',
+    'tags_assigned_pages' => 'Assegnato alle Pagine',
+    'tags_assigned_chapters' => 'Assegnato ai capitoli',
+    'tags_assigned_books' => 'Assegnato a Libri',
+    'tags_assigned_shelves' => 'Assegnato alle Librerie',
+    'tags_x_unique_values' => ':count valori univoci',
+    'tags_all_values' => 'Tutti i valori',
+    'tags_view_tags' => 'Visualizza tag',
+    'tags_view_existing_tags' => 'Usa i tag esistenti',
+    'tags_list_empty_hint' => 'I tag possono essere assegnati tramite la barra laterale dell\'editor di pagina o durante la modifica dei dettagli di un libro, capitolo o libreria.',
     'attachments' => 'Allegati',
     'attachments_explain' => 'Carica alcuni file o allega link per visualizzarli nella pagina. Questi sono visibili nella sidebar della pagina.',
     'attachments_explain_instant_save' => 'I cambiamenti qui sono salvati istantaneamente.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Sei sicuro di voler eliminare questa revisione?',
     'revision_restore_confirm' => 'Sei sicuro di voler ripristinare questa revisione? Il contenuto della pagina verrà rimpiazzato.',
     'revision_delete_success' => 'Revisione cancellata',
-    'revision_cannot_delete_latest' => 'Impossibile eliminare l\'ultima revisione.'
+    'revision_cannot_delete_latest' => 'Impossibile eliminare l\'ultima revisione.',
+
+    // Copy view
+    'copy_consider' => 'Per favore, considerate quanto segue quando copiate il contenuto.',
+    'copy_consider_permissions' => 'Le impostazioni dei permessi personalizzati non saranno copiate.',
+    'copy_consider_owner' => 'Diventerai il proprietario di tutti i contenuti copiati.',
+    'copy_consider_images' => 'I file delle immagini delle pagine non saranno duplicati e le immagini originali manterranno la loro relazione con la pagina su cui sono state originariamente caricate.',
+    'copy_consider_attachments' => 'Gli allegati della pagina non saranno copiati.',
+    'copy_consider_access' => 'Un cambiamento di luogo, di proprietario o di autorizzazioni può far sì che questo contenuto sia accessibile a chi prima non aveva accesso.',
 ];

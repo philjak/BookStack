@@ -72,7 +72,7 @@ return [
     // Maintenance settings
     'maint' => 'Mantenimiento',
     'maint_image_cleanup' => 'Limpiar imágenes',
-    'maint_image_cleanup_desc' => "Analizar contenido de páginas y revisiones para detectar cuáles imágenes y dibujos están en uso y cuáles son redundantes. Asegúrese de crear un respaldo completo de imágenes y base de datos antes de ejecutar esta tarea.",
+    'maint_image_cleanup_desc' => 'Analizar contenido de páginas y revisiones para detectar cuáles imágenes y dibujos están en uso y cuáles son redundantes. Asegúrese de crear un respaldo completo de imágenes y base de datos antes de ejecutar esta tarea.',
     'maint_delete_images_only_in_revisions' => 'También elimina imágenes que sólo existen en antiguas revisiones de páginas',
     'maint_image_cleanup_run' => 'Ejecutar limpieza',
     'maint_image_cleanup_warning' => 'Se encontraron :count imágenes pontencialmente sin uso. Está seguro de que quiere eliminarlas?',
@@ -92,7 +92,7 @@ return [
     'recycle_bin' => 'Papelera de Reciclaje',
     'recycle_bin_desc' => 'Aquí puede restaurar elementos que hayan sido eliminados o elegir eliminarlos permanentemente del sistema. Esta lista no está filtrada a diferencia de las listas de actividad similares en el sistema donde se aplican los filtros de permisos.',
     'recycle_bin_deleted_item' => 'Elemento Eliminado',
-    'recycle_bin_deleted_parent' => 'Superior',
+    'recycle_bin_deleted_parent' => 'Padre',
     'recycle_bin_deleted_by' => 'Eliminado por',
     'recycle_bin_deleted_at' => 'Fecha de eliminación',
     'recycle_bin_permanently_delete' => 'Eliminar permanentemente',
@@ -105,7 +105,7 @@ return [
     'recycle_bin_restore_list' => 'Elementos a restaurar',
     'recycle_bin_restore_confirm' => 'Esta acción restaurará el elemento eliminado, incluyendo cualquier elemento secundario, a su ubicación original. Si la ubicación original ha sido eliminada, y ahora está en la papelera de reciclaje, el elemento padre también tendrá que ser restaurado.',
     'recycle_bin_restore_deleted_parent' => 'El padre de este elemento también ha sido eliminado. Estos permanecerán eliminados hasta que el padre también sea restaurado.',
-    'recycle_bin_restore_parent' => 'Restaurar Superior',
+    'recycle_bin_restore_parent' => 'Restaurar Padre',
     'recycle_bin_destroy_notification' => 'Eliminados :count elementos de la papelera de reciclaje.',
     'recycle_bin_restore_notification' => 'Restaurados :count elementos desde la papelera de reciclaje.',
 
@@ -119,7 +119,7 @@ return [
     'audit_table_user' => 'Usuario',
     'audit_table_event' => 'Evento',
     'audit_table_related' => 'Elemento o detalle relacionados',
-    'audit_table_ip' => 'IP Address',
+    'audit_table_ip' => 'Dirección IP',
     'audit_table_date' => 'Fecha de la Actividad',
     'audit_date_from' => 'Inicio del Rango de Fecha',
     'audit_date_to' => 'Final del Rango de Fecha',
@@ -139,7 +139,7 @@ return [
     'role_details' => 'Detalles de rol',
     'role_name' => 'Nombre de rol',
     'role_desc' => 'Descripción corta de rol',
-    'role_mfa_enforced' => 'Requiere Autenticación en Dos Pasos',
+    'role_mfa_enforced' => 'Requiere autenticación de múltiples factores',
     'role_external_auth_id' => 'IDs de Autenticación Externa',
     'role_system' => 'Permisos de sistema',
     'role_manage_users' => 'Gestionar usuarios',
@@ -175,7 +175,7 @@ return [
     'users_role' => 'Roles de usuario',
     'users_role_desc' => 'Selecciona los roles a los que será asignado este usuario. Si se asignan varios roles los permisos se acumularán y recibirá todas las habilidades de los roles asignados.',
     'users_password' => 'Contraseña de Usuario',
-    'users_password_desc' => 'Set a password used to log-in to the application. This must be at least 5 characters long.',
+    'users_password_desc' => 'Establezca una contraseña para iniciar sesión en la aplicación. Debe tener al menos 8 caracteres.',
     'users_send_invite_text' => 'Puede optar por enviar a este usuario un correo electrónico de invitación que les permita establecer su propia contraseña; de lo contrario, puede establecerla contraseña usted mismo.',
     'users_send_invite_option' => 'Enviar correo electrónico de invitación al usuario.',
     'users_external_auth_id' => 'ID externo de autenticación',
@@ -208,8 +208,8 @@ return [
     'users_api_tokens_create' => 'Crear token',
     'users_api_tokens_expires' => 'Expira',
     'users_api_tokens_docs' => 'Documentación API',
-    'users_mfa' => 'Autenticación en Dos Pasos',
-    'users_mfa_desc' => 'La autenticación en dos pasos añade una capa de seguridad adicional a tu cuenta.',
+    'users_mfa' => 'Autenticación de múltiples factores',
+    'users_mfa_desc' => 'Configure la autenticación de múltiples factores como una capa extra de seguridad para su cuenta de usuario.',
     'users_mfa_x_methods' => ':count método configurado|:count métodos configurados',
     'users_mfa_configure' => 'Configurar Métodos',
 
@@ -234,6 +234,34 @@ return [
     'user_api_token_delete_confirm' => '¿Está seguro de que desea borrar este API token?',
     'user_api_token_delete_success' => 'Token API borrado correctamente',
 
+    // Webhooks
+    'webhooks' => 'Webhooks',
+    'webhooks_create' => 'Crear Webhook',
+    'webhooks_none_created' => 'No hay webhooks creados.',
+    'webhooks_edit' => 'Editar Webhook',
+    'webhooks_save' => 'Guardar Webhook',
+    'webhooks_details' => 'Detalles del Webhook',
+    'webhooks_details_desc' => 'Proporcione un nombre y un punto final POST como destino para los datos del webhook que se enviarán.',
+    'webhooks_events' => 'Eventos del Webhook',
+    'webhooks_events_desc' => 'Seleccione todos los eventos que deberían activar este webhook.',
+    'webhooks_events_warning' => 'Tenga en cuenta que estos eventos se activarán para todos los eventos seleccionados, incluso si se aplican permisos personalizados. Asegúrese de que el uso de este webhook no exponga contenido confidencial.',
+    'webhooks_events_all' => 'Todos los eventos del sistema',
+    'webhooks_name' => 'Nombre del Webhook',
+    'webhooks_timeout' => 'Tiempo de Espera de Webhook (Segundos)',
+    'webhooks_endpoint' => 'Punto final del Webhook',
+    'webhooks_active' => 'Webhook Activo',
+    'webhook_events_table_header' => 'Eventos',
+    'webhooks_delete' => 'Eliminar Webhook',
+    'webhooks_delete_warning' => 'Esto eliminará completamente este webhook, con el nombre \':webhookName\', del sistema.',
+    'webhooks_delete_confirm' => '¿Seguro que quieres eliminar este webhook?',
+    'webhooks_format_example' => 'Ejemplo de Formato de Webhook',
+    'webhooks_format_example_desc' => 'Los datos del Webhook se envían como una solicitud POST al punto final configurado como JSON siguiendo el formato mostrado a continuación. Las propiedades "related_item" y "url" son opcionales y dependerán del tipo de evento activado.',
+    'webhooks_status' => 'Estado del Webhook',
+    'webhooks_last_called' => 'Última Ejecución:',
+    'webhooks_last_errored' => 'Último error:',
+    'webhooks_last_error_message' => 'Último mensaje de error:',
+
+
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
@@ -249,6 +277,7 @@ return [
         'de_informal' => 'Deutsch (Du)',
         'es' => 'Español',
         'es_AR' => 'Español Argentina',
+        'et' => 'Eesti keel',
         'fr' => 'Français',
         'he' => 'עברית',
         'hr' => 'Hrvatski',
@@ -273,6 +302,6 @@ return [
         'vi' => 'Tiếng Việt',
         'zh_CN' => '简体中文',
         'zh_TW' => '繁體中文',
-    ]
+    ],
     //!////////////////////////////////
 ];

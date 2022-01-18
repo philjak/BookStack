@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Els capítols al final',
     'books_sort_show_other' => 'Mostra altres llibres',
     'books_sort_save' => 'Desa l\'ordre nou',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Capítol',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Mou el capítol',
     'chapters_move_named' => 'Mou el capítol :chapterName',
     'chapter_move_success' => 'S\'ha mogut el capítol a :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Permisos del capítol',
     'chapters_empty' => 'De moment, aquest capítol no conté cap pàgina.',
     'chapters_permissions_active' => 'S\'han activat els permisos del capítol',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Afegiu etiquetes per a categoritzar millor el contingut. \n Podeu assignar un valor a cada etiqueta per a una organització més detallada.",
     'tags_add' => 'Afegeix una altra etiqueta',
     'tags_remove' => 'Elimina aquesta etiqueta',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Adjuncions',
     'attachments_explain' => 'Pugeu fitxers o adjunteu enllaços per a mostrar-los a la pàgina. Són visibles a la barra lateral de la pàgina.',
     'attachments_explain_instant_save' => 'Els canvis fets aquí es desen instantàniament.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Segur que voleu suprimir aquesta revisió?',
     'revision_restore_confirm' => 'Segur que voleu restaurar aquesta revisió? Se substituirà el contingut de la pàgina actual.',
     'revision_delete_success' => 'S\'ha suprimit la revisió',
-    'revision_cannot_delete_latest' => 'No es pot suprimir la darrera revisió.'
+    'revision_cannot_delete_latest' => 'No es pot suprimir la darrera revisió.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

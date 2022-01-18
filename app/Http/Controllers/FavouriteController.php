@@ -21,6 +21,8 @@ class FavouriteController extends Controller
 
         $hasMoreLink = ($favourites->count() > $viewCount) ? url('/favourites?page=' . ($page + 1)) : null;
 
+        $this->setPageTitle(trans('entities.my_favourites'));
+
         return view('common.detailed-listing-with-more', [
             'title'       => trans('entities.my_favourites'),
             'entities'    => $favourites->slice(0, $viewCount),
@@ -66,11 +68,11 @@ class FavouriteController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      * @throws \Exception
      */
-    protected function getValidatedModelFromRequest(Request $request): Favouritable
+    protected function getValidatedModelFromRequest(Request $request): Entity
     {
         $modelInfo = $this->validate($request, [
-            'type' => 'required|string',
-            'id'   => 'required|integer',
+            'type' => ['required', 'string'],
+            'id'   => ['required', 'integer'],
         ]);
 
         if (!class_exists($modelInfo['type'])) {

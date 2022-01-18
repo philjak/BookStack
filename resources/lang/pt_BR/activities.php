@@ -22,7 +22,7 @@ return [
     'chapter_update'              => 'atualizou o capítulo',
     'chapter_update_notification' => 'Capítulo atualizado com sucesso',
     'chapter_delete'              => 'excluiu o capítulo',
-    'chapter_delete_notification' => 'Capítulo excluído com sucesso',
+    'chapter_delete_notification' => 'Capítulo excluída com sucesso',
     'chapter_move'                => 'moveu o capítulo',
 
     // Books
@@ -36,7 +36,7 @@ return [
     'book_sort_notification'      => 'Livro reordenado com sucesso',
 
     // Bookshelves
-    'bookshelf_create'            => 'criou a prateleira',
+    'bookshelf_create'            => 'prateleira criada',
     'bookshelf_create_notification'    => 'Prateleira criada com sucesso',
     'bookshelf_update'                 => 'atualizou a prateleira',
     'bookshelf_update_notification'    => 'Prateleira atualizada com sucesso',
@@ -44,12 +44,20 @@ return [
     'bookshelf_delete_notification'    => 'Prateleira excluída com sucesso',
 
     // Favourites
-    'favourite_add_notification' => '":name" has been added to your favourites',
-    'favourite_remove_notification' => '":name" has been removed from your favourites',
+    'favourite_add_notification' => '":name" foi adicionada aos seus favoritos',
+    'favourite_remove_notification' => '":name" foi removida dos seus favoritos',
 
     // MFA
-    'mfa_setup_method_notification' => 'Multi-factor method successfully configured',
-    'mfa_remove_method_notification' => 'Multi-factor method successfully removed',
+    'mfa_setup_method_notification' => 'Método de multi-fatores configurado com sucesso',
+    'mfa_remove_method_notification' => 'Método de multi-fatores removido com sucesso',
+
+    // Webhooks
+    'webhook_create' => 'webhook criado',
+    'webhook_create_notification' => 'Webhook criado com sucesso',
+    'webhook_update' => 'webhook atualizado',
+    'webhook_update_notification' => 'Webhook atualizado com sucesso',
+    'webhook_delete' => 'webhook excluído',
+    'webhook_delete_notification' => 'Webhook excluido com sucesso',
 
     // Other
     'commented_on'                => 'comentou em',

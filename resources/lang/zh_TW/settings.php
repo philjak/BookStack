@@ -72,7 +72,7 @@ return [
     // Maintenance settings
     'maint' => '維護',
     'maint_image_cleanup' => '清理圖片',
-    'maint_image_cleanup_desc' => "掃描頁面與修訂版本內容來檢查目前使用了哪些圖片，而哪些圖片又是多餘的。請確保您在執行這個動作前建立了完整的資料庫與映像檔備份。",
+    'maint_image_cleanup_desc' => '掃描頁面與修訂版本內容來檢查目前使用了哪些圖片，而哪些圖片又是多餘的。請確保您在執行這個動作前建立了完整的資料庫與映像檔備份。',
     'maint_delete_images_only_in_revisions' => '也刪除僅存在於舊的頁面修訂版本中存在的圖片',
     'maint_image_cleanup_run' => '執行清理',
     'maint_image_cleanup_warning' => '發現了 :count 張可能未使用的圖片。您確定要刪除這些圖片嗎？',
@@ -174,7 +174,7 @@ return [
     'users_role' => '使用者角色',
     'users_role_desc' => '選取要分配的此使用者的角色。若使用者被分配到多個角色，則這些角色的權限將會堆疊，使用者將會取得被分配角色的所有功能。',
     'users_password' => '使用者密碼',
-    'users_password_desc' => '設定用於登入應用程式的密碼。密碼必須至少 6 個字元長。',
+    'users_password_desc' => 'Set a password used to log-in to the application. This must be at least 8 characters long.',
     'users_send_invite_text' => '您可以選擇向此使用者傳送邀請電子郵件，讓他們可以設定自己的密碼，您也可以自行設定他們的密碼。',
     'users_send_invite_option' => '傳送邀請電子郵件給使用者',
     'users_external_auth_id' => '外部身份驗證 ID',
@@ -233,6 +233,34 @@ return [
     'user_api_token_delete_confirm' => '您確定要刪除此 API 權杖嗎？',
     'user_api_token_delete_success' => 'API 權杖已成功刪除',
 
+    // Webhooks
+    'webhooks' => 'Webhooks',
+    'webhooks_create' => 'Create New Webhook',
+    'webhooks_none_created' => 'No webhooks have yet been created.',
+    'webhooks_edit' => 'Edit Webhook',
+    'webhooks_save' => 'Save Webhook',
+    'webhooks_details' => 'Webhook Details',
+    'webhooks_details_desc' => 'Provide a user friendly name and a POST endpoint as a location for the webhook data to be sent to.',
+    'webhooks_events' => 'Webhook Events',
+    'webhooks_events_desc' => 'Select all the events that should trigger this webhook to be called.',
+    'webhooks_events_warning' => 'Keep in mind that these events will be triggered for all selected events, even if custom permissions are applied. Ensure that use of this webhook won\'t expose confidential content.',
+    'webhooks_events_all' => 'All system events',
+    'webhooks_name' => 'Webhook Name',
+    'webhooks_timeout' => 'Webhook Request Timeout (Seconds)',
+    'webhooks_endpoint' => 'Webhook Endpoint',
+    'webhooks_active' => 'Webhook Active',
+    'webhook_events_table_header' => 'Events',
+    'webhooks_delete' => 'Delete Webhook',
+    'webhooks_delete_warning' => 'This will fully delete this webhook, with the name \':webhookName\', from the system.',
+    'webhooks_delete_confirm' => 'Are you sure you want to delete this webhook?',
+    'webhooks_format_example' => 'Webhook Format Example',
+    'webhooks_format_example_desc' => 'Webhook data is sent as a POST request to the configured endpoint as JSON following the format below. The "related_item" and "url" properties are optional and will depend on the type of event triggered.',
+    'webhooks_status' => 'Webhook Status',
+    'webhooks_last_called' => 'Last Called:',
+    'webhooks_last_errored' => 'Last Errored:',
+    'webhooks_last_error_message' => 'Last Error Message:',
+
+
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
@@ -248,6 +276,7 @@ return [
         'de_informal' => 'Deutsch (Du)',
         'es' => 'Español',
         'es_AR' => 'Español Argentina',
+        'et' => 'Eesti keel',
         'fr' => 'Français',
         'he' => '希伯來語',
         'hr' => 'Hrvatski',
@@ -272,6 +301,6 @@ return [
         'vi' => 'Tiếng Việt',
         'zh_CN' => '简体中文',
         'zh_TW' => '繁體中文',
-    ]
+    ],
     //!////////////////////////////////
 ];

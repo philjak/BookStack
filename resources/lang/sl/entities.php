@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Nazadnje poglavja',
     'books_sort_show_other' => 'Prikaži druge knjige',
     'books_sort_save' => 'Shrani novo razvrstitev',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Poglavje',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Premakni poglavje',
     'chapters_move_named' => 'Premakni poglavje :chapterName',
     'chapter_move_success' => 'Poglavje premaknjeno v :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Dovoljenja poglavij',
     'chapters_empty' => 'V tem poglavju trenutno ni strani.',
     'chapters_permissions_active' => 'Dovoljenja poglavij so aktivirana',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Dodajte nekaj oznak za boljšo kategorizacijo vaše vsebine.\nZ dodelitvijo oznake lahko poskrbite za bolj poglobljeno organizacijo.",
     'tags_add' => 'Dodaj drugo oznako',
     'tags_remove' => 'Odstrani to oznako',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Priponke',
     'attachments_explain' => 'Naložite nekaj datotek ali pripnite nekaj povezav, da jih prikažete na vaši strani. Vidne so v stranski orodni vrstici.',
     'attachments_explain_instant_save' => 'Spremembe tukaj so takoj shranjene.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Ali ste prepričani, da želite izbrisati to revizijo?',
     'revision_restore_confirm' => 'Ali ste prepričani da želite obnoviti to revizijo? Vsebina trenutne strani bo zamenjana.',
     'revision_delete_success' => 'Revizija izbrisana',
-    'revision_cannot_delete_latest' => 'Ne morem izbrisati zadnje revizije.'
+    'revision_cannot_delete_latest' => 'Ne morem izbrisati zadnje revizije.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

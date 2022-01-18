@@ -2,29 +2,31 @@
 
 namespace BookStack\Entities\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 /**
  * Class Chapter.
  *
  * @property Collection<Page> $pages
- * @property mixed description
+ * @property string           $description
  */
 class Chapter extends BookChild
 {
-    public $searchFactor = 1.3;
+    use HasFactory;
 
-    protected $fillable = ['name', 'description', 'priority', 'book_id'];
+    public $searchFactor = 1.2;
+
+    protected $fillable = ['name', 'description', 'priority'];
     protected $hidden = ['restricted', 'pivot', 'deleted_at'];
 
     /**
      * Get the pages that this chapter contains.
      *
-     * @param string $dir
-     *
-     * @return mixed
+     * @return HasMany<Page>
      */
-    public function pages($dir = 'ASC')
+    public function pages(string $dir = 'ASC'): HasMany
     {
         return $this->hasMany(Page::class)->orderBy('priority', $dir);
     }
@@ -32,7 +34,7 @@ class Chapter extends BookChild
     /**
      * Get the url of this chapter.
      */
-    public function getUrl($path = ''): string
+    public function getUrl(string $path = ''): string
     {
         $parts = [
             'books',
@@ -50,7 +52,8 @@ class Chapter extends BookChild
      */
     public function getVisiblePages(): Collection
     {
-        return $this->pages()->visible()
+        return $this->pages()
+        ->scopes('visible')
         ->orderBy('draft', 'desc')
         ->orderBy('priority', 'asc')
         ->get();

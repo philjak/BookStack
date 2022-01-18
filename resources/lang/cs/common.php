@@ -20,7 +20,7 @@ return [
     'role' => 'Role',
     'cover_image' => 'Obrázek obálky',
     'cover_image_description' => 'Obrázek by měl být přibližně 440×250px.',
-    
+
     // Actions
     'actions' => 'Akce',
     'view' => 'Zobrazit',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Odebrat z oblíbených',
     'next' => 'Další',
     'previous' => 'Předchozí',
+    'filter_active' => 'Aktivní filtr:',
+    'filter_clear' => 'Zrušit filtr',
 
     // Sort Options
     'sort_options' => 'Možnosti řazení',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Zobrazení seznamu',
     'default' => 'Výchozí',
     'breadcrumb' => 'Drobečková navigace',
+    'status' => 'Stav',
+    'status_active' => 'Aktivní',
+    'status_inactive' => 'Neaktivní',
+    'never' => 'Nikdy',
 
     // Header
     'header_menu_expand' => 'Rozbalit menu v záhlaví',
@@ -76,7 +82,7 @@ return [
     'view_profile' => 'Zobrazit profil',
     'edit_profile' => 'Upravit profil',
     'dark_mode' => 'Tmavý režim',
-    'light_mode' => 'Světelný režim',
+    'light_mode' => 'Světlý režim',
 
     // Layout tabs
     'tab_info' => 'Informace',

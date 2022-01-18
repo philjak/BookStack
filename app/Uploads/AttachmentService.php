@@ -4,9 +4,9 @@ namespace BookStack\Uploads;
 
 use BookStack\Exceptions\FileUploadException;
 use Exception;
-use Illuminate\Contracts\Filesystem\Factory as FileSystem;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Contracts\Filesystem\Filesystem as FileSystemInstance;
+use Illuminate\Contracts\Filesystem\Filesystem as Storage;
+use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use League\Flysystem\Util;
@@ -19,7 +19,7 @@ class AttachmentService
     /**
      * AttachmentService constructor.
      */
-    public function __construct(FileSystem $fileSystem)
+    public function __construct(FilesystemManager $fileSystem)
     {
         $this->fileSystem = $fileSystem;
     }
@@ -27,7 +27,7 @@ class AttachmentService
     /**
      * Get the storage that will be used for storing files.
      */
-    protected function getStorage(): FileSystemInstance
+    protected function getStorageDisk(): Storage
     {
         return $this->fileSystem->disk($this->getStorageDiskName());
     }
@@ -70,7 +70,7 @@ class AttachmentService
      */
     public function getAttachmentFromStorage(Attachment $attachment): string
     {
-        return $this->getStorage()->get($this->adjustPathForStorageDisk($attachment->path));
+        return $this->getStorageDisk()->get($this->adjustPathForStorageDisk($attachment->path));
     }
 
     /**
@@ -78,18 +78,18 @@ class AttachmentService
      *
      * @throws FileUploadException
      */
-    public function saveNewUpload(UploadedFile $uploadedFile, int $page_id): Attachment
+    public function saveNewUpload(UploadedFile $uploadedFile, int $pageId): Attachment
     {
         $attachmentName = $uploadedFile->getClientOriginalName();
         $attachmentPath = $this->putFileInStorage($uploadedFile);
-        $largestExistingOrder = Attachment::query()->where('uploaded_to', '=', $page_id)->max('order');
+        $largestExistingOrder = Attachment::query()->where('uploaded_to', '=', $pageId)->max('order');
 
         /** @var Attachment $attachment */
         $attachment = Attachment::query()->forceCreate([
             'name'        => $attachmentName,
             'path'        => $attachmentPath,
             'extension'   => $uploadedFile->getClientOriginalExtension(),
-            'uploaded_to' => $page_id,
+            'uploaded_to' => $pageId,
             'created_by'  => user()->id,
             'updated_by'  => user()->id,
             'order'       => $largestExistingOrder + 1,
@@ -159,18 +159,20 @@ class AttachmentService
     public function updateFile(Attachment $attachment, array $requestData): Attachment
     {
         $attachment->name = $requestData['name'];
+        $link = trim($requestData['link'] ?? '');
 
-        if (isset($requestData['link']) && trim($requestData['link']) !== '') {
-            $attachment->path = $requestData['link'];
+        if (!empty($link)) {
             if (!$attachment->external) {
                 $this->deleteFileInStorage($attachment);
                 $attachment->external = true;
+                $attachment->extension = '';
             }
+            $attachment->path = $requestData['link'];
         }
 
         $attachment->save();
 
-        return $attachment;
+        return $attachment->refresh();
     }
 
     /**
@@ -180,13 +182,10 @@ class AttachmentService
      */
     public function deleteFile(Attachment $attachment)
     {
-        if ($attachment->external) {
-            $attachment->delete();
-
-            return;
+        if (!$attachment->external) {
+            $this->deleteFileInStorage($attachment);
         }
 
-        $this->deleteFileInStorage($attachment);
         $attachment->delete();
     }
 
@@ -196,7 +195,7 @@ class AttachmentService
      */
     protected function deleteFileInStorage(Attachment $attachment)
     {
-        $storage = $this->getStorage();
+        $storage = $this->getStorageDisk();
         $dirPath = $this->adjustPathForStorageDisk(dirname($attachment->path));
 
         $storage->delete($this->adjustPathForStorageDisk($attachment->path));
@@ -214,10 +213,10 @@ class AttachmentService
     {
         $attachmentData = file_get_contents($uploadedFile->getRealPath());
 
-        $storage = $this->getStorage();
+        $storage = $this->getStorageDisk();
         $basePath = 'uploads/files/' . date('Y-m-M') . '/';
 
-        $uploadFileName = Str::random(16) . '.' . $uploadedFile->getClientOriginalExtension();
+        $uploadFileName = Str::random(16) . '-' . $uploadedFile->getClientOriginalExtension();
         while ($storage->exists($this->adjustPathForStorageDisk($basePath . $uploadFileName))) {
             $uploadFileName = Str::random(3) . $uploadFileName;
         }
@@ -233,5 +232,13 @@ class AttachmentService
         }
 
         return $attachmentPath;
+    }
+
+    /**
+     * Get the file validation rules for attachments.
+     */
+    public function getFileValidationRules(): array
+    {
+        return ['file', 'max:' . (config('app.upload_limit') * 1000)];
     }
 }

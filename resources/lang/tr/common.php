@@ -20,7 +20,7 @@ return [
     'role' => 'Rol',
     'cover_image' => 'Kapak resmi',
     'cover_image_description' => 'Bu görsel yaklaşık 440x250px boyutlarında olmalıdır.',
-    
+
     // Actions
     'actions' => 'İşlemler',
     'view' => 'Görüntüle',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Unfavourite',
     'next' => 'Next',
     'previous' => 'Previous',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Sıralama Seçenekleri',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Liste Görünümü',
     'default' => 'Varsayılan',
     'breadcrumb' => 'Gezinti Menüsü',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Expand Header Menu',

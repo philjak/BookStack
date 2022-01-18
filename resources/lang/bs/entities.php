@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Poglavlja zadnja',
     'books_sort_show_other' => 'Prikaži druge knjige',
     'books_sort_save' => 'Spremi trenutni poredak',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Poglavlje',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Premjesti poglavlje',
     'chapters_move_named' => 'Premjesti poglavlje :chapterName',
     'chapter_move_success' => 'Poglavlje premješteno u :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Dozvole poglavlja',
     'chapters_empty' => 'U ovom poglavlju trenutno nema stranica.',
     'chapters_permissions_active' => 'Dozvole za poglavlje su aktivne',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Dodaj nekoliko oznaka da bi sadržaj bio bolje kategorisan. \n Možeš dodati vrijednost oznaci za dublju organizaciju.",
     'tags_add' => 'Dodaj još jednu oznaku',
     'tags_remove' => 'Ukloni ovu oznaku',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Prilozi',
     'attachments_explain' => 'Učitajte fajlove ili priložite poveznice da bi ih prikazali na stranici. Oni su onda vidljivi u navigaciji sa strane.',
     'attachments_explain_instant_save' => 'Sve promjene se snimaju odmah.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Are you sure you want to delete this revision?',
     'revision_restore_confirm' => 'Are you sure you want to restore this revision? The current page contents will be replaced.',
     'revision_delete_success' => 'Revision deleted',
-    'revision_cannot_delete_latest' => 'Cannot delete the latest revision.'
+    'revision_cannot_delete_latest' => 'Cannot delete the latest revision.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

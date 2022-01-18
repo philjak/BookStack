@@ -72,7 +72,7 @@ return [
     // Maintenance settings
     'maint' => 'Обслуживание',
     'maint_image_cleanup' => 'Очистка изображений',
-    'maint_image_cleanup_desc' => "Сканирует содержимое страниц и предыдущих версий и определяет изображения, которые не используются. Убедитесь, что у вас есть резервная копия базы данных и папки изображений перед запуском этой функции.",
+    'maint_image_cleanup_desc' => 'Сканирует содержимое страниц и предыдущих версий и определяет изображения, которые не используются. Убедитесь, что у вас есть резервная копия базы данных и папки изображений перед запуском этой функции.',
     'maint_delete_images_only_in_revisions' => 'Также удалять изображения, которые существуют только в старой версии страницы',
     'maint_image_cleanup_run' => 'Выполнить очистку',
     'maint_image_cleanup_warning' => 'Найдено :count возможно бесполезных изображений. Вы уверены, что хотите удалить эти изображения?',
@@ -92,7 +92,7 @@ return [
     'recycle_bin' => 'Корзина',
     'recycle_bin_desc' => 'Здесь вы можете восстановить удаленные элементы или навсегда удалить их из системы. Этот список не отфильтрован в отличие от аналогичных списков действий в системе, где применяются фильтры.',
     'recycle_bin_deleted_item' => 'Удаленный элемент',
-    'recycle_bin_deleted_parent' => 'Parent',
+    'recycle_bin_deleted_parent' => 'Родительский объект',
     'recycle_bin_deleted_by' => 'Удалён',
     'recycle_bin_deleted_at' => 'Время удаления',
     'recycle_bin_permanently_delete' => 'Удалить навсегда',
@@ -105,7 +105,7 @@ return [
     'recycle_bin_restore_list' => 'Элементы для восстановления',
     'recycle_bin_restore_confirm' => 'Это действие восстановит удаленный элемент, включая дочерние, в исходное место. Если исходное место было удалено и теперь находится в корзине, родительский элемент также необходимо будет восстановить.',
     'recycle_bin_restore_deleted_parent' => 'Родитель этого элемента также был удален. Элементы будут удалены до тех пор, пока этот родитель не будет восстановлен.',
-    'recycle_bin_restore_parent' => 'Restore Parent',
+    'recycle_bin_restore_parent' => 'Восстановить родительский объект',
     'recycle_bin_destroy_notification' => 'Удалено :count элементов из корзины.',
     'recycle_bin_restore_notification' => 'Восстановлено :count элементов из корзины',
 
@@ -139,7 +139,7 @@ return [
     'role_details' => 'Детали роли',
     'role_name' => 'Название роли',
     'role_desc' => 'Краткое описание роли',
-    'role_mfa_enforced' => 'Requires Multi-Factor Authentication',
+    'role_mfa_enforced' => 'Требует многофакторной аутентификации',
     'role_external_auth_id' => 'Внешние ID авторизации',
     'role_system' => 'Системные разрешения',
     'role_manage_users' => 'Управление пользователями',
@@ -149,7 +149,7 @@ return [
     'role_manage_page_templates' => 'Управление шаблонами страниц',
     'role_access_api' => 'Доступ к системному API',
     'role_manage_settings' => 'Управление настройками приложения',
-    'role_export_content' => 'Export content',
+    'role_export_content' => 'Экспорт контента',
     'role_asset' => 'Права доступа к материалам',
     'roles_system_warning' => 'Имейте в виду, что доступ к любому из указанных выше трех разрешений может позволить пользователю изменить свои собственные привилегии или привилегии других пользователей системы. Назначать роли с этими правами можно только доверенным пользователям.',
     'role_asset_desc' => 'Эти разрешения контролируют доступ по умолчанию к параметрам внутри системы. Разрешения на книги, главы и страницы перезапишут эти разрешения.',
@@ -174,7 +174,7 @@ return [
     'users_role' => 'Роли пользователя',
     'users_role_desc' => 'Назначьте роли пользователю. Если назначено несколько ролей, разрешения будут суммироваться и пользователь получит все права назначенных ролей.',
     'users_password' => 'Пароль пользователя',
-    'users_password_desc' => 'Установите пароль для входа в приложение. Длина пароля должна быть не менее 6 символов.',
+    'users_password_desc' => 'Установите пароль для входа в приложение. Длина пароля должна быть не менее 8 символов.',
     'users_send_invite_text' => 'Вы можете отправить этому пользователю письмо с приглашением, которое позволит ему установить пароль самостоятельно или задайте пароль сами.',
     'users_send_invite_option' => 'Отправить пользователю письмо с приглашением',
     'users_external_auth_id' => 'Внешний ID аутентификации',
@@ -209,7 +209,7 @@ return [
     'users_api_tokens_docs' => 'Документация',
     'users_mfa' => 'Двухфакторная аутентификация',
     'users_mfa_desc' => 'Двухфакторная аутентификация повышает степень безопасности вашей учетной записи.',
-    'users_mfa_x_methods' => ':count method configured|:count methods configured',
+    'users_mfa_x_methods' => 'методов настроено :count|методов сконфигурировано :count',
     'users_mfa_configure' => 'Настройка методов',
 
     // API Tokens
@@ -233,6 +233,34 @@ return [
     'user_api_token_delete_confirm' => 'Вы уверены, что хотите удалить этот API токен?',
     'user_api_token_delete_success' => 'API токен успешно удален',
 
+    // Webhooks
+    'webhooks' => 'Вебхуки',
+    'webhooks_create' => 'Создать вебхук',
+    'webhooks_none_created' => 'Вебхуки еще не созданы.',
+    'webhooks_edit' => 'Редактировать вебхук',
+    'webhooks_save' => 'Сохранить вебхук',
+    'webhooks_details' => 'Детали вебхука',
+    'webhooks_details_desc' => 'Укажите удобное для пользователя название и адрес для отправки данных вебхука с помощью POST.',
+    'webhooks_events' => 'События вебхука',
+    'webhooks_events_desc' => 'Выберите все события, которые должны вызывать этот вебхук.',
+    'webhooks_events_warning' => 'Имейте в виду, что эти события будут срабатывать для всех выбранных событий, даже если применяются пользовательские разрешения. Убедитесь, что использование этого вебхука не будет раскрывать конфиденциальные данные.',
+    'webhooks_events_all' => 'Все системные события',
+    'webhooks_name' => 'Имя вебхука',
+    'webhooks_timeout' => 'Webhook Request Timeout (Seconds)',
+    'webhooks_endpoint' => 'Конечная точка вебхука',
+    'webhooks_active' => 'Вебхук активен',
+    'webhook_events_table_header' => 'События',
+    'webhooks_delete' => 'Удалить вебхук',
+    'webhooks_delete_warning' => 'Это полностью удалит этот вебхук с названием \':webhookName\' из системы.',
+    'webhooks_delete_confirm' => 'Вы уверены, что хотите удалить этот вебхук?',
+    'webhooks_format_example' => 'Пример вебхука',
+    'webhooks_format_example_desc' => 'Данные вебхука отправляются как POST запрос к настроенной конечной точке в виде JSON в соответствии с форматом ниже. Свойства "related_item" и "url" необязательны и зависят от типа вызванного события.',
+    'webhooks_status' => 'Webhook Status',
+    'webhooks_last_called' => 'Last Called:',
+    'webhooks_last_errored' => 'Last Errored:',
+    'webhooks_last_error_message' => 'Last Error Message:',
+
+
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
@@ -248,6 +276,7 @@ return [
         'de_informal' => 'Deutsch (Du)',
         'es' => 'Español',
         'es_AR' => 'Español Argentina',
+        'et' => 'Eesti keel',
         'fr' => 'Français',
         'he' => 'עברית',
         'hr' => 'Hrvatski',
@@ -272,6 +301,6 @@ return [
         'vi' => 'Tiếng Việt',
         'zh_CN' => '简体中文',
         'zh_TW' => '繁體中文',
-    ]
+    ],
     //!////////////////////////////////
 ];

@@ -19,8 +19,8 @@ return [
     'description' => '概要',
     'role' => '角色',
     'cover_image' => '封面图片',
-    'cover_image_description' => '该图像大小需要为440x250px。',
-    
+    'cover_image_description' => '此图像大小应约为 440x250 像素。',
+
     // Actions
     'actions' => '操作',
     'view' => '浏览',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => '取消收藏',
     'next' => '下一页',
     'previous' => '上一页',
+    'filter_active' => '标签过滤器：',
+    'filter_clear' => '清除过滤器',
 
     // Sort Options
     'sort_options' => '排序选项',
@@ -69,12 +71,16 @@ return [
     'list_view' => '列表视图',
     'default' => '默认',
     'breadcrumb' => '面包屑导航',
+    'status' => '状态',
+    'status_active' => '已激活',
+    'status_inactive' => '未激活',
+    'never' => '从未',
 
     // Header
     'header_menu_expand' => '展开标头菜单',
     'profile_menu' => '个人资料',
-    'view_profile' => '查看资料',
-    'edit_profile' => '编辑资料',
+    'view_profile' => '查看个人资料',
+    'edit_profile' => '编辑个人资料',
     'dark_mode' => '夜间模式',
     'light_mode' => '日间模式',
 

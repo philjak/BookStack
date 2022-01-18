@@ -12,7 +12,9 @@ use BookStack\Auth\Permissions\JointPermission;
 use BookStack\Entities\Tools\SearchIndex;
 use BookStack\Entities\Tools\SlugGenerator;
 use BookStack\Facades\Permissions;
+use BookStack\Interfaces\Deletable;
 use BookStack\Interfaces\Favouritable;
+use BookStack\Interfaces\Loggable;
 use BookStack\Interfaces\Sluggable;
 use BookStack\Interfaces\Viewable;
 use BookStack\Model;
@@ -34,6 +36,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string     $slug
  * @property Carbon     $created_at
  * @property Carbon     $updated_at
+ * @property Carbon     $deleted_at
  * @property int        $created_by
  * @property int        $updated_by
  * @property bool       $restricted
@@ -44,7 +47,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static Builder withLastView()
  * @method static Builder withViewCount()
  */
-abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
+abstract class Entity extends Model implements Sluggable, Favouritable, Viewable, Deletable, Loggable
 {
     use SoftDeletes;
     use HasCreatorAndUpdater;
@@ -106,7 +109,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      * Compares this entity to another given entity.
      * Matches by comparing class and id.
      */
-    public function matches(Entity $entity): bool
+    public function matches(self $entity): bool
     {
         return [get_class($this), $this->id] === [get_class($entity), $entity->id];
     }
@@ -114,17 +117,17 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     /**
      * Checks if the current entity matches or contains the given.
      */
-    public function matchesOrContains(Entity $entity): bool
+    public function matchesOrContains(self $entity): bool
     {
         if ($this->matches($entity)) {
             return true;
         }
 
-        if (($entity->isA('chapter') || $entity->isA('page')) && $this->isA('book')) {
+        if (($entity instanceof BookChild) && $this instanceof Book) {
             return $entity->book_id === $this->id;
         }
 
-        if ($entity->isA('page') && $this->isA('chapter')) {
+        if ($entity instanceof Page && $this instanceof Chapter) {
             return $entity->chapter_id === $this->id;
         }
 
@@ -210,6 +213,8 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     /**
      * Check if this instance or class is a certain type of entity.
      * Examples of $type are 'page', 'book', 'chapter'.
+     *
+     * @deprecated Use instanceof instead.
      */
     public static function isA(string $type): bool
     {
@@ -239,19 +244,11 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     }
 
     /**
-     * Get the body text of this entity.
-     */
-    public function getText(): string
-    {
-        return $this->{$this->textField} ?? '';
-    }
-
-    /**
      * Get an excerpt of this entity's descriptive content to the specified length.
      */
     public function getExcerpt(int $length = 100): string
     {
-        $text = $this->getText();
+        $text = $this->{$this->textField} ?? '';
 
         if (mb_strlen($text) > $length) {
             $text = mb_substr($text, 0, $length - 3) . '...';
@@ -270,7 +267,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      * This is the "static" parent and does not include dynamic
      * relations such as shelves to books.
      */
-    public function getParent(): ?Entity
+    public function getParent(): ?self
     {
         if ($this instanceof Page) {
             return $this->chapter_id ? $this->chapter()->withTrashed()->first() : $this->book()->withTrashed()->first();
@@ -300,7 +297,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function refreshSlug(): string
     {
@@ -310,7 +307,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function favourites(): MorphMany
     {
@@ -325,5 +322,13 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
         return $this->favourites()
             ->where('user_id', '=', user()->id)
             ->exists();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function logDescriptor(): string
+    {
+        return "({$this->id}) {$this->name}";
     }
 }

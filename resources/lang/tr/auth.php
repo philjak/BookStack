@@ -21,7 +21,7 @@ return [
     'email' => 'E-posta',
     'password' => 'Şifre',
     'password_confirm' => 'Şifreyi Onaylayın',
-    'password_hint' => 'En az 8 karakter olmalı',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Şifrenizi mi unuttunuz?',
     'remember_me' => 'Beni Hatırla',
     'ldap_email_hint' => 'Bu hesap için kullanmak istediğiniz e-posta adresini giriniz.',
@@ -38,7 +38,6 @@ return [
     'registration_email_domain_invalid' => 'Bu e-posta sağlayıcısının uygulamaya erişim izni bulunmuyor',
     'register_success' => 'Kaydolduğunuz için teşekkürler! Artık kayıtlı bir kullanıcı olarak giriş yaptınız.',
 
-
     // Password Reset
     'reset_password' => 'Şifreyi Sıfırla',
     'reset_password_send_instructions' => 'Aşağıya gireceğiniz e-posta adresine şifre sıfırlama bağlantısı gönderilecektir.',
@@ -49,14 +48,13 @@ return [
     'email_reset_text' => 'Hesap şifrenizi sıfırlama isteğinde bulunduğunuz için bu e-postayı aldınız.',
     'email_reset_not_requested' => 'Şifre sıfırlama isteğinde bulunmadıysanız herhangi bir işlem yapmanıza gerek yoktur.',
 
-
     // Email Confirmation
     'email_confirm_subject' => ':appName için girdiğiniz e-posta adresini doğrulayın',
     'email_confirm_greeting' => ':appName uygulamasına katıldığınız için teşekkürler!',
     'email_confirm_text' => 'Lütfen aşağıdaki butona tıklayarak e-posta adresinizi doğrulayın:',
     'email_confirm_action' => 'E-posta Adresini Doğrula',
     'email_confirm_send_error' => 'E-posta adresinin doğrulanması gerekiyor fakat sistem, doğrulama bağlantısını göndermeyi başaramadı. E-posta adresinin doğru bir şekilde ayarlığından emin olmak için yöneticiyle iletişime geçin.',
-    'email_confirm_success' => 'E-posta adresiniz doğrulandı!',
+    'email_confirm_success' => 'Your email has been confirmed! You should now be able to login using this email address.',
     'email_confirm_resent' => 'Doğrulama e-postası tekrar gönderildi, lütfen gelen kutunuzu kontrol ediniz.',
 
     'email_not_confirmed' => 'E-posta Adresi Doğrulanmadı',
@@ -73,17 +71,17 @@ return [
     'user_invite_page_welcome' => ':appName uygulamasına hoş geldiniz!',
     'user_invite_page_text' => 'Hesap kurulumunuzu tamamlamak ve gelecekteki :appName ziyaretlerinizde hesabınıza erişim sağlayabilmeniz için bir şifre belirlemeniz gerekiyor.',
     'user_invite_page_confirm_button' => 'Şifreyi Onayla',
-    'user_invite_success' => 'Şifreniz ayarlandı, artık :appName uygulamasına giriş yapabilirsiniz!',
+    'user_invite_success_login' => 'Password set, you should now be able to login using your set password to access :appName!',
 
     // Multi-factor Authentication
     'mfa_setup' => 'Setup Multi-Factor Authentication',
     'mfa_setup_desc' => 'Setup multi-factor authentication as an extra layer of security for your user account.',
-    'mfa_setup_configured' => 'Already configured',
-    'mfa_setup_reconfigure' => 'Reconfigure',
-    'mfa_setup_remove_confirmation' => 'Are you sure you want to remove this multi-factor authentication method?',
+    'mfa_setup_configured' => 'Zaten yapılandırıldı',
+    'mfa_setup_reconfigure' => 'Yeniden yapılandır',
+    'mfa_setup_remove_confirmation' => '2 adımlı doğrulamayı kaldırmak istediğinize emin misiniz?',
     'mfa_setup_action' => 'Setup',
     'mfa_backup_codes_usage_limit_warning' => 'You have less than 5 backup codes remaining, Please generate and store a new set before you run out of codes to prevent being locked out of your account.',
-    'mfa_option_totp_title' => 'Mobile App',
+    'mfa_option_totp_title' => 'Mobil Uygulama',
     'mfa_option_totp_desc' => 'To use multi-factor authentication you\'ll need a mobile application that supports TOTP such as Google Authenticator, Authy or Microsoft Authenticator.',
     'mfa_option_backup_codes_title' => 'Backup Codes',
     'mfa_option_backup_codes_desc' => 'Securely store a set of one-time-use backup codes which you can enter to verify your identity.',
@@ -108,5 +106,5 @@ return [
     'mfa_verify_backup_code_desc' => 'Enter one of your remaining backup codes below:',
     'mfa_verify_backup_code_enter_here' => 'Enter backup code here',
     'mfa_verify_totp_desc' => 'Enter the code, generated using your mobile app, below:',
-    'mfa_setup_login_notification' => 'Multi-factor method configured, Please now login again using the configured method.',
+    'mfa_setup_login_notification' => '2 adımlı doğrulama ayarlandı, Lütfen 2 adımlı doğrulama kullanarak yeniden giriş yapınız.',
 ];

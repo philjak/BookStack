@@ -27,8 +27,8 @@ return [
     'images' => 'Зображення',
     'my_recent_drafts' => 'Мої останні чернетки',
     'my_recently_viewed' => 'Мої недавні перегляди',
-    'my_most_viewed_favourites' => 'My Most Viewed Favourites',
-    'my_favourites' => 'My Favourites',
+    'my_most_viewed_favourites' => 'Мої найпопулярніші улюблені',
+    'my_favourites' => 'Моє обране',
     'no_pages_viewed' => 'Ви не переглядали жодної сторінки',
     'no_pages_recently_created' => 'Не було створено жодної сторінки',
     'no_pages_recently_updated' => 'Немає недавно оновлених сторінок',
@@ -36,7 +36,7 @@ return [
     'export_html' => 'Вбудований веб-файл',
     'export_pdf' => 'PDF файл',
     'export_text' => 'Текстовий файл',
-    'export_md' => 'Markdown File',
+    'export_md' => 'Файл розмітки',
 
     // Permissions and restrictions
     'permissions' => 'Дозволи',
@@ -99,7 +99,7 @@ return [
     'shelves_permissions' => 'Дозволи на книжкову полицю',
     'shelves_permissions_updated' => 'Дозволи на книжкову полицю оновлено',
     'shelves_permissions_active' => 'Діючі дозволи на книжкову полицю',
-    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
+    'shelves_permissions_cascade_warning' => 'Дозволи на поличках не потрапляють автоматично каскадом до книг. Це тому, що книга може існувати на кілька полиць. Дозволи, однак можна скопіювати до дочірніх книг, використовуючи нижченаведену опцію.',
     'shelves_copy_permissions_to_books' => 'Копіювати дозволи на книги',
     'shelves_copy_permissions' => 'Копіювати дозволи',
     'shelves_copy_permissions_explain' => 'Це застосовує поточні налаштування дозволів цієї книжкової полиці до всіх книг, що містяться всередині. Перш ніж активувати, переконайтесь що будь-які зміни дозволів цієї книжкової полиці були збережені.',
@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Розділи в кінці',
     'books_sort_show_other' => 'Показати інші книги',
     'books_sort_save' => 'Зберегти нове замовлення',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Розділ',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Перемістити розділ',
     'chapters_move_named' => 'Перемістити розділ :chapterName',
     'chapter_move_success' => 'Розділ переміщено до :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Дозволи розділу',
     'chapters_empty' => 'У цьому розділі немає сторінок.',
     'chapters_permissions_active' => 'Діючі дозволи на розділ',
@@ -234,7 +238,7 @@ return [
     'pages_initial_name' => 'Нова сторінка',
     'pages_editing_draft_notification' => 'Ви наразі редагуєте чернетку, що була збережена останньою :timeDiff.',
     'pages_draft_edited_notification' => 'З того часу ця сторінка була оновлена. Рекомендуємо відмовитися від цього проекту.',
-    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
+    'pages_draft_page_changed_since_creation' => 'Ця сторінка була оновлена, оскільки була створена ця чернетка. Рекомендується відхилити цей проект або перейматися тим, що ви не перезапишете будь-які зміни в сторінках.',
     'pages_draft_edit_active' => [
         'start_a' => ':count користувачі(в) почали редагувати цю сторінку',
         'start_b' => ':userName розпочав редагування цієї сторінки',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Додайте кілька тегів, щоб краще класифікувати ваш вміст. \n Ви можете присвоїти значення тегу для більш глибокої організації.",
     'tags_add' => 'Додати ще один тег',
     'tags_remove' => 'Видалити цей тег',
+    'tags_usages' => 'Усього тегів використано',
+    'tags_assigned_pages' => 'Призначено до сторінок',
+    'tags_assigned_chapters' => 'Призначені до груп',
+    'tags_assigned_books' => 'Призначено до книг',
+    'tags_assigned_shelves' => 'Призначені до полиць',
+    'tags_x_unique_values' => ':count унікальних значень',
+    'tags_all_values' => 'Всі значення',
+    'tags_view_tags' => 'Перегляд міток',
+    'tags_view_existing_tags' => 'Перегляд існуючих тегів',
+    'tags_list_empty_hint' => 'Теги можуть бути призначені через бічну панель редактора сторінки, або під час редагування деталей книги, глави чи полиці.',
     'attachments' => 'Вкладення',
     'attachments_explain' => 'Завантажте файли, або додайте посилання, які відображатимуться на вашій сторінці. Їх буде видно на бічній панелі сторінки.',
     'attachments_explain_instant_save' => 'Зміни тут зберігаються миттєво.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Ви впевнені, що хочете видалити цю версію?',
     'revision_restore_confirm' => 'Дійсно відновити цю версію? Вміст поточної сторінки буде замінено.',
     'revision_delete_success' => 'Версія видалена',
-    'revision_cannot_delete_latest' => 'Неможливо видалити останню версію.'
+    'revision_cannot_delete_latest' => 'Неможливо видалити останню версію.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

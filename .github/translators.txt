@@ -126,7 +126,7 @@ Zenahr Barzani (Zenahr) :: German; Japanese; Dutch; German Informal
 tatsuya.info :: Japanese
 fadiapp :: Arabic
 Jakub Bouček (jakubboucek) :: Czech
-Marco (cdrfun) :: German
+Marco (cdrfun) :: German; German Informal
 10935336 :: Chinese Simplified
 孟繁阳 (FanyangMeng) :: Chinese Simplified
 Andrej Močan (andrejm) :: Slovenian
@@ -192,3 +192,22 @@ Atalonica :: Catalan
 慕容潭谈 (591442386) :: Chinese Simplified
 Radim Pesek (ramess18) :: Czech
 anastasiia.motylko :: Ukrainian
+Indrek Haav (IndrekHaav) :: Estonian
+na3shkw :: Japanese
+Giancarlo Di Massa (digitall-it) :: Italian
+M Nafis Al Mukhdi (mnafisalmukhdi1) :: Indonesian
+sulfo :: Danish
+Raukze :: German
+zygimantus :: Lithuanian
+marinkaberg :: Russian
+Vitaliy (gviabcua) :: Ukrainian
+mannycarreiro :: Portuguese
+Thiago Rafael Pereira de Carvalho (thiago.rafael) :: Portuguese, Brazilian
+Ken Roger Bolgnes (kenbo124) :: Norwegian Bokmal
+Nguyen Hung Phuong (hnwolf) :: Vietnamese
+Umut ERGENE (umutergene67) :: Turkish
+Tomáš Batelka (Vofy) :: Czech
+Mundo Racional (ismael.mesquita) :: Portuguese, Brazilian
+Zarik (3apuk) :: Russian
+Ali Shaatani (a.shaatani) :: Arabic
+ChacMaster :: Portuguese, Brazilian

@@ -15,7 +15,7 @@ class UserManagementTest extends TestCase
     public function test_user_creation()
     {
         /** @var User $user */
-        $user = factory(User::class)->make();
+        $user = User::factory()->make();
         $adminRole = Role::getRole('admin');
 
         $resp = $this->asAdmin()->get('/settings/users');
@@ -126,6 +126,21 @@ class UserManagementTest extends TestCase
     {
         $editor = $this->getEditor();
         $resp = $this->asAdmin()->get("settings/users/{$editor->id}/delete");
+        $resp->assertSee('Migrate Ownership');
+        $resp->assertSee('new_owner_id');
+    }
+
+    public function test_migrate_option_hidden_if_user_cannot_manage_users()
+    {
+        $editor = $this->getEditor();
+
+        $resp = $this->asEditor()->get("settings/users/{$editor->id}/delete");
+        $resp->assertDontSee('Migrate Ownership');
+        $resp->assertDontSee('new_owner_id');
+
+        $this->giveUserPermissions($editor, ['users-manage']);
+
+        $resp = $this->asEditor()->get("settings/users/{$editor->id}/delete");
         $resp->assertSee('Migrate Ownership');
         $resp->assertSee('new_owner_id');
     }

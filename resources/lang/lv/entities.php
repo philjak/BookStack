@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Nodaļas pēdējās',
     'books_sort_show_other' => 'Rādīt citas grāmatas',
     'books_sort_save' => 'Saglabāt jauno kārtību',
+    'books_copy' => 'Kopēt grāmatu',
+    'books_copy_success' => 'Grāmata veiksmīgi nokopēta',
 
     // Chapters
     'chapter' => 'Nodaļa',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Pārvietot nodaļu',
     'chapters_move_named' => 'Pārvietot nodaļu :chapterName',
     'chapter_move_success' => 'Nodaļa pārviedota uz :bookName',
+    'chapters_copy' => 'Kopēt nodaļu',
+    'chapters_copy_success' => 'Nodaļa veiksmīgi nokopēta',
     'chapters_permissions' => 'Nodaļas atļaujas',
     'chapters_empty' => 'Šajā nodaļā nav pievienotu lapu.',
     'chapters_permissions_active' => 'Nodaļas atļaujas ir aktīvas',
@@ -234,7 +238,7 @@ return [
     'pages_initial_name' => 'Jauna lapa',
     'pages_editing_draft_notification' => 'Jūs pašlaik veicat izmaiņas melnrakstā, kurš pēdējo reizi ir saglabāts :timeDiff.',
     'pages_draft_edited_notification' => 'Šī lapa ir tikusi atjaunināta. Šo melnrakstu ieteicams atmest.',
-    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
+    'pages_draft_page_changed_since_creation' => 'Šī lapa ir izmainīta kopš šī uzmetuma izveidošanas. Ieteicams šo uzmetumu dzēst, lai netiktu pazaudētas veiktās izmaiņas.',
     'pages_draft_edit_active' => [
         'start_a' => ':count lietotāji pašlaik veic izmaiņas šajā lapā',
         'start_b' => ':userName veic izmaiņas šajā lapā',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Pievieno birkas, lai precīzāk grupētu saturu.\n Tu vari pievienot papildus vērtību birkai vēl precīzākai grupēšanai.",
     'tags_add' => 'Pievienot vēlvienu birku',
     'tags_remove' => 'Noņemt šo birku',
+    'tags_usages' => 'Kopējais birku lietojums',
+    'tags_assigned_pages' => 'Pievienotas lapām',
+    'tags_assigned_chapters' => 'Pievienotas nodaļām',
+    'tags_assigned_books' => 'Pievienotas grāmatām',
+    'tags_assigned_shelves' => 'Pievienotas plauktiem',
+    'tags_x_unique_values' => ':count unikālas vērtības',
+    'tags_all_values' => 'Visas vērtības',
+    'tags_view_tags' => 'Skatīt birkas',
+    'tags_view_existing_tags' => 'Skatīt esošās birkas',
+    'tags_list_empty_hint' => 'Birkas var pievienot lapas redaktora sānu kolonnā vai rediģējot grāmatas, nodaļas vai plaukta detaļas.',
     'attachments' => 'Pielikumi',
     'attachments_explain' => 'Augšupielādējiet dažus failus vai pievieno saites, kas tiks parādītas jūsu lapā. Tie būs redzami lapas sānjoslā.',
     'attachments_explain_instant_save' => 'Izmaiņas šeit tiek saglabātas nekavējoties.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Vai esat pārliecināts, ka vēlaties dzēst šo revīziju?',
     'revision_restore_confirm' => 'Vai tiešām vēlaties atjaunot šo revīziju? Pašreizējais lapas saturs tiks aizvietots.',
     'revision_delete_success' => 'Revīzija dzēsta',
-    'revision_cannot_delete_latest' => 'Nevar dzēst pašreizējo revīziju.'
+    'revision_cannot_delete_latest' => 'Nevar dzēst pašreizējo revīziju.',
+
+    // Copy view
+    'copy_consider' => 'Kopējot saturu, lūdzu ņemiet vērā tālāk minēto.',
+    'copy_consider_permissions' => 'Pielāgoti tiesību uzstādījumi netiks nokopēti.',
+    'copy_consider_owner' => 'Jūs kļūsiet par visa kopētā satura īpašnieku.',
+    'copy_consider_images' => 'Lapas attēlu faili netiks kopēti un sākotnējie attēli saglabās savu saistību ar lapu, kurai tie tika sākotnēji pievienoti.',
+    'copy_consider_attachments' => 'Lapai pievienotie faili netiks nokopēti.',
+    'copy_consider_access' => 'Atrašanās vietas, īpašnieka vai piekļuves tiesību izmaiņas var padarīt šo saturu pieejamu citiem, kam iepriekš nav dota piekļuve.',
 ];

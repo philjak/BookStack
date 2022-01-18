@@ -20,7 +20,7 @@ return [
     'role' => 'Rol',
     'cover_image' => 'Imatge de portada',
     'cover_image_description' => 'Aquesta imatge hauria de fer aproximadament 440x250 px.',
-    
+
     // Actions
     'actions' => 'Accions',
     'view' => 'Visualitza',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Unfavourite',
     'next' => 'Next',
     'previous' => 'Previous',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Opcions d\'ordenació',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Visualització en llista',
     'default' => 'Per defecte',
     'breadcrumb' => 'Ruta de navegació',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Expand Header Menu',

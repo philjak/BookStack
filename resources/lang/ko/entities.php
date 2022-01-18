@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => '문서 우선',
     'books_sort_show_other' => '다른 책자들',
     'books_sort_save' => '적용',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => '챕터',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => '챕터 이동하기',
     'chapters_move_named' => ':chapterName 이동하기',
     'chapter_move_success' => ':bookName(으)로 옮김',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => '챕터 권한',
     'chapters_empty' => '이 챕터에 문서가 없습니다.',
     'chapters_permissions_active' => '문서 권한 허용함',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "태그로 문서를 분류하세요.",
     'tags_add' => '태그 추가',
     'tags_remove' => '태그 삭제',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => '첨부 파일',
     'attachments_explain' => '파일이나 링크를 첨부하세요. 정보 탭에 나타납니다.',
     'attachments_explain_instant_save' => '여기에서 바꾼 내용은 바로 적용합니다.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => '이 수정본을 지울 건가요?',
     'revision_restore_confirm' => '이 수정본을 되돌릴 건가요? 현재 판본을 바꿉니다.',
     'revision_delete_success' => '수정본 지움',
-    'revision_cannot_delete_latest' => '현재 판본은 지울 수 없습니다.'
+    'revision_cannot_delete_latest' => '현재 판본은 지울 수 없습니다.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

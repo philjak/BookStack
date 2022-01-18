@@ -36,7 +36,7 @@ return [
     'export_html' => 'Веб файл',
     'export_pdf' => 'PDF файл',
     'export_text' => 'Текстовый файл',
-    'export_md' => 'Markdown File',
+    'export_md' => 'Файл Markdown',
 
     // Permissions and restrictions
     'permissions' => 'Разрешения',
@@ -99,7 +99,7 @@ return [
     'shelves_permissions' => 'Доступы к книжной полке',
     'shelves_permissions_updated' => 'Доступы к книжной полке обновлены',
     'shelves_permissions_active' => 'Действующие разрешения книжной полки',
-    'shelves_permissions_cascade_warning' => 'Permissions on bookshelves do not automatically cascade to contained books. This is because a book can exist on multiple shelves. Permissions can however be copied down to child books using the option found below.',
+    'shelves_permissions_cascade_warning' => 'Разрешения на полки не наследуются автоматически содержащимся в них книгам. Это происходит потому, что книга может находиться на нескольких полках. Однако разрешения могут быть установлены для книг полки с помощью опции, приведенной ниже.',
     'shelves_copy_permissions_to_books' => 'Наследовать доступы книгам',
     'shelves_copy_permissions' => 'Копировать доступы',
     'shelves_copy_permissions_explain' => 'Это применит текущие настройки доступов этой книжной полки ко всем книгам, содержащимся внутри. Перед активацией убедитесь, что все изменения в доступах этой книжной полки сохранены.',
@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Главы в конце',
     'books_sort_show_other' => 'Показать другие книги',
     'books_sort_save' => 'Сохранить новый порядок',
+    'books_copy' => 'Копировать книгу',
+    'books_copy_success' => 'Книга успешно скопирована',
 
     // Chapters
     'chapter' => 'Глава',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Переместить главу',
     'chapters_move_named' => 'Переместить главу :chapterName',
     'chapter_move_success' => 'Глава перемещена в :bookName',
+    'chapters_copy' => 'Копировать главу',
+    'chapters_copy_success' => 'Глава успешно скопирована',
     'chapters_permissions' => 'Разрешения главы',
     'chapters_empty' => 'В этой главе нет страниц.',
     'chapters_permissions_active' => 'Действующие разрешения главы',
@@ -234,7 +238,7 @@ return [
     'pages_initial_name' => 'Новая страница',
     'pages_editing_draft_notification' => 'В настоящее время вы редактируете черновик, который был сохранён :timeDiff.',
     'pages_draft_edited_notification' => 'Эта страница была обновлена до этого момента. Рекомендуется отменить этот черновик.',
-    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
+    'pages_draft_page_changed_since_creation' => 'Эта страница была обновлена с момента создания данного черновика. Рекомендуется выбросить этот черновик или следить за тем, чтобы не перезаписать все изменения на странице.',
     'pages_draft_edit_active' => [
         'start_a' => ':count пользователей начали редактирование этой страницы',
         'start_b' => ':userName начал редактирование этой страницы',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Добавьте теги, чтобы лучше классифицировать ваш контент. \\n Вы можете присвоить значение тегу для более глубокой организации.",
     'tags_add' => 'Добавить тег',
     'tags_remove' => 'Удалить этот тег',
+    'tags_usages' => 'Всего использовано тегов',
+    'tags_assigned_pages' => 'Назначено на страницы',
+    'tags_assigned_chapters' => 'Назначено на главы',
+    'tags_assigned_books' => 'Назначено на книги',
+    'tags_assigned_shelves' => 'Назначено на полки',
+    'tags_x_unique_values' => 'Уникальные значения: :count',
+    'tags_all_values' => 'Все значения',
+    'tags_view_tags' => 'Посмотреть теги',
+    'tags_view_existing_tags' => 'Просмотр имеющихся тегов',
+    'tags_list_empty_hint' => 'Теги можно присваивать через боковую панель редактора страниц или при редактировании сведений о книге, главе или полке.',
     'attachments' => 'Вложения',
     'attachments_explain' => 'Загрузите несколько файлов или добавьте ссылку для отображения на своей странице. Они видны на боковой панели страницы.',
     'attachments_explain_instant_save' => 'Изменения здесь сохраняются мгновенно.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Удалить эту версию?',
     'revision_restore_confirm' => 'Вы уверены, что хотите восстановить эту версию? Текущее содержимое страницы будет заменено.',
     'revision_delete_success' => 'Версия удалена',
-    'revision_cannot_delete_latest' => 'Нельзя удалить последнюю версию.'
+    'revision_cannot_delete_latest' => 'Нельзя удалить последнюю версию.',
+
+    // Copy view
+    'copy_consider' => 'При копировании содержимого, пожалуйста, учтите следующее.',
+    'copy_consider_permissions' => 'Пользовательские настройки прав доступа не будут скопированы.',
+    'copy_consider_owner' => 'Вы станете владельцем всего скопированного контента.',
+    'copy_consider_images' => 'Файлы изображений страницы не будут дублироваться и исходные изображения сохранят их отношение к странице, в которую они были загружены изначально.',
+    'copy_consider_attachments' => 'Вложения страницы не будут скопированы.',
+    'copy_consider_access' => 'Изменение положения, владельца или разрешений может привести к тому, что контент будет доступен пользователям, у которых не было доступа ранее.',
 ];

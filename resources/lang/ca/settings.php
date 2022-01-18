@@ -72,7 +72,7 @@ return [
     // Maintenance settings
     'maint' => 'Manteniment',
     'maint_image_cleanup' => 'Neteja les imatges',
-    'maint_image_cleanup_desc' => "Escaneja el contingut de les pàgines i les revisions per a comprovar quines imatges i diagrames estan en ús actualment i quines imatges són redundants. Assegureu-vos de crear una còpia de seguretat completa de la base de dades i de les imatges abans d'executar això.",
+    'maint_image_cleanup_desc' => 'Escaneja el contingut de les pàgines i les revisions per a comprovar quines imatges i diagrames estan en ús actualment i quines imatges són redundants. Assegureu-vos de crear una còpia de seguretat completa de la base de dades i de les imatges abans d\'executar això.',
     'maint_delete_images_only_in_revisions' => 'Suprimeix també les imatges que només existeixin en revisions antigues de pàgines',
     'maint_image_cleanup_run' => 'Executa la neteja',
     'maint_image_cleanup_warning' => 'S\'han trobat :count imatges potencialment no utilitzades. Segur que voleu suprimir aquestes imatges?',
@@ -174,7 +174,7 @@ return [
     'users_role' => 'Rols de l\'usuari',
     'users_role_desc' => 'Seleccioneu a quins rols s\'assignarà l\'usuari. Si un usuari s\'assigna a múltiples rols, els permisos dels rols s\'acumularan i l\'usuari rebrà tots els permisos dels rols assignats.',
     'users_password' => 'Contrasenya de l\'usuari',
-    'users_password_desc' => 'Definiu una contrasenya per a iniciar la sessió a l\'aplicació. Cal que tingui un mínim de 6 caràcters.',
+    'users_password_desc' => 'Set a password used to log-in to the application. This must be at least 8 characters long.',
     'users_send_invite_text' => 'Podeu elegir enviar un correu d\'invitació a aquest usuari, la qual cosa li permetrà definir la seva contrasenya, o podeu definir-li una contrasenya vós.',
     'users_send_invite_option' => 'Envia un correu d\'invitació a l\'usuari',
     'users_external_auth_id' => 'Identificador d\'autenticació extern',
@@ -233,6 +233,34 @@ return [
     'user_api_token_delete_confirm' => 'Segur que voleu suprimir aquest testimoni d\'API?',
     'user_api_token_delete_success' => 'Testimoni d\'API suprimit correctament',
 
+    // Webhooks
+    'webhooks' => 'Webhooks',
+    'webhooks_create' => 'Create New Webhook',
+    'webhooks_none_created' => 'No webhooks have yet been created.',
+    'webhooks_edit' => 'Edit Webhook',
+    'webhooks_save' => 'Save Webhook',
+    'webhooks_details' => 'Webhook Details',
+    'webhooks_details_desc' => 'Provide a user friendly name and a POST endpoint as a location for the webhook data to be sent to.',
+    'webhooks_events' => 'Webhook Events',
+    'webhooks_events_desc' => 'Select all the events that should trigger this webhook to be called.',
+    'webhooks_events_warning' => 'Keep in mind that these events will be triggered for all selected events, even if custom permissions are applied. Ensure that use of this webhook won\'t expose confidential content.',
+    'webhooks_events_all' => 'All system events',
+    'webhooks_name' => 'Webhook Name',
+    'webhooks_timeout' => 'Webhook Request Timeout (Seconds)',
+    'webhooks_endpoint' => 'Webhook Endpoint',
+    'webhooks_active' => 'Webhook Active',
+    'webhook_events_table_header' => 'Events',
+    'webhooks_delete' => 'Delete Webhook',
+    'webhooks_delete_warning' => 'This will fully delete this webhook, with the name \':webhookName\', from the system.',
+    'webhooks_delete_confirm' => 'Are you sure you want to delete this webhook?',
+    'webhooks_format_example' => 'Webhook Format Example',
+    'webhooks_format_example_desc' => 'Webhook data is sent as a POST request to the configured endpoint as JSON following the format below. The "related_item" and "url" properties are optional and will depend on the type of event triggered.',
+    'webhooks_status' => 'Webhook Status',
+    'webhooks_last_called' => 'Last Called:',
+    'webhooks_last_errored' => 'Last Errored:',
+    'webhooks_last_error_message' => 'Last Error Message:',
+
+
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
@@ -248,6 +276,7 @@ return [
         'de_informal' => 'Deutsch (Du)',
         'es' => 'Español',
         'es_AR' => 'Español Argentina',
+        'et' => 'Eesti keel',
         'fr' => 'Français',
         'he' => 'עברית',
         'hr' => 'Hrvatski',
@@ -272,6 +301,6 @@ return [
         'vi' => 'Tiếng Việt',
         'zh_CN' => '简体中文',
         'zh_TW' => '繁體中文',
-    ]
+    ],
     //!////////////////////////////////
 ];
