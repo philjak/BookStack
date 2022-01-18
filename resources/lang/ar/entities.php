@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'الفصول الأخيرة',
     'books_sort_show_other' => 'عرض كتب أخرى',
     'books_sort_save' => 'حفظ الترتيب الجديد',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'فصل',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'نقل الفصل',
     'chapters_move_named' => 'نقل فصل :chapterName',
     'chapter_move_success' => 'تم نقل الفصل إلى :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'أذونات الفصل',
     'chapters_empty' => 'لا توجد أي صفحات في هذا الفصل حالياً',
     'chapters_permissions_active' => 'أذونات الفصل مفعلة',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "إضافة الوسوم تساعد بترتيب وتقسيم المحتوى. \n من الممكن وضع قيمة لكل وسم لترتيب أفضل وأدق.",
     'tags_add' => 'إضافة وسم آخر',
     'tags_remove' => 'إزالة هذه العلامة',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'المرفقات',
     'attachments_explain' => 'ارفع بعض الملفات أو أرفق بعض الروابط لعرضها بصفحتك. ستكون الملفات والروابط معروضة في الشريط الجانبي للصفحة.',
     'attachments_explain_instant_save' => 'سيتم حفظ التغييرات هنا آنيا.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'هل أنت متأكد من أنك تريد حذف هذه المراجعة؟',
     'revision_restore_confirm' => 'هل أنت متأكد من أنك تريد استعادة هذه المراجعة؟ سيتم استبدال محتوى الصفحة الحالية.',
     'revision_delete_success' => 'تم حذف المراجعة',
-    'revision_cannot_delete_latest' => 'لايمكن حذف آخر مراجعة.'
+    'revision_cannot_delete_latest' => 'لايمكن حذف آخر مراجعة.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

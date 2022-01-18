@@ -78,7 +78,7 @@ return [
     // Maintenance settings
     'maint' => 'Maintenance',
     'maint_image_cleanup' => 'Cleanup Images',
-    'maint_image_cleanup_desc' => "Scans page & revision content to check which images and drawings are currently in use and which images are redundant. Ensure you create a full database and image backup before running this.",
+    'maint_image_cleanup_desc' => 'Scans page & revision content to check which images and drawings are currently in use and which images are redundant. Ensure you create a full database and image backup before running this.',
     'maint_delete_images_only_in_revisions' => 'Also delete images that only exist in old page revisions',
     'maint_image_cleanup_run' => 'Run Cleanup',
     'maint_image_cleanup_warning' => ':count potentially unused images were found. Are you sure you want to delete these images?',
@@ -180,7 +180,7 @@ return [
     'users_role' => 'User Roles',
     'users_role_desc' => 'Select which roles this user will be assigned to. If a user is assigned to multiple roles the permissions from those roles will stack and they will receive all abilities of the assigned roles.',
     'users_password' => 'User Password',
-    'users_password_desc' => 'Set a password used to log-in to the application. This must be at least 6 characters long.',
+    'users_password_desc' => 'Set a password used to log-in to the application. This must be at least 8 characters long.',
     'users_send_invite_text' => 'You can choose to send this user an invitation email which allows them to set their own password otherwise you can set their password yourself.',
     'users_send_invite_option' => 'Send user invite email',
     'users_external_auth_id' => 'External Authentication ID',
@@ -239,6 +239,34 @@ return [
     'user_api_token_delete_confirm' => 'Are you sure you want to delete this API token?',
     'user_api_token_delete_success' => 'API token successfully deleted',
 
+    // Webhooks
+    'webhooks' => 'Webhooks',
+    'webhooks_create' => 'Create New Webhook',
+    'webhooks_none_created' => 'No webhooks have yet been created.',
+    'webhooks_edit' => 'Edit Webhook',
+    'webhooks_save' => 'Save Webhook',
+    'webhooks_details' => 'Webhook Details',
+    'webhooks_details_desc' => 'Provide a user friendly name and a POST endpoint as a location for the webhook data to be sent to.',
+    'webhooks_events' => 'Webhook Events',
+    'webhooks_events_desc' => 'Select all the events that should trigger this webhook to be called.',
+    'webhooks_events_warning' => 'Keep in mind that these events will be triggered for all selected events, even if custom permissions are applied. Ensure that use of this webhook won\'t expose confidential content.',
+    'webhooks_events_all' => 'All system events',
+    'webhooks_name' => 'Webhook Name',
+    'webhooks_timeout' => 'Webhook Request Timeout (Seconds)',
+    'webhooks_endpoint' => 'Webhook Endpoint',
+    'webhooks_active' => 'Webhook Active',
+    'webhook_events_table_header' => 'Events',
+    'webhooks_delete' => 'Delete Webhook',
+    'webhooks_delete_warning' => 'This will fully delete this webhook, with the name \':webhookName\', from the system.',
+    'webhooks_delete_confirm' => 'Are you sure you want to delete this webhook?',
+    'webhooks_format_example' => 'Webhook Format Example',
+    'webhooks_format_example_desc' => 'Webhook data is sent as a POST request to the configured endpoint as JSON following the format below. The "related_item" and "url" properties are optional and will depend on the type of event triggered.',
+    'webhooks_status' => 'Webhook Status',
+    'webhooks_last_called' => 'Last Called:',
+    'webhooks_last_errored' => 'Last Errored:',
+    'webhooks_last_error_message' => 'Last Error Message:',
+
+
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
@@ -254,6 +282,7 @@ return [
         'de_informal' => 'Deutsch (Du)',
         'es' => 'Español',
         'es_AR' => 'Español Argentina',
+        'et' => 'Eesti keel',
         'fr' => 'Français',
         'he' => 'עברית',
         'hr' => 'Hrvatski',
@@ -278,6 +307,6 @@ return [
         'vi' => 'Tiếng Việt',
         'zh_CN' => '简体中文',
         'zh_TW' => '繁體中文',
-    ]
+    ],
     //!////////////////////////////////
 ];

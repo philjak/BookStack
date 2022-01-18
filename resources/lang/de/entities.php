@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Kapitel zuletzt',
     'books_sort_show_other' => 'Andere Bücher anzeigen',
     'books_sort_save' => 'Neue Reihenfolge speichern',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Kapitel',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Kapitel verschieben',
     'chapters_move_named' => 'Kapitel ":chapterName" verschieben',
     'chapter_move_success' => 'Das Kapitel wurde in das Buch ":bookName" verschoben.',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Kapitel-Berechtigungen',
     'chapters_empty' => 'Aktuell sind keine Kapitel diesem Buch hinzugefügt worden.',
     'chapters_permissions_active' => 'Kapitel-Berechtigungen aktiv',
@@ -234,7 +238,7 @@ return [
     'pages_initial_name' => 'Neue Seite',
     'pages_editing_draft_notification' => 'Sie bearbeiten momenten einen Entwurf, der zuletzt :timeDiff gespeichert wurde.',
     'pages_draft_edited_notification' => 'Diese Seite wurde seit diesem Zeitpunkt verändert. Wir empfehlen Ihnen, diesen Entwurf zu verwerfen.',
-    'pages_draft_page_changed_since_creation' => 'This page has been updated since this draft was created. It is recommended that you discard this draft or take care not to overwrite any page changes.',
+    'pages_draft_page_changed_since_creation' => 'Diese Seite wurde seit der Erstellung dieses Entwurfs aktualisiert. Es wird empfohlen, diesen Entwurf zu verwerfen oder darauf zu achten, dass keine Seitenänderungen überschrieben werden.',
     'pages_draft_edit_active' => [
         'start_a' => ':count Benutzer bearbeiten derzeit diese Seite.',
         'start_b' => ':userName bearbeitet jetzt diese Seite.',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Fügen Sie Schlagwörter hinzu, um Ihren Inhalt zu kategorisieren.\nSie können einen erklärenden Inhalt hinzufügen, um eine genauere Unterteilung vorzunehmen.",
     'tags_add' => 'Weiteres Schlagwort hinzufügen',
     'tags_remove' => 'Diesen Tag entfernen',
+    'tags_usages' => 'Gesamte Tagnutzung',
+    'tags_assigned_pages' => 'Zugewiesen zu Seiten',
+    'tags_assigned_chapters' => 'Zugewiesen zu Kapiteln',
+    'tags_assigned_books' => 'Zugewiesen zu Büchern',
+    'tags_assigned_shelves' => 'Zugewiesen zu Regalen',
+    'tags_x_unique_values' => ':count eindeutige Werte',
+    'tags_all_values' => 'Alle Werte',
+    'tags_view_tags' => 'Tags anzeigen',
+    'tags_view_existing_tags' => 'Vorhandene Tags anzeigen',
+    'tags_list_empty_hint' => 'Tags können über die Seitenleiste des Seiteneditors oder beim Bearbeiten der Details eines Buches, Kapitels oder Regals zugewiesen werden.',
     'attachments' => 'Anhänge',
     'attachments_explain' => 'Sie können auf Ihrer Seite Dateien hochladen oder Links hinzufügen. Diese werden in der Seitenleiste angezeigt.',
     'attachments_explain_instant_save' => 'Änderungen werden direkt gespeichert.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Sind Sie sicher, dass Sie diese Revision löschen wollen?',
     'revision_restore_confirm' => 'Sind Sie sicher, dass Sie diese Revision wiederherstellen wollen? Der aktuelle Seiteninhalt wird ersetzt.',
     'revision_delete_success' => 'Revision gelöscht',
-    'revision_cannot_delete_latest' => 'Die letzte Version kann nicht gelöscht werden.'
+    'revision_cannot_delete_latest' => 'Die letzte Version kann nicht gelöscht werden.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

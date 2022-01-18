@@ -72,7 +72,7 @@ return [
     // Maintenance settings
     'maint' => 'Manutenzione',
     'maint_image_cleanup' => 'Pulizia Immagini',
-    'maint_image_cleanup_desc' => "Esegue la scansione del contenuto delle pagine e delle revisioni per verificare quali immagini e disegni sono attualmente in uso e quali immagini sono ridondanti. Assicurati di creare backup completo del database e delle immagini prima di eseguire la pulizia.",
+    'maint_image_cleanup_desc' => 'Esegue la scansione del contenuto delle pagine e delle revisioni per verificare quali immagini e disegni sono attualmente in uso e quali immagini sono ridondanti. Assicurati di creare backup completo del database e delle immagini prima di eseguire la pulizia.',
     'maint_delete_images_only_in_revisions' => 'Elimina anche le immagini che esistono solo nelle vecchie revisioni della pagina',
     'maint_image_cleanup_run' => 'Esegui Pulizia',
     'maint_image_cleanup_warning' => ':count immagini potenzialmente inutilizzate sono state trovate. Sei sicuro di voler eliminare queste immagini?',
@@ -174,7 +174,7 @@ return [
     'users_role' => 'Ruoli Utente',
     'users_role_desc' => 'Seleziona a quali ruoli verrà assegnato questo utente. Se un utente è assegnato a più ruoli riceverà tutte le abilità dei ruoli assegnati.',
     'users_password' => 'Password Utente',
-    'users_password_desc' => 'Imposta una password utilizzata per accedere all\'applicazione. Deve essere lunga almeno 6 caratteri.',
+    'users_password_desc' => 'Imposta una password usata per accedere all\'applicazione. Deve essere lunga almeno 8 caratteri.',
     'users_send_invite_text' => 'Puoi scegliere di inviare a questo utente un\'email di invito che permette loro di impostare la propria password altrimenti puoi impostare la password tu stesso.',
     'users_send_invite_option' => 'Invia email di invito',
     'users_external_auth_id' => 'ID Autenticazioni Esterna',
@@ -233,6 +233,34 @@ return [
     'user_api_token_delete_confirm' => 'Sei sicuri di voler eliminare questo token API?',
     'user_api_token_delete_success' => 'Token API eliminato correttamente',
 
+    // Webhooks
+    'webhooks' => 'Webhooks',
+    'webhooks_create' => 'Crea Nuovo Webhook',
+    'webhooks_none_created' => 'Nessun webhook è stato creato.',
+    'webhooks_edit' => 'Modifica Webhook',
+    'webhooks_save' => 'Salva Webhook',
+    'webhooks_details' => 'Dettagli Webhook',
+    'webhooks_details_desc' => 'Fornire un nome di facile utilizzo e un endpoint POST come posizione per i dati del webhook da inviare.',
+    'webhooks_events' => 'Eventi Webhook',
+    'webhooks_events_desc' => 'Seleziona tutti gli eventi che dovrebbero attivare questo webhook da chiamare.',
+    'webhooks_events_warning' => 'Tieni presente che questi eventi saranno attivati per tutti gli eventi selezionati, anche se vengono applicati permessi personalizzati. Assicurarsi che l\'uso di questo webhook non esporrà contenuti riservati.',
+    'webhooks_events_all' => 'Tutti gli eventi di sistema',
+    'webhooks_name' => 'Nome Webhook',
+    'webhooks_timeout' => 'Webhook Request Timeout (Seconds)',
+    'webhooks_endpoint' => 'Endpoint Webhook',
+    'webhooks_active' => 'Webhook Attivo',
+    'webhook_events_table_header' => 'Eventi',
+    'webhooks_delete' => 'Elimina Webhook',
+    'webhooks_delete_warning' => 'Questo eliminerà completamente questo webhook, con il nome \':webhookName\', dal sistema.',
+    'webhooks_delete_confirm' => 'Sei sicuro di voler eliminare questo webhook?',
+    'webhooks_format_example' => 'Esempio Di Formato Webhook',
+    'webhooks_format_example_desc' => 'I dati Webhook vengono inviati come richiesta POST all\'endpoint configurato come JSON seguendo il formato sottostante. Le proprietà "related_item" e "url" sono opzionali e dipenderanno dal tipo di evento attivato.',
+    'webhooks_status' => 'Webhook Status',
+    'webhooks_last_called' => 'Last Called:',
+    'webhooks_last_errored' => 'Last Errored:',
+    'webhooks_last_error_message' => 'Last Error Message:',
+
+
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
@@ -248,6 +276,7 @@ return [
         'de_informal' => 'Deutsch (Du)',
         'es' => 'Español',
         'es_AR' => 'Español Argentina',
+        'et' => 'Eesti keel',
         'fr' => 'Français',
         'he' => 'עברית',
         'hr' => 'Hrvatski',
@@ -272,6 +301,6 @@ return [
         'vi' => 'Tiếng Việt',
         'zh_CN' => '简体中文',
         'zh_TW' => '繁體中文',
-    ]
+    ],
     //!////////////////////////////////
 ];

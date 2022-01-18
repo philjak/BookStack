@@ -21,7 +21,7 @@ return [
     'email' => 'البريد الإلكتروني',
     'password' => 'كلمة المرور',
     'password_confirm' => 'تأكيد كلمة المرور',
-    'password_hint' => 'يجب أن تكون أكثر من 7 حروف',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'نسيت كلمة المرور؟',
     'remember_me' => 'تذكرني',
     'ldap_email_hint' => 'الرجاء إدخال عنوان بريد إلكتروني لاستخدامه مع الحساب.',
@@ -38,7 +38,6 @@ return [
     'registration_email_domain_invalid' => 'المجال الخاص بالبريد الإلكتروني لا يملك حق الوصول لهذا التطبيق',
     'register_success' => 'شكراً لإنشاء حسابكم! تم تسجيلكم ودخولكم للحساب الخاص بكم.',
 
-
     // Password Reset
     'reset_password' => 'استعادة كلمة المرور',
     'reset_password_send_instructions' => 'أدخل بريدك الإلكتروني بالأسفل وسيتم إرسال رسالة برابط لاستعادة كلمة المرور.',
@@ -49,14 +48,13 @@ return [
     'email_reset_text' => 'تم إرسال هذه الرسالة بسبب تلقينا لطلب استعادة كلمة المرور الخاصة بحسابكم.',
     'email_reset_not_requested' => 'إذا لم يتم طلب استعادة كلمة المرور من قبلكم، فلا حاجة لاتخاذ أية خطوات.',
 
-
     // Email Confirmation
     'email_confirm_subject' => 'تأكيد بريدكم الإلكتروني لتطبيق :appName',
     'email_confirm_greeting' => 'شكرا لانضمامكم إلى :appName!',
     'email_confirm_text' => 'الرجاء تأكيد بريدكم الإلكتروني بالضغط على الزر أدناه:',
     'email_confirm_action' => 'تأكيد البريد الإلكتروني',
     'email_confirm_send_error' => 'تأكيد البريد الإلكتروني مطلوب ولكن النظام لم يستطع إرسال الرسالة. تواصل مع مشرف النظام للتأكد من إعدادات البريد.',
-    'email_confirm_success' => 'تم تأكيد بريدكم الإلكتروني!',
+    'email_confirm_success' => 'Your email has been confirmed! You should now be able to login using this email address.',
     'email_confirm_resent' => 'تمت إعادة إرسال رسالة التأكيد. الرجاء مراجعة صندوق الوارد',
 
     'email_not_confirmed' => 'لم يتم تأكيد البريد الإلكتروني',
@@ -73,7 +71,7 @@ return [
     'user_invite_page_welcome' => 'مرحبا بكم في :appName!',
     'user_invite_page_text' => 'لإكمال حسابك والحصول على حق الوصول تحتاج إلى تعيين كلمة مرور سيتم استخدامها لتسجيل الدخول إلى :appName في الزيارات المستقبلية.',
     'user_invite_page_confirm_button' => 'تأكيد كلمة المرور',
-    'user_invite_success' => 'مجموعة كلمات المرور، لديك الآن حق الوصول إلى :appName!',
+    'user_invite_success_login' => 'Password set, you should now be able to login using your set password to access :appName!',
 
     // Multi-factor Authentication
     'mfa_setup' => 'Setup Multi-Factor Authentication',
@@ -81,7 +79,7 @@ return [
     'mfa_setup_configured' => 'Already configured',
     'mfa_setup_reconfigure' => 'Reconfigure',
     'mfa_setup_remove_confirmation' => 'Are you sure you want to remove this multi-factor authentication method?',
-    'mfa_setup_action' => 'Setup',
+    'mfa_setup_action' => 'إعداد (تنصيب)',
     'mfa_backup_codes_usage_limit_warning' => 'You have less than 5 backup codes remaining, Please generate and store a new set before you run out of codes to prevent being locked out of your account.',
     'mfa_option_totp_title' => 'Mobile App',
     'mfa_option_totp_desc' => 'To use multi-factor authentication you\'ll need a mobile application that supports TOTP such as Google Authenticator, Authy or Microsoft Authenticator.',

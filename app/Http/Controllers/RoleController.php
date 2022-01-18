@@ -3,6 +3,7 @@
 namespace BookStack\Http\Controllers;
 
 use BookStack\Auth\Permissions\PermissionsRepo;
+use BookStack\Auth\Role;
 use BookStack\Exceptions\PermissionsException;
 use Exception;
 use Illuminate\Http\Request;
@@ -23,10 +24,12 @@ class RoleController extends Controller
     /**
      * Show a listing of the roles in the system.
      */
-    public function list()
+    public function index()
     {
         $this->checkPermission('user-roles-manage');
         $roles = $this->permissionsRepo->getAllRoles();
+
+        $this->setPageTitle(trans('settings.roles'));
 
         return view('settings.roles.index', ['roles' => $roles]);
     }
@@ -34,11 +37,23 @@ class RoleController extends Controller
     /**
      * Show the form to create a new role.
      */
-    public function create()
+    public function create(Request $request)
     {
         $this->checkPermission('user-roles-manage');
 
-        return view('settings.roles.create');
+        /** @var ?Role $role */
+        $role = null;
+        if ($request->has('copy_from')) {
+            $role = Role::query()->find($request->get('copy_from'));
+        }
+
+        if ($role) {
+            $role->display_name .= ' (' . trans('common.copy') . ')';
+        }
+
+        $this->setPageTitle(trans('settings.role_create'));
+
+        return view('settings.roles.create', ['role' => $role]);
     }
 
     /**
@@ -48,8 +63,8 @@ class RoleController extends Controller
     {
         $this->checkPermission('user-roles-manage');
         $this->validate($request, [
-            'display_name' => 'required|min:3|max:180',
-            'description'  => 'max:180',
+            'display_name' => ['required', 'min:3', 'max:180'],
+            'description'  => ['max:180'],
         ]);
 
         $this->permissionsRepo->saveNewRole($request->all());
@@ -71,6 +86,8 @@ class RoleController extends Controller
             throw new PermissionsException(trans('errors.role_cannot_be_edited'));
         }
 
+        $this->setPageTitle(trans('settings.role_edit'));
+
         return view('settings.roles.edit', ['role' => $role]);
     }
 
@@ -83,8 +100,8 @@ class RoleController extends Controller
     {
         $this->checkPermission('user-roles-manage');
         $this->validate($request, [
-            'display_name' => 'required|min:3|max:180',
-            'description'  => 'max:180',
+            'display_name' => ['required', 'min:3', 'max:180'],
+            'description'  => ['max:180'],
         ]);
 
         $this->permissionsRepo->updateRole($id, $request->all());
@@ -104,6 +121,8 @@ class RoleController extends Controller
         $roles = $this->permissionsRepo->getAllRolesExcept($role);
         $blankRole = $role->newInstance(['display_name' => trans('settings.role_delete_no_migration')]);
         $roles->prepend($blankRole);
+
+        $this->setPageTitle(trans('settings.role_delete'));
 
         return view('settings.roles.delete', ['role' => $role, 'roles' => $roles]);
     }

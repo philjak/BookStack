@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Fejezetek hátul',
     'books_sort_show_other' => 'Egyéb könyvek mutatása',
     'books_sort_save' => 'Új elrendezés mentése',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Fejezet',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Fejezet áthelyezése',
     'chapters_move_named' => ':chapterName fejezet áthelyezése',
     'chapter_move_success' => 'Fejezet áthelyezve :bookName könyvbe',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Fejezet jogosultságok',
     'chapters_empty' => 'Jelenleg nincsenek oldalak ebben a fejezetben.',
     'chapters_permissions_active' => 'Fejezet jogosultságok aktívak',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Címkék hozzáadása a tartalom jobb kategorizálásához.\nA mélyebb szervezettség megvalósításához hozzá lehet rendelni egy értéket a címkéhez.",
     'tags_add' => 'Másik címke hozzáadása',
     'tags_remove' => 'Címke eltávolítása',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Csatolmányok',
     'attachments_explain' => 'Az oldalon megjelenő fájlok feltöltése vagy hivatkozások csatolása. Az oldal oldalsávjában fognak megjelenni.',
     'attachments_explain_instant_save' => 'Az itt történt módosítások azonnal el lesznek mentve.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Biztosan törölhető ez a változat?',
     'revision_restore_confirm' => 'Biztosan visszaállítható ez a változat? A oldal jelenlegi tartalma le lesz cserélve.',
     'revision_delete_success' => 'Változat törölve',
-    'revision_cannot_delete_latest' => 'A legutolsó változat nem törölhető.'
+    'revision_cannot_delete_latest' => 'A legutolsó változat nem törölhető.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

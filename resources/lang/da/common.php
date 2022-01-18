@@ -20,7 +20,7 @@ return [
     'role' => 'Rolle',
     'cover_image' => 'Coverbillede',
     'cover_image_description' => 'Dette billede skal være omtrent 440x250px.',
-    
+
     // Actions
     'actions' => 'Handlinger',
     'view' => 'Vis',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Fjern som foretrukken',
     'next' => 'Næste',
     'previous' => 'Forrige',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Sorteringsindstillinger',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Listevisning',
     'default' => 'Standard',
     'breadcrumb' => 'Brødkrumme',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Udvid header menu',

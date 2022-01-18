@@ -20,7 +20,7 @@ return [
     'role' => 'Roll',
     'cover_image' => 'Omslagsbild',
     'cover_image_description' => 'Bilden bör vara cirka 440x250px stor.',
-    
+
     // Actions
     'actions' => 'Åtgärder',
     'view' => 'Visa',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Ta bort favorit',
     'next' => 'Nästa',
     'previous' => 'Föregående',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Sorteringsalternativ',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Listvy',
     'default' => 'Förvald',
     'breadcrumb' => 'Brödsmula',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Expandera sidhuvudsmenyn',

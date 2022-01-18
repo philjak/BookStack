@@ -20,7 +20,7 @@ return [
     'role' => 'Rolle',
     'cover_image' => 'Titelbild',
     'cover_image_description' => 'Das Bild sollte eine Auflösung von 440x250px haben.',
-    
+
     // Actions
     'actions' => 'Aktionen',
     'view' => 'Anzeigen',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Kein Favorit',
     'next' => 'Nächste',
     'previous' => 'Vorheriges',
+    'filter_active' => 'Gesetzte Filter:',
+    'filter_clear' => 'Filter löschen',
 
     // Sort Options
     'sort_options' => 'Sortieroptionen',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Listenansicht',
     'default' => 'Voreinstellung',
     'breadcrumb' => 'Brotkrumen',
+    'status' => 'Status',
+    'status_active' => 'Aktiv',
+    'status_inactive' => 'Inaktiv',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Header-Menü erweitern',

@@ -20,7 +20,7 @@ return [
     'role' => 'Role',
     'cover_image' => 'Cover image',
     'cover_image_description' => 'This image should be approx 440x250px.',
-    
+
     // Actions
     'actions' => 'Actions',
     'view' => 'View',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Unfavourite',
     'next' => 'Next',
     'previous' => 'Previous',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Sort Options',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'List View',
     'default' => 'Default',
     'breadcrumb' => 'Breadcrumb',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Expand Header Menu',

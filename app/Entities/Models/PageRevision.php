@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $html
  * @property int    $revision_number
  * @property Page   $page
+ * @property-read ?User $createdBy
  */
 class PageRevision extends Model
 {
@@ -45,27 +46,16 @@ class PageRevision extends Model
 
     /**
      * Get the url for this revision.
-     *
-     * @param null|string $path
-     *
-     * @return string
      */
-    public function getUrl($path = null)
+    public function getUrl(string $path = ''): string
     {
-        $url = $this->page->getUrl() . '/revisions/' . $this->id;
-        if ($path) {
-            return $url . '/' . trim($path, '/');
-        }
-
-        return $url;
+        return $this->page->getUrl('/revisions/' . $this->id . '/' . ltrim($path, '/'));
     }
 
     /**
      * Get the previous revision for the same page if existing.
-     *
-     * @return \BookStack\Entities\PageRevision|null
      */
-    public function getPrevious()
+    public function getPrevious(): ?PageRevision
     {
         $id = static::newQuery()->where('page_id', '=', $this->page_id)
             ->where('id', '<', $this->id)
@@ -83,11 +73,9 @@ class PageRevision extends Model
      * Included here to align with entities in similar use cases.
      * (Yup, Bit of an awkward hack).
      *
-     * @param $type
-     *
-     * @return bool
+     * @deprecated Use instanceof instead.
      */
-    public static function isA($type)
+    public static function isA(string $type): bool
     {
         return $type === 'revision';
     }

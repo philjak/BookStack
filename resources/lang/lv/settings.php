@@ -72,7 +72,7 @@ return [
     // Maintenance settings
     'maint' => 'Apkope',
     'maint_image_cleanup' => 'Tīrīt neizmantotās bildes',
-    'maint_image_cleanup_desc' => "Pārbauda lapu un lapu versiju saturu, lai noteiktu, kuri attēli pašlaik tiek izmantoti, un kuri nav nepieciešami. Pārliecinieties, ka ir veikta pilna datubāzes un attēlu rezerves kopija pirms šīs darbības.",
+    'maint_image_cleanup_desc' => 'Pārbauda lapu un lapu versiju saturu, lai noteiktu, kuri attēli pašlaik tiek izmantoti, un kuri nav nepieciešami. Pārliecinieties, ka ir veikta pilna datubāzes un attēlu rezerves kopija pirms šīs darbības.',
     'maint_delete_images_only_in_revisions' => 'Dzēst arī attēlus, kas izmantoti tikai vecās lapu satura versijās',
     'maint_image_cleanup_run' => 'Veikt tīrīšanu',
     'maint_image_cleanup_warning' => ':count iespējami neizmantoti attēli atrasti. Vai tiešām vēlaties izdzēst šos attēlus?',
@@ -92,7 +92,7 @@ return [
     'recycle_bin' => 'Miskaste',
     'recycle_bin_desc' => 'Te jūs varat atjaunot dzēstās vienības vai arī izdzēst tās no sistēmas pilnībā. Šis saraksts nav filtrēts atšķirībā no līdzīgiem darbību sarakstiem sistēmā, kur ir piemēroti piekļuves tiesību filtri.',
     'recycle_bin_deleted_item' => 'Dzēsta vienība',
-    'recycle_bin_deleted_parent' => 'Parent',
+    'recycle_bin_deleted_parent' => 'Augstāks līmenis',
     'recycle_bin_deleted_by' => 'Izdzēsa',
     'recycle_bin_deleted_at' => 'Dzēšanas laiks',
     'recycle_bin_permanently_delete' => 'Neatgriezeniski izdzēst',
@@ -105,7 +105,7 @@ return [
     'recycle_bin_restore_list' => 'Atjaunojamās vienības',
     'recycle_bin_restore_confirm' => 'Šī darbība atjaunos dzēsto vienību, tai skaitā visus tai pakārtotos elementus, uz tās sākotnējo atrašanās vietu. Ja sākotnējā atrašanās vieta ir izdzēsta un atrodas miskastē, būs nepieciešams atjaunot arī to.',
     'recycle_bin_restore_deleted_parent' => 'Šo elementu saturošā vienība arī ir dzēsta. Tas paliks dzēsts līdz šī saturošā vienība arī ir atjaunota.',
-    'recycle_bin_restore_parent' => 'Restore Parent',
+    'recycle_bin_restore_parent' => 'Atjaunot augstāku līmeni',
     'recycle_bin_destroy_notification' => 'Dzēstas kopā :count vienības no miskastes.',
     'recycle_bin_restore_notification' => 'Atjaunotas kopā :count vienības no miskastes.',
 
@@ -119,7 +119,7 @@ return [
     'audit_table_user' => 'Lietotājs',
     'audit_table_event' => 'Notikums',
     'audit_table_related' => 'Saistīta vienība vai detaļa',
-    'audit_table_ip' => 'IP Address',
+    'audit_table_ip' => 'IP adrese',
     'audit_table_date' => 'Notikuma datums',
     'audit_date_from' => 'Datums no',
     'audit_date_to' => 'Datums līdz',
@@ -139,7 +139,7 @@ return [
     'role_details' => 'Informācija par grupu',
     'role_name' => 'Grupas nosaukums',
     'role_desc' => 'Īss grupas apaksts',
-    'role_mfa_enforced' => 'Requires Multi-Factor Authentication',
+    'role_mfa_enforced' => 'Nepieciešama vairākfaktoru autentifikācija',
     'role_external_auth_id' => 'Ārējais autentifikācijas ID',
     'role_system' => 'Sistēmas atļaujas',
     'role_manage_users' => 'Pārvaldīt lietotājus',
@@ -149,7 +149,7 @@ return [
     'role_manage_page_templates' => 'Pārvaldīt lapas veidnes',
     'role_access_api' => 'Piekļūt sistēmas API',
     'role_manage_settings' => 'Pārvaldīt iestatījumus',
-    'role_export_content' => 'Export content',
+    'role_export_content' => 'Eksportēt saturu',
     'role_asset' => 'Resursa piekļuves tiesības',
     'roles_system_warning' => 'Jebkuras no trīs augstāk redzamajām atļaujām dod iespēju lietotājam mainīt savas un citu lietotāju sistēmas atļaujas. Pievieno šīs grupu atļaujas tikai tiem lietotājiem, kuriem uzticies.',
     'role_asset_desc' => 'Šīs piekļuves tiesības kontrolē noklusēto piekļuvi sistēmas resursiem. Grāmatām, nodaļām un lapām norādītās tiesības būs pārākas par šīm.',
@@ -174,7 +174,7 @@ return [
     'users_role' => 'Lietotāju grupas',
     'users_role_desc' => 'Izvēlēties kurām grupām pievienot lietotāju. Ja lietotājs ir pievienots vairākām grupām, tad lietotājam būs pieejamas visu grupu atļaujas.',
     'users_password' => 'Lietotāja parole',
-    'users_password_desc' => 'Uzstādiet paroli, ar ko piekļūt aplikācijai. Tai jābūt vismaz 6 simbolus garai.',
+    'users_password_desc' => 'Uzstādiet paroli, ar ko piekļūt aplikācijai. Tai jābūt vismaz 8 simbolus garai.',
     'users_send_invite_text' => 'Jūs varat izvēlētes vai nosūtīt šim lietotājam uzaicinājuma epastu, kas ļauj tam uzstādīt savu paroli pašam, vai arī varat uzstādīt paroli tagad.',
     'users_send_invite_option' => 'Nosūtīt lietotāja uzaicinājuma epastu',
     'users_external_auth_id' => 'Ārējais autentifikācijas ID',
@@ -207,10 +207,10 @@ return [
     'users_api_tokens_create' => 'Izveidot žetonu',
     'users_api_tokens_expires' => 'Derīguma termiņš',
     'users_api_tokens_docs' => 'API dokumentācija',
-    'users_mfa' => 'Multi-Factor Authentication',
-    'users_mfa_desc' => 'Setup multi-factor authentication as an extra layer of security for your user account.',
-    'users_mfa_x_methods' => ':count method configured|:count methods configured',
-    'users_mfa_configure' => 'Configure Methods',
+    'users_mfa' => 'Vairākfaktoru autentifikācija',
+    'users_mfa_desc' => 'Iestati vairākfaktoru autentifikāciju kā papildus drošības līmeni tavam lietotāja kontam.',
+    'users_mfa_x_methods' => ':count metode iestatīta|:count metodes iestatītas',
+    'users_mfa_configure' => 'Iestatīt metodes',
 
     // API Tokens
     'user_api_token_create' => 'Izveidot API žetonu',
@@ -233,6 +233,34 @@ return [
     'user_api_token_delete_confirm' => 'Vai tiešām vēlaties dzēst šo API žetonu?',
     'user_api_token_delete_success' => 'API žetons veiksmīgi dzēsts',
 
+    // Webhooks
+    'webhooks' => 'Webhook',
+    'webhooks_create' => 'Izveidot jaunu webhook',
+    'webhooks_none_created' => 'Nav izveidots neviens webhook.',
+    'webhooks_edit' => 'Labot webhook',
+    'webhooks_save' => 'Saglabāt webhook',
+    'webhooks_details' => 'Webhook detaļas',
+    'webhooks_details_desc' => 'Norādiet lietotājiem draudzīgu nosaukumu un POST adresi (endpoint), uz ko nosūtīt webhook datus.',
+    'webhooks_events' => 'Webhook notikumi',
+    'webhooks_events_desc' => 'Izvēlieties visus notikumus, kas izsauks šo webhook.',
+    'webhooks_events_warning' => 'Ņemiet vērā, ka šie notikumi tiks palaisti visiem izvēlētajiem notikumiem, pat ja norādītas pielāgotas piekļuves tiesības. Pārliecineities, ka webhook lietošana neatklās ierobežotas pieejamības saturu.',
+    'webhooks_events_all' => 'Visi sistēmas notikumi',
+    'webhooks_name' => 'Webhook nosaukums',
+    'webhooks_timeout' => 'Webhook Request Timeout (Seconds)',
+    'webhooks_endpoint' => 'Webhook adrese (endpoint)',
+    'webhooks_active' => 'Webhook aktīvs',
+    'webhook_events_table_header' => 'Notikumi',
+    'webhooks_delete' => 'Dzēst webhook',
+    'webhooks_delete_warning' => 'Webhook ar nosaukumu \':webhookName\' tiks pilnībā dzēsts no sistēmas.',
+    'webhooks_delete_confirm' => 'Vai tiešām vēlaties dzēst šo webhook?',
+    'webhooks_format_example' => 'Webhook formāta piemērs',
+    'webhooks_format_example_desc' => 'Webhook dati tiek nosūtīti kā POST pieprasījums norādītajai endpoint adresei kā JSON tālāk norādītajā formātā. "related_item" un "url" īpašības nav obligātas un ir atkarīgas no palaistā notikuma veida.',
+    'webhooks_status' => 'Webhook Status',
+    'webhooks_last_called' => 'Last Called:',
+    'webhooks_last_errored' => 'Last Errored:',
+    'webhooks_last_error_message' => 'Last Error Message:',
+
+
     //! If editing translations files directly please ignore this in all
     //! languages apart from en. Content will be auto-copied from en.
     //!////////////////////////////////
@@ -248,6 +276,7 @@ return [
         'de_informal' => 'Deutsch (Du)',
         'es' => 'Español',
         'es_AR' => 'Español Argentina',
+        'et' => 'Igauņu',
         'fr' => 'Français',
         'he' => 'עברית',
         'hr' => 'Hrvatski',
@@ -272,6 +301,6 @@ return [
         'vi' => 'Tiếng Việt',
         'zh_CN' => '简体中文',
         'zh_TW' => '繁體中文',
-    ]
+    ],
     //!////////////////////////////////
 ];

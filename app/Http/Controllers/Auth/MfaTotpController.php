@@ -31,8 +31,10 @@ class MfaTotpController extends Controller
             session()->put(static::SETUP_SECRET_SESSION_KEY, encrypt($totpSecret));
         }
 
-        $qrCodeUrl = $totp->generateUrl($totpSecret);
+        $qrCodeUrl = $totp->generateUrl($totpSecret, $this->currentOrLastAttemptedUser());
         $svg = $totp->generateQrCodeSvg($qrCodeUrl);
+
+        $this->setPageTitle(trans('auth.mfa_gen_totp_title'));
 
         return view('mfa.totp-generate', [
             'url' => $qrCodeUrl,

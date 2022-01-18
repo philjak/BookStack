@@ -20,7 +20,7 @@ return [
     'role' => 'Quyền',
     'cover_image' => 'Ảnh bìa',
     'cover_image_description' => 'Ảnh nên có kích thước 440x250px.',
-    
+
     // Actions
     'actions' => 'Hành động',
     'view' => 'Xem',
@@ -45,6 +45,8 @@ return [
     'unfavourite' => 'Bỏ yêu thích',
     'next' => 'Tiếp theo',
     'previous' => 'Trước đó',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Tùy Chọn Sắp Xếp',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Hiển thị dạng danh sách',
     'default' => 'Mặc định',
     'breadcrumb' => 'Đường dẫn liên kết',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Expand Header Menu',

@@ -2,7 +2,6 @@
 
 namespace BookStack\Auth;
 
-use Activity;
 use BookStack\Entities\EntityProvider;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
@@ -63,13 +62,16 @@ class UserRepo
 
     /**
      * Get all the users with their permissions in a paginated format.
+     * Note: Due to the use of email search this should only be used when
+     * user is assumed to be trusted. (Admin users).
+     * Email search can be abused to extract email addresses.
      */
     public function getAllUsersPaginatedAndSorted(int $count, array $sortData): LengthAwarePaginator
     {
         $sort = $sortData['sort'];
 
         $query = User::query()->select(['*'])
-            ->withLastActivityAt()
+            ->scopes(['withLastActivityAt'])
             ->with(['roles', 'avatar'])
             ->withCount('mfaValues')
             ->orderBy($sort, $sortData['order']);
@@ -213,14 +215,6 @@ class UserRepo
             $instance->newQuery()->where('owned_by', '=', $fromUser->id)
                 ->update(['owned_by' => $toUser->id]);
         }
-    }
-
-    /**
-     * Get the latest activity for a user.
-     */
-    public function getActivity(User $user, int $count = 20, int $page = 0): array
-    {
-        return Activity::userActivity($user, $count, $page);
     }
 
     /**

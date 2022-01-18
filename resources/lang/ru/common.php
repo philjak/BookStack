@@ -20,7 +20,7 @@ return [
     'role' => 'Роль',
     'cover_image' => 'Обложка',
     'cover_image_description' => 'Изображение должно быть размером около 440x250px.',
-    
+
     // Actions
     'actions' => 'Действия',
     'view' => 'Просмотр',
@@ -39,12 +39,14 @@ return [
     'reset' => 'Сбросить',
     'remove' => 'Удалить',
     'add' => 'Добавить',
-    'configure' => 'Configure',
+    'configure' => 'Настройка',
     'fullscreen' => 'На весь экран',
     'favourite' => 'Избранное',
     'unfavourite' => 'Убрать из избранного',
     'next' => 'Следующая',
     'previous' => 'Предыдущая',
+    'filter_active' => 'Активный фильтр:',
+    'filter_clear' => 'Сбросить фильтр',
 
     // Sort Options
     'sort_options' => 'Параметры сортировки',
@@ -69,6 +71,10 @@ return [
     'list_view' => 'Вид списком',
     'default' => 'По умолчанию',
     'breadcrumb' => 'Навигация',
+    'status' => 'Состояние',
+    'status_active' => 'Активен',
+    'status_inactive' => 'Неактивен',
+    'never' => 'Never',
 
     // Header
     'header_menu_expand' => 'Развернуть меню заголовка',

@@ -6,6 +6,7 @@ use BookStack\Actions\View;
 use BookStack\Entities\Models\Page;
 use BookStack\Entities\Repos\PageRepo;
 use BookStack\Entities\Tools\BookContents;
+use BookStack\Entities\Tools\Cloner;
 use BookStack\Entities\Tools\NextPreviousContentLocator;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Entities\Tools\PageEditActivity;
@@ -60,7 +61,7 @@ class PageController extends Controller
     public function createAsGuest(Request $request, string $bookSlug, string $chapterSlug = null)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
         ]);
 
         $parent = $this->pageRepo->getParentFromSlugs($bookSlug, $chapterSlug);
@@ -107,7 +108,7 @@ class PageController extends Controller
     public function store(Request $request, string $bookSlug, int $pageId)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
         ]);
         $draftPage = $this->pageRepo->getById($pageId);
         $this->checkOwnablePermission('page-create', $draftPage->getParent());
@@ -176,7 +177,7 @@ class PageController extends Controller
     {
         $page = $this->pageRepo->getById($pageId);
         $page->setHidden(array_diff($page->getHidden(), ['html', 'markdown']));
-        $page->addHidden(['book']);
+        $page->makeHidden(['book']);
 
         return response()->json($page);
     }
@@ -234,7 +235,7 @@ class PageController extends Controller
     public function update(Request $request, string $bookSlug, string $pageSlug)
     {
         $this->validate($request, [
-            'name' => 'required|string|max:255',
+            'name' => ['required', 'string', 'max:255'],
         ]);
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
         $this->checkOwnablePermission('page-update', $page);
@@ -367,6 +368,8 @@ class PageController extends Controller
             ->paginate(20)
             ->setPath(url('/pages/recently-updated'));
 
+        $this->setPageTitle(trans('entities.recently_updated_pages'));
+
         return view('common.detailed-listing-paginated', [
             'title'    => trans('entities.recently_updated_pages'),
             'entities' => $pages,
@@ -409,11 +412,9 @@ class PageController extends Controller
 
         try {
             $parent = $this->pageRepo->move($page, $entitySelection);
+        } catch (PermissionsException $exception) {
+            $this->showPermissionError();
         } catch (Exception $exception) {
-            if ($exception instanceof PermissionsException) {
-                $this->showPermissionError();
-            }
-
             $this->showErrorNotification(trans('errors.selected_book_chapter_not_found'));
 
             return redirect()->back();
@@ -447,26 +448,24 @@ class PageController extends Controller
      * @throws NotFoundException
      * @throws Throwable
      */
-    public function copy(Request $request, string $bookSlug, string $pageSlug)
+    public function copy(Request $request, Cloner $cloner, string $bookSlug, string $pageSlug)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
         $this->checkOwnablePermission('page-view', $page);
 
-        $entitySelection = $request->get('entity_selection', null) ?? null;
-        $newName = $request->get('name', null);
+        $entitySelection = $request->get('entity_selection') ?: null;
+        $newParent = $entitySelection ? $this->pageRepo->findParentByIdentifier($entitySelection) : $page->getParent();
 
-        try {
-            $pageCopy = $this->pageRepo->copy($page, $entitySelection, $newName);
-        } catch (Exception $exception) {
-            if ($exception instanceof PermissionsException) {
-                $this->showPermissionError();
-            }
-
+        if (is_null($newParent)) {
             $this->showErrorNotification(trans('errors.selected_book_chapter_not_found'));
 
             return redirect()->back();
         }
 
+        $this->checkOwnablePermission('page-create', $newParent);
+
+        $newName = $request->get('name') ?: $page->name;
+        $pageCopy = $cloner->clonePage($page, $newParent, $newName);
         $this->showSuccessNotification(trans('entities.pages_copy_success'));
 
         return redirect($pageCopy->getUrl());

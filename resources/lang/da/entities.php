@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'Kapitler sidst',
     'books_sort_show_other' => 'Vis andre bøger',
     'books_sort_save' => 'Gem ny ordre',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Kapitel',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Flyt kapitel',
     'chapters_move_named' => 'Flyt kapitel :chapterName',
     'chapter_move_success' => 'Kapitel flyttet til :bookName',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Kapiteltilladelser',
     'chapters_empty' => 'Der er lige nu ingen sider i dette kapitel.',
     'chapters_permissions_active' => 'Aktive kapiteltilladelser',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "Tilføj nogle tags for bedre at kategorisere dit indhold. \n Du kan tildele en værdi til et tag for mere dybdegående organisering.",
     'tags_add' => 'Tilføj endnu et tag',
     'tags_remove' => 'Fjern dette tag',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Vedhæftninger',
     'attachments_explain' => 'Upload nogle filer, eller vedhæft nogle links, der skal vises på siden. Disse er synlige i sidepanelet.',
     'attachments_explain_instant_save' => 'Ændringer her gemmes med det samme.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Er du sikker på at du vil slette denne revision?',
     'revision_restore_confirm' => 'Er du sikker på at du ønsker at gendanne denne revision? Nuværende sideindhold vil blive erstattet.',
     'revision_delete_success' => 'Revision slettet',
-    'revision_cannot_delete_latest' => 'Kan ikke slette seneste revision.'
+    'revision_cannot_delete_latest' => 'Kan ikke slette seneste revision.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

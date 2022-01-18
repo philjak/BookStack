@@ -143,6 +143,8 @@ return [
     'books_sort_chapters_last' => 'En Son Bölümler',
     'books_sort_show_other' => 'Diğer Kitapları Göster',
     'books_sort_save' => 'Yeni Düzeni Kaydet',
+    'books_copy' => 'Copy Book',
+    'books_copy_success' => 'Book successfully copied',
 
     // Chapters
     'chapter' => 'Bölüm',
@@ -161,6 +163,8 @@ return [
     'chapters_move' => 'Bölümü Taşı',
     'chapters_move_named' => ':chapterName Bölümünü Taşı',
     'chapter_move_success' => 'Bölüm, :bookName kitabına taşındı',
+    'chapters_copy' => 'Copy Chapter',
+    'chapters_copy_success' => 'Chapter successfully copied',
     'chapters_permissions' => 'Bölüm İzinleri',
     'chapters_empty' => 'Bu bölümde henüz bir sayfa bulunmuyor.',
     'chapters_permissions_active' => 'Bölüm İzinleri Aktif',
@@ -258,6 +262,16 @@ return [
     'tags_explain' => "İçeriğinizi daha iyi kategorize etmek için etiket ekleyin. Etiketlere değer atayarak daha derinlemesine bir düzen elde edebilirsiniz.",
     'tags_add' => 'Başka etiket ekle',
     'tags_remove' => 'Bu etiketi sil',
+    'tags_usages' => 'Total tag usages',
+    'tags_assigned_pages' => 'Assigned to Pages',
+    'tags_assigned_chapters' => 'Assigned to Chapters',
+    'tags_assigned_books' => 'Assigned to Books',
+    'tags_assigned_shelves' => 'Assigned to Shelves',
+    'tags_x_unique_values' => ':count unique values',
+    'tags_all_values' => 'All values',
+    'tags_view_tags' => 'View Tags',
+    'tags_view_existing_tags' => 'View existing tags',
+    'tags_list_empty_hint' => 'Tags can be assigned via the page editor sidebar or while editing the details of a book, chapter or shelf.',
     'attachments' => 'Ekler',
     'attachments_explain' => 'Sayfanızda göstermek için dosyalar yükleyin veya bağlantılar ekleyin. Bunlar, sayfaya ait yan menüde gösterilecektir.',
     'attachments_explain_instant_save' => 'Burada yapılan değişiklikler anında kaydedilir.',
@@ -321,5 +335,13 @@ return [
     'revision_delete_confirm' => 'Bu revizyonu silmek istediğinize emin misiniz?',
     'revision_restore_confirm' => 'Bu revizyonu yeniden yüklemek istediğinize emin misiniz? Sayfanın şu anki içeriği değiştirilecektir.',
     'revision_delete_success' => 'Revizyon silindi',
-    'revision_cannot_delete_latest' => 'Son revizyonu silemezsiniz.'
+    'revision_cannot_delete_latest' => 'Son revizyonu silemezsiniz.',
+
+    // Copy view
+    'copy_consider' => 'Please consider the below when copying content.',
+    'copy_consider_permissions' => 'Custom permission settings will not be copied.',
+    'copy_consider_owner' => 'You will become the owner of all copied content.',
+    'copy_consider_images' => 'Page image files will not be duplicated & the original images will retain their relation to the page they were originally uploaded to.',
+    'copy_consider_attachments' => 'Page attachments will not be copied.',
+    'copy_consider_access' => 'A change of location, owner or permissions may result in this content being accessible to those previously without access.',
 ];

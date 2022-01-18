@@ -21,7 +21,7 @@ return [
     'email' => 'Email',
     'password' => 'Mật khẩu',
     'password_confirm' => 'Xác nhận mật khẩu',
-    'password_hint' => 'Cần tối thiểu 7 kí tự',
+    'password_hint' => 'Must be at least 8 characters',
     'forgot_password' => 'Quên Mật khẩu?',
     'remember_me' => 'Ghi nhớ đăng nhập',
     'ldap_email_hint' => 'Vui lòng điền một địa chỉ email để sử dụng tài khoản này.',
@@ -38,7 +38,6 @@ return [
     'registration_email_domain_invalid' => 'Tên miền của email không có quyền truy cập tới ứng dụng này',
     'register_success' => 'Cảm ơn bạn đã đăng kí! Bạn đã được xác nhận và đăng nhập.',
 
-
     // Password Reset
     'reset_password' => 'Đặt lại mật khẩu',
     'reset_password_send_instructions' => 'Nhập email vào ô dưới đây và bạn sẽ nhận được một email với liên kết để đặt lại mật khẩu.',
@@ -49,14 +48,13 @@ return [
     'email_reset_text' => 'Bạn nhận được email này bởi vì chúng tôi nhận được một yêu cầu đặt lại mật khẩu cho tài khoản của bạn.',
     'email_reset_not_requested' => 'Nếu bạn không yêu cầu đặt lại mật khẩu, không cần có bất cứ hành động nào khác.',
 
-
     // Email Confirmation
     'email_confirm_subject' => 'Xác nhận email trên :appName',
     'email_confirm_greeting' => 'Cảm ơn bạn đã tham gia :appName!',
     'email_confirm_text' => 'Xin hãy xác nhận địa chỉa email bằng cách bấm vào nút dưới đây:',
     'email_confirm_action' => 'Xác nhận Email',
     'email_confirm_send_error' => 'Email xác nhận cần gửi nhưng hệ thống đã không thể gửi được email. Liên hệ với quản trị viên để chắc chắn email được thiết lập đúng.',
-    'email_confirm_success' => 'Email của bạn đã được xác nhận!',
+    'email_confirm_success' => 'Your email has been confirmed! You should now be able to login using this email address.',
     'email_confirm_resent' => 'Email xác nhận đã được gửi lại, Vui lòng kiểm tra hộp thư.',
 
     'email_not_confirmed' => 'Địa chỉ email chưa được xác nhận',
@@ -73,7 +71,7 @@ return [
     'user_invite_page_welcome' => 'Chào mừng đến với :appName!',
     'user_invite_page_text' => 'Để hoàn tất tài khoản và lấy quyền truy cập bạn cần đặt mật khẩu để sử dụng cho các lần đăng nhập sắp tới tại :appName.',
     'user_invite_page_confirm_button' => 'Xác nhận Mật khẩu',
-    'user_invite_success' => 'Mật khẩu đã được thiết lập, bạn có quyền truy cập đến :appName!',
+    'user_invite_success_login' => 'Password set, you should now be able to login using your set password to access :appName!',
 
     // Multi-factor Authentication
     'mfa_setup' => 'Cài đặt xác thực nhiều bước',
@@ -98,12 +96,12 @@ return [
     'mfa_gen_totp_verify_setup' => 'Xác nhận cài đặt',
     'mfa_gen_totp_verify_setup_desc' => 'Xác nhận rằng tất cả hoạt động bằng cách nhập vào một mã, được tạo ra bởi ứng dụng xác thực của bạn vào ô dưới đây:',
     'mfa_gen_totp_provide_code_here' => 'Provide your app generated code here',
-    'mfa_verify_access' => 'Verify Access',
+    'mfa_verify_access' => 'Xác thực truy cập',
     'mfa_verify_access_desc' => 'Your user account requires you to confirm your identity via an additional level of verification before you\'re granted access. Verify using one of your configured methods to continue.',
-    'mfa_verify_no_methods' => 'No Methods Configured',
-    'mfa_verify_no_methods_desc' => 'No multi-factor authentication methods could be found for your account. You\'ll need to set up at least one method before you gain access.',
-    'mfa_verify_use_totp' => 'Verify using a mobile app',
-    'mfa_verify_use_backup_codes' => 'Verify using a backup code',
+    'mfa_verify_no_methods' => 'Không có phương pháp nào được cấu hình',
+    'mfa_verify_no_methods_desc' => 'Tài khoản của bạn chưa đăng ký xác thực nhiều lớp. Bạn cần thiết lập ít nhất một phương pháp trước khi yêu cầu truy cập.',
+    'mfa_verify_use_totp' => 'Xác thực sử dụng mã di động',
+    'mfa_verify_use_backup_codes' => 'Xác thực sử dụng mã backup',
     'mfa_verify_backup_code' => 'Mã dự phòng',
     'mfa_verify_backup_code_desc' => 'Nhập một trong các mã dự phòng còn lại của bạn vào ô phía dưới:',
     'mfa_verify_backup_code_enter_here' => 'Nhập mã xác thực của bạn tại đây',

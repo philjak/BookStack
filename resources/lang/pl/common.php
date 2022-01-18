@@ -20,7 +20,7 @@ return [
     'role' => 'Rola',
     'cover_image' => 'Zdjęcie z okładki',
     'cover_image_description' => 'Ten obraz powinien posiadać wymiary około 440x250px.',
-    
+
     // Actions
     'actions' => 'Akcje',
     'view' => 'Widok',
@@ -39,12 +39,14 @@ return [
     'reset' => 'Resetuj',
     'remove' => 'Usuń',
     'add' => 'Dodaj',
-    'configure' => 'Configure',
+    'configure' => 'Konfiguruj',
     'fullscreen' => 'Pełny ekran',
-    'favourite' => 'Favourite',
-    'unfavourite' => 'Unfavourite',
+    'favourite' => 'Ulubione',
+    'unfavourite' => 'Usuń z ulubionych',
     'next' => 'Dalej',
     'previous' => 'Wstecz',
+    'filter_active' => 'Active Filter:',
+    'filter_clear' => 'Clear Filter',
 
     // Sort Options
     'sort_options' => 'Opcje sortowania',
@@ -69,9 +71,13 @@ return [
     'list_view' => 'Widok listy',
     'default' => 'Domyślny',
     'breadcrumb' => 'Ścieżka nawigacji',
+    'status' => 'Status',
+    'status_active' => 'Active',
+    'status_inactive' => 'Inactive',
+    'never' => 'Never',
 
     // Header
-    'header_menu_expand' => 'Expand Header Menu',
+    'header_menu_expand' => 'Rozwiń menu nagłówka',
     'profile_menu' => 'Menu profilu',
     'view_profile' => 'Zobacz profil',
     'edit_profile' => 'Edytuj profil',
@@ -80,9 +86,9 @@ return [
 
     // Layout tabs
     'tab_info' => 'Informacje',
-    'tab_info_label' => 'Tab: Show Secondary Information',
+    'tab_info_label' => 'Zakładka: Pokaż informacje drugorzędne',
     'tab_content' => 'Treść',
-    'tab_content_label' => 'Tab: Show Primary Content',
+    'tab_content_label' => 'Zakładka: Pokaż podstawową zawartość',
 
     // Email Content
     'email_action_help' => 'Jeśli masz problem z kliknięciem przycisku ":actionText", skopiuj i wklej poniższy adres URL w nowej karcie swojej przeglądarki:',

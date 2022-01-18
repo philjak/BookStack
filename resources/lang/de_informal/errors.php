@@ -23,6 +23,10 @@ return [
     'saml_no_email_address' => 'Es konnte keine E-Mail-Adresse für diesen Benutzer in den vom externen Authentifizierungssystem zur Verfügung gestellten Daten gefunden werden',
     'saml_invalid_response_id' => 'Die Anfrage vom externen Authentifizierungssystem wird von einem von dieser Anwendung gestarteten Prozess nicht erkannt. Das Zurückgehen nach einem Login könnte dieses Problem verursachen.',
     'saml_fail_authed' => 'Anmeldung mit :system fehlgeschlagen, System konnte keine erfolgreiche Autorisierung bereitstellen',
+    'oidc_already_logged_in' => 'Bereits angemeldet',
+    'oidc_user_not_registered' => 'Der Benutzer :name ist nicht registriert und die automatische Registrierung ist deaktiviert',
+    'oidc_no_email_address' => 'Es konnte keine E-Mail-Adresse für diesen Benutzer in den vom externen Authentifizierungssystem zur Verfügung gestellten Daten gefunden werden',
+    'oidc_fail_authed' => 'Anmeldung mit :system fehlgeschlagen, System konnte keine erfolgreiche Autorisierung bereitstellen',
     'social_no_action_defined' => 'Es ist keine Aktion definiert',
     'social_login_bad_response' => "Fehler bei :socialAccount Login: \n:error",
     'social_account_in_use' => 'Dieses :socialAccount-Konto wird bereits verwendet. Bitte melde dich mit dem :socialAccount-Konto an.',
@@ -33,7 +37,7 @@ return [
     'social_account_register_instructions' => 'Wenn Du bisher kein Social-Media Konto besitzt, kannst Du ein solches Konto mit der :socialAccount Option anlegen.',
     'social_driver_not_found' => 'Treiber für Social-Media-Konten nicht gefunden',
     'social_driver_not_configured' => 'Ihr :socialAccount-Konto ist nicht korrekt konfiguriert.',
-    'invite_token_expired' => 'Dieser Einladungslink ist abgelaufen. Sie können stattdessen versuchen, Ihr Passwort zurückzusetzen.',
+    'invite_token_expired' => 'Dieser Einladungslink ist abgelaufen. Du kannst stattdessen versuchen, dein Passwort zurückzusetzen.',
 
     // System
     'path_not_writable' => 'Die Datei kann nicht in den angegebenen Pfad :filePath hochgeladen werden. Stelle sicher, dass dieser Ordner auf dem Server beschreibbar ist.',
@@ -84,7 +88,7 @@ return [
     'sorry_page_not_found' => 'Entschuldigung. Die Seite, die Du angefordert hast, wurde nicht gefunden.',
     'sorry_page_not_found_permission_warning' => 'Wenn du erwartet hast, dass diese Seite existiert, hast du möglicherweise nicht die Berechtigung, sie anzuzeigen.',
     'image_not_found' => 'Bild nicht gefunden',
-    'image_not_found_subtitle' => 'Entschuldigung. Das Bild, die Sie angefordert haben, wurde nicht gefunden.',
+    'image_not_found_subtitle' => 'Entschuldigung. Das angeforderte Bild wurde nicht gefunden.',
     'image_not_found_details' => 'Wenn Sie erwartet haben, dass dieses Bild existiert, könnte es gelöscht worden sein.',
     'return_home' => 'Zurück zur Startseite',
     'error_occurred' => 'Es ist ein Fehler aufgetreten',

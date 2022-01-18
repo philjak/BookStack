@@ -14,16 +14,16 @@ class ChapterApiController extends ApiController
 
     protected $rules = [
         'create' => [
-            'book_id'     => 'required|integer',
-            'name'        => 'required|string|max:255',
-            'description' => 'string|max:1000',
-            'tags'        => 'array',
+            'book_id'     => ['required', 'integer'],
+            'name'        => ['required', 'string', 'max:255'],
+            'description' => ['string', 'max:1000'],
+            'tags'        => ['array'],
         ],
         'update' => [
-            'book_id'     => 'integer',
-            'name'        => 'string|min:1|max:255',
-            'description' => 'string|max:1000',
-            'tags'        => 'array',
+            'book_id'     => ['integer'],
+            'name'        => ['string', 'min:1', 'max:255'],
+            'description' => ['string', 'max:1000'],
+            'tags'        => ['array'],
         ],
     ];
 
@@ -70,7 +70,7 @@ class ChapterApiController extends ApiController
     public function read(string $id)
     {
         $chapter = Chapter::visible()->with(['tags', 'createdBy', 'updatedBy', 'ownedBy', 'pages' => function (HasMany $query) {
-            $query->visible()->get(['id', 'name', 'slug']);
+            $query->scopes('visible')->get(['id', 'name', 'slug']);
         }])->findOrFail($id);
 
         return response()->json($chapter);
