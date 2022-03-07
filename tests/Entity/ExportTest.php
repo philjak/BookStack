@@ -268,7 +268,7 @@ class ExportTest extends TestCase
         foreach ($entities as $entity) {
             $resp = $this->asEditor()->get($entity->getUrl('/export/html'));
             $resp->assertDontSee('window.donkey');
-            $resp->assertDontSee('script');
+            $resp->assertDontSee('<script', false);
             $resp->assertSee('.my-test-class { color: red; }');
         }
     }
@@ -302,10 +302,29 @@ class ExportTest extends TestCase
         $mockPdfGenerator->shouldReceive('fromHtml')
             ->with(\Mockery::capture($pdfHtml))
             ->andReturn('');
+        $mockPdfGenerator->shouldReceive('getActiveEngine')->andReturn(PdfGenerator::ENGINE_DOMPDF);
 
         $this->asEditor()->get($page->getUrl('/export/pdf'));
         $this->assertStringNotContainsString('iframe>', $pdfHtml);
         $this->assertStringContainsString('<p><a href="https://www.youtube.com/embed/ShqUjt33uOs">https://www.youtube.com/embed/ShqUjt33uOs</a></p>', $pdfHtml);
+    }
+
+    public function test_page_pdf_export_opens_details_blocks()
+    {
+        $page = Page::query()->first()->forceFill([
+            'html'     => '<details><summary>Hello</summary><p>Content!</p></details>',
+        ]);
+        $page->save();
+
+        $pdfHtml = '';
+        $mockPdfGenerator = $this->mock(PdfGenerator::class);
+        $mockPdfGenerator->shouldReceive('fromHtml')
+            ->with(\Mockery::capture($pdfHtml))
+            ->andReturn('');
+        $mockPdfGenerator->shouldReceive('getActiveEngine')->andReturn(PdfGenerator::ENGINE_DOMPDF);
+
+        $this->asEditor()->get($page->getUrl('/export/pdf'));
+        $this->assertStringContainsString('<details open="open"', $pdfHtml);
     }
 
     public function test_page_markdown_export()
@@ -428,5 +447,19 @@ class ExportTest extends TestCase
         config()->set('app.allow_untrusted_server_fetching', true);
         $resp = $this->get($page->getUrl('/export/pdf'));
         $resp->assertStatus(500); // Bad response indicates wkhtml usage
+    }
+
+    public function test_html_exports_contain_csp_meta_tag()
+    {
+        $entities = [
+            Page::query()->first(),
+            Book::query()->first(),
+            Chapter::query()->first(),
+        ];
+
+        foreach ($entities as $entity) {
+            $resp = $this->asEditor()->get($entity->getUrl('/export/html'));
+            $resp->assertElementExists('head meta[http-equiv="Content-Security-Policy"][content*="script-src "]');
+        }
     }
 }
