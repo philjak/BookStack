@@ -24,6 +24,7 @@ return [
     'width' => '宽度',
     'height' => '高度',
     'More' => '更多',
+    'select' => '选择...',
 
     // Toolbar
     'formats' => '格式',
@@ -55,6 +56,7 @@ return [
     'align_justify' => '两端对齐',
     'list_bullet' => '无序列表',
     'list_numbered' => '有序列表',
+    'list_task' => '任务列表',
     'indent_increase' => '增加缩进',
     'indent_decrease' => '减少缩进',
     'table' => '表格',
@@ -91,7 +93,10 @@ return [
     'cell_properties_title' => '单元格属性',
     'cell_type' => '单元格类型',
     'cell_type_cell' => '单元格',
+    'cell_scope' => '范围',
     'cell_type_header' => '表头',
+    'merge_cells' => '合并单元格',
+    'split_cell' => '拆分单元格',
     'table_row_group' => '按行分组',
     'table_column_group' => '按列分组',
     'horizontal_align' => '水平对齐',
@@ -119,6 +124,16 @@ return [
     'caption' => '标题',
     'show_caption' => '显示标题',
     'constrain' => '保持宽高比',
+    'cell_border_solid' => '实线',
+    'cell_border_dotted' => '点虚线',
+    'cell_border_dashed' => '短虚线',
+    'cell_border_double' => '双实线',
+    'cell_border_groove' => '浮入',
+    'cell_border_ridge' => '浮出',
+    'cell_border_inset' => '陷入',
+    'cell_border_outset' => '突出',
+    'cell_border_none' => '无边框',
+    'cell_border_hidden' => '隐藏边框',
 
     // Images, links, details/summary & embed
     'source' => '来源',
@@ -139,12 +154,14 @@ return [
     'toggle_label' => '切换标签',
 
     // About view
+    'about' => '关于编辑器',
     'about_title' => '关于所见即所得（WYSIWYG）编辑器',
     'editor_license' => '编辑器许可证与版权信息',
     'editor_tiny_license' => '此编辑器是在 LGPL v2.1 许可证下使用 :tinyLink 构建的。',
     'editor_tiny_license_link' => 'TinyMCE 的版权和许可证详细信息可以在这里找到。',
     'save_continue' => '保存页面并继续',
     'callouts_cycle' => '(继续按下以切换类型)',
+    'link_selector' => '链接到内容',
     'shortcuts' => '快捷键',
     'shortcut' => '快捷键',
     'shortcuts_intro' => '编辑器中提供了以下快捷键：',

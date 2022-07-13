@@ -19,7 +19,7 @@ return [
     'description' => 'Descrição',
     'role' => 'Cargo',
     'cover_image' => 'Imagem de capa',
-    'cover_image_description' => 'Esta imagem deve ser aproximadamente 440x250px.',
+    'cover_image_description' => 'Esta imagem deve ter aproximadamente 440x250px.',
 
     // Actions
     'actions' => 'Ações',
@@ -47,6 +47,8 @@ return [
     'previous' => 'Anterior',
     'filter_active' => 'Filtro Ativo:',
     'filter_clear' => 'Limpar Filtro',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Opções de Ordenação',
@@ -74,8 +76,8 @@ return [
     'status' => 'Estado',
     'status_active' => 'Ativo',
     'status_inactive' => 'Inativo',
-    'never' => 'Never',
-    'none' => 'None',
+    'never' => 'Nunca',
+    'none' => 'Nenhum',
 
     // Header
     'header_menu_expand' => 'Expandir Menu de Cabeçalho',

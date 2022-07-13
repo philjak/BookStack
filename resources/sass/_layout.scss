@@ -8,6 +8,9 @@
   margin-inline-end: auto;
   padding-inline-start: $-m;
   padding-inline-end: $-m;
+  &.medium {
+    max-width: 1100px;
+  }
   &.small {
     max-width: 840px;
   }
@@ -23,6 +26,9 @@
   display: grid;
   grid-column-gap: $-l;
   grid-row-gap: $-l;
+  > * {
+    min-width: 0;
+  }
   &.half {
     grid-template-columns: 1fr 1fr;
   }
@@ -152,6 +158,13 @@ body.flexbox {
   }
 }
 
+.gap-m {
+  gap: $-m;
+}
+
+.justify-flex-start {
+  justify-content: flex-start;
+}
 .justify-flex-end {
   justify-content: flex-end;
 }
@@ -292,9 +305,9 @@ body.flexbox {
 }
 @include larger-than($xxl) {
   .tri-layout-left-contents, .tri-layout-right-contents {
-    padding: $-m;
+    padding: $-xl $-m;
     position: sticky;
-    top: $-m;
+    top: 0;
     max-height: 100vh;
     min-height: 50vh;
     overflow-y: scroll;

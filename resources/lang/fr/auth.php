@@ -38,6 +38,11 @@ return [
     'registration_email_domain_invalid' => 'Cette adresse e-mail ne peut pas accéder à l\'application',
     'register_success' => 'Merci pour votre inscription. Vous êtes maintenant inscrit(e) et connecté(e)',
 
+    // Login auto-initiation
+    'auto_init_starting' => 'Tentative de connexion',
+    'auto_init_starting_desc' => 'Nous contactons votre système d\'authentification pour démarrer le processus de connexion. S\'il n\'y a pas de progrès après 5 secondes, vous pouvez essayer de cliquer sur le lien ci-dessous.',
+    'auto_init_start_link' => 'Procéder à l\'authentification',
+
     // Password Reset
     'reset_password' => 'Réinitialiser le mot de passe',
     'reset_password_send_instructions' => 'Entrez votre adresse e-mail ci-dessous et un e-mail avec un lien de réinitialisation de mot de passe vous sera envoyé.',

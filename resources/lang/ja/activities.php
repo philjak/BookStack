@@ -28,6 +28,8 @@ return [
     // Books
     'book_create'                 => 'がブックを作成:',
     'book_create_notification'    => 'ブックを作成しました',
+    'book_create_from_chapter'              => 'がチャプターをブックに変換:',
+    'book_create_from_chapter_notification' => 'チャプターがブックへ正常に変換されました',
     'book_update'                 => 'がブックを更新:',
     'book_update_notification'    => 'ブックを更新しました',
     'book_delete'                 => 'がブックを削除:',
@@ -38,6 +40,8 @@ return [
     // Bookshelves
     'bookshelf_create'            => 'が本棚を作成:',
     'bookshelf_create_notification'    => '本棚を作成しました',
+    'bookshelf_create_from_book'    => 'がブックを本棚に変換:',
+    'bookshelf_create_from_book_notification'    => 'ブックが本棚へ正常に変換されました',
     'bookshelf_update'                 => 'が本棚を更新:',
     'bookshelf_update_notification'    => '本棚を更新しました',
     'bookshelf_delete'                 => 'が本棚を削除:',
@@ -53,15 +57,15 @@ return [
 
     // Webhooks
     'webhook_create' => 'created webhook',
-    'webhook_create_notification' => 'Webhook successfully created',
+    'webhook_create_notification' => 'Webhookが正常に作成されました',
     'webhook_update' => 'updated webhook',
-    'webhook_update_notification' => 'Webhook successfully updated',
+    'webhook_update_notification' => 'Webhookが正常に更新されました',
     'webhook_delete' => 'deleted webhook',
-    'webhook_delete_notification' => 'Webhook successfully deleted',
+    'webhook_delete_notification' => 'Webhookが正常に削除されました',
 
     // Users
-    'user_update_notification' => 'User successfully updated',
-    'user_delete_notification' => 'User successfully removed',
+    'user_update_notification' => 'ユーザーが正常に更新されました',
+    'user_delete_notification' => 'ユーザーが正常に削除されました',
 
     // Other
     'commented_on'                => 'がコメント:',

@@ -38,6 +38,11 @@ return [
     'registration_email_domain_invalid' => 'Dit e-maildomein is niet toegestaan',
     'register_success' => 'Bedankt voor het aanmelden! Je bent nu geregistreerd en aangemeld.',
 
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
+
     // Password Reset
     'reset_password' => 'Wachtwoord herstellen',
     'reset_password_send_instructions' => 'Geef je e-mail en we sturen je een link om je wachtwoord te herstellen',
@@ -77,7 +82,7 @@ return [
     'mfa_setup' => 'Multi-factor authenticatie instellen',
     'mfa_setup_desc' => 'Stel multi-factor authenticatie in als een extra beveiligingslaag voor uw gebruikersaccount.',
     'mfa_setup_configured' => 'Reeds geconfigureerd',
-    'mfa_setup_reconfigure' => 'Herconfigureren1',
+    'mfa_setup_reconfigure' => 'Herconfigureren',
     'mfa_setup_remove_confirmation' => 'Weet je zeker dat je deze multi-factor authenticatie methode wilt verwijderen?',
     'mfa_setup_action' => 'Instellen',
     'mfa_backup_codes_usage_limit_warning' => 'U heeft minder dan 5 back-upcodes resterend. Genereer en sla een nieuwe set op voordat je geen codes meer hebt om te voorkomen dat je buiten je account wordt gesloten.',

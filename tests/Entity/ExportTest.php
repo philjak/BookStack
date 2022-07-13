@@ -362,30 +362,6 @@ class ExportTest extends TestCase
         $resp->assertSee("# Dogcat\n\nSome **bold** text");
     }
 
-    public function test_page_markdown_export_does_not_convert_callouts()
-    {
-        $page = Page::query()->first()->forceFill([
-            'markdown' => '',
-            'html'     => '<h1>Dogcat</h1><p class="callout info">Some callout text</p><p>Another line</p>',
-        ]);
-        $page->save();
-
-        $resp = $this->asEditor()->get($page->getUrl('/export/markdown'));
-        $resp->assertSee("# Dogcat\n\n<p class=\"callout info\">Some callout text</p>\n\nAnother line", false);
-    }
-
-    public function test_page_markdown_export_handles_bookstacks_wysiwyg_codeblock_format()
-    {
-        $page = Page::query()->first()->forceFill([
-            'markdown' => '',
-            'html'     => '<h1>Dogcat</h1>' . "\r\n" . '<pre id="bkmrk-var-a-%3D-%27cat%27%3B"><code class="language-JavaScript">var a = \'cat\';</code></pre><p>Another line</p>',
-        ]);
-        $page->save();
-
-        $resp = $this->asEditor()->get($page->getUrl('/export/markdown'));
-        $resp->assertSee("# Dogcat\n\n```JavaScript\nvar a = 'cat';\n```\n\nAnother line", false);
-    }
-
     public function test_chapter_markdown_export()
     {
         $chapter = Chapter::query()->first();
@@ -406,6 +382,25 @@ class ExportTest extends TestCase
         $resp->assertSee('# ' . $book->name);
         $resp->assertSee('# ' . $chapter->name);
         $resp->assertSee('# ' . $page->name);
+    }
+
+    public function test_book_markdown_export_concats_immediate_pages_with_newlines()
+    {
+        /** @var Book $book */
+        $book = Book::query()->whereHas('pages')->first();
+
+        $this->asEditor()->get($book->getUrl('/create-page'));
+        $this->get($book->getUrl('/create-page'));
+
+        [$pageA, $pageB] = $book->pages()->where('chapter_id', '=', 0)->get();
+        $pageA->html = '<p>hello tester</p>';
+        $pageA->save();
+        $pageB->name = 'The second page in this test';
+        $pageB->save();
+
+        $resp = $this->get($book->getUrl('/export/markdown'));
+        $resp->assertDontSee('hello tester# The second page in this test');
+        $resp->assertSee("hello tester\n\n# The second page in this test");
     }
 
     public function test_export_option_only_visible_and_accessible_with_permission()
@@ -461,5 +456,13 @@ class ExportTest extends TestCase
             $resp = $this->asEditor()->get($entity->getUrl('/export/html'));
             $resp->assertElementExists('head meta[http-equiv="Content-Security-Policy"][content*="script-src "]');
         }
+    }
+
+    public function test_html_exports_contain_body_classes_for_export_identification()
+    {
+        $page = Page::query()->first();
+
+        $resp = $this->asEditor()->get($page->getUrl('/export/html'));
+        $resp->assertElementExists('body.export.export-format-html.export-engine-none');
     }
 }

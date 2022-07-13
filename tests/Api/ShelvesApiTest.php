@@ -4,13 +4,17 @@ namespace Tests\Api;
 
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use Tests\Uploads\UsesImages;
 
 class ShelvesApiTest extends TestCase
 {
     use TestsApi;
+    use UsesImages;
 
-    protected $baseEndpoint = '/api/shelves';
+    protected string $baseEndpoint = '/api/shelves';
 
     public function test_index_endpoint_returns_expected_shelf()
     {
@@ -111,6 +115,21 @@ class ShelvesApiTest extends TestCase
         $this->assertActivityExists('bookshelf_update', $shelf);
     }
 
+    public function test_update_increments_updated_date_if_only_tags_are_sent()
+    {
+        $this->actingAsApiEditor();
+        $shelf = Bookshelf::visible()->first();
+        DB::table('bookshelves')->where('id', '=', $shelf->id)->update(['updated_at' => Carbon::now()->subWeek()]);
+
+        $details = [
+            'tags' => [['name' => 'Category', 'value' => 'Testing']],
+        ];
+
+        $this->putJson($this->baseEndpoint . "/{$shelf->id}", $details);
+        $shelf->refresh();
+        $this->assertGreaterThan(Carbon::now()->subDay()->unix(), $shelf->updated_at->unix());
+    }
+
     public function test_update_only_assigns_books_if_param_provided()
     {
         $this->actingAsApiEditor();
@@ -127,6 +146,42 @@ class ShelvesApiTest extends TestCase
         $resp = $this->putJson($this->baseEndpoint . "/{$shelf->id}", ['books' => []]);
         $resp->assertStatus(200);
         $this->assertTrue($shelf->books()->count() === 0);
+    }
+
+    public function test_update_cover_image_control()
+    {
+        $this->actingAsApiEditor();
+        /** @var Book $shelf */
+        $shelf = Bookshelf::visible()->first();
+        $this->assertNull($shelf->cover);
+        $file = $this->getTestImage('image.png');
+
+        // Ensure cover image can be set via API
+        $resp = $this->call('PUT', $this->baseEndpoint . "/{$shelf->id}", [
+            'name'  => 'My updated API shelf with image',
+        ], [], ['image' => $file]);
+        $shelf->refresh();
+
+        $resp->assertStatus(200);
+        $this->assertNotNull($shelf->cover);
+
+        // Ensure further updates without image do not clear cover image
+        $resp = $this->put($this->baseEndpoint . "/{$shelf->id}", [
+            'name' => 'My updated shelf again',
+        ]);
+        $shelf->refresh();
+
+        $resp->assertStatus(200);
+        $this->assertNotNull($shelf->cover);
+
+        // Ensure update with null image property clears image
+        $resp = $this->put($this->baseEndpoint . "/{$shelf->id}", [
+            'image' => null,
+        ]);
+        $shelf->refresh();
+
+        $resp->assertStatus(200);
+        $this->assertNull($shelf->cover);
     }
 
     public function test_delete_endpoint()

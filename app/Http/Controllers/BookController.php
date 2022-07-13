@@ -9,6 +9,7 @@ use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Repos\BookRepo;
 use BookStack\Entities\Tools\BookContents;
 use BookStack\Entities\Tools\Cloner;
+use BookStack\Entities\Tools\HierarchyTransformer;
 use BookStack\Entities\Tools\PermissionsUpdater;
 use BookStack\Entities\Tools\ShelfContext;
 use BookStack\Exceptions\ImageUploadException;
@@ -87,10 +88,11 @@ class BookController extends Controller
     public function store(Request $request, string $shelfSlug = null)
     {
         $this->checkPermission('book-create-all');
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'name'        => ['required', 'string', 'max:255'],
             'description' => ['string', 'max:1000'],
             'image'       => array_merge(['nullable'], $this->getImageValidationRules()),
+            'tags'        => ['array'],
         ]);
 
         $bookshelf = null;
@@ -99,8 +101,7 @@ class BookController extends Controller
             $this->checkOwnablePermission('bookshelf-update', $bookshelf);
         }
 
-        $book = $this->bookRepo->create($request->all());
-        $this->bookRepo->updateCoverImage($book, $request->file('image', null));
+        $book = $this->bookRepo->create($validated);
 
         if ($bookshelf) {
             $bookshelf->appendBook($book);
@@ -158,15 +159,21 @@ class BookController extends Controller
     {
         $book = $this->bookRepo->getBySlug($slug);
         $this->checkOwnablePermission('book-update', $book);
-        $this->validate($request, [
+
+        $validated = $this->validate($request, [
             'name'        => ['required', 'string', 'max:255'],
             'description' => ['string', 'max:1000'],
             'image'       => array_merge(['nullable'], $this->getImageValidationRules()),
+            'tags'        => ['array'],
         ]);
 
-        $book = $this->bookRepo->update($book, $request->all());
-        $resetCover = $request->has('image_reset');
-        $this->bookRepo->updateCoverImage($book, $request->file('image', null), $resetCover);
+        if ($request->has('image_reset')) {
+            $validated['image'] = null;
+        } elseif (array_key_exists('image', $validated) && is_null($validated['image'])) {
+            unset($validated['image']);
+        }
+
+        $book = $this->bookRepo->update($book, $validated);
 
         return redirect($book->getUrl());
     }
@@ -261,5 +268,21 @@ class BookController extends Controller
         $this->showSuccessNotification(trans('entities.books_copy_success'));
 
         return redirect($bookCopy->getUrl());
+    }
+
+    /**
+     * Convert the chapter to a book.
+     */
+    public function convertToShelf(HierarchyTransformer $transformer, string $bookSlug)
+    {
+        $book = $this->bookRepo->getBySlug($bookSlug);
+        $this->checkOwnablePermission('book-update', $book);
+        $this->checkOwnablePermission('book-delete', $book);
+        $this->checkPermission('bookshelf-create-all');
+        $this->checkPermission('book-create-all');
+
+        $shelf = $transformer->transformBookToShelf($book);
+
+        return redirect($shelf->getUrl());
     }
 }

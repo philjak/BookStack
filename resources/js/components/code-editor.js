@@ -33,10 +33,11 @@ class CodeEditor {
         onSelect(this.languageLinks, event => {
             const language = event.target.dataset.lang;
             this.languageInput.value = language;
-            this.updateEditorMode(language);
+            this.languageInputChange(language);
         });
 
         onEnterPress(this.languageInput, e => this.save());
+        this.languageInput.addEventListener('input', e => this.languageInputChange(this.languageInput.value));
         onSelect(this.saveButton, e => this.save());
 
         onChildEvent(this.historyList, 'button', 'click', (event, elem) => {
@@ -60,7 +61,7 @@ class CodeEditor {
         this.callback = callback;
 
         this.show()
-            .then(() => this.updateEditorMode(language))
+            .then(() => this.languageInputChange(language))
             .then(() => window.importVersioned('code'))
             .then(Code => Code.setContent(this.editor, code));
     }
@@ -90,13 +91,29 @@ class CodeEditor {
         Code.setMode(this.editor, language, this.editor.getValue());
     }
 
+    languageInputChange(language) {
+        this.updateEditorMode(language);
+        const inputLang = language.toLowerCase();
+        let matched = false;
+
+        for (const link of this.languageLinks) {
+            const lang = link.dataset.lang.toLowerCase().trim();
+            const isMatch = inputLang && lang.startsWith(inputLang);
+            link.classList.toggle('active', isMatch);
+            if (isMatch && !matched) {
+                link.scrollIntoView({block: "center", behavior: "smooth"});
+                matched = true;
+            }
+        }
+    }
+
     loadHistory() {
         this.history = JSON.parse(window.sessionStorage.getItem(this.historyKey) || '{}');
         const historyKeys = Object.keys(this.history).reverse();
         this.historyDropDown.classList.toggle('hidden', historyKeys.length === 0);
         this.historyList.innerHTML = historyKeys.map(key => {
              const localTime = (new Date(parseInt(key))).toLocaleTimeString();
-             return `<li><button type="button" data-time="${key}">${localTime}</button></li>`;
+             return `<li><button type="button" data-time="${key}" class="text-item">${localTime}</button></li>`;
         }).join('');
     }
 

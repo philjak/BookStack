@@ -21,7 +21,7 @@ return [
     'email' => 'Адреса електронної пошти',
     'password' => 'Пароль',
     'password_confirm' => 'Підтвердження пароля',
-    'password_hint' => 'Must be at least 8 characters',
+    'password_hint' => 'Повинен бути щонайменше 8 символів',
     'forgot_password' => 'Забули пароль?',
     'remember_me' => 'Запам\'ятати мене',
     'ldap_email_hint' => 'Введіть email для цього облікового запису.',
@@ -37,6 +37,11 @@ return [
     'registrations_disabled' => 'Реєстрацію вимкнено',
     'registration_email_domain_invalid' => 'Цей домен електронної пошти заборонений для реєстрації',
     'register_success' => 'Дякуємо за реєстрацію! Ви зареєстровані та ввійшли в систему.',
+
+    // Login auto-initiation
+    'auto_init_starting' => 'Attempting Login',
+    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
     'reset_password' => 'Скинути пароль',

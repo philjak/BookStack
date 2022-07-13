@@ -47,6 +47,8 @@ return [
     'previous' => '前へ',
     'filter_active' => '有効なフィルター:',
     'filter_clear' => 'フィルターを解除',
+    'download' => 'ダウンロード',
+    'open_in_tab' => 'タブで開く',
 
     // Sort Options
     'sort_options' => '並べ替えオプション',
@@ -75,7 +77,7 @@ return [
     'status_active' => '有効',
     'status_inactive' => '無効',
     'never' => '該当なし',
-    'none' => 'None',
+    'none' => 'なし',
 
     // Header
     'header_menu_expand' => 'ヘッダーメニューを展開',
