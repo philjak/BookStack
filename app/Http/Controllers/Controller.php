@@ -4,13 +4,12 @@ namespace BookStack\Http\Controllers;
 
 use BookStack\Exceptions\NotifyException;
 use BookStack\Facades\Activity;
+use BookStack\Http\Responses\DownloadResponseFactory;
 use BookStack\Interfaces\Loggable;
 use BookStack\Model;
-use BookStack\Util\WebSafeMimeSniffer;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 
 abstract class Controller extends BaseController
@@ -109,30 +108,11 @@ abstract class Controller extends BaseController
     }
 
     /**
-     * Create a response that forces a download in the browser.
+     * Create and return a new download response factory using the current request.
      */
-    protected function downloadResponse(string $content, string $fileName): Response
+    protected function download(): DownloadResponseFactory
     {
-        return response()->make($content, 200, [
-            'Content-Type'           => 'application/octet-stream',
-            'Content-Disposition'    => 'attachment; filename="' . $fileName . '"',
-            'X-Content-Type-Options' => 'nosniff',
-        ]);
-    }
-
-    /**
-     * Create a file download response that provides the file with a content-type
-     * correct for the file, in a way so the browser can show the content in browser.
-     */
-    protected function inlineDownloadResponse(string $content, string $fileName): Response
-    {
-        $mime = (new WebSafeMimeSniffer())->sniff($content);
-
-        return response()->make($content, 200, [
-            'Content-Type'           => $mime,
-            'Content-Disposition'    => 'inline; filename="' . $fileName . '"',
-            'X-Content-Type-Options' => 'nosniff',
-        ]);
+        return new DownloadResponseFactory(request());
     }
 
     /**

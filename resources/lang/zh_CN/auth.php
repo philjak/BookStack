@@ -38,6 +38,11 @@ return [
     'registration_email_domain_invalid' => '该Email域名无权访问此应用程序',
     'register_success' => '感谢您注册:appName，您现在已经登录。',
 
+    // Login auto-initiation
+    'auto_init_starting' => '尝试登录中',
+    'auto_init_starting_desc' => '我们正在联系您的身份验证系统以启动登录过程。如果 5 秒后还没有进展，您可以尝试点击下面的链接。',
+    'auto_init_start_link' => '继续进行身份验证',
+
     // Password Reset
     'reset_password' => '重置密码',
     'reset_password_send_instructions' => '在下面输入您的Email地址，您将收到一封带有密码重置链接的邮件。',

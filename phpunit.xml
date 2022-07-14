@@ -29,11 +29,14 @@
     <server name="MAIL_DRIVER" value="array"/>
     <server name="LOG_CHANNEL" value="single"/>
     <server name="AUTH_METHOD" value="standard"/>
+    <server name="AUTH_AUTO_INITIATE" value="false"/>
     <server name="DISABLE_EXTERNAL_SERVICES" value="true"/>
     <server name="ALLOW_UNTRUSTED_SERVER_FETCHING" value="false"/>
     <server name="AVATAR_URL" value=""/>
     <server name="LDAP_START_TLS" value="false"/>
     <server name="LDAP_VERSION" value="3"/>
+    <server name="LDAP_DUMP_USER_DETAILS" value="false"/>
+    <server name="LDAP_DUMP_USER_GROUPS" value="false"/>
     <server name="SESSION_SECURE_COOKIE" value="null"/>
     <server name="STORAGE_TYPE" value="local"/>
     <server name="STORAGE_ATTACHMENT_TYPE" value="local"/>

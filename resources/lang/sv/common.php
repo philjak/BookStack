@@ -47,6 +47,8 @@ return [
     'previous' => 'Föregående',
     'filter_active' => 'Active Filter:',
     'filter_clear' => 'Clear Filter',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'Sorteringsalternativ',
@@ -73,7 +75,7 @@ return [
     'breadcrumb' => 'Brödsmula',
     'status' => 'Status',
     'status_active' => 'Active',
-    'status_inactive' => 'Inactive',
+    'status_inactive' => 'Inaktiv',
     'never' => 'Never',
     'none' => 'None',
 

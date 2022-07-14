@@ -3,9 +3,7 @@
 @section('body')
     <div class="container small">
 
-        <div class="py-m">
-            @include('settings.parts.navbar', ['selected' => 'users'])
-        </div>
+        @include('settings.parts.navbar', ['selected' => 'users'])
 
         <div class="card content-wrap auto-height">
             <h1 class="list-heading">{{ trans('settings.users_delete') }}</h1>
@@ -21,7 +19,7 @@
                         <p class="small">{{ trans('settings.users_migrate_ownership_desc') }}</p>
                     </div>
                     <div>
-                        @include('form.user-select', ['name' => 'new_owner_id', 'user' => null, 'compact' => false])
+                        @include('form.user-select', ['name' => 'new_owner_id', 'user' => null])
                     </div>
                 </div>
             @endif

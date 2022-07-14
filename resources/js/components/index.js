@@ -6,10 +6,12 @@ import attachmentsList from "./attachments-list.js"
 import autoSuggest from "./auto-suggest.js"
 import backToTop from "./back-to-top.js"
 import bookSort from "./book-sort.js"
-import chapterToggle from "./chapter-toggle.js"
+import chapterContents from "./chapter-contents.js"
 import codeEditor from "./code-editor.js"
 import codeHighlighter from "./code-highlighter.js"
+import codeTextarea from "./code-textarea.js"
 import collapsible from "./collapsible.js"
+import confirmDialog from "./confirm-dialog"
 import customCheckbox from "./custom-checkbox.js"
 import detailsHighlighter from "./details-highlighter.js"
 import dropdown from "./dropdown.js"
@@ -26,7 +28,6 @@ import headerMobileToggle from "./header-mobile-toggle.js"
 import homepageControl from "./homepage-control.js"
 import imageManager from "./image-manager.js"
 import imagePicker from "./image-picker.js"
-import index from "./index.js"
 import listSortControl from "./list-sort-control.js"
 import markdownEditor from "./markdown-editor.js"
 import newUserPassword from "./new-user-password.js"
@@ -62,10 +63,12 @@ const componentMapping = {
     "auto-suggest": autoSuggest,
     "back-to-top": backToTop,
     "book-sort": bookSort,
-    "chapter-toggle": chapterToggle,
+    "chapter-contents": chapterContents,
     "code-editor": codeEditor,
     "code-highlighter": codeHighlighter,
+    "code-textarea": codeTextarea,
     "collapsible": collapsible,
+    "confirm-dialog": confirmDialog,
     "custom-checkbox": customCheckbox,
     "details-highlighter": detailsHighlighter,
     "dropdown": dropdown,
@@ -82,7 +85,6 @@ const componentMapping = {
     "homepage-control": homepageControl,
     "image-manager": imageManager,
     "image-picker": imagePicker,
-    "index": index,
     "list-sort-control": listSortControl,
     "markdown-editor": markdownEditor,
     "new-user-password": newUserPassword,

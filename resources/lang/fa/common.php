@@ -47,6 +47,8 @@ return [
     'previous' => 'قبلى',
     'filter_active' => 'فیلتر فعال:',
     'filter_clear' => 'پاک کردن فیلتر',
+    'download' => 'Download',
+    'open_in_tab' => 'Open in Tab',
 
     // Sort Options
     'sort_options' => 'گزینه‌های مرتب سازی',
@@ -75,7 +77,7 @@ return [
     'status_active' => 'فعال',
     'status_inactive' => 'غیر فعال',
     'never' => 'هرگز',
-    'none' => 'None',
+    'none' => 'هیچکدام',
 
     // Header
     'header_menu_expand' => 'گسترش منو',

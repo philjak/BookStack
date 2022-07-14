@@ -38,6 +38,11 @@ return [
     'registration_email_domain_invalid' => 'Questo dominio della mail non ha accesso a questa applicazione',
     'register_success' => 'Grazie per la registrazione! Sei registrato e loggato.',
 
+    // Login auto-initiation
+    'auto_init_starting' => 'Tentativo di accesso',
+    'auto_init_starting_desc' => 'Stiamo contattando il vostro sistema di autenticazione per avviare il processo di login. Se dopo 5 secondi non si verifica alcun progresso, si può provare a fare clic sul link sottostante.',
+    'auto_init_start_link' => 'Procedi con l\'autenticazione',
+
     // Password Reset
     'reset_password' => 'Reimposta Password',
     'reset_password_send_instructions' => 'Inserisci il tuo indirizzo sotto e ti verrà inviata una mail contenente un link per resettare la tua password.',
