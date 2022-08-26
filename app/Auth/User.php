@@ -81,6 +81,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected ?Collection $permissions;
 
     /**
+     * This holds the user's avatar URL when loaded to prevent re-calculating within the same request.
+     */
+    protected string $avatarUrl = '';
+
+    /**
      * This holds the default user when loaded.
      *
      * @var null|User
@@ -163,7 +168,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Get all permissions belonging to a the current user.
+     * Get all permissions belonging to the current user.
      */
     protected function permissions(): Collection
     {
@@ -233,11 +238,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return $default;
         }
 
+        if (!empty($this->avatarUrl)) {
+            return $this->avatarUrl;
+        }
+
         try {
             $avatar = $this->avatar ? url($this->avatar->getThumb($size, $size, false)) : $default;
         } catch (Exception $err) {
             $avatar = $default;
         }
+
+        $this->avatarUrl = $avatar;
 
         return $avatar;
     }

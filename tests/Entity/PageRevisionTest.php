@@ -2,6 +2,7 @@
 
 namespace Tests\Entity;
 
+use BookStack\Actions\ActivityType;
 use BookStack\Entities\Models\Page;
 use BookStack\Entities\Repos\PageRepo;
 use Tests\TestCase;
@@ -117,6 +118,9 @@ class PageRevisionTest extends TestCase
             'type'    => 'version',
             'summary' => "Restored from #{$revToRestore->id}; My first update",
         ]);
+
+        $detail = "Revision #{$revToRestore->revision_number} (ID: {$revToRestore->id}) for page ID {$revToRestore->page_id}";
+        $this->assertActivityExists(ActivityType::REVISION_RESTORE, null, $detail);
     }
 
     public function test_page_revision_count_increments_on_update()
@@ -163,6 +167,9 @@ class PageRevisionTest extends TestCase
         $afterRevisionCount = $page->revisions->count();
 
         $this->assertTrue($beforeRevisionCount === ($afterRevisionCount + 1));
+
+        $detail = "Revision #{$revision->revision_number} (ID: {$revision->id}) for page ID {$revision->page_id}";
+        $this->assertActivityExists(ActivityType::REVISION_DELETE, null, $detail);
 
         // Try to delete the latest revision
         $beforeRevisionCount = $page->revisions->count();
@@ -211,11 +218,11 @@ class PageRevisionTest extends TestCase
         $this->asAdmin()->put($page->getUrl(), ['name' => 'Updated page', 'html' => 'new page html']);
 
         $resp = $this->get($page->refresh()->getUrl('/revisions'));
-        $resp->assertElementContains('td', '(WYSIWYG)');
-        $resp->assertElementNotContains('td', '(Markdown)');
+        $this->withHtml($resp)->assertElementContains('td', '(WYSIWYG)');
+        $this->withHtml($resp)->assertElementNotContains('td', '(Markdown)');
 
         $this->asAdmin()->put($page->getUrl(), ['name' => 'Updated page', 'markdown' => '# Some markdown content']);
         $resp = $this->get($page->refresh()->getUrl('/revisions'));
-        $resp->assertElementContains('td', '(Markdown)');
+        $this->withHtml($resp)->assertElementContains('td', '(Markdown)');
     }
 }

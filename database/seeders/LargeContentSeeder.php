@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use BookStack\Auth\Permissions\PermissionService;
+use BookStack\Auth\Permissions\JointPermissionBuilder;
 use BookStack\Auth\Role;
 use BookStack\Auth\User;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Page;
-use BookStack\Entities\Tools\SearchIndex;
+use BookStack\Search\SearchIndex;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -35,7 +35,7 @@ class LargeContentSeeder extends Seeder
         $largeBook->chapters()->saveMany($chapters);
         $all = array_merge([$largeBook], array_values($pages->all()), array_values($chapters->all()));
 
-        app()->make(PermissionService::class)->buildJointPermissionsForEntity($largeBook);
+        app()->make(JointPermissionBuilder::class)->rebuildForEntity($largeBook);
         app()->make(SearchIndex::class)->indexEntities($all);
     }
 }
