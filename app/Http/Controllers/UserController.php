@@ -18,8 +18,8 @@ use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    protected $userRepo;
-    protected $imageRepo;
+    protected UserRepo $userRepo;
+    protected ImageRepo $imageRepo;
 
     /**
      * UserController constructor.
@@ -81,9 +81,9 @@ class UserController extends Controller
         $passwordRequired = ($authMethod === 'standard' && !$sendInvite);
 
         $validationRules = [
-            'name'             => ['required'],
+            'name'             => ['required', 'max:100'],
             'email'            => ['required', 'email', 'unique:users,email'],
-            'language'         => ['string'],
+            'language'         => ['string', 'max:15', 'alpha_dash'],
             'roles'            => ['array'],
             'roles.*'          => ['integer'],
             'password'         => $passwordRequired ? ['required', Password::default()] : null,
@@ -139,11 +139,11 @@ class UserController extends Controller
         $this->checkPermissionOrCurrentUser('users-manage', $id);
 
         $validated = $this->validate($request, [
-            'name'             => ['min:2'],
+            'name'             => ['min:2', 'max:100'],
             'email'            => ['min:2', 'email', 'unique:users,email,' . $id],
             'password'         => ['required_with:password_confirm', Password::default()],
             'password-confirm' => ['same:password', 'required_with:password'],
-            'language'         => ['string'],
+            'language'         => ['string', 'max:15', 'alpha_dash'],
             'roles'            => ['array'],
             'roles.*'          => ['integer'],
             'external_auth_id' => ['string'],
@@ -287,6 +287,27 @@ class UserController extends Controller
         setting()->putUser($user, 'section_expansion#' . $key, $newState);
 
         return response('', 204);
+    }
+
+    public function updateCodeLanguageFavourite(Request $request)
+    {
+        $validated = $this->validate($request, [
+            'language' => ['required', 'string', 'max:20'],
+            'active'   => ['required', 'bool'],
+        ]);
+
+        $currentFavoritesStr = setting()->getForCurrentUser('code-language-favourites', '');
+        $currentFavorites = array_filter(explode(',', $currentFavoritesStr));
+
+        $isFav = in_array($validated['language'], $currentFavorites);
+        if (!$isFav && $validated['active']) {
+            $currentFavorites[] = $validated['language'];
+        } elseif ($isFav && !$validated['active']) {
+            $index = array_search($validated['language'], $currentFavorites);
+            array_splice($currentFavorites, $index, 1);
+        }
+
+        setting()->putUser(user(), 'code-language-favourites', implode(',', $currentFavorites));
     }
 
     /**

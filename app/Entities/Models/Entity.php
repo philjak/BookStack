@@ -9,15 +9,17 @@ use BookStack\Actions\Tag;
 use BookStack\Actions\View;
 use BookStack\Auth\Permissions\EntityPermission;
 use BookStack\Auth\Permissions\JointPermission;
-use BookStack\Entities\Tools\SearchIndex;
+use BookStack\Auth\Permissions\JointPermissionBuilder;
+use BookStack\Auth\Permissions\PermissionApplicator;
 use BookStack\Entities\Tools\SlugGenerator;
-use BookStack\Facades\Permissions;
 use BookStack\Interfaces\Deletable;
 use BookStack\Interfaces\Favouritable;
 use BookStack\Interfaces\Loggable;
 use BookStack\Interfaces\Sluggable;
 use BookStack\Interfaces\Viewable;
 use BookStack\Model;
+use BookStack\Search\SearchIndex;
+use BookStack\Search\SearchTerm;
 use BookStack\Traits\HasCreatorAndUpdater;
 use BookStack\Traits\HasOwner;
 use Carbon\Carbon;
@@ -43,7 +45,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Collection $tags
  *
  * @method static Entity|Builder visible()
- * @method static Entity|Builder hasPermission(string $permission)
  * @method static Builder withLastView()
  * @method static Builder withViewCount()
  */
@@ -68,15 +69,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      */
     public function scopeVisible(Builder $query): Builder
     {
-        return $this->scopeHasPermission($query, 'view');
-    }
-
-    /**
-     * Scope the query to those entities that the current user has the given permission for.
-     */
-    public function scopeHasPermission(Builder $query, string $permission)
-    {
-        return Permissions::restrictEntityQuery($query, $permission);
+        return app()->make(PermissionApplicator::class)->restrictEntityQuery($query);
     }
 
     /**
@@ -284,8 +277,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      */
     public function rebuildPermissions()
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        Permissions::buildJointPermissionsForEntity(clone $this);
+        app()->make(JointPermissionBuilder::class)->rebuildForEntity(clone $this);
     }
 
     /**
@@ -293,7 +285,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      */
     public function indexForSearch()
     {
-        app(SearchIndex::class)->indexEntity(clone $this);
+        app()->make(SearchIndex::class)->indexEntity(clone $this);
     }
 
     /**
@@ -301,7 +293,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      */
     public function refreshSlug(): string
     {
-        $this->slug = app(SlugGenerator::class)->generate($this);
+        $this->slug = app()->make(SlugGenerator::class)->generate($this);
 
         return $this->slug;
     }

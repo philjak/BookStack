@@ -3,16 +3,15 @@
 namespace BookStack\Http\Controllers;
 
 use BookStack\Entities\Queries\Popular;
-use BookStack\Entities\Tools\SearchOptions;
-use BookStack\Entities\Tools\SearchResultsFormatter;
-use BookStack\Entities\Tools\SearchRunner;
 use BookStack\Entities\Tools\SiblingFetcher;
+use BookStack\Search\SearchOptions;
+use BookStack\Search\SearchResultsFormatter;
+use BookStack\Search\SearchRunner;
 use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
     protected $searchRunner;
-    protected $entityContextManager;
 
     public function __construct(SearchRunner $searchRunner)
     {
@@ -79,12 +78,12 @@ class SearchController extends Controller
         // Search for entities otherwise show most popular
         if ($searchTerm !== false) {
             $searchTerm .= ' {type:' . implode('|', $entityTypes) . '}';
-            $entities = $this->searchRunner->searchEntities(SearchOptions::fromString($searchTerm), 'all', 1, 20, $permission)['results'];
+            $entities = $this->searchRunner->searchEntities(SearchOptions::fromString($searchTerm), 'all', 1, 20)['results'];
         } else {
-            $entities = (new Popular())->run(20, 0, $entityTypes, $permission);
+            $entities = (new Popular())->run(20, 0, $entityTypes);
         }
 
-        return view('search.parts.entity-ajax-list', ['entities' => $entities]);
+        return view('search.parts.entity-ajax-list', ['entities' => $entities, 'permission' => $permission]);
     }
 
     /**

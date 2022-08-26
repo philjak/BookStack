@@ -2,18 +2,17 @@
 
 namespace BookStack\Http\Controllers;
 
+use BookStack\Actions\ActivityType;
 use BookStack\Entities\Repos\PageRepo;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Exceptions\NotFoundException;
+use BookStack\Facades\Activity;
 use Ssddanbrown\HtmlDiff\Diff;
 
 class PageRevisionController extends Controller
 {
-    protected $pageRepo;
+    protected PageRepo $pageRepo;
 
-    /**
-     * PageRevisionController constructor.
-     */
     public function __construct(PageRepo $pageRepo)
     {
         $this->pageRepo = $pageRepo;
@@ -27,11 +26,19 @@ class PageRevisionController extends Controller
     public function index(string $bookSlug, string $pageSlug)
     {
         $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
-        $this->setPageTitle(trans('entities.pages_revisions_named', ['pageName'=>$page->getShortName()]));
+        $revisions = $page->revisions()->select([
+            'id', 'page_id', 'name', 'created_at', 'created_by', 'updated_at',
+            'type', 'revision_number', 'summary',
+        ])
+            ->selectRaw("IF(markdown = '', false, true) as is_markdown")
+            ->with(['page.book', 'createdBy'])
+            ->get();
+
+        $this->setPageTitle(trans('entities.pages_revisions_named', ['pageName' => $page->getShortName()]));
 
         return view('pages.revisions', [
-            'page'    => $page,
-            'current' => $page,
+            'revisions' => $revisions,
+            'page'      => $page,
         ]);
     }
 
@@ -132,6 +139,7 @@ class PageRevisionController extends Controller
         }
 
         $revision->delete();
+        Activity::add(ActivityType::REVISION_DELETE, $revision);
         $this->showSuccessNotification(trans('entities.revision_delete_success'));
 
         return redirect($page->getUrl('/revisions'));

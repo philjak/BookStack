@@ -22,10 +22,10 @@ class UserManagementTest extends TestCase
         $adminRole = Role::getRole('admin');
 
         $resp = $this->asAdmin()->get('/settings/users');
-        $resp->assertElementContains('a[href="' . url('/settings/users/create') . '"]', 'Add New User');
+        $this->withHtml($resp)->assertElementContains('a[href="' . url('/settings/users/create') . '"]', 'Add New User');
 
-        $this->get('/settings/users/create')
-            ->assertElementContains('form[action="' . url('/settings/users/create') . '"]', 'Save');
+        $resp = $this->get('/settings/users/create');
+        $this->withHtml($resp)->assertElementContains('form[action="' . url('/settings/users/create') . '"]', 'Save');
 
         $resp = $this->post('/settings/users/create', [
             'name'                          => $user->name,
@@ -166,7 +166,7 @@ class UserManagementTest extends TestCase
         $guest = User::getDefault();
         $resp = $this->asAdmin()->get('/settings/users/' . $guest->id);
         $resp->assertSee('Guest');
-        $resp->assertElementNotExists('#password');
+        $this->withHtml($resp)->assertElementNotExists('#password');
     }
 
     public function test_guest_profile_cannot_be_deleted()
@@ -175,7 +175,7 @@ class UserManagementTest extends TestCase
         $resp = $this->asAdmin()->get('/settings/users/' . $guestUser->id . '/delete');
         $resp->assertSee('Delete User');
         $resp->assertSee('Guest');
-        $resp->assertElementContains('form[action$="/settings/users/' . $guestUser->id . '"] button', 'Confirm');
+        $this->withHtml($resp)->assertElementContains('form[action$="/settings/users/' . $guestUser->id . '"] button', 'Confirm');
 
         $resp = $this->delete('/settings/users/' . $guestUser->id);
         $resp->assertRedirect('/settings/users/' . $guestUser->id);
@@ -189,7 +189,7 @@ class UserManagementTest extends TestCase
         foreach ($langs as $lang) {
             config()->set('app.locale', $lang);
             $resp = $this->asAdmin()->get('/settings/users/create');
-            $resp->assertElementExists('select[name="language"] option[value="' . $lang . '"][selected]');
+            $this->withHtml($resp)->assertElementExists('select[name="language"] option[value="' . $lang . '"][selected]');
         }
     }
 
@@ -233,5 +233,29 @@ class UserManagementTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('activities', ['type' => 'USER_CREATE']);
+    }
+
+    public function test_user_create_update_fails_if_locale_is_invalid()
+    {
+        $user = $this->getEditor();
+
+        // Too long
+        $resp = $this->asAdmin()->put($user->getEditUrl(), ['language' => 'this_is_too_long']);
+        $resp->assertSessionHasErrors(['language' => 'The language may not be greater than 15 characters.']);
+        session()->flush();
+
+        // Invalid characters
+        $resp = $this->put($user->getEditUrl(), ['language' => 'en<GB']);
+        $resp->assertSessionHasErrors(['language' => 'The language may only contain letters, numbers, dashes and underscores.']);
+        session()->flush();
+
+        // Both on create
+        $resp = $this->post('/settings/users/create', [
+            'language' => 'en<GB_and_this_is_longer',
+            'name'     => 'My name',
+            'email'    => 'jimmy@example.com',
+        ]);
+        $resp->assertSessionHasErrors(['language' => 'The language may not be greater than 15 characters.']);
+        $resp->assertSessionHasErrors(['language' => 'The language may only contain letters, numbers, dashes and underscores.']);
     }
 }
