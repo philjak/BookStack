@@ -1,8 +1,9 @@
 <?php
 
-if (env('FORCE_SSL')){
+if (env('FORCE_SSL')) {
     \URL::forceScheme('https');
 }
+
 Route::get('/status', 'StatusController@show');
 Route::get('/robots.txt', 'HomeController@robots');
 use BookStack\Http\Controllers\Api;
