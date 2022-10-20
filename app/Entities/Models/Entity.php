@@ -18,6 +18,7 @@ use BookStack\Interfaces\Loggable;
 use BookStack\Interfaces\Sluggable;
 use BookStack\Interfaces\Viewable;
 use BookStack\Model;
+use BookStack\References\Reference;
 use BookStack\Search\SearchIndex;
 use BookStack\Search\SearchTerm;
 use BookStack\Traits\HasCreatorAndUpdater;
@@ -41,7 +42,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon     $deleted_at
  * @property int        $created_by
  * @property int        $updated_by
- * @property bool       $restricted
  * @property Collection $tags
  *
  * @method static Entity|Builder visible()
@@ -175,16 +175,15 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      */
     public function permissions(): MorphMany
     {
-        return $this->morphMany(EntityPermission::class, 'restrictable');
+        return $this->morphMany(EntityPermission::class, 'entity');
     }
 
     /**
      * Check if this entity has a specific restriction set against it.
      */
-    public function hasRestriction(int $role_id, string $action): bool
+    public function hasPermissions(): bool
     {
-        return $this->permissions()->where('role_id', '=', $role_id)
-            ->where('action', '=', $action)->count() > 0;
+        return $this->permissions()->count() > 0;
     }
 
     /**
@@ -201,6 +200,22 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     public function deletions(): MorphMany
     {
         return $this->morphMany(Deletion::class, 'deletable');
+    }
+
+    /**
+     * Get the references pointing from this entity to other items.
+     */
+    public function referencesFrom(): MorphMany
+    {
+        return $this->morphMany(Reference::class, 'from');
+    }
+
+    /**
+     * Get the references pointing to this entity from other items.
+     */
+    public function referencesTo(): MorphMany
+    {
+        return $this->morphMany(Reference::class, 'to');
     }
 
     /**

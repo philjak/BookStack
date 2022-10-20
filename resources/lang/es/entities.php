@@ -23,6 +23,7 @@ return [
     'meta_updated' => 'Actualizado :timeLength',
     'meta_updated_name' => 'Actualizado :timeLength por :user',
     'meta_owned_name' => 'Propiedad de :user',
+    'meta_reference_page_count' => 'Referenciado en 1 página|Referenciado en :count páginas',
     'entity_select' => 'Seleccione entidad',
     'entity_select_lack_permission' => 'No tiene los permisos necesarios para seleccionar este elemento',
     'images' => 'Imágenes',
@@ -41,10 +42,14 @@ return [
 
     // Permissions and restrictions
     'permissions' => 'Permisos',
-    'permissions_intro' => 'Una vez habilitado, estos permisos tendrán prioridad por encima de cualquier permiso establecido.',
-    'permissions_enable' => 'Habilitar permisos personalizados',
+    'permissions_desc' => 'Establezca los permisos aquí para anular los permisos por defecto proporcionados por los roles de usuario.',
+    'permissions_book_cascade' => 'Los permisos establecidos en los libros se aplicarán a sus capítulos y páginas, a menos que tengan sus propios permisos definidos.',
+    'permissions_chapter_cascade' => 'Los permisos establecidos en los capítulos se aplicarán a sus páginas, a menos que tengan sus propios permisos definidos.',
     'permissions_save' => 'Guardar permisos',
     'permissions_owner' => 'Propietario',
+    'permissions_role_everyone_else' => 'Todos los demás',
+    'permissions_role_everyone_else_desc' => 'Establecer permisos para todos los roles sin permisos específicos asignados.',
+    'permissions_role_override' => 'Reemplazar permisos para el rol',
 
     // Search
     'search_results' => 'Resultados de búsqueda',
@@ -77,7 +82,6 @@ return [
     'shelf' => 'Estante',
     'shelves' => 'Estantes',
     'x_shelves' => ':count estante|:count estantes',
-    'shelves_long' => 'Estantes',
     'shelves_empty' => 'No hay estantes creados',
     'shelves_create' => 'Crear estante',
     'shelves_popular' => 'Estantes populares',
@@ -93,17 +97,17 @@ return [
     'shelves_edit_and_assign' => 'Editar el estante para asignar libros',
     'shelves_edit_named' => 'Editar estante :name',
     'shelves_edit' => 'Editar estante',
-    'shelves_delete' => 'Borrar estante',
-    'shelves_delete_named' => 'Borrar estante :name',
-    'shelves_delete_explain' => "Esto borrará el estante con el nombre ':name'. Los libros que contenga no se borrarán.",
+    'shelves_delete' => 'Eliminar estante',
+    'shelves_delete_named' => 'Eliminar estante :name',
+    'shelves_delete_explain' => "Esto eliminará el estante con el nombre ':name'. Los libros que contenga no se eliminarán.",
     'shelves_delete_confirmation' => '¿Está seguro de que desea borrar este estante?',
-    'shelves_permissions' => 'Permisos del estante',
+    'shelves_permissions' => 'Permisos del Estante',
     'shelves_permissions_updated' => 'Permisos del estante actualizados',
     'shelves_permissions_active' => 'Permisos del estante activos',
-    'shelves_permissions_cascade_warning' => 'Los permisos en los estantes no se aplican automáticamente a los libros contenidos. Esto se debe a que un libro puede existir en múltiples estantes. Sin embargo, los permisos pueden ser aplicados a los libros del estante utilizando la opción a continuación.',
+    'shelves_permissions_cascade_warning' => 'Los permisos en los estantes no se aplican automáticamente a los libros que contengan. Esto se debe a que un libro puede existir en múltiples estantes. Sin embargo, los permisos pueden ser aplicados a los libros del estante utilizando la opción a continuación.',
     'shelves_copy_permissions_to_books' => 'Copiar permisos a los libros',
     'shelves_copy_permissions' => 'Copiar permisos',
-    'shelves_copy_permissions_explain' => 'Esto aplicará los ajustes de permisos de este estante para todos sus libros. Antes de activarlo, asegúrese de que todos los cambios de permisos para este estante han sido guardados.',
+    'shelves_copy_permissions_explain' => 'Esto aplicará los permisos de este estante para todos sus libros. Antes de activarlo, asegúrese de que todos los cambios de permisos para este estante han sido guardados.',
     'shelves_copy_permission_success' => 'Permisos del estante copiados a :count libros',
 
     // Books
@@ -248,6 +252,7 @@ return [
     'pages_edit_content_link' => 'Contenido editado',
     'pages_permissions_active' => 'Permisos de página activos',
     'pages_initial_revision' => 'Publicación inicial',
+    'pages_references_update_revision' => 'Actualización automática de enlaces internos',
     'pages_initial_name' => 'Página nueva',
     'pages_editing_draft_notification' => 'Está actualmente editando un borrador que fue guardado por última vez el :timeDiff.',
     'pages_draft_edited_notification' => 'Esta página ha sido actualizada desde ese momento. Se recomienda que cancele este borrador.',
@@ -369,4 +374,9 @@ return [
     'convert_to_book_desc' => 'Puede convertir este capítulo en un nuevo libro con el mismo contenido. Cualquier permiso establecido en este capítulo será copiado al nuevo libro pero cualquier permiso heredado, del libro padre, no se copiará lo que podría conducir a un cambio de control de acceso.',
     'convert_chapter' => 'Convertir Capítulo',
     'convert_chapter_confirm' => '¿Estás seguro de que quieres convertir este capítulo?',
+
+    // References
+    'references' => 'Referencias',
+    'references_none' => 'No hay referencias a este elemento.',
+    'references_to_desc' => 'A continuación se muestran todas las páginas en el sistema que enlazan a este elemento.',
 ];

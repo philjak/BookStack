@@ -23,6 +23,7 @@ return [
     'meta_updated' => 'Zaktualizowano :timeLength',
     'meta_updated_name' => 'Zaktualizowano :timeLength przez :user',
     'meta_owned_name' => 'Właściciel: :user',
+    'meta_reference_page_count' => 'Odniesienie na 1 stronie|Odniesienie na :count stronach',
     'entity_select' => 'Wybór obiektu',
     'entity_select_lack_permission' => 'Nie masz wymaganych uprawnień do wybrania tej pozycji',
     'images' => 'Obrazki',
@@ -41,10 +42,14 @@ return [
 
     // Permissions and restrictions
     'permissions' => 'Uprawnienia',
-    'permissions_intro' => 'Jeśli włączone są indywidualne uprawnienia, to te uprawnienia będą miały priorytet względem pozostałych ustawionych uprawnień ról.',
-    'permissions_enable' => 'Włącz własne uprawnienia',
+    'permissions_desc' => 'Set permissions here to override the default permissions provided by user roles.',
+    'permissions_book_cascade' => 'Permissions set on books will automatically cascade to child chapters and pages, unless they have their own permissions defined.',
+    'permissions_chapter_cascade' => 'Permissions set on chapters will automatically cascade to child pages, unless they have their own permissions defined.',
     'permissions_save' => 'Zapisz uprawnienia',
     'permissions_owner' => 'Właściciel',
+    'permissions_role_everyone_else' => 'Everyone Else',
+    'permissions_role_everyone_else_desc' => 'Set permissions for all roles not specifically overridden.',
+    'permissions_role_override' => 'Override permissions for role',
 
     // Search
     'search_results' => 'Wyniki wyszukiwania',
@@ -77,7 +82,6 @@ return [
     'shelf' => 'Półka',
     'shelves' => 'Półki',
     'x_shelves' => ':count Półek|:count Półek',
-    'shelves_long' => 'Półki',
     'shelves_empty' => 'Brak utworzonych półek',
     'shelves_create' => 'Utwórz półkę',
     'shelves_popular' => 'Popularne półki',
@@ -100,10 +104,10 @@ return [
     'shelves_permissions' => 'Uprawnienia półki',
     'shelves_permissions_updated' => 'Uprawnienia półki zostały zaktualizowane',
     'shelves_permissions_active' => 'Uprawnienia półki są aktywne',
-    'shelves_permissions_cascade_warning' => 'Uprawnienia na półkach nie są automatycznie kaskadowane do zawartych w nich książek. Dzieje się tak dlatego, że książka może istnieć na wielu półkach. Zezwolenia można jednak skopiować do książek podrzędnych, korzystając z opcji znajdującej się poniżej.',
+    'shelves_permissions_cascade_warning' => 'Uprawnienia na półkach nie są automatycznie nakładane na zawartych w nich książkach. Dzieje się tak dlatego, że książka może istnieć na wielu półkach. Uprawnienia można jednak skopiować do książek podrzędnych, korzystając z opcji znajdującej się poniżej.',
     'shelves_copy_permissions_to_books' => 'Skopiuj uprawnienia do książek',
     'shelves_copy_permissions' => 'Skopiuj uprawnienia',
-    'shelves_copy_permissions_explain' => 'To spowoduje zastosowanie obecnych ustawień uprawnień dla tej półki do wszystkich książek w niej zawartych. Przed aktywacją upewnij się, że wszelkie zmiany w uprawnieniach do tej półki zostały zapisane.',
+    'shelves_copy_permissions_explain' => 'To spowoduje zastosowanie obecnych ustawień uprawnień tej półki na wszystkich książkach w niej zawartych. Przed aktywacją upewnij się, że wszelkie zmiany w uprawnieniach tej półki zostały zapisane.',
     'shelves_copy_permission_success' => 'Uprawnienia półki zostały skopiowane do :count książek',
 
     // Books
@@ -248,6 +252,7 @@ return [
     'pages_edit_content_link' => 'Edytuj zawartość',
     'pages_permissions_active' => 'Uprawnienia strony są aktywne',
     'pages_initial_revision' => 'Pierwsze wydanie',
+    'pages_references_update_revision' => 'Automatyczna aktualizacja wewnętrznych linków',
     'pages_initial_name' => 'Nowa strona',
     'pages_editing_draft_notification' => 'Edytujesz obecnie wersję roboczą, która była ostatnio zapisana :timeDiff.',
     'pages_draft_edited_notification' => 'Od tego czasu ta strona była zmieniana. Zalecane jest odrzucenie tej wersji roboczej.',
@@ -369,4 +374,9 @@ return [
     'convert_to_book_desc' => 'Możesz skonwertować ten rozdział do nowej książki o tej samej treści. Wszelkie uprawnienia ustawione w tym rozdziale zostaną skopiowane do nowej książki, ale wszelkie dziedziczone uprawnienia z poprzedniej nadrzędnej książki nie będą skopiowane, co może doprowadzić do zmiany w kontroli dostępu.',
     'convert_chapter' => 'Konwertuj rozdział',
     'convert_chapter_confirm' => 'Czy na pewno chcesz skonwertować ten rozdział?',
+
+    // References
+    'references' => 'Odniesienia',
+    'references_none' => 'Brak śledzonych odwołań do tego elementu.',
+    'references_to_desc' => 'Poniżej znajdują się wszystkie znane strony w systemie, które odnoszą się do tego elementu.',
 ];

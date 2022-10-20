@@ -23,6 +23,7 @@ return [
     'meta_updated' => 'Mis à jour :timeLength',
     'meta_updated_name' => 'Mis à jour :timeLength par :user',
     'meta_owned_name' => 'Appartient à :user',
+    'meta_reference_page_count' => 'Référencé sur 1 page|Référencé sur :count pages',
     'entity_select' => 'Sélectionner l\'entité',
     'entity_select_lack_permission' => 'Vous n\'avez pas les permissions requises pour sélectionner cet élément',
     'images' => 'Images',
@@ -41,10 +42,14 @@ return [
 
     // Permissions and restrictions
     'permissions' => 'Autorisations',
-    'permissions_intro' => 'Une fois activées, ces permissions auront la priorité sur tous les jeux de permissions préexistants.',
-    'permissions_enable' => 'Activer les permissions personnalisées',
+    'permissions_desc' => 'Set permissions here to override the default permissions provided by user roles.',
+    'permissions_book_cascade' => 'Permissions set on books will automatically cascade to child chapters and pages, unless they have their own permissions defined.',
+    'permissions_chapter_cascade' => 'Permissions set on chapters will automatically cascade to child pages, unless they have their own permissions defined.',
     'permissions_save' => 'Enregistrer les permissions',
     'permissions_owner' => 'Propriétaire',
+    'permissions_role_everyone_else' => 'Tous les autres',
+    'permissions_role_everyone_else_desc' => 'Set permissions for all roles not specifically overridden.',
+    'permissions_role_override' => 'Remplacer les permissions pour le rôle',
 
     // Search
     'search_results' => 'Résultats de recherche',
@@ -77,7 +82,6 @@ return [
     'shelf' => 'Étagère',
     'shelves' => 'Étagères',
     'x_shelves' => ':count Étagère|:count Étagères',
-    'shelves_long' => 'Étagères',
     'shelves_empty' => 'Aucune étagère n\'a été créée',
     'shelves_create' => 'Créer une nouvelle étagère',
     'shelves_popular' => 'Étagères populaires',
@@ -88,7 +92,7 @@ return [
     'shelves_save' => 'Enregistrer l\'étagère',
     'shelves_books' => 'Livres sur cette étagère',
     'shelves_add_books' => 'Ajouter des livres sur cette étagère',
-    'shelves_drag_books' => 'Drag books below to add them to this shelf',
+    'shelves_drag_books' => 'Déposez des livres ici pour les ajouter a cette étagère',
     'shelves_empty_contents' => 'Aucun livre n\'a été assigné à cette étagère',
     'shelves_edit_and_assign' => 'Modifier cette étagère pour y ajouter des livres',
     'shelves_edit_named' => 'Modifier l\'étagère :name',
@@ -97,13 +101,13 @@ return [
     'shelves_delete_named' => 'Supprimer l\'étagère :name',
     'shelves_delete_explain' => "Ceci va supprimer l'étagère nommée ':name'. Les livres contenus dans cette étagère ne seront pas supprimés.",
     'shelves_delete_confirmation' => 'Êtes-vous sûr(e) de vouloir supprimer cette étagère ?',
-    'shelves_permissions' => 'Permissions de l\'étagère',
+    'shelves_permissions' => 'Enregistrer les permissions',
     'shelves_permissions_updated' => 'Permissions de l\'étagère mises à jour',
     'shelves_permissions_active' => 'Permissions de l\'étagère activées',
     'shelves_permissions_cascade_warning' => 'Les permissions sur les étagères ne sont pas automatiquement recopiées aux livres qu\'elles contiennent, car un livre peut exister dans plusieurs étagères. Les permissions peuvent cependant être recopiées vers les livres contenus en utilisant l\'option ci-dessous.',
     'shelves_copy_permissions_to_books' => 'Copier les permissions vers les livres',
     'shelves_copy_permissions' => 'Copier les permissions',
-    'shelves_copy_permissions_explain' => 'Ceci va appliquer les permissions actuelles de cette étagère à tous les livres qu\'elle contient. Avant de  continuer, assurez-vous que toutes les permissions de cette étagère ont été sauvegardées.',
+    'shelves_copy_permissions_explain' => 'Ceci va appliquer les permissions actuelles de cette étagère à tous les livres qu\'elle contient. Avant de continuer, assurez-vous que toutes les permissions de cette étagère ont été sauvegardées.',
     'shelves_copy_permission_success' => 'Permissions de l\'étagère transférées à :count livres',
 
     // Books
@@ -171,7 +175,7 @@ return [
     'chapters_permissions_active' => 'Permissions du chapitre activées',
     'chapters_permissions_success' => 'Permissions du chapitre mises à jour',
     'chapters_search_this' => 'Rechercher dans ce chapitre',
-    'chapter_sort_book' => 'Sort Book',
+    'chapter_sort_book' => 'Trier le livre',
 
     // Pages
     'page' => 'Page',
@@ -248,6 +252,7 @@ return [
     'pages_edit_content_link' => 'Modifier le contenu',
     'pages_permissions_active' => 'Permissions de page actives',
     'pages_initial_revision' => 'Publication initiale',
+    'pages_references_update_revision' => 'Mise à jour automatique des liens internes',
     'pages_initial_name' => 'Nouvelle page',
     'pages_editing_draft_notification' => 'Vous éditez actuellement un brouillon qui a été enregistré :timeDiff.',
     'pages_draft_edited_notification' => 'La page a été mise à jour depuis votre dernière visite. Vous devriez jeter ce brouillon.',
@@ -369,4 +374,9 @@ return [
     'convert_to_book_desc' => 'Vous pouvez convertir ce chapitre en un nouveau livre avec le même contenu. Toutes les permissions définies dans ce chapitre seront copiées dans le nouveau livre mais toutes les permissions héritées du livre parent ne seront pas copiés, ce qui pourrait conduire à un changement de contrôle d\'accès.',
     'convert_chapter' => 'Convertir le chapitre',
     'convert_chapter_confirm' => 'Êtes-vous sûr(e) de vouloir convertir ce chapitre ?',
+
+    // References
+    'references' => 'Références',
+    'references_none' => 'Il n\'y a pas de références suivies à cet élément.',
+    'references_to_desc' => 'Vous trouverez ci-dessous toutes les pages connues du système qui ont un lien vers cet élément.',
 ];

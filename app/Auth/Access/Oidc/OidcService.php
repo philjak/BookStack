@@ -3,21 +3,17 @@
 namespace BookStack\Auth\Access\Oidc;
 
 use BookStack\Auth\Access\GroupSyncService;
-use Illuminate\Support\Arr;
-use function auth;
 use BookStack\Auth\Access\LoginService;
 use BookStack\Auth\Access\RegistrationService;
 use BookStack\Auth\User;
 use BookStack\Exceptions\JsonDebugException;
 use BookStack\Exceptions\StoppedAuthenticationException;
 use BookStack\Exceptions\UserRegistrationException;
-use function config;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use League\OAuth2\Client\OptionProvider\HttpBasicAuthOptionProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Client\ClientInterface as HttpClient;
-use function trans;
-use function url;
 
 /**
  * Class OpenIdConnectService
@@ -35,11 +31,10 @@ class OidcService
      */
     public function __construct(
         RegistrationService $registrationService,
-        LoginService        $loginService,
-        HttpClient          $httpClient,
-        GroupSyncService    $groupService
-    )
-    {
+        LoginService $loginService,
+        HttpClient $httpClient,
+        GroupSyncService $groupService
+    ) {
         $this->registrationService = $registrationService;
         $this->loginService = $loginService;
         $this->httpClient = $httpClient;
@@ -148,7 +143,7 @@ class OidcService
         $scopeConfig = $this->config()['additional_scopes'] ?: '';
 
         $scopeArr = explode(',', $scopeConfig);
-        $scopeArr = array_map(fn(string $scope) => trim($scope), $scopeArr);
+        $scopeArr = array_map(fn (string $scope) => trim($scope), $scopeArr);
 
         return array_filter($scopeArr);
     }
@@ -182,7 +177,7 @@ class OidcService
      */
     protected function getUserGroups(OidcIdToken $token): array
     {
-        $groupsAttr = $this->config()['group_attribute'];
+        $groupsAttr = $this->config()['groups_claim'];
         if (empty($groupsAttr)) {
             return [];
         }
@@ -192,7 +187,7 @@ class OidcService
             return [];
         }
 
-        return array_values(array_filter($groupsList, function($val) {
+        return array_values(array_filter($groupsList, function ($val) {
             return is_string($val);
         }));
     }

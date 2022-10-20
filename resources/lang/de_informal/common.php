@@ -48,7 +48,7 @@ return [
     'filter_active' => 'Gesetzte Filter:',
     'filter_clear' => 'Filter löschen',
     'download' => 'Herunterladen',
-    'open_in_tab' => 'In Neuem Tab öffnen',
+    'open_in_tab' => 'In Tab öffnen',
 
     // Sort Options
     'sort_options' => 'Sortieroptionen',
@@ -77,7 +77,7 @@ return [
     'status_active' => 'Aktiv',
     'status_inactive' => 'Inaktiv',
     'never' => 'Niemals',
-    'none' => 'Nichts',
+    'none' => 'Keine',
 
     // Header
     'header_menu_expand' => 'Header-Menü erweitern',

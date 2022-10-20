@@ -44,7 +44,7 @@ return [
     'bookshelf_create_from_book_notification'    => 'Livro convertido em prateleira com sucesso',
     'bookshelf_update'                 => 'estante atualizada',
     'bookshelf_update_notification'    => 'Estante atualizada com sucesso',
-    'bookshelf_delete'                 => 'excluiu a prateleira',
+    'bookshelf_delete'                 => 'prateleira excluída',
     'bookshelf_delete_notification'    => 'Estante eliminada com sucesso',
 
     // Favourites

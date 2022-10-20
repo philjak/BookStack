@@ -24,7 +24,9 @@ use BookStack\Http\Controllers\PageController;
 use BookStack\Http\Controllers\PageExportController;
 use BookStack\Http\Controllers\PageRevisionController;
 use BookStack\Http\Controllers\PageTemplateController;
+use BookStack\Http\Controllers\PermissionsController;
 use BookStack\Http\Controllers\RecycleBinController;
+use BookStack\Http\Controllers\ReferenceController;
 use BookStack\Http\Controllers\RoleController;
 use BookStack\Http\Controllers\SearchController;
 use BookStack\Http\Controllers\SettingController;
@@ -65,9 +67,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/shelves/{slug}', [BookshelfController::class, 'show']);
     Route::put('/shelves/{slug}', [BookshelfController::class, 'update']);
     Route::delete('/shelves/{slug}', [BookshelfController::class, 'destroy']);
-    Route::get('/shelves/{slug}/permissions', [BookshelfController::class, 'showPermissions']);
-    Route::put('/shelves/{slug}/permissions', [BookshelfController::class, 'permissions']);
-    Route::post('/shelves/{slug}/copy-permissions', [BookshelfController::class, 'copyPermissions']);
+    Route::get('/shelves/{slug}/permissions', [PermissionsController::class, 'showForShelf']);
+    Route::put('/shelves/{slug}/permissions', [PermissionsController::class, 'updateForShelf']);
+    Route::post('/shelves/{slug}/copy-permissions', [PermissionsController::class, 'copyShelfPermissionsToBooks']);
+    Route::get('/shelves/{slug}/references', [ReferenceController::class, 'shelf']);
 
     // Book Creation
     Route::get('/shelves/{shelfSlug}/create-book', [BookController::class, 'create']);
@@ -82,14 +85,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/books/{id}', [BookController::class, 'destroy']);
     Route::get('/books/{slug}/sort-item', [BookSortController::class, 'showItem']);
     Route::get('/books/{slug}', [BookController::class, 'show']);
-    Route::get('/books/{bookSlug}/permissions', [BookController::class, 'showPermissions']);
-    Route::put('/books/{bookSlug}/permissions', [BookController::class, 'permissions']);
+    Route::get('/books/{bookSlug}/permissions', [PermissionsController::class, 'showForBook']);
+    Route::put('/books/{bookSlug}/permissions', [PermissionsController::class, 'updateForBook']);
     Route::get('/books/{slug}/delete', [BookController::class, 'showDelete']);
     Route::get('/books/{bookSlug}/copy', [BookController::class, 'showCopy']);
     Route::post('/books/{bookSlug}/copy', [BookController::class, 'copy']);
     Route::post('/books/{bookSlug}/convert-to-shelf', [BookController::class, 'convertToShelf']);
     Route::get('/books/{bookSlug}/sort', [BookSortController::class, 'show']);
     Route::put('/books/{bookSlug}/sort', [BookSortController::class, 'update']);
+    Route::get('/books/{slug}/references', [ReferenceController::class, 'book']);
     Route::get('/books/{bookSlug}/export/html', [BookExportController::class, 'html']);
     Route::get('/books/{bookSlug}/export/pdf', [BookExportController::class, 'pdf']);
     Route::get('/books/{bookSlug}/export/markdown', [BookExportController::class, 'markdown']);
@@ -113,8 +117,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/books/{bookSlug}/page/{pageSlug}/copy', [PageController::class, 'copy']);
     Route::get('/books/{bookSlug}/page/{pageSlug}/delete', [PageController::class, 'showDelete']);
     Route::get('/books/{bookSlug}/draft/{pageId}/delete', [PageController::class, 'showDeleteDraft']);
-    Route::get('/books/{bookSlug}/page/{pageSlug}/permissions', [PageController::class, 'showPermissions']);
-    Route::put('/books/{bookSlug}/page/{pageSlug}/permissions', [PageController::class, 'permissions']);
+    Route::get('/books/{bookSlug}/page/{pageSlug}/permissions', [PermissionsController::class, 'showForPage']);
+    Route::put('/books/{bookSlug}/page/{pageSlug}/permissions', [PermissionsController::class, 'updateForPage']);
+    Route::get('/books/{bookSlug}/page/{pageSlug}/references', [ReferenceController::class, 'page']);
     Route::put('/books/{bookSlug}/page/{pageSlug}', [PageController::class, 'update']);
     Route::delete('/books/{bookSlug}/page/{pageSlug}', [PageController::class, 'destroy']);
     Route::delete('/books/{bookSlug}/draft/{pageId}', [PageController::class, 'destroyDraft']);
@@ -139,12 +144,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/books/{bookSlug}/chapter/{chapterSlug}/copy', [ChapterController::class, 'copy']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/edit', [ChapterController::class, 'edit']);
     Route::post('/books/{bookSlug}/chapter/{chapterSlug}/convert-to-book', [ChapterController::class, 'convertToBook']);
-    Route::get('/books/{bookSlug}/chapter/{chapterSlug}/permissions', [ChapterController::class, 'showPermissions']);
+    Route::get('/books/{bookSlug}/chapter/{chapterSlug}/permissions', [PermissionsController::class, 'showForChapter']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/pdf', [ChapterExportController::class, 'pdf']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/html', [ChapterExportController::class, 'html']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/markdown', [ChapterExportController::class, 'markdown']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/export/plaintext', [ChapterExportController::class, 'plainText']);
-    Route::put('/books/{bookSlug}/chapter/{chapterSlug}/permissions', [ChapterController::class, 'permissions']);
+    Route::put('/books/{bookSlug}/chapter/{chapterSlug}/permissions', [PermissionsController::class, 'updateForChapter']);
+    Route::get('/books/{bookSlug}/chapter/{chapterSlug}/references', [ReferenceController::class, 'chapter']);
     Route::get('/books/{bookSlug}/chapter/{chapterSlug}/delete', [ChapterController::class, 'showDelete']);
     Route::delete('/books/{bookSlug}/chapter/{chapterSlug}', [ChapterController::class, 'destroy']);
 
@@ -214,10 +220,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/home', [HomeController::class, 'index']);
 
+    // Permissions
+    Route::get('/permissions/form-row/{entityType}/{roleId}', [PermissionsController::class, 'formRowForRole']);
+
     // Maintenance
     Route::get('/settings/maintenance', [MaintenanceController::class, 'index']);
     Route::delete('/settings/maintenance/cleanup-images', [MaintenanceController::class, 'cleanupImages']);
     Route::post('/settings/maintenance/send-test-email', [MaintenanceController::class, 'sendTestEmail']);
+    Route::post('/settings/maintenance/regenerate-references', [MaintenanceController::class, 'regenerateReferences']);
 
     // Recycle Bin
     Route::get('/settings/recycle-bin', [RecycleBinController::class, 'index']);

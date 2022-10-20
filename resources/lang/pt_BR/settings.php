@@ -89,6 +89,10 @@ return [
     'maint_send_test_email_mail_text' => 'Parabéns! Já que você recebeu esta notificação, suas opções de e-mail parecem estar configuradas corretamente.',
     'maint_recycle_bin_desc' => 'Prateleiras, livros, capítulos e páginas deletados são mandados para a lixeira podendo assim ser restaurados ou excluídos permanentemente. Itens mais antigos da lixeira podem vir a ser automaticamente removidos da lixeira após um tempo dependendo da configuração do sistema.',
     'maint_recycle_bin_open' => 'Abrir Lixeira',
+    'maint_regen_references' => 'Regenerar referências',
+    'maint_regen_references_desc' => 'Essa ação reconstruirá o índice de referência entre itens no banco de dados. Isso geralmente é tratado automaticamente, mas essa ação pode ser útil para indexar conteúdo antigo ou adicionado por métodos não oficiais.',
+    'maint_regen_references_success' => 'O índice de referência foi regenerado!',
+    'maint_timeout_command_note' => 'Observação: essa ação pode levar algum tempo para ser executada, o que pode levar a problemas de tempo limite em alguns ambientes da Web. Como alternativa, esta ação pode ser executada usando um comando de terminal.',
 
     // Recycle Bin
     'recycle_bin' => 'Lixeira',
@@ -157,6 +161,7 @@ return [
     'roles_system_warning' => 'Esteja ciente de que o acesso a qualquer uma das três permissões acima pode permitir que um usuário altere seus próprios privilégios ou privilégios de outros usuários no sistema. Apenas atribua cargos com essas permissões para usuários confiáveis.',
     'role_asset_desc' => 'Essas permissões controlam o acesso padrão para os ativos dentro do sistema. Permissões em Livros, Capítulos e Páginas serão sobrescritas por essas permissões.',
     'role_asset_admins' => 'Administradores recebem automaticamente acesso a todo o conteúdo, mas essas opções podem mostrar ou ocultar as opções da Interface de Usuário.',
+    'role_asset_image_view_note' => 'Isso está relacionado à visibilidade no gerenciador de imagens. O acesso real dos arquivos de imagem carregados dependerá da opção de armazenamento de imagem do sistema.',
     'role_all' => 'Todos',
     'role_own' => 'Próprio',
     'role_controlled_by_asset' => 'Controlado pelos ativos nos quais o upload foi realizado',
@@ -210,7 +215,7 @@ return [
     'users_api_tokens_docs' => 'Documentação da API',
     'users_mfa' => 'Autenticação de Múltiplos Fatores',
     'users_mfa_desc' => 'A autenticação multi-fator adiciona outra camada de segurança à sua conta.',
-    'users_mfa_x_methods' => ':count método configurado):count métodos configurados',
+    'users_mfa_x_methods' => ':count método configurado|:count métodos configurados',
     'users_mfa_configure' => 'Configurar Métodos',
 
     // API Tokens
@@ -295,6 +300,7 @@ return [
         'pl' => 'Polski',
         'pt' => 'Português',
         'pt_BR' => 'Português do Brasil',
+        'ro' => 'Română',
         'ru' => 'Русский',
         'sk' => 'Slovensky',
         'sl' => 'Slovenščina',

@@ -23,6 +23,7 @@ return [
     'meta_updated' => 'Обновлено :timeLength',
     'meta_updated_name' => ':user обновил :timeLength',
     'meta_owned_name' => 'Владелец :user',
+    'meta_reference_page_count' => 'Ссылается на 1 страницу|Ссылается на :count страниц',
     'entity_select' => 'Выбор объекта',
     'entity_select_lack_permission' => 'У вас нет разрешения на выбор этого элемента',
     'images' => 'Изображения',
@@ -41,10 +42,14 @@ return [
 
     // Permissions and restrictions
     'permissions' => 'Разрешения',
-    'permissions_intro' => 'После включения опции эти разрешения будут иметь приоритет над любыми установленными разрешениями роли.',
-    'permissions_enable' => 'Включение пользовательских разрешений',
+    'permissions_desc' => 'Set permissions here to override the default permissions provided by user roles.',
+    'permissions_book_cascade' => 'Permissions set on books will automatically cascade to child chapters and pages, unless they have their own permissions defined.',
+    'permissions_chapter_cascade' => 'Permissions set on chapters will automatically cascade to child pages, unless they have their own permissions defined.',
     'permissions_save' => 'Сохранить разрешения',
     'permissions_owner' => 'Владелец',
+    'permissions_role_everyone_else' => 'Everyone Else',
+    'permissions_role_everyone_else_desc' => 'Set permissions for all roles not specifically overridden.',
+    'permissions_role_override' => 'Override permissions for role',
 
     // Search
     'search_results' => 'Результаты поиска',
@@ -77,7 +82,6 @@ return [
     'shelf' => 'Полка',
     'shelves' => 'Полки',
     'x_shelves' => ':count полка|:count полки|:count полок',
-    'shelves_long' => 'Книжные полки',
     'shelves_empty' => 'Полки не созданы',
     'shelves_create' => 'Создать новую полку',
     'shelves_popular' => 'Популярные полки',
@@ -92,19 +96,19 @@ return [
     'shelves_empty_contents' => 'На этой полке нет книг',
     'shelves_edit_and_assign' => 'Изменить полку для привязки книг',
     'shelves_edit_named' => 'Редактировать полку :name',
-    'shelves_edit' => 'Редактировать книжную полку',
-    'shelves_delete' => 'Удалить книжную полку',
-    'shelves_delete_named' => 'Удалить книжную полку :name',
+    'shelves_edit' => 'Редактировать полку',
+    'shelves_delete' => 'Удалить полку',
+    'shelves_delete_named' => 'Удалить полку :name',
     'shelves_delete_explain' => "Это приведет к удалению полки с именем ':name'. Привязанные книги удалены не будут.",
     'shelves_delete_confirmation' => 'Вы уверены, что хотите удалить эту полку?',
-    'shelves_permissions' => 'Доступы к книжной полке',
-    'shelves_permissions_updated' => 'Доступы к книжной полке обновлены',
-    'shelves_permissions_active' => 'Действующие разрешения книжной полки',
+    'shelves_permissions' => 'Доступы к полке',
+    'shelves_permissions_updated' => 'Доступы к полке обновлены',
+    'shelves_permissions_active' => 'Действующие разрешения полки',
     'shelves_permissions_cascade_warning' => 'Разрешения на полки не наследуются автоматически содержащимся в них книгам. Это происходит потому, что книга может находиться на нескольких полках. Однако разрешения могут быть установлены для книг полки с помощью опции, приведенной ниже.',
     'shelves_copy_permissions_to_books' => 'Наследовать доступы книгам',
     'shelves_copy_permissions' => 'Копировать доступы',
-    'shelves_copy_permissions_explain' => 'Это применит текущие настройки доступов этой книжной полки ко всем книгам, содержащимся внутри. Перед активацией убедитесь, что все изменения в доступах этой книжной полки сохранены.',
-    'shelves_copy_permission_success' => 'Доступы книжной полки скопированы для :count книг',
+    'shelves_copy_permissions_explain' => 'Это применит текущие настройки разрешений для этой полки ко всем книгам, содержащимся в ней. Перед активацией убедитесь, что все изменения разрешений этой полки были сохранены.',
+    'shelves_copy_permission_success' => 'Доступы полки скопированы для :count книг',
 
     // Books
     'book' => 'Книга',
@@ -248,6 +252,7 @@ return [
     'pages_edit_content_link' => 'Изменить содержание',
     'pages_permissions_active' => 'Действующие разрешения на страницу',
     'pages_initial_revision' => 'Первоначальное издание',
+    'pages_references_update_revision' => 'Система автоматически обновила внутренние ссылки',
     'pages_initial_name' => 'Новая страница',
     'pages_editing_draft_notification' => 'В настоящее время вы редактируете черновик, который был сохранён :timeDiff.',
     'pages_draft_edited_notification' => 'Эта страница была обновлена до этого момента. Рекомендуется отменить этот черновик.',
@@ -369,4 +374,9 @@ return [
     'convert_to_book_desc' => 'Вы можете преобразовать эту главу в новую книгу с тем же содержанием. Любые разрешения, установленные в этой главе, будут скопированы в новую книгу, но любые унаследованные разрешения из родительской книги не будут скопированы, что может привести к изменению контроля доступа.',
     'convert_chapter' => 'Преобразовать главу',
     'convert_chapter_confirm' => 'Вы уверены, что хотите преобразовать эту главу?',
+
+    // References
+    'references' => 'Ссылки',
+    'references_none' => 'Нет отслеживаемых ссылок на этот элемент.',
+    'references_to_desc' => 'Ниже показаны все известные страницы в системе, которые ссылаются на этот элемент.',
 ];

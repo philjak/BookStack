@@ -3,8 +3,8 @@
 [![GitHub release](https://img.shields.io/github/release/BookStackApp/BookStack.svg)](https://github.com/BookStackApp/BookStack/releases/latest)
 [![license](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/BookStackApp/BookStack/blob/development/LICENSE)
 [![Crowdin](https://badges.crowdin.net/bookstack/localized.svg)](https://crowdin.com/project/bookstack)
-[![Build Status](https://github.com/BookStackApp/BookStack/workflows/phpunit/badge.svg)](https://github.com/BookStackApp/BookStack/actions)
-[![StyleCI](https://github.styleci.io/repos/41589337/shield?style=flat)](https://github.styleci.io/repos/41589337)
+[![Build Status](https://github.com/BookStackApp/BookStack/workflows/test-php/badge.svg)](https://github.com/BookStackApp/BookStack/actions)
+[![Lint Status](https://github.com/BookStackApp/BookStack/workflows/lint-php/badge.svg)](https://github.com/BookStackApp/BookStack/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/5551731994dd22fa1f4f/maintainability)](https://codeclimate.com/github/BookStackApp/BookStack/maintainability)
 
 [![Repo Stats](https://img.shields.io/static/v1?label=GitHub+project&message=stats&color=f27e3f)](https://gh-stats.bookstackapp.com/)
@@ -59,120 +59,26 @@ Note: Listed services are not tested, vetted nor supported by the official BookS
 
 ## 🛣️ Road Map
 
-Below is a high-level road map view for BookStack to provide a sense of direction of where the project is going. This can change at any point and does not reflect many features and improvements that will also be included as part of the journey along this road map. For more granular detail of what will be included in upcoming releases you can review the project milestones as defined in the "Release Process" section below.
+Below is a high-level road map view for BookStack to provide a sense of direction of where the project is going. This can change at any point and does not reflect many features and improvements that will also be included as part of the journey along this road map. For more granular detail of what will be included in upcoming releases you can review the project milestones as defined in our [Release Process](dev/docs/release-process.md) documentation.
 
 - **Platform REST API** - *(Most actions implemented, maturing)*
     - *A REST API covering, at minimum, control of core content models (Books, Chapters, Pages) for automation and platform extension.*
-- **Editor Alignment & Review** - *(Done)*
-    - *Review the page editors with the goal of achieving increased interoperability & feature parity while also considering collaborative editing potential.*
 - **Permission System Review** - *(In Progress)*
     - *Improvement in how permissions are applied and a review of the efficiency of the permission & roles system.*
-- **Installation & Deployment Process Revamp**
-    - *Creation of a streamlined & secure process for users to deploy & update BookStack with reduced development requirements (No git or composer requirement).*
-
-## 🚀 Release Versioning & Process
-
-BookStack releases are each assigned a date-based version number in the format `v<year>.<month>[.<optional_patch_number>]`. For example:
-
-- `v20.12` - New feature released launched during December 2020. 
-- `v21.06.2` - Second patch release upon the June 2021 feature release.
-
-Patch releases are generally fairly minor, primarily intended for fixes and therefore are fairly unlikely to cause breakages upon update.
-Feature releases are generally larger, bringing new features in addition to fixes and enhancements. These releases have a greater chance of introducing breaking changes upon update, so it's worth checking for any notes in the [update guide](https://www.bookstackapp.com/docs/admin/updates/).
-
-Each BookStack release will have a [milestone](https://github.com/BookStackApp/BookStack/milestones) created with issues & pull requests assigned to it to define what will be in that release. Milestones are built up then worked through until complete at which point, after some testing and documentation updates, the release will be deployed.
-
-Feature releases, and some patch releases, will be accompanied by a post on the [BookStack blog](https://www.bookstackapp.com/blog/) which will provide additional detail on features, changes & updates otherwise the [GitHub release page](https://github.com/BookStackApp/BookStack/releases) will show a list of changes. You can sign up to be alerted to new BookStack blog posts (once per week maximum) [at this link](https://updates.bookstackapp.com/signup/bookstack-news-and-updates).
 
 ## 🛠️ Development & Testing
 
-All development on BookStack is currently done on the `development` branch. When it's time for a release the `development` branch is merged into release with built & minified CSS & JS then tagged at its version. Here are the current development requirements:
+Please see our [development docs](dev/docs/development.md) for full details regarding work on the BookStack source code.
 
-* [Node.js](https://nodejs.org/en/) v14.0+
+If you're just looking to customize or extend your own BookStack instance, take a look at our [Hacking BookStack documentation page](https://www.bookstackapp.com/docs/admin/hacking-bookstack/) for details on various options to achieve this without altering the BookStack source code.
 
-This project uses SASS for CSS development and this is built, along with the JavaScript, using a range of npm scripts. The below npm commands can be used to install the dependencies & run the build tasks:
-
-``` bash
-# Install NPM Dependencies
-npm install
-
-# Build assets for development
-npm run build
-
-# Build and minify assets for production
-npm run production
-
-# Build for dev (With sourcemaps) and watch for changes
-npm run dev
-```
-
-BookStack has many integration tests that use Laravel's built-in testing capabilities which makes use of PHPUnit. There is a `mysql_testing` database defined within the app config which is what is used by PHPUnit. This database is set with the database name, user name and password all defined as `bookstack-test`. You will have to create that database and that set of credentials before testing.
-
-The testing database will also need migrating and seeding beforehand. This can be done with the following commands:
-
-``` bash
-php artisan migrate --database=mysql_testing
-php artisan db:seed --class=DummyContentSeeder --database=mysql_testing
-```
-
-Once done you can run `php vendor/bin/phpunit` in the application root directory to run all tests.
-
-### 📜 Code Standards
-
-PHP code style is enforced automatically [using StyleCI](https://github.styleci.io/repos/41589337). 
-If submitting a PR, any formatting changes to be made will be automatically fixed after merging.  
-
-### 🐋 Development using Docker
-
-This repository ships with a Docker Compose configuration intended for development purposes. It'll build a PHP image with all needed extensions installed and start up a MySQL server and a Node image watching the UI assets.
-
-To get started, make sure you meet the following requirements:
-
-- Docker and Docker Compose are installed
-- Your user is part of the `docker` group
-
-If all the conditions are met, you can proceed with the following steps:
-
-1. **Copy `.env.example` to `.env`**, change `APP_KEY` to a random 32 char string and set `APP_ENV` to `local`.
-2. Make sure **port 8080 is unused** *or else* change `DEV_PORT` to a free port on your host.
-3. **Run `chgrp -R docker storage`**. The development container will chown the `storage` directory to the `www-data` user inside the container so BookStack can write to it. You need to change the group to your host's `docker` group here to not lose access to the `storage` directory.
-4. **Run `docker-compose up`** and wait until the image is built and all database migrations have been done.
-5. You can now login with `admin@admin.com` and `password` as password on `localhost:8080` (or another port if specified).
-
-If needed, You'll be able to run any artisan commands via docker-compose like so:
-
-```bash
-docker-compose run app php artisan list
-```
-
-The docker-compose setup runs an instance of [MailHog](https://github.com/mailhog/MailHog) and sets environment variables to redirect any BookStack-sent emails to MailHog. You can view this mail via the MailHog web interface on `localhost:8025`. You can change the port MailHog is accessible on by setting a `DEV_MAIL_PORT` environment variable.
-
-#### Running tests
-
-After starting the general development Docker, migrate & seed the testing database:
-
- ```bash
-# This only needs to be done once
-docker-compose run app php artisan migrate --database=mysql_testing
-docker-compose run app php artisan db:seed --class=DummyContentSeeder --database=mysql_testing
-```
-
-Once the database has been migrated & seeded, you can run the tests like so:
-
- ```bash
-docker-compose run app php vendor/bin/phpunit
-```
-
-#### Debugging
-
-The docker-compose setup ships with Xdebug, which you can listen to on port 9090.
-NB : For some editors like Visual Studio Code, you might need to map your workspace folder to the /app folder within the docker container for this to work.
+Details about BookStack's versioning scheme and the general release process [can be found here](dev/docs/release-process.md).
 
 ## 🌎 Translations
 
 Translations for text within BookStack is managed through the [BookStack project on Crowdin](https://crowdin.com/project/bookstack). Some strings have colon-prefixed variables such as `:userName`. Leave these values as they are as they will be replaced at run-time. Crowdin is the preferred way to provide translations, otherwise the raw translations files can be found within the `resources/lang` path.
 
-If you'd like a new language to be added to Crowdin, for you to be able to provide translations for, please [open a new issue here](https://github.com/BookStackApp/BookStack/issues/new?template=language_request.md).
+If you'd like a new language to be added to Crowdin, for you to be able to provide translations for, please [open a new issue here](https://github.com/BookStackApp/BookStack/issues/new?template=language_request.yml).
 
 Please note, translations in BookStack are provided to the "Crowdin Global Translation Memory" which helps BookStack and other projects with finding translations. If you are not happy with contributing to this then providing translations to BookStack, even manually via GitHub, is not advised.
 
@@ -200,20 +106,18 @@ We want BookStack to remain accessible to as many people as possible. We aim for
 
 ## 🖥️ Website, Docs & Blog
 
-The website which contains the project docs & Blog can be found in the [BookStackApp/website](https://github.com/BookStackApp/website) repo.
+The website which contains the project docs & blog can be found in the [BookStackApp/website](https://github.com/BookStackApp/website) repo.
 
 ## ⚖️ License
 
-The BookStack source is provided under the MIT License. 
+The BookStack source is provided under the [MIT License](https://github.com/BookStackApp/BookStack/blob/development/LICENSE). 
 
 The libraries used by, and included with, BookStack are provided under their own licenses and copyright.
 The licenses for many of our core dependencies can be found in the attribution list below but this is not an exhaustive list of all projects used within BookStack. 
 
 ## 👪 Attribution
 
-The great people that have worked to build and improve BookStack can [be seen here](https://github.com/BookStackApp/BookStack/graphs/contributors).
-
-The wonderful people that have provided translations, either through GitHub or via Crowdin [can be seen here](https://github.com/BookStackApp/BookStack/blob/development/.github/translators.txt).
+The great people that have worked to build and improve BookStack can [be seen here](https://github.com/BookStackApp/BookStack/graphs/contributors). The wonderful people that have provided translations, either through GitHub or via Crowdin [can be seen here](https://github.com/BookStackApp/BookStack/blob/development/.github/translators.txt).
 
 Below are the great open-source projects used to help build BookStack. 
 Note: This is not an exhaustive list of all libraries and projects that would be used in an active BookStack instance.
@@ -234,9 +138,9 @@ Note: This is not an exhaustive list of all libraries and projects that would be
 * [OneLogin's SAML PHP Toolkit](https://github.com/onelogin/php-saml) - _[MIT](https://github.com/onelogin/php-saml/blob/master/LICENSE)_
 * [League/CommonMark](https://commonmark.thephpleague.com/) - _[BSD-3-Clause](https://github.com/thephpleague/commonmark/blob/2.2/LICENSE)_
 * [League/Flysystem](https://flysystem.thephpleague.com) - _[MIT](https://github.com/thephpleague/flysystem/blob/3.x/LICENSE)_
-* [StyleCI](https://styleci.io/) - _Hosted Service_
 * [pragmarx/google2fa](https://github.com/antonioribeiro/google2fa) - _[MIT](https://github.com/antonioribeiro/google2fa/blob/8.x/LICENSE.md)_
 * [Bacon/BaconQrCode](https://github.com/Bacon/BaconQrCode) - _[BSD-2-Clause](https://github.com/Bacon/BaconQrCode/blob/master/LICENSE)_
 * [phpseclib](https://github.com/phpseclib/phpseclib) - _[MIT](https://github.com/phpseclib/phpseclib/blob/master/LICENSE)_
 * [Clockwork](https://github.com/itsgoingd/clockwork) - _[MIT](https://github.com/itsgoingd/clockwork/blob/master/LICENSE)_
 * [PHPStan](https://phpstan.org/) & [Larastan](https://github.com/nunomaduro/larastan) - _[MIT](https://github.com/phpstan/phpstan/blob/master/LICENSE) and [MIT](https://github.com/nunomaduro/larastan/blob/master/LICENSE.md)_
+* [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) - _[BSD 3-Clause](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt)_

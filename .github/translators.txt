@@ -138,7 +138,7 @@ Xiphoseer :: German
 MerlinSVK (merlinsvk) :: Slovak
 Kauê Sena (kaue.sena.ks) :: Portuguese, Brazilian
 MatthieuParis :: French
-Douradinho :: Portuguese, Brazilian
+Douradinho :: Portuguese, Brazilian; Portuguese
 Gaku Yaguchi (tama11) :: Japanese
 johnroyer :: Chinese Traditional
 jackaaa :: Chinese Traditional
@@ -176,7 +176,7 @@ Alexander Predl (Harveyhase68) :: German
 Rem (Rem9000) :: Dutch
 Michał Stelmach (stelmach-web) :: Polish
 arniom :: French
-REMOVED_USER :: Dutch; Turkish
+REMOVED_USER :: ; Dutch; Turkish
 林祖年 (contagion) :: Chinese Traditional
 Siamak Guodarzi (siamakgoudarzi88) :: Persian
 Lis Maestrelo (lismtrl) :: Portuguese, Brazilian
@@ -270,3 +270,13 @@ Nanang Setia Budi (sefidananang) :: Indonesian
 Андрей Павлов (andrei.pavlov) :: Russian
 Alex Navarro (alex.n.navarro) :: Portuguese, Brazilian
 Ji-Hyeon Gim (PotatoGim) :: Korean
+Mihai Ochian (soulstorm19) :: Romanian
+HeartCore :: German Informal; German
+simon.pct :: French
+okaeiz :: Persian
+Naoto Ishikawa (na3shkw) :: Japanese
+sdhadi :: Persian
+DerLinkman (derlinkman) :: German; German Informal
+TurnArabic :: Arabic
+Martin Sebek (sebekmartin) :: Czech
+Kuchinashi Hoshikawa (kuchinashi) :: Chinese Simplified

@@ -6,7 +6,7 @@
 return [
 
     // Pages
-    'page_create'                 => 'criou a página',
+    'page_create'                 => 'página criada',
     'page_create_notification'    => 'Página criada com sucesso',
     'page_update'                 => 'atualizou a página',
     'page_update_notification'    => 'Página atualizada com sucesso',
@@ -42,9 +42,9 @@ return [
     'bookshelf_create_notification'    => 'Prateleira criada com sucesso',
     'bookshelf_create_from_book'    => 'livro convertido em estante',
     'bookshelf_create_from_book_notification'    => 'Capítulo convertido com sucesso em um livro',
-    'bookshelf_update'                 => 'atualizou a prateleira',
+    'bookshelf_update'                 => 'prateleira atualizada',
     'bookshelf_update_notification'    => 'Prateleira atualizada com sucesso',
-    'bookshelf_delete'                 => 'excluiu a prateleira',
+    'bookshelf_delete'                 => 'prateleira excluída',
     'bookshelf_delete_notification'    => 'Prateleira excluída com sucesso',
 
     // Favourites

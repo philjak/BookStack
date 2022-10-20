@@ -73,14 +73,14 @@ class AttachmentTest extends TestCase
 
     public function test_file_upload()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
         $admin = $this->getAdmin();
         $fileName = 'upload_test_file.txt';
 
         $expectedResp = [
             'name'       => $fileName,
-            'uploaded_to'=> $page->id,
+            'uploaded_to' => $page->id,
             'extension'  => 'txt',
             'order'      => 1,
             'created_by' => $admin->id,
@@ -101,7 +101,7 @@ class AttachmentTest extends TestCase
 
     public function test_file_upload_does_not_use_filename()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $fileName = 'upload_test_file.txt';
 
         $upload = $this->asAdmin()->uploadFile($fileName, $page->id);
@@ -115,7 +115,7 @@ class AttachmentTest extends TestCase
 
     public function test_file_display_and_access()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
         $fileName = 'upload_test_file.txt';
 
@@ -136,7 +136,7 @@ class AttachmentTest extends TestCase
 
     public function test_attaching_link_to_page()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $admin = $this->getAdmin();
         $this->asAdmin();
 
@@ -173,7 +173,7 @@ class AttachmentTest extends TestCase
 
     public function test_attachment_updating()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
 
         $attachment = $this->createAttachment($page);
@@ -197,7 +197,7 @@ class AttachmentTest extends TestCase
 
     public function test_file_deletion()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
         $fileName = 'deletion_test.txt';
         $this->uploadFile($fileName, $page->id);
@@ -219,7 +219,7 @@ class AttachmentTest extends TestCase
 
     public function test_attachment_deletion_on_page_deletion()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
         $fileName = 'deletion_test.txt';
         $this->uploadFile($fileName, $page->id);
@@ -247,17 +247,13 @@ class AttachmentTest extends TestCase
     {
         $admin = $this->getAdmin();
         $viewer = $this->getViewer();
-        $page = Page::query()->first(); /** @var Page $page */
+        $page = $this->entities->page(); /** @var Page $page */
         $this->actingAs($admin);
         $fileName = 'permission_test.txt';
         $this->uploadFile($fileName, $page->id);
         $attachment = Attachment::orderBy('id', 'desc')->take(1)->first();
 
-        $page->restricted = true;
-        $page->permissions()->delete();
-        $page->save();
-        $page->rebuildPermissions();
-        $page->load('jointPermissions');
+        $this->entities->setPermissions($page, [], []);
 
         $this->actingAs($viewer);
         $attachmentGet = $this->get($attachment->getUrl());
@@ -269,7 +265,7 @@ class AttachmentTest extends TestCase
 
     public function test_data_and_js_links_cannot_be_attached_to_a_page()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
 
         $badLinks = [
@@ -310,7 +306,7 @@ class AttachmentTest extends TestCase
 
     public function test_file_access_with_open_query_param_provides_inline_response_with_correct_content_type()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
         $fileName = 'upload_test_file.txt';
 
@@ -329,7 +325,7 @@ class AttachmentTest extends TestCase
 
     public function test_html_file_access_with_open_forces_plain_content_type()
     {
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->asAdmin();
 
         $attachment = $this->createUploadAttachment($page, 'test_file.html', '<html></html><p>testing</p>', 'text/html');
@@ -339,6 +335,21 @@ class AttachmentTest extends TestCase
         $attachmentGet->assertHeader('Content-Type', 'text/plain; charset=UTF-8');
         $attachmentGet->assertHeader('Content-Disposition', 'inline; filename="test_file.html"');
 
+        $this->deleteUploads();
+    }
+
+    public function test_file_upload_works_when_local_secure_restricted_is_in_use()
+    {
+        config()->set('filesystems.attachments', 'local_secure_restricted');
+
+        $page = $this->entities->page();
+        $fileName = 'upload_test_file.txt';
+
+        $upload = $this->asAdmin()->uploadFile($fileName, $page->id);
+        $upload->assertStatus(200);
+
+        $attachment = Attachment::query()->orderBy('id', 'desc')->where('uploaded_to', '=', $page->id)->first();
+        $this->assertFileExists(storage_path($attachment->path));
         $this->deleteUploads();
     }
 }

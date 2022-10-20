@@ -35,7 +35,7 @@ return [
     'social_account_already_used_existing' => 'この:socialAccountアカウントは既に他のユーザが使用しています。',
     'social_account_not_used' => 'この:socialAccountアカウントはどのユーザにも接続されていません。プロフィール設定から接続できます。',
     'social_account_register_instructions' => 'まだアカウントをお持ちでない場合、:socialAccountオプションから登録できます。',
-    'social_driver_not_found' => 'Social driverが見つかりません。',
+    'social_driver_not_found' => 'Social driverが見つかりません',
     'social_driver_not_configured' => 'あなたの:socialAccount設定は正しく構成されていません。',
     'invite_token_expired' => 'この招待リンクの有効期限が切れています。 代わりにアカウントのパスワードをリセットしてみてください。',
 
@@ -50,7 +50,7 @@ return [
     'file_upload_timeout' => 'ファイルのアップロードがタイムアウトしました。',
 
     // Attachments
-    'attachment_not_found' => '添付ファイルが見つかりません。',
+    'attachment_not_found' => '添付ファイルが見つかりません',
 
     // Pages
     'page_draft_autosave_fail' => '下書きの保存に失敗しました。インターネットへ接続してください。',

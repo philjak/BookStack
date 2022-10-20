@@ -89,6 +89,10 @@ return [
     'maint_send_test_email_mail_text' => 'Hea töö! Kui sa selle e-kirja kätte said, on su e-posti seaded õigesti määratud.',
     'maint_recycle_bin_desc' => 'Kustutatud riiulid, raamatud, peatükid ja lehed saadetakse prügikasti, et neid saaks taastada või lõplikult kustutada. Vanemad objektid võidakse teatud aja järel automaatselt prügikastist kustutada.',
     'maint_recycle_bin_open' => 'Ava prügikast',
+    'maint_regen_references' => 'Genereeri viited uuesti',
+    'maint_regen_references_desc' => 'See tegevus taastekitab andmebaasis objektidevahelised viited. Enamasti tehakse seda automaatselt, aga antud tegevus võimaldab indekseerida vanemat sisu või sisu, mis lisati mitteametlike meetodite abil.',
+    'maint_regen_references_success' => 'Viiteindeks genereeritud!',
+    'maint_timeout_command_note' => 'Märkus: See tegevus võib aega võtta, mis võib teatud veebikeskkondades põhjustada aegumise vigu. Alternatiivina võib seda tegevust käivitada käsurealt.',
 
     // Recycle Bin
     'recycle_bin' => 'Prügikast',
@@ -157,6 +161,7 @@ return [
     'roles_system_warning' => 'Pane tähele, et ülalolevad kolm õigust võimaldavad kasutajal enda või teiste kasutajate õiguseid muuta. Määra nende õigustega roll ainult usaldusväärsetele kasutajatele.',
     'role_asset_desc' => 'Need load kontrollivad vaikimisi ligipääsu süsteemis olevale sisule. Raamatute, peatükkide ja lehtede õigused rakenduvad esmajärjekorras.',
     'role_asset_admins' => 'Administraatoritel on automaatselt ligipääs kogu sisule, aga need valikud võivad peida või näidata kasutajaliidese elemente.',
+    'role_asset_image_view_note' => 'See käib nähtavuse kohta pildifailide halduris. Tegelik ligipääs üleslaaditud pildifailidele sõltub süsteemsest piltide salvestamise valikust.',
     'role_all' => 'Kõik',
     'role_own' => 'Enda omad',
     'role_controlled_by_asset' => 'Õigused määratud seotud objekti kaudu',
@@ -295,6 +300,7 @@ return [
         'pl' => 'Polski (poola keel)',
         'pt' => 'Português (portugali keel)',
         'pt_BR' => 'Português do Brasil (Brasiilia portugali keel)',
+        'ro' => 'Română',
         'ru' => 'Русский (vene keel)',
         'sk' => 'Slovensky',
         'sl' => 'Sloveenia',

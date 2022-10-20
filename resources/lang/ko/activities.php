@@ -38,14 +38,14 @@ return [
     'book_sort_notification'      => '책 정렬 바꿈',
 
     // Bookshelves
-    'bookshelf_create'            => '책꽂이 만들기',
-    'bookshelf_create_notification'    => '책꽂이 생성함',
-    'bookshelf_create_from_book'    => '책을 책꽂이로 변환',
+    'bookshelf_create'            => '책꽃이 만들기',
+    'bookshelf_create_notification'    => '책꽃이 생성 완료',
+    'bookshelf_create_from_book'    => '책을 책꽃이로 변환',
     'bookshelf_create_from_book_notification'    => '책을 책꽂이로 변환했습니다.',
-    'bookshelf_update'                 => '책꽂이 수정',
-    'bookshelf_update_notification'    => '책꽂이 수정함',
-    'bookshelf_delete'                 => '책꽂이 지우기',
-    'bookshelf_delete_notification'    => '책꽂이 삭제함',
+    'bookshelf_update'                 => '책꽃이 업데이트',
+    'bookshelf_update_notification'    => '책꽃이가 업데이트되었습니다',
+    'bookshelf_delete'                 => '선반 삭제',
+    'bookshelf_delete_notification'    => '책꽃이가 삭제되었습니다.',
 
     // Favourites
     'favourite_add_notification' => '":name" 북마크에 추가함',

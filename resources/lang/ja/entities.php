@@ -23,8 +23,9 @@ return [
     'meta_updated' => '更新: :timeLength',
     'meta_updated_name' => '更新: :timeLength (:user)',
     'meta_owned_name' => '所有者: :user',
+    'meta_reference_page_count' => '1 つのページで参照|:count つのページで参照',
     'entity_select' => 'エンティティ選択',
-    'entity_select_lack_permission' => 'You don\'t have the required permissions to select this item',
+    'entity_select_lack_permission' => 'この項目を選択するために必要な権限がありません',
     'images' => '画像',
     'my_recent_drafts' => '最近の下書き',
     'my_recently_viewed' => '閲覧履歴',
@@ -41,10 +42,14 @@ return [
 
     // Permissions and restrictions
     'permissions' => '権限',
-    'permissions_intro' => 'この設定は各ユーザの役割よりも優先して適用されます。',
-    'permissions_enable' => 'カスタム権限設定を有効にする',
+    'permissions_desc' => 'Set permissions here to override the default permissions provided by user roles.',
+    'permissions_book_cascade' => 'Permissions set on books will automatically cascade to child chapters and pages, unless they have their own permissions defined.',
+    'permissions_chapter_cascade' => 'Permissions set on chapters will automatically cascade to child pages, unless they have their own permissions defined.',
     'permissions_save' => '権限を保存',
     'permissions_owner' => '所有者',
+    'permissions_role_everyone_else' => 'Everyone Else',
+    'permissions_role_everyone_else_desc' => 'Set permissions for all roles not specifically overridden.',
+    'permissions_role_override' => 'Override permissions for role',
 
     // Search
     'search_results' => '検索結果',
@@ -77,7 +82,6 @@ return [
     'shelf' => '本棚',
     'shelves' => '本棚',
     'x_shelves' => ':count 本棚|:count 本棚',
-    'shelves_long' => '本棚',
     'shelves_empty' => '本棚が作成されていません',
     'shelves_create' => '新しい本棚を作成',
     'shelves_popular' => '人気の本棚',
@@ -88,7 +92,7 @@ return [
     'shelves_save' => '本棚を保存',
     'shelves_books' => 'この本棚のブック',
     'shelves_add_books' => 'この本棚にブックを追加',
-    'shelves_drag_books' => 'Drag books below to add them to this shelf',
+    'shelves_drag_books' => '下にブックをドラッグしてこの本棚に追加',
     'shelves_empty_contents' => 'この本棚にはブックが割り当てられていません。',
     'shelves_edit_and_assign' => '本棚を編集してブックを割り当てる',
     'shelves_edit_named' => '本棚「:name」を編集',
@@ -171,7 +175,7 @@ return [
     'chapters_permissions_active' => 'チャプターの権限は有効です',
     'chapters_permissions_success' => 'チャプターの権限を更新しました',
     'chapters_search_this' => 'このチャプターを検索',
-    'chapter_sort_book' => 'Sort Book',
+    'chapter_sort_book' => 'ブックを並べ替え',
 
     // Pages
     'page' => 'ページ',
@@ -248,6 +252,7 @@ return [
     'pages_edit_content_link' => 'コンテンツの編集',
     'pages_permissions_active' => 'ページの権限は有効です',
     'pages_initial_revision' => '初回の公開',
+    'pages_references_update_revision' => '内部リンクのシステム自動更新',
     'pages_initial_name' => '新規ページ',
     'pages_editing_draft_notification' => ':timeDiffに保存された下書きを編集しています。',
     'pages_draft_edited_notification' => 'このページは更新されています。下書きを破棄することを推奨します。',
@@ -369,4 +374,9 @@ return [
     'convert_to_book_desc' => 'このチャプターを同じ内容の新しいブックに変換できます。このチャプターで設定された権限は新しいブックにコピーされますが、親ブックから継承された権限はコピーされないため、アクセス制御が変更される可能性があります。',
     'convert_chapter' => 'チャプターを変換',
     'convert_chapter_confirm' => 'このチャプターを変換してもよろしいですか？',
+
+    // References
+    'references' => '参照',
+    'references_none' => 'この項目への追跡された参照はありません。',
+    'references_to_desc' => 'この項目にリンクしている、システム内のすべての既知のページを以下に示します。',
 ];

@@ -42,9 +42,9 @@ return [
     'bookshelf_create_notification'    => 'Étagère créée avec succès',
     'bookshelf_create_from_book'    => 'livre converti en étagère',
     'bookshelf_create_from_book_notification'    => 'Livre converti en étagère avec succès',
-    'bookshelf_update'                 => 'a modifié l\'étagère',
-    'bookshelf_update_notification'    => 'Étagère modifiée avec succès',
-    'bookshelf_delete'                 => 'a supprimé l\'étagère',
+    'bookshelf_update'                 => 'étagère mise à jour',
+    'bookshelf_update_notification'    => 'Étagère mise à jour avec succès',
+    'bookshelf_delete'                 => 'étagère supprimée',
     'bookshelf_delete_notification'    => 'Étagère supprimée avec succès',
 
     // Favourites

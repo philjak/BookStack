@@ -9,24 +9,23 @@ use BookStack\Entities\Tools\BookContents;
 use BookStack\Entities\Tools\Cloner;
 use BookStack\Entities\Tools\HierarchyTransformer;
 use BookStack\Entities\Tools\NextPreviousContentLocator;
-use BookStack\Entities\Tools\PermissionsUpdater;
 use BookStack\Exceptions\MoveOperationException;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Exceptions\PermissionsException;
+use BookStack\References\ReferenceFetcher;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class ChapterController extends Controller
 {
-    protected $chapterRepo;
+    protected ChapterRepo $chapterRepo;
+    protected ReferenceFetcher $referenceFetcher;
 
-    /**
-     * ChapterController constructor.
-     */
-    public function __construct(ChapterRepo $chapterRepo)
+    public function __construct(ChapterRepo $chapterRepo, ReferenceFetcher $referenceFetcher)
     {
         $this->chapterRepo = $chapterRepo;
+        $this->referenceFetcher = $referenceFetcher;
     }
 
     /**
@@ -77,13 +76,14 @@ class ChapterController extends Controller
         $this->setPageTitle($chapter->getShortName());
 
         return view('chapters.show', [
-            'book'        => $chapter->book,
-            'chapter'     => $chapter,
-            'current'     => $chapter,
-            'sidebarTree' => $sidebarTree,
-            'pages'       => $pages,
-            'next'        => $nextPreviousLocator->getNext(),
-            'previous'    => $nextPreviousLocator->getPrevious(),
+            'book'           => $chapter->book,
+            'chapter'        => $chapter,
+            'current'        => $chapter,
+            'sidebarTree'    => $sidebarTree,
+            'pages'          => $pages,
+            'next'           => $nextPreviousLocator->getNext(),
+            'previous'       => $nextPreviousLocator->getPrevious(),
+            'referenceCount' => $this->referenceFetcher->getPageReferenceCountToEntity($chapter),
         ]);
     }
 
@@ -240,38 +240,6 @@ class ChapterController extends Controller
         $this->showSuccessNotification(trans('entities.chapters_copy_success'));
 
         return redirect($chapterCopy->getUrl());
-    }
-
-    /**
-     * Show the Restrictions view.
-     *
-     * @throws NotFoundException
-     */
-    public function showPermissions(string $bookSlug, string $chapterSlug)
-    {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('restrictions-manage', $chapter);
-
-        return view('chapters.permissions', [
-            'chapter' => $chapter,
-        ]);
-    }
-
-    /**
-     * Set the restrictions for this chapter.
-     *
-     * @throws NotFoundException
-     */
-    public function permissions(Request $request, PermissionsUpdater $permissionsUpdater, string $bookSlug, string $chapterSlug)
-    {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('restrictions-manage', $chapter);
-
-        $permissionsUpdater->updateFromPermissionsForm($chapter, $request);
-
-        $this->showSuccessNotification(trans('entities.chapters_permissions_success'));
-
-        return redirect($chapter->getUrl());
     }
 
     /**

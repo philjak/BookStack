@@ -40,7 +40,7 @@ return [
     // Bookshelves
     'bookshelf_create'            => 'создал полку',
     'bookshelf_create_notification'    => 'Полка успешно создана',
-    'bookshelf_create_from_book'    => 'преобразовать книгу в полку',
+    'bookshelf_create_from_book'    => 'преобразовал книгу в полку',
     'bookshelf_create_from_book_notification'    => 'Книга успешно преобразована в полку',
     'bookshelf_update'                 => 'обновил полку',
     'bookshelf_update_notification'    => 'Полка успешно обновлена',

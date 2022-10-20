@@ -23,6 +23,7 @@ return [
     'meta_updated' => 'Muudetud :timeLength',
     'meta_updated_name' => 'Muudetud :timeLength kasutaja :user poolt',
     'meta_owned_name' => 'Kuulub kasutajale :user',
+    'meta_reference_page_count' => 'Viidatud 1 lehel|Viidatud :count lehel',
     'entity_select' => 'Objekti valik',
     'entity_select_lack_permission' => 'Sul pole õiguseid selle objekti valimiseks',
     'images' => 'Pildid',
@@ -41,10 +42,14 @@ return [
 
     // Permissions and restrictions
     'permissions' => 'Õigused',
-    'permissions_intro' => 'Kui kohandatud õigused on lubatud, rakendatakse neid eelisjärjekorras, enne rolli õiguseid.',
-    'permissions_enable' => 'Luba kohandatud õigused',
+    'permissions_desc' => 'Set permissions here to override the default permissions provided by user roles.',
+    'permissions_book_cascade' => 'Permissions set on books will automatically cascade to child chapters and pages, unless they have their own permissions defined.',
+    'permissions_chapter_cascade' => 'Permissions set on chapters will automatically cascade to child pages, unless they have their own permissions defined.',
     'permissions_save' => 'Salvesta õigused',
     'permissions_owner' => 'Omanik',
+    'permissions_role_everyone_else' => 'Everyone Else',
+    'permissions_role_everyone_else_desc' => 'Set permissions for all roles not specifically overridden.',
+    'permissions_role_override' => 'Override permissions for role',
 
     // Search
     'search_results' => 'Otsingutulemused',
@@ -77,7 +82,6 @@ return [
     'shelf' => 'Riiul',
     'shelves' => 'Riiulid',
     'x_shelves' => ':count riiul|:count riiulit',
-    'shelves_long' => 'Raamaturiiulid',
     'shelves_empty' => 'Ühtegi riiulit pole lisatud',
     'shelves_create' => 'Lisa uus riiul',
     'shelves_popular' => 'Populaarsed riiulid',
@@ -96,15 +100,15 @@ return [
     'shelves_delete' => 'Kustuta riiul',
     'shelves_delete_named' => 'Kustuta riiul :name',
     'shelves_delete_explain' => "See kustutab riiuli nimega ':name'. Raamatuid, mis on sellel riiulil, ei kustutata.",
-    'shelves_delete_confirmation' => 'Kas oled kindel, et soovid selle raamaturiiuli kustutada?',
+    'shelves_delete_confirmation' => 'Kas oled kindel, et soovid selle riiuli kustutada?',
     'shelves_permissions' => 'Riiuli õigused',
     'shelves_permissions_updated' => 'Riiuli õigused muudetud',
     'shelves_permissions_active' => 'Riiuli õigused on aktiivsed',
-    'shelves_permissions_cascade_warning' => 'Raamaturiiuli õigused ei rakendu automaatselt sellel olevatele raamatutele, kuna raamat võib olla korraga mitmel riiulil. Alloleva valiku abil saab aga riiuli õigused kopeerida raamatutele.',
+    'shelves_permissions_cascade_warning' => 'Riiuli õigused ei rakendu automaatselt sellel olevatele raamatutele, kuna raamat võib olla korraga mitmel riiulil. Alloleva valiku abil saab aga riiuli õigused kopeerida raamatutele.',
     'shelves_copy_permissions_to_books' => 'Kopeeri õigused raamatutele',
     'shelves_copy_permissions' => 'Kopeeri õigused',
-    'shelves_copy_permissions_explain' => 'See rakendab raamaturiiuli praegused õigused kõigile sellel olevatele raamatutele. Enne jätkamist veendu, et raamaturiiuli õiguste muudatused oleks salvestatud.',
-    'shelves_copy_permission_success' => 'Raamaturiiuli õigused kopeeritud :count raamatule',
+    'shelves_copy_permissions_explain' => 'See rakendab riiuli praegused õigused kõigile sellel olevatele raamatutele. Enne jätkamist veendu, et riiuli õiguste muudatused oleks salvestatud.',
+    'shelves_copy_permission_success' => 'Riiuli õigused kopeeritud :count raamatule',
 
     // Books
     'book' => 'Raamat',
@@ -248,6 +252,7 @@ return [
     'pages_edit_content_link' => 'Muuda sisu',
     'pages_permissions_active' => 'Lehe õigused on aktiivsed',
     'pages_initial_revision' => 'Esimene redaktsioon',
+    'pages_references_update_revision' => 'Seesmiste linkide automaatne uuendamine',
     'pages_initial_name' => 'Uus leht',
     'pages_editing_draft_notification' => 'Sa muudad mustandit, mis salvestati viimati :timeDiff.',
     'pages_draft_edited_notification' => 'Seda lehte on sellest ajast saadid uuendatud. Soovitame mustandist loobuda.',
@@ -369,4 +374,9 @@ return [
     'convert_to_book_desc' => 'Saad muuta selle peatüki uueks, sama sisuga raamatuks. Peatükile määratud õigused kopeeritakse uuele raamatule, aga olemasolevalt raamatult pärit õiguseid ei kopeerita, mis võib põhjustada muudatusi ligipääsudes.',
     'convert_chapter' => 'Muud peatükk',
     'convert_chapter_confirm' => 'Kas oled kindel, et soovid selle peatüki muuta?',
+
+    // References
+    'references' => 'Viited',
+    'references_none' => 'Sellele objektile ei ole viiteid.',
+    'references_to_desc' => 'Allpool on kõik teadaolevad lehed, mis sellele objektile viitavad.',
 ];
