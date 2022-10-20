@@ -109,7 +109,7 @@ class Bookshelf extends Entity implements HasCoverImage
         $maxOrder = $this->books()->max('order');
         $this->books()->attach($book->id, ['order' => $maxOrder + 1]);
 
-        if (setting()->get('app-inherit-from-shelf')){
+        if (setting()->get('app-inherit-from-shelf')) {
             $shelfPermissions = $this->permissions()->get(['role_id', 'action'])->toArray();
             $book->permissions()->delete();
             $book->restricted = $this->restricted;
