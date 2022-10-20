@@ -25,8 +25,8 @@ return [
     'app_public_access_toggle' => 'Öffentlichen Zugriff erlauben',
     'app_public_viewing' => 'Öffentliche Ansicht erlauben?',
     'app_secure_images' => 'Erhöhte Sicherheit für hochgeladene Bilder aktivieren?',
-    'app_secure_images_toggle' => 'Aktiviere Bild-Upload höherer Sicherheit',
-    'app_secure_images_desc' => 'Aus Leistungsgründen sind alle Bilder öffentlich sichtbar. Diese Option fügt zufällige, schwer zu eratene, Zeichenketten zu Bild-URLs hinzu. Stellen sie sicher, dass Verzeichnisindizes deaktiviert sind, um einen einfachen Zugriff zu verhindern.',
+    'app_secure_images_toggle' => 'Aktiviere höhere Sicherheit für Bild-Uploads',
+    'app_secure_images_desc' => 'Aus Leistungsgründen sind alle Bilder öffentlich sichtbar. Diese Option fügt zufällige, schwer zu erratende, Zeichenketten zu Bild-URLs hinzu. Stellen Sie sicher, dass Verzeichnisindizes deaktiviert sind, um einen einfachen Zugriff zu verhindern.',
     'app_default_editor' => 'Standard-Seiten-Editor',
     'app_default_editor_desc' => 'Wählen Sie aus, welcher Editor standardmäßig beim Bearbeiten neuer Seiten verwendet wird. Dies kann auf einer Seitenebene überschrieben werden, wenn es die Berechtigungen erlauben.',
     'app_custom_html' => 'Benutzerdefinierter HTML <head> Inhalt',
@@ -37,12 +37,12 @@ return [
 Größere Bilder werden verkleinert.',
     'app_primary_color' => 'Primäre Anwendungsfarbe',
     'app_primary_color_desc' => 'Dies sollte ein HEX Wert sein.
-Wenn Sie nicht eingeben, wird die Anwendung auf die Standardfarbe zurückgesetzt.',
+Wenn Sie nichts eingeben, wird die Anwendung auf die Standardfarbe zurückgesetzt.',
     'app_homepage' => 'Startseite der Anwendung',
     'app_homepage_desc' => 'Wählen Sie eine Seite als Startseite aus, die statt der Standardansicht angezeigt werden soll. Seitenberechtigungen werden für die ausgewählten Seiten ignoriert.',
     'app_homepage_select' => 'Wählen Sie eine Seite aus',
     'app_footer_links' => 'Fußzeilen-Links',
-    'app_footer_links_desc' => 'Fügen Sie Links hinzu, die innerhalb der Seitenfußzeile angezeigt werden. Diese werden am unteren Ende der meisten Seiten angezeigt, einschließlich derjenigen, die keinen Login benötigen. Sie können die Bezeichnung "trans::<key>" verwenden, um systemdefinierte Übersetzungen zu verwenden. Beispiel: Mit "trans::common.privacy_policy" wird der übersetzte Text "Privacy Policy" bereitgestellt und "trans::common.terms_of_service" liefert den übersetzten Text "Terms of Service".',
+    'app_footer_links_desc' => 'Fügen Sie Links hinzu, die innerhalb der Seitenfußzeile angezeigt werden. Diese werden am unteren Ende der meisten Seiten angezeigt, einschließlich derjenigen, die keine Anmeldung benötigen. Sie können die Bezeichnung "trans::<key>" verwenden, um systemdefinierte Übersetzungen zu verwenden. Beispiel: Mit "trans::common.privacy_policy" wird der übersetzte Text "Privacy Policy" bereitgestellt und "trans::common.terms_of_service" liefert den übersetzten Text "Terms of Service".',
     'app_footer_links_label' => 'Link-Label',
     'app_footer_links_url' => 'Link-URL',
     'app_footer_links_add' => 'Fußzeilen-Link hinzufügen',
@@ -70,8 +70,8 @@ Wenn Sie nicht eingeben, wird die Anwendung auf die Standardfarbe zurückgesetzt
     'reg_email_confirmation_toggle' => 'Bestätigung per E-Mail erforderlich',
     'reg_confirm_email_desc' => 'Falls die Einschränkung für Domains genutzt wird, ist die Bestätigung per E-Mail zwingend erforderlich und der untenstehende Wert wird ignoriert.',
     'reg_confirm_restrict_domain' => 'Registrierung auf bestimmte Domains einschränken',
-    'reg_confirm_restrict_domain_desc' => 'Fügen sie eine durch Komma getrennte Liste von Domains hinzu, auf die die Registrierung eingeschränkt werden soll. Benutzern wird eine E-Mail gesendet, um ihre E-Mail Adresse zu bestätigen, bevor sie diese Anwendung nutzen können.
-Hinweis: Benutzer können ihre E-Mail Adresse nach erfolgreicher Registrierung ändern.',
+    'reg_confirm_restrict_domain_desc' => 'Fügen Sie eine durch Komma getrennte Liste von Domains hinzu, auf die die Registrierung eingeschränkt werden soll. Benutzern wird eine E-Mail gesendet, um ihre E-Mail-Adresse zu bestätigen, bevor diese die Anwendung nutzen können.
+Hinweis: Benutzer können ihre E-Mail-Adresse nach erfolgreicher Registrierung ändern.',
     'reg_confirm_restrict_domain_placeholder' => 'Keine Einschränkung gesetzt',
 
     // Maintenance settings
@@ -92,10 +92,10 @@ Hinweis: Benutzer können ihre E-Mail Adresse nach erfolgreicher Registrierung �
     'maint_send_test_email_mail_text' => 'Glückwunsch! Da Sie diese E-Mail Benachrichtigung erhalten haben, scheinen Ihre E-Mail-Einstellungen korrekt konfiguriert zu sein.',
     'maint_recycle_bin_desc' => 'Gelöschte Regale, Bücher, Kapitel & Seiten werden in den Papierkorb verschoben, so dass sie wiederhergestellt oder dauerhaft gelöscht werden können. Ältere Gegenstände im Papierkorb können, in Abhängigkeit von der Systemkonfiguration, nach einer Weile automatisch entfernt werden.',
     'maint_recycle_bin_open' => 'Papierkorb öffnen',
-    'maint_regen_references' => 'Regenerate References',
-    'maint_regen_references_desc' => 'This action will rebuild the cross-item reference index within the database. This is usually handled automatically but this action can be useful to index old content or content added via unofficial methods.',
-    'maint_regen_references_success' => 'Reference index has been regenerated!',
-    'maint_timeout_command_note' => 'Note: This action can take time to run, which can lead to timeout issues in some web environments. As an alternative, this action be performed using a terminal command.',
+    'maint_regen_references' => 'Referenzen neu generieren',
+    'maint_regen_references_desc' => 'Diese Aktion wird den Referenzindex innerhalb der Datenbank neu erstellen. Dies wird normalerweise automatisch ausgeführt, aber diese Aktion kann nützlich sein, um alte Inhalte oder Inhalte zu indizieren, die mittels inoffizieller Methoden hinzugefügt wurden.',
+    'maint_regen_references_success' => 'Referenz-Index wurde neu generiert!',
+    'maint_timeout_command_note' => 'Hinweis: Die Ausführung dieser Aktion kann einige Zeit in Anspruch nehmen, was in einigen Webumgebungen zu Timeout-Problemen führen kann. Alternativ kann diese Aktion auch mit einem Terminalbefehl ausgeführt werden.',
 
     // Recycle Bin
     'recycle_bin' => 'Papierkorb',
@@ -164,7 +164,7 @@ Hinweis: Benutzer können ihre E-Mail Adresse nach erfolgreicher Registrierung �
     'roles_system_warning' => 'Beachten Sie, dass der Zugriff auf eine der oben genannten drei Berechtigungen einem Benutzer erlauben kann, seine eigenen Berechtigungen oder die Rechte anderer im System zu ändern. Weisen Sie nur Rollen, mit diesen Berechtigungen, vertrauenswürdigen Benutzern zu.',
     'role_asset_desc' => 'Diese Berechtigungen gelten für den Standard-Zugriff innerhalb des Systems. Berechtigungen für Bücher, Kapitel und Seiten überschreiben diese Berechtigungenen.',
     'role_asset_admins' => 'Administratoren erhalten automatisch Zugriff auf alle Inhalte, aber diese Optionen können Oberflächenoptionen ein- oder ausblenden.',
-    'role_asset_image_view_note' => 'This relates to visibility within the image manager. Actual access of uploaded image files will be dependant upon system image storage option.',
+    'role_asset_image_view_note' => 'Das bezieht sich auf die Sichtbarkeit innerhalb des Bildmanagers. Der tatsächliche Zugriff auf hochgeladene Bilddateien hängt von der Speicheroption des Systems für Bilder ab.',
     'role_all' => 'Alle',
     'role_own' => 'Eigene',
     'role_controlled_by_asset' => 'Berechtigungen werden vom Uploadziel bestimmt',

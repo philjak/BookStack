@@ -28,6 +28,7 @@ class LanguageManager
         'de'          => ['iso' => 'de_DE', 'windows' => 'German'],
         'de_informal' => ['iso' => 'de_DE', 'windows' => 'German'],
         'en'          => ['iso' => 'en_GB', 'windows' => 'English'],
+        'el'          => ['iso' => 'el_GR', 'windows' => 'Greek'],
         'es'          => ['iso' => 'es_ES', 'windows' => 'Spanish'],
         'es_AR'       => ['iso' => 'es_AR', 'windows' => 'Spanish'],
         'et'          => ['iso' => 'et_EE', 'windows' => 'Estonian'],
@@ -116,12 +117,14 @@ class LanguageManager
      */
     public function setPhpDateTimeLocale(string $language): void
     {
-        $isoLang = $this->localeMap[$language]['iso'] ?? false;
+        $isoLang = $this->localeMap[$language]['iso'] ?? '';
+        $isoLangPrefix = explode('_', $isoLang)[0];
 
         $locales = array_filter([
             $isoLang ? $isoLang . '.utf8' : false,
             $isoLang ?: false,
             $isoLang ? str_replace('_', '-', $isoLang) : false,
+            $isoLang ? $isoLangPrefix . '.UTF-8' : false,
             $this->localeMap[$language]['windows'] ?? false,
             $language,
         ]);

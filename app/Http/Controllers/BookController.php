@@ -10,7 +10,6 @@ use BookStack\Entities\Repos\BookRepo;
 use BookStack\Entities\Tools\BookContents;
 use BookStack\Entities\Tools\Cloner;
 use BookStack\Entities\Tools\HierarchyTransformer;
-use BookStack\Entities\Tools\PermissionsUpdater;
 use BookStack\Entities\Tools\ShelfContext;
 use BookStack\Exceptions\ImageUploadException;
 use BookStack\Exceptions\NotFoundException;
@@ -147,7 +146,7 @@ class BookController extends Controller
     {
         $book = $this->bookRepo->getBySlug($slug);
         $this->checkOwnablePermission('book-update', $book);
-        $this->setPageTitle(trans('entities.books_edit_named', ['bookName'=>$book->getShortName()]));
+        $this->setPageTitle(trans('entities.books_edit_named', ['bookName' => $book->getShortName()]));
 
         return view('books.edit', ['book' => $book, 'current' => $book]);
     }
@@ -207,36 +206,6 @@ class BookController extends Controller
         $this->bookRepo->destroy($book);
 
         return redirect('/books');
-    }
-
-    /**
-     * Show the permissions view.
-     */
-    public function showPermissions(string $bookSlug)
-    {
-        $book = $this->bookRepo->getBySlug($bookSlug);
-        $this->checkOwnablePermission('restrictions-manage', $book);
-
-        return view('books.permissions', [
-            'book' => $book,
-        ]);
-    }
-
-    /**
-     * Set the restrictions for this book.
-     *
-     * @throws Throwable
-     */
-    public function permissions(Request $request, PermissionsUpdater $permissionsUpdater, string $bookSlug)
-    {
-        $book = $this->bookRepo->getBySlug($bookSlug);
-        $this->checkOwnablePermission('restrictions-manage', $book);
-
-        $permissionsUpdater->updateFromPermissionsForm($book, $request);
-
-        $this->showSuccessNotification(trans('entities.books_permissions_updated'));
-
-        return redirect($book->getUrl());
     }
 
     /**

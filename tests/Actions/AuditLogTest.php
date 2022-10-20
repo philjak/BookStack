@@ -2,23 +2,18 @@
 
 namespace Tests\Actions;
 
-use function app;
 use BookStack\Actions\Activity;
 use BookStack\Actions\ActivityLogger;
 use BookStack\Actions\ActivityType;
 use BookStack\Auth\UserRepo;
-use BookStack\Entities\Models\Chapter;
-use BookStack\Entities\Models\Page;
 use BookStack\Entities\Repos\PageRepo;
 use BookStack\Entities\Tools\TrashCan;
 use Carbon\Carbon;
-use function config;
 use Tests\TestCase;
 
 class AuditLogTest extends TestCase
 {
-    /** @var ActivityLogger */
-    protected $activityService;
+    protected ActivityLogger $activityService;
 
     protected function setUp(): void
     {
@@ -48,7 +43,7 @@ class AuditLogTest extends TestCase
     {
         $admin = $this->getAdmin();
         $this->actingAs($admin);
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->activityService->add(ActivityType::PAGE_CREATE, $page);
         $activity = Activity::query()->orderBy('id', 'desc')->first();
 
@@ -62,7 +57,7 @@ class AuditLogTest extends TestCase
     public function test_shows_name_for_deleted_items()
     {
         $this->actingAs($this->getAdmin());
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $pageName = $page->name;
         $this->activityService->add(ActivityType::PAGE_CREATE, $page);
 
@@ -78,7 +73,7 @@ class AuditLogTest extends TestCase
     {
         $viewer = $this->getViewer();
         $this->actingAs($viewer);
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->activityService->add(ActivityType::PAGE_CREATE, $page);
 
         $this->actingAs($this->getAdmin());
@@ -91,7 +86,7 @@ class AuditLogTest extends TestCase
     public function test_filters_by_key()
     {
         $this->actingAs($this->getAdmin());
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->activityService->add(ActivityType::PAGE_CREATE, $page);
 
         $resp = $this->get('settings/audit');
@@ -104,7 +99,7 @@ class AuditLogTest extends TestCase
     public function test_date_filters()
     {
         $this->actingAs($this->getAdmin());
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->activityService->add(ActivityType::PAGE_CREATE, $page);
 
         $yesterday = (Carbon::now()->subDay()->format('Y-m-d'));
@@ -128,11 +123,11 @@ class AuditLogTest extends TestCase
         $admin = $this->getAdmin();
         $editor = $this->getEditor();
         $this->actingAs($admin);
-        $page = Page::query()->first();
+        $page = $this->entities->page();
         $this->activityService->add(ActivityType::PAGE_CREATE, $page);
 
         $this->actingAs($editor);
-        $chapter = Chapter::query()->first();
+        $chapter = $this->entities->chapter();
         $this->activityService->add(ActivityType::CHAPTER_UPDATE, $chapter);
 
         $resp = $this->actingAs($admin)->get('settings/audit?user=' . $admin->id);
@@ -148,8 +143,7 @@ class AuditLogTest extends TestCase
     {
         config()->set('app.proxies', '*');
         $editor = $this->getEditor();
-        /** @var Page $page */
-        $page = Page::query()->first();
+        $page = $this->entities->page();
 
         $this->actingAs($editor)->put($page->getUrl(), [
             'name' => 'Updated page',
@@ -173,8 +167,7 @@ class AuditLogTest extends TestCase
     {
         config()->set('app.proxies', '*');
         $editor = $this->getEditor();
-        /** @var Page $page */
-        $page = Page::query()->first();
+        $page = $this->entities->page();
 
         $this->actingAs($editor)->put($page->getUrl(), [
             'name' => 'Updated page',
@@ -200,8 +193,7 @@ class AuditLogTest extends TestCase
         config()->set('app.proxies', '*');
         config()->set('app.env', 'demo');
         $editor = $this->getEditor();
-        /** @var Page $page */
-        $page = Page::query()->first();
+        $page = $this->entities->page();
 
         $this->actingAs($editor)->put($page->getUrl(), [
             'name' => 'Updated page',
@@ -224,8 +216,7 @@ class AuditLogTest extends TestCase
         config()->set('app.proxies', '*');
         config()->set('app.ip_address_precision', 2);
         $editor = $this->getEditor();
-        /** @var Page $page */
-        $page = Page::query()->first();
+        $page = $this->entities->page();
 
         $this->actingAs($editor)->put($page->getUrl(), [
             'name' => 'Updated page',
