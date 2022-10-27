@@ -110,9 +110,9 @@ class Bookshelf extends Entity implements HasCoverImage
         $this->books()->attach($book->id, ['order' => $maxOrder + 1]);
 
         if (setting()->get('app-inherit-from-shelf')) {
-            $shelfPermissions = $this->permissions()->get(['role_id', 'action'])->toArray();
+            $shelfPermissions = $this->permissions()->get(['role_id', 'view', 'create', 'update', 'delete'])->toArray();
             $book->permissions()->delete();
-            $book->restricted = $this->restricted;
+            //$book->restricted = $this->restricted;
             $book->permissions()->createMany($shelfPermissions);
             $book->save();
             $book->rebuildPermissions();
