@@ -798,37 +798,6 @@ body.flexbox-support #entity-selector-wrap .popup-body .form-group {
   max-width: 500px;
 }
 
-.content-permissions {
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-}
-.content-permissions-row {
-  border: 1.5px solid;
-  @include lightDark(border-color, #E2E2E2, #444);
-  border-bottom-width: 0;
-  label {
-    padding-bottom: 0;
-  }
-  &:hover {
-    @include lightDark(background-color, #F2F2F2, #333);
-  }
-}
-.content-permissions-row:first-child {
-  border-radius: 4px 4px 0 0;
-}
-.content-permissions-row:last-child {
-  border-radius: 0 0 4px 4px;
-  border-bottom-width: 1.5px;
-}
-.content-permissions-row:first-child:last-child {
-  border-radius: 4px;
-}
-.content-permissions-row-toggle-all {
-  visibility: hidden;
-}
-.content-permissions-row:hover .content-permissions-row-toggle-all {
-  visibility: visible;
-}
-
 .template-item {
   cursor: pointer;
   position: relative;
@@ -969,4 +938,76 @@ body.flexbox-support #entity-selector-wrap .popup-body .form-group {
   .dropdown-search-dropdown .dropdown-search-list {
     max-height: 240px;
   }
+}
+
+.item-list {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+.item-list-row {
+  border: 1.5px solid;
+  @include lightDark(border-color, #E2E2E2, #444);
+  border-bottom-width: 0;
+  label {
+    padding-bottom: 0;
+  }
+  &:hover {
+    @include lightDark(background-color, #F6F6F6, #333);
+  }
+}
+.item-list-row:first-child {
+  border-radius: 4px 4px 0 0;
+}
+.item-list-row:last-child {
+  border-radius: 0 0 4px 4px;
+  border-bottom-width: 1.5px;
+}
+.item-list-row:first-child:last-child {
+  border-radius: 4px;
+}
+.item-list-row-toggle-all {
+  visibility: hidden;
+}
+.item-list-row:hover .item-list-row-toggle-all {
+  visibility: visible;
+}
+
+.status-indicator-active, .status-indicator-inactive {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-indicator-active {
+  background-color: $positive;
+}
+.status-indicator-inactive {
+  background-color: $negative;
+}
+
+.shortcut-container {
+  background-color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+}
+.shortcut-linkage {
+  position: fixed;
+  box-shadow: 0 0 4px 0 #FFF;
+  border-radius: 3px;
+}
+.shortcut-hint {
+  position: fixed;
+  padding: $-xxs $-xxs;
+  font-size: .85rem;
+  font-weight: 700;
+  line-height: 1;
+  background-color: #eee;
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+  color: #333;
 }

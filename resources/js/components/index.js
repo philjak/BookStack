@@ -4,6 +4,7 @@ import ajaxForm from "./ajax-form.js"
 import attachments from "./attachments.js"
 import attachmentsList from "./attachments-list.js"
 import autoSuggest from "./auto-suggest.js"
+import autoSubmit from "./auto-submit.js";
 import backToTop from "./back-to-top.js"
 import bookSort from "./book-sort.js"
 import chapterContents from "./chapter-contents.js"
@@ -43,6 +44,8 @@ import popup from "./popup.js"
 import settingAppColorPicker from "./setting-app-color-picker.js"
 import settingColorPicker from "./setting-color-picker.js"
 import shelfSort from "./shelf-sort.js"
+import shortcuts from "./shortcuts";
+import shortcutInput from "./shortcut-input";
 import sidebar from "./sidebar.js"
 import sortableList from "./sortable-list.js"
 import submitOnChange from "./submit-on-change.js"
@@ -62,6 +65,7 @@ const componentMapping = {
     "attachments": attachments,
     "attachments-list": attachmentsList,
     "auto-suggest": autoSuggest,
+    "auto-submit": autoSubmit,
     "back-to-top": backToTop,
     "book-sort": bookSort,
     "chapter-contents": chapterContents,
@@ -101,6 +105,8 @@ const componentMapping = {
     "setting-app-color-picker": settingAppColorPicker,
     "setting-color-picker": settingColorPicker,
     "shelf-sort": shelfSort,
+    "shortcuts": shortcuts,
+    "shortcut-input": shortcutInput,
     "sidebar": sidebar,
     "sortable-list": sortableList,
     "submit-on-change": submitOnChange,
