@@ -160,6 +160,23 @@ class UserManagementTest extends TestCase
         ]);
     }
 
+    public function test_delete_removes_user_preferences()
+    {
+        $editor = $this->getEditor();
+        setting()->putUser($editor, 'dark-mode-enabled', 'true');
+
+        $this->assertDatabaseHas('settings', [
+            'setting_key' => 'user:' . $editor->id . ':dark-mode-enabled',
+            'value' => 'true',
+        ]);
+
+        $this->asAdmin()->delete("settings/users/{$editor->id}");
+
+        $this->assertDatabaseMissing('settings', [
+            'setting_key' => 'user:' . $editor->id . ':dark-mode-enabled',
+        ]);
+    }
+
     public function test_guest_profile_shows_limited_form()
     {
         $guest = User::getDefault();
@@ -256,5 +273,35 @@ class UserManagementTest extends TestCase
         ]);
         $resp->assertSessionHasErrors(['language' => 'The language may not be greater than 15 characters.']);
         $resp->assertSessionHasErrors(['language' => 'The language may only contain letters, numbers, dashes and underscores.']);
+    }
+
+    public function test_role_removal_on_user_edit_removes_all_role_assignments()
+    {
+        $user = $this->getEditor();
+
+        $this->assertEquals(1, $user->roles()->count());
+
+        // A roles[0] hidden fields is used to indicate the existence of role selection in the submission
+        // of the user edit form. We check that field is used and emulate its submission.
+        $resp = $this->asAdmin()->get("/settings/users/{$user->id}");
+        $this->withHtml($resp)->assertElementExists('input[type="hidden"][name="roles[0]"][value="0"]');
+
+        $resp = $this->asAdmin()->put("/settings/users/{$user->id}", [
+            'name'  => $user->name,
+            'email' => $user->email,
+            'roles' => ['0' => '0'],
+        ]);
+        $resp->assertRedirect("/settings/users");
+
+        $this->assertEquals(0, $user->roles()->count());
+    }
+
+    public function test_role_form_hidden_indicator_field_does_not_exist_where_roles_cannot_be_managed()
+    {
+        $user = $this->getEditor();
+        $resp = $this->actingAs($user)->get("/settings/users/{$user->id}");
+        $html = $this->withHtml($resp);
+        $html->assertElementExists('input[name="email"]');
+        $html->assertElementNotExists('input[type="hidden"][name="roles[0]"]');
     }
 }

@@ -25,6 +25,7 @@ return [
     'actions' => 'Ενέργειες',
     'view' => 'Προβολή',
     'view_all' => 'Προβολή όλων',
+    'new' => 'Νέο',
     'create' => 'Δημιουργία',
     'update' => 'Ενημέρωση',
     'edit' => 'Επεξεργασία',
@@ -80,12 +81,14 @@ return [
     'none' => 'Κανένας',
 
     // Header
+    'homepage' => 'Αρχική σελίδα',
     'header_menu_expand' => 'Αναπτύξτε το Head Menu',
     'profile_menu' => 'Μενού Προφίλ',
     'view_profile' => 'Προβολή προφίλ',
     'edit_profile' => 'Επεξεργασία προφίλ',
     'dark_mode' => 'Σκουρόχρωμη εμφάνιση',
     'light_mode' => 'Ανοιχτόχρωμη εμφάνιση',
+    'global_search' => 'Καθολική αναζήτηση',
 
     // Layout tabs
     'tab_info' => 'Πληροφορίες',

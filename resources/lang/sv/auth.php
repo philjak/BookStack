@@ -6,7 +6,7 @@
  */
 return [
 
-    'failed' => 'Uppgifterna stämmer inte överrens med våra register.',
+    'failed' => 'Uppgifterna stämmer inte överens med våra register.',
     'throttle' => 'För många inloggningsförsök. Prova igen om :seconds sekunder.',
 
     // Login & Register
@@ -61,6 +61,8 @@ return [
     'email_confirm_send_error' => 'E-posten behöver bekräftas men systemet kan inte skicka mail. Kontakta adminstratören för att kontrollera att allt är konfigurerat korrekt.',
     'email_confirm_success' => 'Din e-postadress har bekräftats! Du bör nu kunna logga in med denna e-postadress.',
     'email_confirm_resent' => 'Bekräftelsemailet har skickats på nytt, kolla din mail',
+    'email_confirm_thanks' => 'Thanks for confirming!',
+    'email_confirm_thanks_desc' => 'Please wait a moment while your confirmation is handled. If you are not redirected after 3 seconds press the "Continue" link below to proceed.',
 
     'email_not_confirmed' => 'E-posadress ej bekräftad',
     'email_not_confirmed_text' => 'Din e-postadress har inte bekräftats ännu.',
@@ -84,7 +86,7 @@ return [
     'mfa_setup_configured' => 'Redan konfigurerad',
     'mfa_setup_reconfigure' => 'Omkonfigurera',
     'mfa_setup_remove_confirmation' => 'Är du säker på att du vill ta bort denna multifaktorautentiseringsmetod?',
-    'mfa_setup_action' => 'Setup',
+    'mfa_setup_action' => 'Konfigurera',
     'mfa_backup_codes_usage_limit_warning' => 'Du har mindre än 5 reservkoder kvar, Vänligen generera och lagra en nya innan du får slut på koder för att förhindra att du inte kommer åt ditt konto.',
     'mfa_option_totp_title' => 'Mobilapp',
     'mfa_option_totp_desc' => 'För att använda multifaktorautentisering behöver du en mobil app som stöder TOTP så som Google Authenticator, Authy eller Microsoft Authenticator.',
