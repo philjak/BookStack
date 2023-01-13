@@ -86,11 +86,13 @@
 .card-title a {
   line-height: 1;
 }
-.card-footer-link {
+.card-footer-link, button.card-footer-link  {
   display: block;
   padding: $-s $-m;
   line-height: 1;
   border-top: 1px solid;
+  width: 100%;
+  text-align: left;
   @include lightDark(border-color, #DDD, #555);
   border-radius: 0 0 3px 3px;
   font-size: 0.9em;
@@ -99,10 +101,16 @@
     text-decoration: none;
     @include lightDark(background-color, #f2f2f2, #2d2d2d);
   }
+  &:focus {
+    @include lightDark(background-color, #eee, #222);
+    outline: 1px dotted #666;
+    outline-offset: -2px;
+  }
 }
 
 .card.border-card {
-  border: 1px solid #DDD;
+  border: 1px solid;
+  @include lightDark(border-color, #ddd, #000);
 }
 
 .card.drag-card {
@@ -126,7 +134,7 @@
     flex-grow: 0;
     padding: 0 $-xs;
     &:hover {
-      background-color: #EEE;
+      @include lightDark(background-color, #eee, #2d2d2d);
     }
     .svg-icon {
       margin-inline-end: 0px;

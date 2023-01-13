@@ -115,6 +115,9 @@ class UserPreferencesController extends Controller
         return response('', 204);
     }
 
+    /**
+     * Update the favorite status for a code language.
+     */
     public function updateCodeLanguageFavourite(Request $request)
     {
         $validated = $this->validate($request, [
@@ -134,5 +137,6 @@ class UserPreferencesController extends Controller
         }
 
         setting()->putForCurrentUser('code-language-favourites', implode(',', $currentFavorites));
+        return response('', 204);
     }
 }
