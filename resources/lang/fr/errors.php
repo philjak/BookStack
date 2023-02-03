@@ -45,9 +45,12 @@ return [
     'cannot_create_thumbs' => 'Le serveur ne peut pas créer de miniature, vérifier que l\'extension PHP GD est installée.',
     'server_upload_limit' => 'La taille du fichier est trop grande.',
     'uploaded'  => 'Le serveur n\'autorise pas l\'envoi d\'un fichier de cette taille. Veuillez essayer avec une taille de fichier réduite.',
+    'file_upload_timeout' => 'Le téléchargement du fichier a expiré.',
+
+    // Drawing & Images
     'image_upload_error' => 'Une erreur est survenue pendant l\'envoi de l\'image',
     'image_upload_type_error' => 'Le format de l\'image envoyée n\'est pas valide',
-    'file_upload_timeout' => 'Le téléchargement du fichier a expiré.',
+    'drawing_data_not_found' => 'Les données de dessin n\'ont pas pu être chargées. Le fichier de dessin peut ne plus exister ou vous n\'avez pas la permission d\'y accéder.',
 
     // Attachments
     'attachment_not_found' => 'Fichier joint non trouvé',
