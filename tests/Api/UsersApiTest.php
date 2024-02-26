@@ -2,11 +2,13 @@
 
 namespace Tests\Api;
 
-use BookStack\Actions\ActivityType;
-use BookStack\Auth\Role;
-use BookStack\Auth\User;
+use BookStack\Access\Notifications\UserInviteNotification;
+use BookStack\Activity\ActivityType;
+use BookStack\Activity\Models\Activity as ActivityModel;
 use BookStack\Entities\Models\Entity;
-use BookStack\Notifications\UserInvite;
+use BookStack\Facades\Activity;
+use BookStack\Users\Models\Role;
+use BookStack\Users\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -15,9 +17,9 @@ class UsersApiTest extends TestCase
 {
     use TestsApi;
 
-    protected $baseEndpoint = '/api/users';
+    protected string $baseEndpoint = '/api/users';
 
-    protected $endpointMap = [
+    protected array $endpointMap = [
         ['get', '/api/users'],
         ['post', '/api/users'],
         ['get', '/api/users/1'],
@@ -47,7 +49,7 @@ class UsersApiTest extends TestCase
         }
     }
 
-    public function test_index_endpoint_returns_expected_shelf()
+    public function test_index_endpoint_returns_expected_user()
     {
         $this->actingAsApiAdmin();
         /** @var User $firstUser */
@@ -63,6 +65,27 @@ class UsersApiTest extends TestCase
                 'profile_url' => $firstUser->getProfileUrl(),
                 'edit_url'    => $firstUser->getEditUrl(),
                 'avatar_url'  => $firstUser->getAvatar(),
+            ],
+        ]]);
+    }
+
+    public function test_index_endpoint_has_correct_created_and_last_activity_dates()
+    {
+        $user = $this->users->editor();
+        $user->created_at = now()->subYear();
+        $user->save();
+
+        $this->actingAs($user);
+        Activity::add(ActivityType::AUTH_LOGIN, 'test login activity');
+        /** @var ActivityModel $activity */
+        $activity = ActivityModel::query()->where('user_id', '=', $user->id)->latest()->first();
+
+        $resp = $this->asAdmin()->getJson($this->baseEndpoint . '?filter[id]=3');
+        $resp->assertJson(['data' => [
+            [
+                'id'          => $user->id,
+                'created_at' => $user->created_at->toJSON(),
+                'last_activity_at' => $activity->created_at->toJson(),
             ],
         ]]);
     }
@@ -117,7 +140,24 @@ class UsersApiTest extends TestCase
         $resp->assertStatus(200);
         /** @var User $user */
         $user = User::query()->where('email', '=', 'bboris@example.com')->first();
-        Notification::assertSentTo($user, UserInvite::class);
+        Notification::assertSentTo($user, UserInviteNotification::class);
+    }
+
+    public function test_create_with_send_invite_works_with_value_of_1()
+    {
+        $this->actingAsApiAdmin();
+        Notification::fake();
+
+        $resp = $this->postJson($this->baseEndpoint, [
+            'name'        => 'Benny Boris',
+            'email'       => 'bboris@example.com',
+            'send_invite' => '1', // Submissions via x-www-form-urlencoded/form-data may use 1 instead of boolean
+        ]);
+
+        $resp->assertStatus(200);
+        /** @var User $user */
+        $user = User::query()->where('email', '=', 'bboris@example.com')->first();
+        Notification::assertSentTo($user, UserInviteNotification::class);
     }
 
     public function test_create_name_and_email_validation()

@@ -2,14 +2,15 @@
 
 namespace BookStack\Uploads;
 
-use BookStack\Auth\Permissions\JointPermission;
-use BookStack\Auth\Permissions\PermissionApplicator;
-use BookStack\Auth\User;
+use BookStack\App\Model;
 use BookStack\Entities\Models\Entity;
 use BookStack\Entities\Models\Page;
-use BookStack\Model;
-use BookStack\Traits\HasCreatorAndUpdater;
+use BookStack\Permissions\Models\JointPermission;
+use BookStack\Permissions\PermissionApplicator;
+use BookStack\Users\Models\HasCreatorAndUpdater;
+use BookStack\Users\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -29,6 +30,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Attachment extends Model
 {
     use HasCreatorAndUpdater;
+    use HasFactory;
 
     protected $fillable = ['name', 'order'];
     protected $hidden = ['path', 'page'];
@@ -38,12 +40,10 @@ class Attachment extends Model
 
     /**
      * Get the downloadable file name for this upload.
-     *
-     * @return mixed|string
      */
-    public function getFileName()
+    public function getFileName(): string
     {
-        if (strpos($this->name, '.') !== false) {
+        if (str_contains($this->name, '.')) {
             return $this->name;
         }
 
@@ -69,7 +69,7 @@ class Attachment extends Model
      */
     public function getUrl($openInline = false): string
     {
-        if ($this->external && strpos($this->path, 'http') !== 0) {
+        if ($this->external && !str_starts_with($this->path, 'http')) {
             return $this->path;
         }
 

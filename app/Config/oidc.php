@@ -9,7 +9,7 @@ return [
     'dump_user_details' => env('OIDC_DUMP_USER_DETAILS', false),
 
     // Claim, within an OpenId token, to find the user's display name
-    'display_name_claims' => explode('|', env('OIDC_DISPLAY_NAME_CLAIMS', 'name')),
+    'display_name_claims' => env('OIDC_DISPLAY_NAME_CLAIMS', 'name'),
 
     // Claim, within an OpenID token, to use to connect a BookStack user to the OIDC user.
     'external_id_claim' => env('OIDC_EXTERNAL_ID_CLAIM', 'sub'),
@@ -36,6 +36,12 @@ return [
     'authorization_endpoint' => env('OIDC_AUTH_ENDPOINT', null),
     'token_endpoint'         => env('OIDC_TOKEN_ENDPOINT', null),
 
+    // OIDC RP-Initiated Logout endpoint URL.
+    // A false value force-disables RP-Initiated Logout.
+    // A true value gets the URL from discovery, if active.
+    // A string value is used as the URL.
+    'end_session_endpoint' => env('OIDC_END_SESSION_ENDPOINT', false),
+
     // Add extra scopes, upon those required, to the OIDC authentication request
     // Multiple values can be provided comma seperated.
     'additional_scopes' => env('OIDC_ADDITIONAL_SCOPES', null),
@@ -45,6 +51,6 @@ return [
     'user_to_groups' => env('OIDC_USER_TO_GROUPS', false),
     // Attribute, within a OIDC ID token, to find group names within
     'groups_claim' => env('OIDC_GROUPS_CLAIM', 'groups'),
-    // When syncing groups, remove any groups that no longer match. Otherwise sync only adds new groups.
+    // When syncing groups, remove any groups that no longer match. Otherwise, sync only adds new groups.
     'remove_from_groups' => env('OIDC_REMOVE_FROM_GROUPS', false),
 ];

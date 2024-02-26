@@ -15,20 +15,23 @@ use Illuminate\Support\Collection;
  *
  * @property string                                   $description
  * @property int                                      $image_id
+ * @property ?int                                     $default_template_id
  * @property Image|null                               $cover
  * @property \Illuminate\Database\Eloquent\Collection $chapters
  * @property \Illuminate\Database\Eloquent\Collection $pages
  * @property \Illuminate\Database\Eloquent\Collection $directPages
  * @property \Illuminate\Database\Eloquent\Collection $shelves
+ * @property ?Page                                    $defaultTemplate
  */
 class Book extends Entity implements HasCoverImage
 {
     use HasFactory;
+    use HasHtmlDescription;
 
-    public $searchFactor = 1.2;
+    public float $searchFactor = 1.2;
 
-    protected $fillable = ['name', 'description'];
-    protected $hidden = ['pivot', 'image_id', 'deleted_at'];
+    protected $fillable = ['name'];
+    protected $hidden = ['pivot', 'image_id', 'deleted_at', 'description_html'];
 
     /**
      * Get the url for this book.
@@ -40,26 +43,19 @@ class Book extends Entity implements HasCoverImage
 
     /**
      * Returns book cover image, if book cover not exists return default cover image.
-     *
-     * @param int $width  - Width of the image
-     * @param int $height - Height of the image
-     *
-     * @return string
      */
-    public function getBookCover($width = 440, $height = 250)
+    public function getBookCover(int $width = 440, int $height = 250): string
     {
         $default = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
-        if (!$this->image_id) {
+        if (!$this->image_id || !$this->cover) {
             return $default;
         }
 
         try {
-            $cover = $this->cover ? url($this->cover->getThumb($width, $height, false)) : $default;
+            return $this->cover->getThumb($width, $height, false) ?? $default;
         } catch (Exception $err) {
-            $cover = $default;
+            return $default;
         }
-
-        return $cover;
     }
 
     /**
@@ -76,6 +72,14 @@ class Book extends Entity implements HasCoverImage
     public function coverImageTypeKey(): string
     {
         return 'cover_book';
+    }
+
+    /**
+     * Get the Page that is used as default template for newly created pages within this Book.
+     */
+    public function defaultTemplate(): BelongsTo
+    {
+        return $this->belongsTo(Page::class, 'default_template_id');
     }
 
     /**

@@ -2,25 +2,20 @@
 
 namespace BookStack\Uploads;
 
-use BookStack\Auth\Permissions\PermissionApplicator;
 use BookStack\Entities\Models\Page;
 use BookStack\Exceptions\ImageUploadException;
+use BookStack\Permissions\PermissionApplicator;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageRepo
 {
-    protected ImageService $imageService;
-    protected PermissionApplicator $permissions;
-
-    /**
-     * ImageRepo constructor.
-     */
-    public function __construct(ImageService $imageService, PermissionApplicator $permissions)
-    {
-        $this->imageService = $imageService;
-        $this->permissions = $permissions;
+    public function __construct(
+        protected ImageService $imageService,
+        protected PermissionApplicator $permissions,
+        protected ImageResizer $imageResizer,
+    ) {
     }
 
     /**
@@ -35,19 +30,13 @@ class ImageRepo
      * Execute a paginated query, returning in a standard format.
      * Also runs the query through the restriction system.
      */
-    private function returnPaginated($query, $page = 1, $pageSize = 24): array
+    protected function returnPaginated(Builder $query, int $page = 1, int $pageSize = 24): array
     {
         $images = $query->orderBy('created_at', 'desc')->skip($pageSize * ($page - 1))->take($pageSize + 1)->get();
-        $hasMore = count($images) > $pageSize;
-
-        $returnImages = $images->take($pageSize);
-        $returnImages->each(function (Image $image) {
-            $this->loadThumbs($image);
-        });
 
         return [
-            'images'   => $returnImages,
-            'has_more' => $hasMore,
+            'images'   => $images->take($pageSize),
+            'has_more' => count($images) > $pageSize,
         ];
     }
 
@@ -125,7 +114,7 @@ class ImageRepo
         $image = $this->imageService->saveNewFromUpload($uploadFile, $type, $uploadedTo, $resizeWidth, $resizeHeight, $keepRatio);
 
         if ($type !== 'system') {
-            $this->loadThumbs($image);
+            $this->imageResizer->loadGalleryThumbnailsForImage($image, true);
         }
 
         return $image;
@@ -139,7 +128,7 @@ class ImageRepo
     public function saveNewFromData(string $imageName, string $imageData, string $type, int $uploadedTo = 0): Image
     {
         $image = $this->imageService->saveNew($imageName, $imageData, $type, $uploadedTo);
-        $this->loadThumbs($image);
+        $this->imageResizer->loadGalleryThumbnailsForImage($image, true);
 
         return $image;
     }
@@ -164,10 +153,30 @@ class ImageRepo
     public function updateImageDetails(Image $image, $updateDetails): Image
     {
         $image->fill($updateDetails);
+        $image->updated_by = user()->id;
         $image->save();
-        $this->loadThumbs($image);
+        $this->imageResizer->loadGalleryThumbnailsForImage($image, false);
 
         return $image;
+    }
+
+    /**
+     * Update the image file of an existing image in the system.
+     * @throws ImageUploadException
+     */
+    public function updateImageFile(Image $image, UploadedFile $file): void
+    {
+        if ($file->getClientOriginalExtension() !== pathinfo($image->path, PATHINFO_EXTENSION)) {
+            throw new ImageUploadException(trans('errors.image_upload_replace_type'));
+        }
+
+        $image->refresh();
+        $image->updated_by = user()->id;
+        $image->touch();
+        $image->save();
+
+        $this->imageService->replaceExistingFromUpload($image->path, $image->type, $file);
+        $this->imageResizer->loadGalleryThumbnailsForImage($image, true);
     }
 
     /**
@@ -196,31 +205,6 @@ class ImageRepo
 
         foreach ($images as $image) {
             $this->destroyImage($image);
-        }
-    }
-
-    /**
-     * Load thumbnails onto an image object.
-     */
-    public function loadThumbs(Image $image): void
-    {
-        $image->setAttribute('thumbs', [
-            'gallery' => $this->getThumbnail($image, 150, 150, false),
-            'display' => $this->getThumbnail($image, 1680, null, true),
-        ]);
-    }
-
-    /**
-     * Get the thumbnail for an image.
-     * If $keepRatio is true only the width will be used.
-     * Checks the cache then storage to avoid creating / accessing the filesystem on every check.
-     */
-    protected function getThumbnail(Image $image, ?int $width, ?int $height, bool $keepRatio): ?string
-    {
-        try {
-            return $this->imageService->getThumbnail($image, $width, $height, $keepRatio);
-        } catch (Exception $exception) {
-            return null;
         }
     }
 

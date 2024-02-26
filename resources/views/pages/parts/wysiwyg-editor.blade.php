@@ -3,9 +3,9 @@
 @endpush
 
 <div component="wysiwyg-editor"
-     option:wysiwyg-editor:language="{{ config('app.lang') }}"
+     option:wysiwyg-editor:language="{{ $locale->htmlLang() }}"
      option:wysiwyg-editor:page-id="{{ $model->id ?? 0 }}"
-     option:wysiwyg-editor:text-direction="{{ config('app.rtl') ? 'rtl' : 'ltr' }}"
+     option:wysiwyg-editor:text-direction="{{ $locale->htmlDirection() }}"
      option:wysiwyg-editor:image-upload-error-text="{{ trans('errors.image_upload_error') }}"
      option:wysiwyg-editor:server-upload-limit-text="{{ trans('errors.server_upload_limit') }}"
      class="flex-fill flex">
@@ -18,4 +18,4 @@
     <div class="text-neg text-small">{{ $errors->first('html') }}</div>
 @endif
 
-@include('pages.parts.editor-translations')
+@include('form.editor-translations')

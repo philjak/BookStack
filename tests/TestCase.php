@@ -3,12 +3,10 @@
 namespace Tests;
 
 use BookStack\Entities\Models\Entity;
+use BookStack\Http\HttpClientHistory;
+use BookStack\Http\HttpRequestService;
 use BookStack\Settings\SettingService;
-use BookStack\Uploads\HttpFetcher;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
+use BookStack\Users\Models\User;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
@@ -17,12 +15,11 @@ use Illuminate\Support\Env;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Testing\Assert as PHPUnit;
-use Mockery;
 use Monolog\Handler\TestHandler;
 use Monolog\Logger;
-use Psr\Http\Client\ClientInterface;
 use Ssddanbrown\AssertHtml\TestsHtml;
 use Tests\Helpers\EntityProvider;
+use Tests\Helpers\FileProvider;
 use Tests\Helpers\PermissionsProvider;
 use Tests\Helpers\TestServiceProvider;
 use Tests\Helpers\UserRoleProvider;
@@ -36,12 +33,14 @@ abstract class TestCase extends BaseTestCase
     protected EntityProvider $entities;
     protected UserRoleProvider $users;
     protected PermissionsProvider $permissions;
+    protected FileProvider $files;
 
     protected function setUp(): void
     {
         $this->entities = new EntityProvider();
         $this->users = new UserRoleProvider();
         $this->permissions = new PermissionsProvider($this->users);
+        $this->files = new FileProvider();
 
         parent::setUp();
 
@@ -106,33 +105,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Mock the HttpFetcher service and return the given data on fetch.
+     * Mock the http client used in BookStack http calls.
      */
-    protected function mockHttpFetch($returnData, int $times = 1)
+    protected function mockHttpClient(array $responses = []): HttpClientHistory
     {
-        $mockHttp = Mockery::mock(HttpFetcher::class);
-        $this->app[HttpFetcher::class] = $mockHttp;
-        $mockHttp->shouldReceive('fetch')
-            ->times($times)
-            ->andReturn($returnData);
-    }
-
-    /**
-     * Mock the http client used in BookStack.
-     * Returns a reference to the container which holds all history of http transactions.
-     *
-     * @link https://docs.guzzlephp.org/en/stable/testing.html#history-middleware
-     */
-    protected function &mockHttpClient(array $responses = []): array
-    {
-        $container = [];
-        $history = Middleware::history($container);
-        $mock = new MockHandler($responses);
-        $handlerStack = new HandlerStack($mock);
-        $handlerStack->push($history);
-        $this->app[ClientInterface::class] = new Client(['handler' => $handlerStack]);
-
-        return $container;
+        return $this->app->make(HttpRequestService::class)->mockClient($responses);
     }
 
     /**
@@ -210,18 +187,14 @@ abstract class TestCase extends BaseTestCase
      */
     private function isPermissionError($response): bool
     {
+        if ($response->status() === 403 && $response instanceof JsonResponse) {
+            $errMessage = $response->getData(true)['error']['message'] ?? '';
+            return $errMessage === 'You do not have permission to perform the requested action.';
+        }
+
         return $response->status() === 302
-            && (
-                (
-                    $response->headers->get('Location') === url('/')
-                    && strpos(session()->pull('error', ''), 'You do not have permission to access') === 0
-                )
-                ||
-                (
-                    $response instanceof JsonResponse &&
-                    $response->json(['error' => 'You do not have permission to perform the requested action.'])
-                )
-            );
+            && $response->headers->get('Location') === url('/')
+            && str_starts_with(session()->pull('error', ''), 'You do not have permission to access');
     }
 
     /**
