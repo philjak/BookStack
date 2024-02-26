@@ -48,7 +48,7 @@ $inheriting - Boolean if the current row should be marked as inheriting default 
             <div class="px-l">
                 @include('form.custom-checkbox', [
                     'name' =>  'permissions[' . $role->id . '][create]',
-                    'label' => trans('common.create'),
+                    'label' => trans('common.create') . ($entityType === 'bookshelf' ? ' *'  : ''),
                     'value' => 'true',
                     'checked' => $permission->create,
                     'disabled' => $inheriting

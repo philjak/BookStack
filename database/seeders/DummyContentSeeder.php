@@ -3,14 +3,15 @@
 namespace Database\Seeders;
 
 use BookStack\Api\ApiToken;
-use BookStack\Auth\Permissions\JointPermissionBuilder;
-use BookStack\Auth\Permissions\RolePermission;
-use BookStack\Auth\Role;
-use BookStack\Auth\User;
+use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Page;
+use BookStack\Permissions\JointPermissionBuilder;
+use BookStack\Permissions\Models\RolePermission;
 use BookStack\Search\SearchIndex;
+use BookStack\Users\Models\Role;
+use BookStack\Users\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -27,6 +28,8 @@ class DummyContentSeeder extends Seeder
         // Create an editor user
         $editorUser = User::factory()->create();
         $editorRole = Role::getRole('editor');
+        $additionalEditorPerms = ['receive-notifications', 'comment-create-all'];
+        $editorRole->permissions()->syncWithoutDetaching(RolePermission::whereIn('name', $additionalEditorPerms)->pluck('id'));
         $editorUser->attachRole($editorRole);
 
         // Create a viewer user
@@ -36,7 +39,7 @@ class DummyContentSeeder extends Seeder
 
         $byData = ['created_by' => $editorUser->id, 'updated_by' => $editorUser->id, 'owned_by' => $editorUser->id];
 
-        \BookStack\Entities\Models\Book::factory()->count(5)->create($byData)
+        Book::factory()->count(5)->create($byData)
             ->each(function ($book) use ($byData) {
                 $chapters = Chapter::factory()->count(3)->create($byData)
                     ->each(function ($chapter) use ($book, $byData) {
@@ -48,7 +51,7 @@ class DummyContentSeeder extends Seeder
                 $book->pages()->saveMany($pages);
             });
 
-        $largeBook = \BookStack\Entities\Models\Book::factory()->create(array_merge($byData, ['name' => 'Large book' . Str::random(10)]));
+        $largeBook = Book::factory()->create(array_merge($byData, ['name' => 'Large book' . Str::random(10)]));
         $pages = Page::factory()->count(200)->make($byData);
         $chapters = Chapter::factory()->count(50)->make($byData);
         $largeBook->pages()->saveMany($pages);

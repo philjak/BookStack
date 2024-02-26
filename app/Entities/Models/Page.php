@@ -2,8 +2,8 @@
 
 namespace BookStack\Entities\Models;
 
-use BookStack\Auth\Permissions\PermissionApplicator;
 use BookStack\Entities\Tools\PageContent;
+use BookStack\Permissions\PermissionApplicator;
 use BookStack\Uploads\Attachment;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -37,7 +37,8 @@ class Page extends BookChild
 
     protected $fillable = ['name', 'priority'];
 
-    public $textField = 'text';
+    public string $textField = 'text';
+    public string $htmlField = 'html';
 
     protected $hidden = ['html', 'markdown', 'text', 'pivot', 'deleted_at'];
 
@@ -139,6 +140,7 @@ class Page extends BookChild
     {
         $refreshed = $this->refresh()->unsetRelations()->load(['tags', 'createdBy', 'updatedBy', 'ownedBy']);
         $refreshed->setHidden(array_diff($refreshed->getHidden(), ['html', 'markdown']));
+        $refreshed->setAttribute('raw_html', $refreshed->html);
         $refreshed->html = (new PageContent($refreshed))->render();
 
         return $refreshed;

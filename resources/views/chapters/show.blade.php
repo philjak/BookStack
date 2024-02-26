@@ -24,7 +24,7 @@
     <main class="content-wrap card">
         <h1 class="break-text">{{ $chapter->name }}</h1>
         <div refs="entity-search@contentView" class="chapter-content">
-            <p class="text-muted break-text">{!! nl2br(e($chapter->description)) !!}</p>
+            <div class="text-muted break-text">{!! $chapter->descriptionHtml() !!}</div>
             @if(count($pages) > 0)
                 <div class="entity-list book-contents">
                     @foreach($pages as $page)
@@ -67,7 +67,7 @@
     <div class="mb-xl">
         <h5>{{ trans('common.details') }}</h5>
         <div class="blended-links">
-            @include('entities.meta', ['entity' => $chapter])
+            @include('entities.meta', ['entity' => $chapter, 'watchOptions' => $watchOptions])
 
             @if($book->hasPermissions())
                 <div class="active-restriction">
@@ -157,7 +157,10 @@
 
             <hr class="primary-background"/>
 
-            @if(signedInUser())
+            @if($watchOptions->canWatch() && !$watchOptions->isWatching())
+                @include('entities.watch-action', ['entity' => $chapter])
+            @endif
+            @if(!user()->isGuest())
                 @include('entities.favourite-action', ['entity' => $chapter])
             @endif
             @if(userCan('content-export'))

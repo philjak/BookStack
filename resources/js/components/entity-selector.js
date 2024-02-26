@@ -1,5 +1,13 @@
-import {onChildEvent} from "../services/dom";
-import {Component} from "./component";
+import {onChildEvent} from '../services/dom';
+import {Component} from './component';
+
+/**
+ * @typedef EntitySelectorSearchOptions
+ * @property entityTypes string
+ * @property entityPermission string
+ * @property searchEndpoint string
+ * @property initialValue string
+ */
 
 /**
  * Entity Selector
@@ -8,28 +16,44 @@ export class EntitySelector extends Component {
 
     setup() {
         this.elem = this.$el;
-        this.entityTypes = this.$opts.entityTypes || 'page,book,chapter';
-        this.entityPermission = this.$opts.entityPermission || 'view';
 
         this.input = this.$refs.input;
         this.searchInput = this.$refs.search;
         this.loading = this.$refs.loading;
         this.resultsContainer = this.$refs.results;
 
+        this.searchOptions = {
+            entityTypes: this.$opts.entityTypes || 'page,book,chapter',
+            entityPermission: this.$opts.entityPermission || 'view',
+            searchEndpoint: this.$opts.searchEndpoint || '',
+            initialValue: this.searchInput.value || '',
+        };
+
         this.search = '';
         this.lastClick = 0;
-        this.selectedItemData = null;
 
         this.setupListeners();
         this.showLoading();
-        this.initialLoad();
+
+        if (this.searchOptions.searchEndpoint) {
+            this.initialLoad();
+        }
+    }
+
+    /**
+     * @param {EntitySelectorSearchOptions} options
+     */
+    configureSearchOptions(options) {
+        Object.assign(this.searchOptions, options);
+        this.reset();
+        this.searchInput.value = this.searchOptions.initialValue;
     }
 
     setupListeners() {
         this.elem.addEventListener('click', this.onClick.bind(this));
 
         let lastSearch = 0;
-        this.searchInput.addEventListener('input', event => {
+        this.searchInput.addEventListener('input', () => {
             lastSearch = Date.now();
             this.showLoading();
             setTimeout(() => {
@@ -43,35 +67,35 @@ export class EntitySelector extends Component {
         });
 
         // Keyboard navigation
-        onChildEvent(this.$el, '[data-entity-type]', 'keydown', (e, el) => {
-            if (e.ctrlKey && e.code === 'Enter') {
+        onChildEvent(this.$el, '[data-entity-type]', 'keydown', event => {
+            if (event.ctrlKey && event.code === 'Enter') {
                 const form = this.$el.closest('form');
                 if (form) {
                     form.submit();
-                    e.preventDefault();
+                    event.preventDefault();
                     return;
                 }
             }
 
-            if (e.code === 'ArrowDown') {
+            if (event.code === 'ArrowDown') {
                 this.focusAdjacent(true);
             }
-            if (e.code === 'ArrowUp') {
+            if (event.code === 'ArrowUp') {
                 this.focusAdjacent(false);
             }
         });
 
-        this.searchInput.addEventListener('keydown', e => {
-            if (e.code === 'ArrowDown') {
+        this.searchInput.addEventListener('keydown', event => {
+            if (event.code === 'ArrowDown') {
                 this.focusAdjacent(true);
             }
-        })
+        });
     }
 
     focusAdjacent(forward = true) {
         const items = Array.from(this.resultsContainer.querySelectorAll('[data-entity-type]'));
         const selectedIndex = items.indexOf(document.activeElement);
-        const newItem = items[selectedIndex+ (forward ? 1 : -1)] || items[0];
+        const newItem = items[selectedIndex + (forward ? 1 : -1)] || items[0];
         if (newItem) {
             newItem.focus();
         }
@@ -98,17 +122,31 @@ export class EntitySelector extends Component {
     }
 
     initialLoad() {
+        if (!this.searchOptions.searchEndpoint) {
+            throw new Error('Search endpoint not set for entity-selector load');
+        }
+
+        if (this.searchOptions.initialValue) {
+            this.searchEntities(this.searchOptions.initialValue);
+            return;
+        }
+
         window.$http.get(this.searchUrl()).then(resp => {
             this.resultsContainer.innerHTML = resp.data;
             this.hideLoading();
-        })
+        });
     }
 
     searchUrl() {
-        return `/search/entity-selector?types=${encodeURIComponent(this.entityTypes)}&permission=${encodeURIComponent(this.entityPermission)}`;
+        const query = `types=${encodeURIComponent(this.searchOptions.entityTypes)}&permission=${encodeURIComponent(this.searchOptions.entityPermission)}`;
+        return `${this.searchOptions.searchEndpoint}?${query}`;
     }
 
     searchEntities(searchTerm) {
+        if (!this.searchOptions.searchEndpoint) {
+            throw new Error('Search endpoint not set for entity-selector load');
+        }
+
         this.input.value = '';
         const url = `${this.searchUrl()}&term=${encodeURIComponent(searchTerm)}`;
         window.$http.get(url).then(resp => {
@@ -144,13 +182,12 @@ export class EntitySelector extends Component {
 
         const link = item.getAttribute('href');
         const name = item.querySelector('.entity-list-item-name').textContent;
-        const data = {id: Number(id), name: name, link: link};
+        const data = {id: Number(id), name, link};
 
         if (isSelected) {
             item.classList.add('selected');
-            this.selectedItemData = data;
         } else {
-            window.$events.emit('entity-select-change', null)
+            window.$events.emit('entity-select-change', null);
         }
 
         if (!isDblClick && !isSelected) return;
@@ -159,7 +196,7 @@ export class EntitySelector extends Component {
             this.confirmSelection(data);
         }
         if (isSelected) {
-            window.$events.emit('entity-select-change', data)
+            window.$events.emit('entity-select-change', data);
         }
     }
 
@@ -172,7 +209,6 @@ export class EntitySelector extends Component {
         for (const selectedElem of selected) {
             selectedElem.classList.remove('selected', 'primary-background');
         }
-        this.selectedItemData = null;
     }
 
 }

@@ -2,7 +2,7 @@
 
 namespace BookStack\Entities\Repos;
 
-use BookStack\Actions\ActivityType;
+use BookStack\Activity\ActivityType;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Entity;
@@ -23,24 +23,12 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class PageRepo
 {
-    protected BaseRepo $baseRepo;
-    protected RevisionRepo $revisionRepo;
-    protected ReferenceStore $referenceStore;
-    protected ReferenceUpdater $referenceUpdater;
-
-    /**
-     * PageRepo constructor.
-     */
     public function __construct(
-        BaseRepo $baseRepo,
-        RevisionRepo $revisionRepo,
-        ReferenceStore $referenceStore,
-        ReferenceUpdater $referenceUpdater
+        protected BaseRepo $baseRepo,
+        protected RevisionRepo $revisionRepo,
+        protected ReferenceStore $referenceStore,
+        protected ReferenceUpdater $referenceUpdater
     ) {
-        $this->baseRepo = $baseRepo;
-        $this->revisionRepo = $revisionRepo;
-        $this->referenceStore = $referenceStore;
-        $this->referenceUpdater = $referenceUpdater;
     }
 
     /**
@@ -148,6 +136,14 @@ class PageRepo
             $page->book_id = $parent->id;
         }
 
+        $defaultTemplate = $page->book->defaultTemplate;
+        if ($defaultTemplate && userCan('view', $defaultTemplate)) {
+            $page->forceFill([
+                'html'  => $defaultTemplate->html,
+                'markdown' => $defaultTemplate->markdown,
+            ]);
+        }
+
         $page->save();
         $page->refresh()->rebuildPermissions();
 
@@ -159,16 +155,13 @@ class PageRepo
      */
     public function publishDraft(Page $draft, array $input): Page
     {
-        $this->updateTemplateStatusAndContentFromInput($draft, $input);
-        $this->baseRepo->update($draft, $input);
-
         $draft->draft = false;
         $draft->revision_count = 1;
         $draft->priority = $this->getNewPriority($draft);
-        $draft->save();
+        $this->updateTemplateStatusAndContentFromInput($draft, $input);
+        $this->baseRepo->update($draft, $input);
 
         $this->revisionRepo->storeNewForPage($draft, trans('entities.pages_initial_revision'));
-        $this->referenceStore->updateForPage($draft);
         $draft->refresh();
 
         Activity::add(ActivityType::PAGE_CREATE, $draft);
@@ -188,7 +181,6 @@ class PageRepo
 
         $this->updateTemplateStatusAndContentFromInput($page, $input);
         $this->baseRepo->update($page, $input);
-        $this->referenceStore->updateForPage($page);
 
         // Update with new details
         $page->revision_count++;
@@ -225,13 +217,13 @@ class PageRepo
         $inputEmpty = empty($input['markdown']) && empty($input['html']);
 
         if ($haveInput && $inputEmpty) {
-            $pageContent->setNewHTML('');
+            $pageContent->setNewHTML('', user());
         } elseif (!empty($input['markdown']) && is_string($input['markdown'])) {
             $newEditor = 'markdown';
-            $pageContent->setNewMarkdown($input['markdown']);
+            $pageContent->setNewMarkdown($input['markdown'], user());
         } elseif (isset($input['html'])) {
             $newEditor = 'wysiwyg';
-            $pageContent->setNewHTML($input['html']);
+            $pageContent->setNewHTML($input['html'], user());
         }
 
         if ($newEditor !== $currentEditor && userCan('editor-change')) {
@@ -298,22 +290,22 @@ class PageRepo
         $content = new PageContent($page);
 
         if (!empty($revision->markdown)) {
-            $content->setNewMarkdown($revision->markdown);
+            $content->setNewMarkdown($revision->markdown, user());
         } else {
-            $content->setNewHTML($revision->html);
+            $content->setNewHTML($revision->html, user());
         }
 
         $page->updated_by = user()->id;
         $page->refreshSlug();
         $page->save();
         $page->indexForSearch();
-        $this->referenceStore->updateForPage($page);
+        $this->referenceStore->updateForEntity($page);
 
         $summary = trans('entities.pages_revision_restored_from', ['id' => strval($revisionId), 'summary' => $revision->summary]);
         $this->revisionRepo->storeNewForPage($page, $summary);
 
         if ($oldUrl !== $page->getUrl()) {
-            $this->referenceUpdater->updateEntityPageReferences($page, $oldUrl);
+            $this->referenceUpdater->updateEntityReferences($page, $oldUrl);
         }
 
         Activity::add(ActivityType::PAGE_RESTORE, $page);

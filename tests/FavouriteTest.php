@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use BookStack\Actions\Favourite;
-use BookStack\Auth\User;
+use BookStack\Activity\Models\Favourite;
+use BookStack\Users\Models\User;
 
 class FavouriteTest extends TestCase
 {
@@ -14,10 +14,10 @@ class FavouriteTest extends TestCase
 
         $resp = $this->actingAs($editor)->get($page->getUrl());
         $this->withHtml($resp)->assertElementContains('button', 'Favourite');
-        $this->withHtml($resp)->assertElementExists('form[method="POST"][action$="/favourites/add"]');
+        $this->withHtml($resp)->assertElementExists('form[method="POST"][action$="/favourites/add"] input[name="type"][value="page"]');
 
         $resp = $this->post('/favourites/add', [
-            'type' => get_class($page),
+            'type' => $page->getMorphClass(),
             'id'   => $page->id,
         ]);
         $resp->assertRedirect($page->getUrl());
@@ -45,7 +45,7 @@ class FavouriteTest extends TestCase
         $this->withHtml($resp)->assertElementExists('form[method="POST"][action$="/favourites/remove"]');
 
         $resp = $this->post('/favourites/remove', [
-            'type' => get_class($page),
+            'type' => $page->getMorphClass(),
             'id'   => $page->id,
         ]);
         $resp->assertRedirect($page->getUrl());
@@ -54,6 +54,23 @@ class FavouriteTest extends TestCase
         $this->assertDatabaseMissing('favourites', [
             'user_id' => $editor->id,
         ]);
+    }
+
+    public function test_add_and_remove_redirect_to_entity_without_history()
+    {
+        $page = $this->entities->page();
+
+        $resp = $this->asEditor()->post('/favourites/add', [
+            'type' => $page->getMorphClass(),
+            'id'   => $page->id,
+        ]);
+        $resp->assertRedirect($page->getUrl());
+
+        $resp = $this->asEditor()->post('/favourites/remove', [
+            'type' => $page->getMorphClass(),
+            'id'   => $page->id,
+        ]);
+        $resp->assertRedirect($page->getUrl());
     }
 
     public function test_favourite_flow_with_own_permissions()
@@ -67,7 +84,7 @@ class FavouriteTest extends TestCase
 
         $this->actingAs($user)->get($book->getUrl());
         $resp = $this->post('/favourites/add', [
-            'type' => get_class($book),
+            'type' => $book->getMorphClass(),
             'id'   => $book->id,
         ]);
         $resp->assertRedirect($book->getUrl());

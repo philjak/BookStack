@@ -1,4 +1,8 @@
-import {Component} from "./component";
+import {Component} from './component';
+
+function toggleElem(elem, show) {
+    elem.toggleAttribute('hidden', !show);
+}
 
 export class PagePicker extends Component {
 
@@ -10,6 +14,8 @@ export class PagePicker extends Component {
         this.defaultDisplay = this.$refs.defaultDisplay;
         this.buttonSep = this.$refs.buttonSeperator;
 
+        this.selectorEndpoint = this.$opts.selectorEndpoint;
+
         this.value = this.input.value;
         this.setupListeners();
     }
@@ -17,17 +23,23 @@ export class PagePicker extends Component {
     setupListeners() {
         this.selectButton.addEventListener('click', this.showPopup.bind(this));
         this.display.parentElement.addEventListener('click', this.showPopup.bind(this));
+        this.display.addEventListener('click', e => e.stopPropagation());
 
-        this.resetButton.addEventListener('click', event => {
+        this.resetButton.addEventListener('click', () => {
             this.setValue('', '');
         });
     }
 
     showPopup() {
-        /** @type {EntitySelectorPopup} **/
+        /** @type {EntitySelectorPopup} * */
         const selectorPopup = window.$components.first('entity-selector-popup');
         selectorPopup.show(entity => {
             this.setValue(entity.id, entity.name);
+        }, {
+            initialValue: '',
+            searchEndpoint: this.selectorEndpoint,
+            entityTypes: 'page',
+            entityPermission: 'view',
         });
     }
 
@@ -44,7 +56,7 @@ export class PagePicker extends Component {
         toggleElem(this.defaultDisplay, !hasValue);
         toggleElem(this.display, hasValue);
         if (hasValue) {
-            let id = this.getAssetIdFromVal();
+            const id = this.getAssetIdFromVal();
             this.display.textContent = `#${id}, ${name}`;
             this.display.href = window.baseUrl(`/link/${id}`);
         }
@@ -54,8 +66,4 @@ export class PagePicker extends Component {
         return Number(this.value);
     }
 
-}
-
-function toggleElem(elem, show) {
-    elem.style.display = show ? null : 'none';
 }

@@ -14,11 +14,11 @@
         HTTP POST calls upon events occurring in BookStack.
     </li>
     <li>
-        <a href="https://github.com/BookStackApp/BookStack/blob/master/dev/docs/visual-theme-system.md" target="_blank" rel="noopener noreferrer">Visual Theme System</a> -
+        <a href="https://github.com/BookStackApp/BookStack/blob/development/dev/docs/visual-theme-system.md" target="_blank" rel="noopener noreferrer">Visual Theme System</a> -
         Methods to override views, translations and icons within BookStack.
     </li>
     <li>
-        <a href="https://github.com/BookStackApp/BookStack/blob/master/dev/docs/logical-theme-system.md" target="_blank" rel="noopener noreferrer">Logical Theme System</a> -
+        <a href="https://github.com/BookStackApp/BookStack/blob/development/dev/docs/logical-theme-system.md" target="_blank" rel="noopener noreferrer">Logical Theme System</a> -
         Methods to extend back-end functionality within BookStack.
     </li>
 </ul>
@@ -67,6 +67,12 @@
 </p>
 
 <p>
+    <em>
+        * Form requests can accept boolean (<code>true</code>/<code>false</code>) values via a <code>1</code> or <code>0</code>.
+    </em>
+</p>
+
+<p>
     Regardless of format chosen, ensure you set a <code>Content-Type</code> header on requests so that the system can correctly parse your request data.
     The API is primarily designed to be interfaced using JSON, since responses are always in JSON format, hence examples in this documentation will be shown as JSON.
     Some endpoints, such as those that receive file data, may require the use of <code>multipart/form-data</code>. This will be mentioned within the description for such endpoints.
@@ -82,17 +88,19 @@
 
 <pre><code class="language-json">{
   "name": "My new item",
+  "locked": true,
   "books": [105, 263],
   "tags": [{"name": "Tag Name", "value": "Tag Value"}],
 }</code></pre>
 
 <p><strong>x-www-form-urlencoded</strong></p>
 
-<pre><code class="language-text">name=My%20new%20item&books%5B0%5D=105&books%5B1%5D=263&tags%5B0%5D%5Bname%5D=Tag%20Name&tags%5B0%5D%5Bvalue%5D=Tag%20Value</code></pre>
+<pre><code class="language-text">name=My%20new%20item&locked=1&books%5B0%5D=105&books%5B1%5D=263&tags%5B0%5D%5Bname%5D=Tag%20Name&tags%5B0%5D%5Bvalue%5D=Tag%20Value</code></pre>
 
 <p><strong>x-www-form-urlencoded (Decoded for readability)</strong></p>
 
 <pre><code class="language-text">name=My new item
+locked=1
 books[0]=105
 books[1]=263
 tags[0][name]=Tag Name

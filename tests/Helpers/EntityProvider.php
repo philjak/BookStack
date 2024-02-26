@@ -2,7 +2,6 @@
 
 namespace Tests\Helpers;
 
-use BookStack\Auth\User;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
@@ -12,6 +11,8 @@ use BookStack\Entities\Repos\BookRepo;
 use BookStack\Entities\Repos\BookshelfRepo;
 use BookStack\Entities\Repos\ChapterRepo;
 use BookStack\Entities\Repos\PageRepo;
+use BookStack\Entities\Tools\TrashCan;
+use BookStack\Users\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
@@ -50,6 +51,15 @@ class EntityProvider
     public function pageNotWithinChapter(): Page
     {
         return $this->page(fn(Builder $query) => $query->where('chapter_id', '=', 0));
+    }
+
+    public function templatePage(): Page
+    {
+        $page = $this->page();
+        $page->template = true;
+        $page->save();
+
+        return $page;
     }
 
     /**
@@ -182,6 +192,29 @@ class EntityProvider
         $draftPage = $pageRepo->getNewDraftPage($book);
         $this->addToCache($draftPage);
         return $pageRepo->publishDraft($draftPage, $input);
+    }
+
+    /**
+     * Create and return a new test draft page.
+     */
+    public function newDraftPage(array $input = ['name' => 'test page', 'html' => 'My new test page']): Page
+    {
+        $book = $this->book();
+        $pageRepo = app(PageRepo::class);
+        $draftPage = $pageRepo->getNewDraftPage($book);
+        $pageRepo->updatePageDraft($draftPage, $input);
+        $this->addToCache($draftPage);
+        return $draftPage;
+    }
+
+    /**
+     * Fully destroy the given entity from the system, bypassing the recycle bin
+     * stage. Still runs through main app deletion logic.
+     */
+    public function destroy(Entity $entity)
+    {
+        $trash = app()->make(TrashCan::class);
+        $trash->destroyEntity($entity);
     }
 
     /**
