@@ -2,9 +2,10 @@
 
 namespace Tests\Entity;
 
-use BookStack\Actions\Tag;
+use BookStack\Activity\Models\Tag;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
+use BookStack\Entities\Models\Chapter;
 use Tests\TestCase;
 
 class EntitySearchTest extends TestCase
@@ -225,6 +226,17 @@ class EntitySearchTest extends TestCase
         $chapterSearch->assertSee($chapter->book->getShortName(42));
     }
 
+    public function test_entity_selector_shows_breadcrumbs_on_default_view()
+    {
+        $page = $this->entities->pageWithinChapter();
+        $this->asEditor()->get($page->chapter->getUrl());
+
+        $resp = $this->asEditor()->get('/search/entity-selector?types=book,chapter&permission=page-create');
+        $html = $this->withHtml($resp);
+        $html->assertElementContains('.chapter.entity-list-item', $page->chapter->name);
+        $html->assertElementContains('.chapter.entity-list-item .entity-item-snippet', $page->book->getShortName(42));
+    }
+
     public function test_entity_selector_search_reflects_items_without_permission()
     {
         $page = $this->entities->page();
@@ -238,6 +250,39 @@ class EntitySearchTest extends TestCase
         $resp = $this->actingAs($this->users->viewer())->get($searchUrl);
         $this->withHtml($resp)->assertElementContains($baseSelector, $page->name);
         $this->withHtml($resp)->assertElementContains($baseSelector, "You don't have the required permissions to select this item");
+    }
+
+    public function test_entity_template_selector_search()
+    {
+        $templatePage = $this->entities->newPage(['name' => 'Template search test', 'html' => 'template test']);
+        $templatePage->template = true;
+        $templatePage->save();
+
+        $nonTemplatePage = $this->entities->newPage(['name' => 'Nontemplate page', 'html' => 'nontemplate', 'template' => false]);
+
+        // Visit both to make popular
+        $this->asEditor()->get($templatePage->getUrl());
+        $this->get($nonTemplatePage->getUrl());
+
+        $normalSearch = $this->get('/search/entity-selector-templates?term=test');
+        $normalSearch->assertSee($templatePage->name);
+        $normalSearch->assertDontSee($nonTemplatePage->name);
+
+        $normalSearch = $this->get('/search/entity-selector-templates?term=beans');
+        $normalSearch->assertDontSee($templatePage->name);
+        $normalSearch->assertDontSee($nonTemplatePage->name);
+
+        $defaultListTest = $this->get('/search/entity-selector-templates');
+        $defaultListTest->assertSee($templatePage->name);
+        $defaultListTest->assertDontSee($nonTemplatePage->name);
+
+        $this->permissions->disableEntityInheritedPermissions($templatePage);
+
+        $normalSearch = $this->get('/search/entity-selector-templates?term=test');
+        $normalSearch->assertDontSee($templatePage->name);
+
+        $defaultListTest = $this->get('/search/entity-selector-templates');
+        $defaultListTest->assertDontSee($templatePage->name);
     }
 
     public function test_sibling_search_for_pages()
@@ -441,6 +486,26 @@ class EntitySearchTest extends TestCase
 
         $search = $this->asEditor()->get('/search?term=' . urlencode('TermB TermC'));
 
+        $search->assertSee($page->getUrl(), false);
+    }
+
+    public function test_backslashes_can_be_searched_upon()
+    {
+        $page = $this->entities->newPage(['name' => 'TermA', 'html' => '
+            <p>More info is at the path \\\\cat\\dog\\badger</p>
+        ']);
+        $page->tags()->save(new Tag(['name' => '\\Category', 'value' => '\\animals\\fluffy']));
+
+        $search = $this->asEditor()->get('/search?term=' . urlencode('\\\\cat\\dog'));
+        $search->assertSee($page->getUrl(), false);
+
+        $search = $this->asEditor()->get('/search?term=' . urlencode('"\\dog\\\\"'));
+        $search->assertSee($page->getUrl(), false);
+
+        $search = $this->asEditor()->get('/search?term=' . urlencode('"\\badger\\\\"'));
+        $search->assertDontSee($page->getUrl(), false);
+
+        $search = $this->asEditor()->get('/search?term=' . urlencode('[\\Categorylike%\\fluffy]'));
         $search->assertSee($page->getUrl(), false);
     }
 

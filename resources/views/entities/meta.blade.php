@@ -64,8 +64,26 @@
         <a href="{{ $entity->getUrl('/references') }}" class="entity-meta-item">
             @icon('reference')
             <div>
-                {!! trans_choice('entities.meta_reference_page_count', $referenceCount, ['count' => $referenceCount]) !!}
+                {{ trans_choice('entities.meta_reference_count', $referenceCount, ['count' => $referenceCount]) }}
             </div>
         </a>
+    @endif
+
+    @if($watchOptions?->canWatch())
+        @if($watchOptions->isWatching())
+            @include('entities.watch-controls', [
+                'entity' => $entity,
+                'watchLevel' => $watchOptions->getWatchLevel(),
+                'label' => trans('entities.watch_detail_' . $watchOptions->getWatchLevel()),
+                'ignoring' => $watchOptions->getWatchLevel() === 'ignore',
+            ])
+        @elseif($watchedParent = $watchOptions->getWatchedParent())
+            @include('entities.watch-controls', [
+                'entity' => $entity,
+                'watchLevel' => $watchOptions->getWatchLevel(),
+                'label' => trans('entities.watch_detail_parent_' . $watchedParent->type . ($watchedParent->ignoring() ? '_ignore' : '')),
+                'ignoring' => $watchedParent->ignoring(),
+            ])
+        @endif
     @endif
 </div>
