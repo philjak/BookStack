@@ -20,7 +20,7 @@ return [
     'description' => 'Описание',
     'role' => 'Роль',
     'cover_image' => 'Обложка',
-    'cover_image_description' => 'Изображение должно быть размером около 440x250px.',
+    'cover_image_description' => 'Это изображение должно быть приблизительно 440x250px, хотя оно и будет гибко масштабироваться и обрезаться, чтобы соответствовать пользовательскому интерфейсу в различных необходимых сценариях. Так что фактические размеры дисплея будут отличаться.',
 
     // Actions
     'actions' => 'Действия',
@@ -30,6 +30,8 @@ return [
     'create' => 'Создание',
     'update' => 'Обновление',
     'edit' => 'Редактировать',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Сортировать',
     'move' => 'Переместить',
     'copy' => 'Скопировать',
@@ -52,7 +54,7 @@ return [
     'filter_clear' => 'Сбросить фильтр',
     'download' => 'Загрузить',
     'open_in_tab' => 'Открыть во вкладке',
-    'open' => 'Open',
+    'open' => 'Открыть',
 
     // Sort Options
     'sort_options' => 'Параметры сортировки',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Политика конфиденциальности',
     'terms_of_service' => 'Условия использования',
+
+    // OpenSearch
+    'opensearch_description' => 'Поиск :appName',
 ];

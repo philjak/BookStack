@@ -16,7 +16,13 @@ class SearchIndex
     /**
      * A list of delimiter characters used to break-up parsed content into terms for indexing.
      */
-    public static string $delimiters = " \n\t.,!?:;()[]{}<>`'\"";
+    public static string $delimiters = " \n\t.-,!?:;()[]{}<>`'\"«»";
+
+    /**
+     * A list of delimiter which could be commonly used within a single term and also indicate a break between terms.
+     * The indexer will index the full term with these delimiters, plus the terms split via these delimiters.
+     */
+    public static string $softDelimiters = ".-";
 
     public function __construct(
         protected EntityProvider $entityProvider
@@ -30,7 +36,7 @@ class SearchIndex
     {
         $this->deleteEntityTerms($entity);
         $terms = $this->entityToTermDataArray($entity);
-        SearchTerm::query()->insert($terms);
+        $this->insertTerms($terms);
     }
 
     /**
@@ -46,10 +52,7 @@ class SearchIndex
             array_push($terms, ...$entityTerms);
         }
 
-        $chunkedTerms = array_chunk($terms, 500);
-        foreach ($chunkedTerms as $termChunk) {
-            SearchTerm::query()->insert($termChunk);
-        }
+        $this->insertTerms($terms);
     }
 
     /**
@@ -100,10 +103,23 @@ class SearchIndex
     }
 
     /**
+     * Insert the given terms into the database.
+     * Chunks through the given terms to remain within database limits.
+     * @param array[] $terms
+     */
+    protected function insertTerms(array $terms): void
+    {
+        $chunkedTerms = array_chunk($terms, 500);
+        foreach ($chunkedTerms as $termChunk) {
+            SearchTerm::query()->insert($termChunk);
+        }
+    }
+
+    /**
      * Create a scored term array from the given text, where the keys are the terms
      * and the values are their scores.
      *
-     * @returns array<string, int>
+     * @return array<string, int>
      */
     protected function generateTermScoreMapFromText(string $text, float $scoreAdjustment = 1): array
     {
@@ -120,7 +136,7 @@ class SearchIndex
      * Create a scored term array from the given HTML, where the keys are the terms
      * and the values are their scores.
      *
-     * @returns array<string, int>
+     * @return array<string, int>
      */
     protected function generateTermScoreMapFromHtml(string $html): array
     {
@@ -144,7 +160,9 @@ class SearchIndex
         /** @var DOMNode $child */
         foreach ($doc->getBodyChildren() as $child) {
             $nodeName = $child->nodeName;
-            $termCounts = $this->textToTermCountMap(trim($child->textContent));
+            $text = trim($child->textContent);
+            $text = str_replace("\u{00A0}", ' ', $text);
+            $termCounts = $this->textToTermCountMap($text);
             foreach ($termCounts as $term => $count) {
                 $scoreChange = $count * ($elementScoreAdjustmentMap[$nodeName] ?? 1);
                 $scoresByTerm[$term] = ($scoresByTerm[$term] ?? 0) + $scoreChange;
@@ -159,7 +177,7 @@ class SearchIndex
      *
      * @param Tag[] $tags
      *
-     * @returns array<string, int>
+     * @return array<string, int>
      */
     protected function generateTermScoreMapFromTags(array $tags): array
     {
@@ -181,20 +199,41 @@ class SearchIndex
      * For the given text, return an array where the keys are the unique term words
      * and the values are the frequency of that term.
      *
-     * @returns array<string, int>
+     * @return array<string, int>
      */
     protected function textToTermCountMap(string $text): array
     {
         $tokenMap = []; // {TextToken => OccurrenceCount}
-        $splitChars = static::$delimiters;
-        $token = strtok($text, $splitChars);
+        $softDelims = static::$softDelimiters;
+        $tokenizer = new SearchTextTokenizer($text, static::$delimiters);
+        $extendedToken = '';
+        $extendedLen = 0;
+
+        $token = $tokenizer->next();
 
         while ($token !== false) {
-            if (!isset($tokenMap[$token])) {
-                $tokenMap[$token] = 0;
+            $delim = $tokenizer->previousDelimiter();
+
+            if ($delim && str_contains($softDelims, $delim) && $token !== '') {
+                $extendedToken .= $delim . $token;
+                $extendedLen++;
+            } else {
+                if ($extendedLen > 1) {
+                    $tokenMap[$extendedToken] = ($tokenMap[$extendedToken] ?? 0) + 1;
+                }
+                $extendedToken = $token;
+                $extendedLen = 1;
             }
-            $tokenMap[$token]++;
-            $token = strtok($splitChars);
+
+            if ($token) {
+                $tokenMap[$token] = ($tokenMap[$token] ?? 0) + 1;
+            }
+
+            $token = $tokenizer->next();
+        }
+
+        if ($extendedLen > 1) {
+            $tokenMap[$extendedToken] = ($tokenMap[$extendedToken] ?? 0) + 1;
         }
 
         return $tokenMap;
@@ -204,7 +243,7 @@ class SearchIndex
      * For the given entity, Generate an array of term data details.
      * Is the raw term data, not instances of SearchTerm models.
      *
-     * @returns array{term: string, score: float, entity_id: int, entity_type: string}[]
+     * @return array{term: string, score: float, entity_id: int, entity_type: string}[]
      */
     protected function entityToTermDataArray(Entity $entity): array
     {
@@ -240,7 +279,7 @@ class SearchIndex
      *
      * @param array<string, int>[] ...$scoreMaps
      *
-     * @returns array<string, int>
+     * @return array<string, int>
      */
     protected function mergeTermScoreMaps(...$scoreMaps): array
     {

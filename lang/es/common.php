@@ -20,7 +20,7 @@ return [
     'description' => 'Descripción',
     'role' => 'Rol',
     'cover_image' => 'Imagen de portada',
-    'cover_image_description' => 'Esta imagen debe ser aproximadamente de 440x250px.',
+    'cover_image_description' => 'Esta imagen debe ser de aproximadamente 440x250px aunque será escalada y recortada para adaptarse a la interfaz de usuario en diferentes escenarios según sea necesario, por lo que las dimensiones en pantalla diferirán.',
 
     // Actions
     'actions' => 'Acciones',
@@ -30,6 +30,8 @@ return [
     'create' => 'Crear',
     'update' => 'Actualizar',
     'edit' => 'Editar',
+    'archive' => 'Archivar',
+    'unarchive' => 'Desarchivar',
     'sort' => 'Ordenar',
     'move' => 'Mover',
     'copy' => 'Copiar',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Política de privacidad',
     'terms_of_service' => 'Términos de Servicio',
+
+    // OpenSearch
+    'opensearch_description' => 'Buscar :appName',
 ];

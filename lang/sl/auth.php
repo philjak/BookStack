@@ -27,10 +27,10 @@ return [
     'ldap_email_hint' => 'Prosimo vpišite e-poštni naslov za ta račun.',
     'create_account' => 'Ustvari račun',
     'already_have_account' => 'Že imate račun?',
-    'dont_have_account' => 'Nimate računa?',
+    'dont_have_account' => 'Nimaš računa?',
     'social_login' => 'Prijava z računi družbenih omrežij',
     'social_registration' => 'Registracija z družbenim omrežjem',
-    'social_registration_text' => 'Registrirajte in prijavite se za uporabo drugih možnosti.',
+    'social_registration_text' => 'Registriraj in prijavi se z uporabo drugih možnosti.',
 
     'register_thanks' => 'Hvala za registracijo!',
     'register_confirm' => 'Prosimo preverite vaš e-poštni predal in kliknite na potrditveni gumb za dostop :appName.',
@@ -40,7 +40,7 @@ return [
 
     // Login auto-initiation
     'auto_init_starting' => 'Attempting Login',
-    'auto_init_starting_desc' => 'We\'re contacting your authentication system to start the login process. If there\'s no progress after 5 seconds you can try clicking the link below.',
+    'auto_init_starting_desc' => 'Kontaktiram tvoj sistem za preverjanje pristnosti za pričetek procesa prijave. V primeru, da se nič ne zgodi v naslednjih 5 sekundah, klikni spodnjo povezavo.',
     'auto_init_start_link' => 'Proceed with authentication',
 
     // Password Reset
@@ -91,7 +91,7 @@ return [
     'mfa_option_totp_title' => 'Mobile App',
     'mfa_option_totp_desc' => 'To use multi-factor authentication you\'ll need a mobile application that supports TOTP such as Google Authenticator, Authy or Microsoft Authenticator.',
     'mfa_option_backup_codes_title' => 'Backup Codes',
-    'mfa_option_backup_codes_desc' => 'Securely store a set of one-time-use backup codes which you can enter to verify your identity.',
+    'mfa_option_backup_codes_desc' => 'Generates a set of one-time-use backup codes which you\'ll enter on login to verify your identity. Make sure to store these in a safe & secure place.',
     'mfa_gen_confirm_and_enable' => 'Confirm and Enable',
     'mfa_gen_backup_codes_title' => 'Backup Codes Setup',
     'mfa_gen_backup_codes_desc' => 'Store the below list of codes in a safe place. When accessing the system you\'ll be able to use one of the codes as a second authentication mechanism.',

@@ -20,7 +20,7 @@ return [
     'description' => 'الوصف',
     'role' => 'الدور',
     'cover_image' => 'صورة الغلاف',
-    'cover_image_description' => 'الصورة يجب أن تكون مقاربة لحجم 440×250 بكسل.',
+    'cover_image_description' => 'يجب أن يكون حجم هذه الصورة تقريبًا 440 في 250 بكسل، مع أنّه سيتم تحجيمها وقصها بشكل مرن لتناسب واجهة المستخدم في سيناريوهات مختلفة حسب الحاجة، لذا فإن الأبعاد الفعلية للعرض ستختلف.',
 
     // Actions
     'actions' => 'إجراءات',
@@ -30,6 +30,8 @@ return [
     'create' => 'إنشاء',
     'update' => 'تحديث',
     'edit' => 'تعديل',
+    'archive' => 'أرشف',
+    'unarchive' => 'إلغاء الأرشفة',
     'sort' => 'سرد',
     'move' => 'نقل',
     'copy' => 'نسخ',
@@ -48,8 +50,8 @@ return [
     'unfavourite' => 'إزالة من المفضلة',
     'next' => 'التالي',
     'previous' => 'السابق',
-    'filter_active' => 'الفلاتر المفعلة:',
-    'filter_clear' => 'مسح الفلاتر',
+    'filter_active' => 'التصفية المفعلة:',
+    'filter_clear' => 'مسح التصفية',
     'download' => 'تنزيل',
     'open_in_tab' => 'فتح في علامة تبويب',
     'open' => 'فتح',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'سياسة الخصوصية',
     'terms_of_service' => 'اتفاقية شروط الخدمة',
+
+    // OpenSearch
+    'opensearch_description' => 'البحث عن :appName',
 ];

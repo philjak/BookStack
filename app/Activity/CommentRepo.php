@@ -4,8 +4,10 @@ namespace BookStack\Activity;
 
 use BookStack\Activity\Models\Comment;
 use BookStack\Entities\Models\Entity;
+use BookStack\Exceptions\NotifyException;
+use BookStack\Exceptions\PrettyException;
 use BookStack\Facades\Activity as ActivityService;
-use League\CommonMark\CommonMarkConverter;
+use BookStack\Util\HtmlDescriptionFilter;
 
 class CommentRepo
 {
@@ -20,17 +22,17 @@ class CommentRepo
     /**
      * Create a new comment on an entity.
      */
-    public function create(Entity $entity, string $text, ?int $parent_id): Comment
+    public function create(Entity $entity, string $html, ?int $parentId, string $contentRef): Comment
     {
         $userId = user()->id;
         $comment = new Comment();
 
-        $comment->text = $text;
-        $comment->html = $this->commentToHtml($text);
+        $comment->html = HtmlDescriptionFilter::filterFromString($html);
         $comment->created_by = $userId;
         $comment->updated_by = $userId;
         $comment->local_id = $this->getNextLocalId($entity);
-        $comment->parent_id = $parent_id;
+        $comment->parent_id = $parentId;
+        $comment->content_ref = preg_match('/^bkmrk-(.*?):\d+:(\d*-\d*)?$/', $contentRef) === 1 ? $contentRef : '';
 
         $entity->comments()->save($comment);
         ActivityService::add(ActivityType::COMMENT_CREATE, $comment);
@@ -42,11 +44,45 @@ class CommentRepo
     /**
      * Update an existing comment.
      */
-    public function update(Comment $comment, string $text): Comment
+    public function update(Comment $comment, string $html): Comment
     {
         $comment->updated_by = user()->id;
-        $comment->text = $text;
-        $comment->html = $this->commentToHtml($text);
+        $comment->html = HtmlDescriptionFilter::filterFromString($html);
+        $comment->save();
+
+        ActivityService::add(ActivityType::COMMENT_UPDATE, $comment);
+
+        return $comment;
+    }
+
+
+    /**
+     * Archive an existing comment.
+     */
+    public function archive(Comment $comment): Comment
+    {
+        if ($comment->parent_id) {
+            throw new NotifyException('Only top-level comments can be archived.', '/', 400);
+        }
+
+        $comment->archived = true;
+        $comment->save();
+
+        ActivityService::add(ActivityType::COMMENT_UPDATE, $comment);
+
+        return $comment;
+    }
+
+    /**
+     * Un-archive an existing comment.
+     */
+    public function unarchive(Comment $comment): Comment
+    {
+        if ($comment->parent_id) {
+            throw new NotifyException('Only top-level comments can be un-archived.', '/', 400);
+        }
+
+        $comment->archived = false;
         $comment->save();
 
         ActivityService::add(ActivityType::COMMENT_UPDATE, $comment);
@@ -62,20 +98,6 @@ class CommentRepo
         $comment->delete();
 
         ActivityService::add(ActivityType::COMMENT_DELETE, $comment);
-    }
-
-    /**
-     * Convert the given comment Markdown to HTML.
-     */
-    public function commentToHtml(string $commentText): string
-    {
-        $converter = new CommonMarkConverter([
-            'html_input'         => 'strip',
-            'max_nesting_level'  => 10,
-            'allow_unsafe_links' => false,
-        ]);
-
-        return $converter->convert($commentText);
     }
 
     /**

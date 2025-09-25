@@ -8,13 +8,10 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        // Create new templates-manage permission and assign to admin role
-        $roles = DB::table('roles')->get('id');
+        // Create new content-export permission
         $permissionId = DB::table('role_permissions')->insertGetId([
             'name'         => 'content-export',
             'display_name' => 'Export Content',
@@ -22,6 +19,7 @@ return new class extends Migration
             'updated_at'   => Carbon::now()->toDateTimeString(),
         ]);
 
+        $roles = DB::table('roles')->get('id');
         $permissionRoles = $roles->map(function ($role) use ($permissionId) {
             return [
                 'role_id'       => $role->id,
@@ -29,21 +27,20 @@ return new class extends Migration
             ];
         })->values()->toArray();
 
+        // Assign to all existing roles in the system
         DB::table('permission_role')->insert($permissionRoles);
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         // Remove content-export permission
         $contentExportPermission = DB::table('role_permissions')
             ->where('name', '=', 'content-export')->first();
 
         DB::table('permission_role')->where('permission_id', '=', $contentExportPermission->id)->delete();
-        DB::table('role_permissions')->where('id', '=', 'content-export')->delete();
+        DB::table('role_permissions')->where('id', '=', $contentExportPermission->id)->delete();
     }
 };

@@ -59,11 +59,11 @@ return [
     'favourite_remove_notification' => '":name" ir izņemts no jūsu favorītiem',
 
     // Watching
-    'watch_update_level_notification' => 'Watch preferences successfully updated',
+    'watch_update_level_notification' => 'Skatīšanas uzstādījumi veiksmīgi atjaunināti',
 
     // Auth
-    'auth_login' => 'logged in',
-    'auth_register' => 'registered as new user',
+    'auth_login' => 'pieteicies',
+    'auth_register' => 'reģistrējies kā jauns lietotājs',
     'auth_password_reset_request' => 'pieprasīja lietotāja paroles atiestatīšanu',
     'auth_password_reset_update' => 'atiestatīja lietotāja paroli',
     'mfa_setup_method' => 'uzstādīja MFA metodi',
@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'izdzēsa webhook',
     'webhook_delete_notification' => 'Webhook veiksmīgi izdzēsts',
 
+    // Imports
+    'import_create' => 'izveidoja importu',
+    'import_create_notification' => 'Imports veiksmīgi augšupielādēts',
+    'import_run' => 'atjaunoja importu',
+    'import_run_notification' => 'Saturs veiksmīgi importēts',
+    'import_delete' => 'izdzēsa importu',
+    'import_delete_notification' => 'Imports veiksmīgi dzēsts',
+
     // Users
     'user_create' => 'izveidoja lietotāju',
     'user_create_notification' => 'Lietotājs veiksmīgi izveidots',
@@ -97,7 +105,7 @@ return [
     'api_token_create_notification' => 'API žetons veiksmīgi izveidots',
     'api_token_update' => 'atjaunoja API žetonu',
     'api_token_update_notification' => 'API žetons veiksmīgi atjaunināts',
-    'api_token_delete' => 'dzēsa API žetonu',
+    'api_token_delete' => 'izdzēsa API žetonu',
     'api_token_delete_notification' => 'API žetons veiksmīgi dzēsts',
 
     // Roles
@@ -118,6 +126,14 @@ return [
     'comment_create'              => 'pievienoja komentāru',
     'comment_update'              => 'atjaunoja komentārju',
     'comment_delete'              => 'dzēsa komentāru',
+
+    // Sort Rules
+    'sort_rule_create' => 'izveidoja kārtošanas nosacījumu',
+    'sort_rule_create_notification' => 'Kārtošanas nosacījums veiksmīgi izveidots',
+    'sort_rule_update' => 'atjaunoja kārtošanas nosacījumu',
+    'sort_rule_update_notification' => 'Kārtošanas nosacījums veiksmīgi atjaunots',
+    'sort_rule_delete' => 'izdzēsa kārtošanas nosacījumu',
+    'sort_rule_delete_notification' => 'Kārtošanas nosacījums veiksmīgi dzēsts',
 
     // Other
     'permissions_update'          => 'atjaunoja atļaujas',

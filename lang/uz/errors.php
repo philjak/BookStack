@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'E-pochta manzili boʻlgan foydalanuvchi allaqachon mavjud, ammo hisob ma\'lumotlari boshqacha.',
+    'auth_pre_register_theme_prevention' => 'User account could not be registered for the provided details',
     'email_already_confirmed' => 'Elektron pochta allaqachon tasdiqlangan, tizimga kiring.',
     'email_confirmation_invalid' => 'Bu tasdiqlovchi token yaroqsiz yoki allaqachon ishlatilgan. Iltimos, qayta roʻyxatdan oʻtishga urinib koʻring.',
     'email_confirmation_expired' => 'Tasdiqlash belgisi muddati tugadi, yangi tasdiqlovchi elektron pochta xabari yuborildi.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Tashqi autentifikatsiya tizimidagi so‘rov ushbu ilova tomonidan boshlangan jarayon tomonidan tan olinmaydi. Kirishdan keyin orqaga qaytish bu muammoga olib kelishi mumkin.',
     'saml_fail_authed' => ':tizim yordamida tizimga kirish amalga oshmadi, tizim muvaffaqiyatli avtorizatsiyani taqdim etmadi',
     'oidc_already_logged_in' => 'Allaqachon tizimga kirgan',
-    'oidc_user_not_registered' => 'Foydalanuvchi :name roʻyxatdan oʻtmagan va avtomatik roʻyxatdan oʻtish oʻchirilgan',
     'oidc_no_email_address' => 'Tashqi autentifikatsiya tizimi tomonidan taqdim etilgan maʼlumotlarda ushbu foydalanuvchi uchun elektron pochta manzili topilmadi',
     'oidc_fail_authed' => ':tizim yordamida tizimga kirish amalga oshmadi, tizim muvaffaqiyatli avtorizatsiyani taqdim etmadi',
     'social_no_action_defined' => 'Hech qanday harakat belgilanmagan',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Ijtimoiy haydovchi topilmadi',
     'social_driver_not_configured' => 'Sizning :socialAccount ijtimoiy sozlamalaringiz toʻgʻri sozlanmagan.',
     'invite_token_expired' => 'Bu taklif havolasi muddati tugagan. Buning oʻrniga hisobingiz parolini tiklashga urinib koʻrishingiz mumkin.',
+    'login_user_not_found' => 'A user for this action could not be found.',
 
     // System
     'path_not_writable' => 'Fayl yoʻli :filePath faylini yuklab boʻlmadi. Uning serverga yozilishi mumkinligiga ishonch hosil qiling.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Siz yagona administratorni oʻchira olmaysiz',
     'users_cannot_delete_guest' => 'Siz mehmon foydalanuvchini oʻchira olmaysiz',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'Bu rolni tahrirlab bo‘lmaydi',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Xatolik yuz berdi',
     'app_down' => ':appName hozir ishlamayapti',
     'back_soon' => 'Tez orada zaxiralanadi.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'You are lacking the required permissions to create books.',
+    'import_perms_chapters' => 'You are lacking the required permissions to create chapters.',
+    'import_perms_pages' => 'You are lacking the required permissions to create pages.',
+    'import_perms_images' => 'You are lacking the required permissions to create images.',
+    'import_perms_attachments' => 'You are lacking the required permission to create attachments.',
 
     // API errors
     'api_no_authorization_found' => 'So‘rovda hech qanday avtorizatsiya belgisi topilmadi',

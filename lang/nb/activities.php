@@ -85,6 +85,14 @@ return [
     'webhook_delete' => 'slettet webhook',
     'webhook_delete_notification' => 'Webhook ble slettet',
 
+    // Imports
+    'import_create' => 'import opprettet',
+    'import_create_notification' => 'Importen ble opplastet',
+    'import_run' => 'oppdatert import',
+    'import_run_notification' => 'Innhold importert',
+    'import_delete' => 'import slettet',
+    'import_delete_notification' => 'Importering ble slettet',
+
     // Users
     'user_create' => 'opprettet bruker',
     'user_create_notification' => 'Bruker ble opprettet',
@@ -94,11 +102,11 @@ return [
     'user_delete_notification' => 'Brukeren ble fjernet',
 
     // API Tokens
-    'api_token_create' => 'opprettet api token',
+    'api_token_create' => 'opprettet API-nøkkel',
     'api_token_create_notification' => 'API-token er opprettet',
-    'api_token_update' => 'oppdatert api token',
+    'api_token_update' => 'oppdaterte API-nøkkel',
     'api_token_update_notification' => 'API-token oppdatert',
-    'api_token_delete' => 'slettet api token',
+    'api_token_delete' => 'slettet API-nøkkel',
     'api_token_delete_notification' => 'API-token ble slettet',
 
     // Roles
@@ -119,6 +127,14 @@ return [
     'comment_create'              => 'lagt til kommentar',
     'comment_update'              => 'oppdatert kommentar',
     'comment_delete'              => 'slettet kommentar',
+
+    // Sort Rules
+    'sort_rule_create' => 'opprettet sorteringsregel',
+    'sort_rule_create_notification' => 'Sorteringsregel opprettet med suksess',
+    'sort_rule_update' => 'oppdatert sorteringsregel',
+    'sort_rule_update_notification' => 'Sorteringsregel oppdatert med suksess',
+    'sort_rule_delete' => 'slettet sorteringsregel',
+    'sort_rule_delete_notification' => 'Sorteringsregel slettet med suksess',
 
     // Other
     'permissions_update'          => 'oppdaterte tilganger',

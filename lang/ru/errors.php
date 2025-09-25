@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Пользователь с электронной почтой :email уже существует, но с другими учетными данными.',
+    'auth_pre_register_theme_prevention' => 'Пользователь не может быть зарегистрирован по предоставленной информации',
     'email_already_confirmed' => 'Адрес электронной почты уже был подтвержден, попробуйте войти в систему.',
     'email_confirmation_invalid' => 'Этот токен подтверждения недействителен или уже используется. Повторите попытку регистрации.',
     'email_confirmation_expired' => 'Истек срок действия токена. Отправлено новое письмо с подтверждением.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Запрос от внешней системы аутентификации не распознается процессом, запущенным этим приложением. Переход назад после входа в систему может вызвать эту проблему.',
     'saml_fail_authed' => 'Вход с помощью :system не удался, система не предоставила успешную авторизацию',
     'oidc_already_logged_in' => 'Вход в систему уже произведен',
-    'oidc_user_not_registered' => 'Пользователь :name не зарегистрирован и автоматическая регистрация отключена',
     'oidc_no_email_address' => 'Не удалось найти email этого пользователя в данных, предоставленных внешней системой аутентификации',
     'oidc_fail_authed' => 'Вход в систему с помощью :system не удался, система не обеспечила успешную авторизацию',
     'social_no_action_defined' => 'Действие не определено',
@@ -37,22 +37,23 @@ return [
     'social_driver_not_found' => 'Драйвер для Соцсети не найден',
     'social_driver_not_configured' => 'Настройки вашего :socialAccount заданы неправильно.',
     'invite_token_expired' => 'Срок действия приглашения истек. Вместо этого вы можете попытаться сбросить пароль своей учетной записи.',
+    'login_user_not_found' => 'Пользователь для этого действия не найден.',
 
     // System
     'path_not_writable' => 'Невозможно загрузить файл по пути :filePath. Убедитесь что сервер доступен для записи.',
     'cannot_get_image_from_url' => 'Не удается получить изображение из :url',
     'cannot_create_thumbs' => 'Сервер не может создавать эскизы. Убедитесь, что у вас установлено расширение GD PHP.',
     'server_upload_limit' => 'Сервер не разрешает загрузку файлов такого размера. Попробуйте уменьшить размер файла.',
-    'server_post_limit' => 'The server cannot receive the provided amount of data. Try again with less data or a smaller file.',
+    'server_post_limit' => 'Сервер не может получить указанный объем данных. Повторите попытку, используя меньшее количество данных или файл меньшего размера.',
     'uploaded'  => 'Сервер не позволяет загружать файлы такого размера. Пожалуйста, попробуйте файл меньше.',
 
     // Drawing & Images
     'image_upload_error' => 'Произошла ошибка при загрузке изображения',
     'image_upload_type_error' => 'Неправильный тип загружаемого изображения',
     'image_upload_replace_type' => 'Замена файла изображения должна быть того же типа',
-    'image_upload_memory_limit' => 'Failed to handle image upload and/or create thumbnails due to system resource limits.',
-    'image_thumbnail_memory_limit' => 'Failed to create image size variations due to system resource limits.',
-    'image_gallery_thumbnail_memory_limit' => 'Failed to create gallery thumbnails due to system resource limits.',
+    'image_upload_memory_limit' => 'Не удалось выполнить загрузку изображений и/или создать эскизы из-за ограничения системных ресурсов.',
+    'image_thumbnail_memory_limit' => 'Не удалось создать вариации размера изображения из-за ограничений системных ресурсов.',
+    'image_gallery_thumbnail_memory_limit' => 'Не удалось создать эскизы галереи из-за ограниченности системных ресурсов.',
     'drawing_data_not_found' => 'Данные чертежа не могут быть загружены. Возможно, файл чертежа больше не существует или у вас нет разрешения на доступ к нему.',
 
     // Attachments
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Вы не можете удалить единственного администратора',
     'users_cannot_delete_guest' => 'Вы не можете удалить гостевого пользователя',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'Эта роль не может быть изменена',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Произошла ошибка',
     'app_down' => ':appName в данный момент не доступно',
     'back_soon' => 'Скоро восстановится.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'У вас недостаточно прав для создания книг.',
+    'import_perms_chapters' => 'У вас недостаточно прав для создания глав.',
+    'import_perms_pages' => 'У вас недостаточно прав для создания страниц.',
+    'import_perms_images' => 'У вас недостаточно прав для создания изображений.',
+    'import_perms_attachments' => 'У вас недостаточно прав для создания вложений.',
 
     // API errors
     'api_no_authorization_found' => 'Отсутствует токен авторизации в запросе',

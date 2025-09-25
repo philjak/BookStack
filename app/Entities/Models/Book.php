@@ -2,6 +2,7 @@
 
 namespace BookStack\Entities\Models;
 
+use BookStack\Sorting\SortRule;
 use BookStack\Uploads\Image;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,17 +17,19 @@ use Illuminate\Support\Collection;
  * @property string                                   $description
  * @property int                                      $image_id
  * @property ?int                                     $default_template_id
+ * @property ?int                                     $sort_rule_id
  * @property Image|null                               $cover
  * @property \Illuminate\Database\Eloquent\Collection $chapters
  * @property \Illuminate\Database\Eloquent\Collection $pages
  * @property \Illuminate\Database\Eloquent\Collection $directPages
  * @property \Illuminate\Database\Eloquent\Collection $shelves
  * @property ?Page                                    $defaultTemplate
+ * @property ?SortRule                                 $sortRule
  */
-class Book extends Entity implements HasCoverImage
+class Book extends Entity implements CoverImageInterface, HtmlDescriptionInterface
 {
     use HasFactory;
-    use HasHtmlDescription;
+    use HtmlDescriptionTrait;
 
     public float $searchFactor = 1.2;
 
@@ -83,7 +86,16 @@ class Book extends Entity implements HasCoverImage
     }
 
     /**
+     * Get the sort set assigned to this book, if existing.
+     */
+    public function sortRule(): BelongsTo
+    {
+        return $this->belongsTo(SortRule::class);
+    }
+
+    /**
      * Get all pages within this book.
+     * @return HasMany<Page, $this>
      */
     public function pages(): HasMany
     {
@@ -100,6 +112,7 @@ class Book extends Entity implements HasCoverImage
 
     /**
      * Get all chapters within this book.
+     * @return HasMany<Chapter, $this>
      */
     public function chapters(): HasMany
     {
@@ -117,20 +130,11 @@ class Book extends Entity implements HasCoverImage
     /**
      * Get the direct child items within this book.
      */
-    public function getDirectChildren(): Collection
+    public function getDirectVisibleChildren(): Collection
     {
         $pages = $this->directPages()->scopes('visible')->get();
         $chapters = $this->chapters()->scopes('visible')->get();
 
         return $pages->concat($chapters)->sortBy('priority')->sortByDesc('draft');
-    }
-
-    /**
-     * Get a visible book by its slug.
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
-     */
-    public static function getBySlug(string $slug): self
-    {
-        return static::visible()->where('slug', '=', $slug)->firstOrFail();
     }
 }

@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => ':email kontuakin erabiltzaile bat badago, baina kredentzial ezberdinekin.',
+    'auth_pre_register_theme_prevention' => 'User account could not be registered for the provided details',
     'email_already_confirmed' => 'Email kontua berretsita dago, saiatu saioa hasten.',
     'email_confirmation_invalid' => 'Berrezpen token hau ez da baliozkoa eta iada erabiltzen da, mesedez, saiatu berriz erregistroa burutzen.',
     'email_confirmation_expired' => 'Berrezpen tokena iraungi da, berrezpen email berri bnat bidali da.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Kanpoko egiazkotasun-sistemaren eskaria ez du onartzen aplikazio honek abiarazitako prozesu batek. Loginean atzera egitea izan daiteke arrazoia.',
     'saml_fail_authed' => 'Login using :system failed, system did not provide successful authorization',
     'oidc_already_logged_in' => 'Dagoeneko saioa hasita',
-    'oidc_user_not_registered' => 'The user :name is not registered and automatic registration is disabled',
     'oidc_no_email_address' => 'Could not find an email address, for this user, in the data provided by the external authentication system',
     'oidc_fail_authed' => 'Login using :system failed, system did not provide successful authorization',
     'social_no_action_defined' => 'No action defined',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Social driver not found',
     'social_driver_not_configured' => 'Your :socialAccount social settings are not configured correctly.',
     'invite_token_expired' => 'This invitation link has expired. You can instead try to reset your account password.',
+    'login_user_not_found' => 'A user for this action could not be found.',
 
     // System
     'path_not_writable' => 'File path :filePath could not be uploaded to. Ensure it is writable to the server.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'You cannot delete the only admin',
     'users_cannot_delete_guest' => 'You cannot delete the guest user',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'This role cannot be edited',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Akats bat gertatu da',
     'app_down' => ':appName is down right now',
     'back_soon' => 'It will be back up soon.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'You are lacking the required permissions to create books.',
+    'import_perms_chapters' => 'You are lacking the required permissions to create chapters.',
+    'import_perms_pages' => 'You are lacking the required permissions to create pages.',
+    'import_perms_images' => 'You are lacking the required permissions to create images.',
+    'import_perms_attachments' => 'You are lacking the required permission to create attachments.',
 
     // API errors
     'api_no_authorization_found' => 'No authorization token found on the request',

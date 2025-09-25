@@ -2,7 +2,7 @@
 
 namespace BookStack\Uploads;
 
-use BookStack\Entities\Models\Page;
+use BookStack\Entities\Queries\PageQueries;
 use BookStack\Exceptions\ImageUploadException;
 use BookStack\Permissions\PermissionApplicator;
 use Exception;
@@ -15,6 +15,7 @@ class ImageRepo
         protected ImageService $imageService,
         protected PermissionApplicator $permissions,
         protected ImageResizer $imageResizer,
+        protected PageQueries $pageQueries,
     ) {
     }
 
@@ -48,9 +49,9 @@ class ImageRepo
         string $type,
         int $page = 0,
         int $pageSize = 24,
-        int $uploadedTo = null,
-        string $search = null,
-        callable $whereClause = null
+        ?int $uploadedTo = null,
+        ?string $search = null,
+        ?callable $whereClause = null
     ): array {
         $imageQuery = Image::query()->where('type', '=', strtolower($type));
 
@@ -77,21 +78,20 @@ class ImageRepo
      */
     public function getEntityFiltered(
         string $type,
-        string $filterType = null,
-        int $page = 0,
-        int $pageSize = 24,
-        int $uploadedTo = null,
-        string $search = null
+        ?string $filterType,
+        int $page,
+        int $pageSize,
+        int $uploadedTo,
+        ?string $search
     ): array {
-        /** @var Page $contextPage */
-        $contextPage = Page::visible()->findOrFail($uploadedTo);
+        $contextPage = $this->pageQueries->findVisibleByIdOrFail($uploadedTo);
         $parentFilter = null;
 
         if ($filterType === 'book' || $filterType === 'page') {
             $parentFilter = function (Builder $query) use ($filterType, $contextPage) {
                 if ($filterType === 'page') {
                     $query->where('uploaded_to', '=', $contextPage->id);
-                } elseif ($filterType === 'book') {
+                } else if ($filterType === 'book') {
                     $validPageIds = $contextPage->book->pages()
                         ->scopes('visible')
                         ->pluck('id')
@@ -109,8 +109,14 @@ class ImageRepo
      *
      * @throws ImageUploadException
      */
-    public function saveNew(UploadedFile $uploadFile, string $type, int $uploadedTo = 0, int $resizeWidth = null, int $resizeHeight = null, bool $keepRatio = true): Image
-    {
+    public function saveNew(
+        UploadedFile $uploadFile,
+        string $type,
+        int $uploadedTo = 0,
+        ?int $resizeWidth = null,
+        ?int $resizeHeight = null,
+        bool $keepRatio = true
+    ): Image {
         $image = $this->imageService->saveNewFromUpload($uploadFile, $type, $uploadedTo, $resizeWidth, $resizeHeight, $keepRatio);
 
         if ($type !== 'system') {
@@ -166,7 +172,7 @@ class ImageRepo
      */
     public function updateImageFile(Image $image, UploadedFile $file): void
     {
-        if ($file->getClientOriginalExtension() !== pathinfo($image->path, PATHINFO_EXTENSION)) {
+        if (strtolower($file->getClientOriginalExtension()) !== strtolower(pathinfo($image->path, PATHINFO_EXTENSION))) {
             throw new ImageUploadException(trans('errors.image_upload_replace_type'));
         }
 
@@ -184,7 +190,7 @@ class ImageRepo
      *
      * @throws Exception
      */
-    public function destroyImage(Image $image = null): void
+    public function destroyImage(?Image $image = null): void
     {
         if ($image) {
             $this->imageService->destroy($image);
@@ -225,9 +231,9 @@ class ImageRepo
      */
     public function getPagesUsingImage(Image $image): array
     {
-        $pages = Page::visible()
+        $pages = $this->pageQueries->visibleForList()
             ->where('html', 'like', '%' . $image->url . '%')
-            ->get(['id', 'name', 'slug', 'book_id']);
+            ->get();
 
         foreach ($pages as $page) {
             $page->setAttribute('url', $page->getUrl());

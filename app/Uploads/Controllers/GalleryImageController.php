@@ -4,12 +4,11 @@ namespace BookStack\Uploads\Controllers;
 
 use BookStack\Exceptions\ImageUploadException;
 use BookStack\Http\Controller;
+use BookStack\Permissions\Permission;
 use BookStack\Uploads\ImageRepo;
 use BookStack\Uploads\ImageResizer;
 use BookStack\Util\OutOfMemoryHandler;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class GalleryImageController extends Controller
@@ -54,7 +53,7 @@ class GalleryImageController extends Controller
      */
     public function create(Request $request)
     {
-        $this->checkPermission('image-create-all');
+        $this->checkPermission(Permission::ImageCreateAll);
 
         try {
             $this->validate($request, [

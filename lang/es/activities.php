@@ -6,7 +6,7 @@
 return [
 
     // Pages
-    'page_create'                 => 'página creada',
+    'page_create'                 => 'Página creada',
     'page_create_notification'    => 'Página creada correctamente',
     'page_update'                 => 'página actualizada',
     'page_update_notification'    => 'Página actualizada correctamente',
@@ -72,7 +72,7 @@ return [
     'mfa_remove_method_notification' => 'Método de Autenticación en Dos Pasos eliminado correctamente',
 
     // Settings
-    'settings_update' => 'ajustes actualizados',
+    'settings_update' => 'configuración actualizada',
     'settings_update_notification' => 'Configuración actualizada correctamente',
     'maintenance_action_run' => 'ejecutada acción de mantenimiento',
 
@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'webhook eliminado',
     'webhook_delete_notification' => 'Webhook eliminado correctamente',
 
+    // Imports
+    'import_create' => 'importación creada',
+    'import_create_notification' => 'Importación cargada correctamente',
+    'import_run' => 'importación actualizada',
+    'import_run_notification' => 'Contenido importado correctamente',
+    'import_delete' => 'importación borrada',
+    'import_delete_notification' => 'Importación borrada correctamente',
+
     // Users
     'user_create' => 'usuario creado',
     'user_create_notification' => 'Usuario creado correctamente',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Usuario eliminado correctamente',
 
     // API Tokens
-    'api_token_create' => 'token de api creado',
+    'api_token_create' => 'token de API creado',
     'api_token_create_notification' => 'Token API creado correctamente',
-    'api_token_update' => 'token de api actualizado',
+    'api_token_update' => 'token de API actualizado',
     'api_token_update_notification' => 'Token API actualizado correctamente',
-    'api_token_delete' => 'token de api borrado',
+    'api_token_delete' => 'token de API borrado',
     'api_token_delete_notification' => 'Token API borrado correctamente',
 
     // Roles
@@ -118,6 +126,14 @@ return [
     'comment_create'              => 'comentario añadido',
     'comment_update'              => 'comentario actualizado',
     'comment_delete'              => 'comentario borrado',
+
+    // Sort Rules
+    'sort_rule_create' => 'regla de ordenación creada',
+    'sort_rule_create_notification' => 'Rol de ordenación creada con éxito',
+    'sort_rule_update' => 'regla de ordenación actualizada',
+    'sort_rule_update_notification' => 'Regla de ordenación actualizada correctamente',
+    'sort_rule_delete' => 'regla de ordenación eliminada',
+    'sort_rule_delete_notification' => 'Rol de ordenación borrada con éxito',
 
     // Other
     'permissions_update'          => 'permisos actualizados',

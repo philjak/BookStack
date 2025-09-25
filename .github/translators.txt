@@ -141,7 +141,7 @@ Kauê Sena (kaue.sena.ks) :: Portuguese, Brazilian
 MatthieuParis :: French
 Douradinho :: Portuguese, Brazilian; Portuguese
 Gaku Yaguchi (tama11) :: Japanese
-johnroyer :: Chinese Traditional
+Zero Huang (johnroyer) :: Chinese Traditional
 jackaaa :: Chinese Traditional
 Irfan Hukama Arsyad (IrfanArsyad) :: Indonesian
 Jeff Huang (s8321414) :: Chinese Traditional
@@ -347,7 +347,7 @@ Taygun Yıldırım (yildirimtaygun) :: Turkish
 robing29 :: German
 Bruno Eduardo de Jesus Barroso (brunoejb) :: Portuguese, Brazilian
 Igor V Belousov (biv) :: Russian
-David Bauer (davbauer) :: German
+David Bauer (davbauer) :: German; German Informal
 Guttorm Hveem (guttormhveem) :: Norwegian Nynorsk; Norwegian Bokmal
 Minh Giang Truong (minhgiang1204) :: Vietnamese
 Ioannis Ioannides (i.ioannides) :: Greek
@@ -374,7 +374,7 @@ balmag :: Hungarian
 Antti-Jussi Nygård (ajnyga) :: Finnish
 Eduard Ereza Martínez (Ereza) :: Catalan
 Jabir Lang (amar.almrad) :: Arabic
-Jaroslav Koblizek (foretix) :: Czech; French
+Jaroslav Kobližek (foretix) :: Czech; French
 Wiktor Adamczyk (adamczyk.wiktor) :: Polish
 Abdulmajeed Alshuaibi (4Majeed) :: Arabic
 NotSmartZakk :: Czech
@@ -389,7 +389,119 @@ Marc Hagen (MarcHagen) :: Dutch
 Kasper Alsøe (zeonos) :: Danish
 sultani :: Persian
 renge :: Korean
-TheGatesDev (thegatesdev) :: Dutch
+Tim (thegatesdev) :: Dutch; German Informal; French; Romanian; Catalan; Czech; Danish; German; Finnish; Hungarian; Italian; Japanese; Korean; Polish; Russian; Ukrainian; Chinese Simplified; Chinese Traditional; Portuguese, Brazilian; Persian; Spanish, Argentina; Croatian; Norwegian Nynorsk; Estonian; Uzbek; Norwegian Bokmal
 Irdi (irdiOL) :: Albanian
 KateBarber :: Welsh
 Twister (theuncles75) :: Hebrew
+algernon19 :: Hungarian
+Ivan Krstic (ikrstic) :: Serbian (Cyrillic)
+Show :: Russian
+xBahamut :: Portuguese, Brazilian
+Pavle Knežević (pavleknezzevic) :: Serbian (Cyrillic)
+Vanja Cvelbar (b100w11) :: Slovenian
+simonpct :: French
+Honza Nagy (honza.nagy) :: Czech
+asd20752 :: Norwegian Bokmal
+Jan Picka (polipones) :: Czech
+diogoalex991 :: Portuguese
+Ehsan Sadeghi (ehsansadeghi) :: Persian
+ka_picit :: Danish
+cracrayol :: French
+CapuaSC :: Dutch
+Guardian75 :: German Informal
+mr-kanister :: German
+Michele Bastianelli (makoblaster) :: Italian
+jespernissen :: Danish
+Andrey (avmaksimov) :: Russian
+Gonzalo Loyola (AlFcl) :: Spanish, Argentina; Spanish
+grobert63 :: French
+wusst. (Supporti) :: German
+MaximMaximS :: Czech
+damian-klima :: Slovak
+crow_ :: Latvian
+JocelynDelalande :: French
+Jan (JW-CH) :: German Informal
+Timo B (lommes) :: German Informal
+Erik Lundstedt (Erik.Lundstedt) :: Swedish
+yngams (younessmouhid) :: Arabic
+Ohadp :: Hebrew
+cbridi :: Portuguese, Brazilian
+nanangsb :: Indonesian
+Michal Melich (michalmelich) :: Czech
+David (david-prv) :: German; German Informal
+Larry (lahoje) :: Swedish
+Marcia dos Santos (marciab80) :: Portuguese
+Ricard López Torres (richilpez.torres) :: Catalan
+sarahalves7 :: Portuguese, Brazilian
+petr.husak :: Czech
+javadataherian :: Persian
+Ludo-code :: French
+hollsten :: Swedish
+Ngoc Lan Phung (lanpncz) :: Vietnamese
+Worive :: Catalan; French
+Илья Скаба (skabailya) :: Russian
+Irjan Olsen (Irch) :: Norwegian Bokmal
+Aleksandar Jovanovic (jovanoviczaleksandar) :: Serbian (Cyrillic)
+Red (RedVortex) :: Hebrew
+xgrug :: Chinese Simplified
+HrCalmar :: Danish
+Avishay Rapp (AvishayRapp) :: Hebrew
+matthias4217 :: French
+Berke BOYLU2 (berkeboylu2) :: Turkish
+etwas7B :: German
+Mohammed srhiri (m.sghiri20) :: Arabic
+YongMin Kim (kym0118) :: Korean
+Rivo Zängov (Eraser) :: Estonian
+Francisco Rafael Fonseca (chicoraf) :: Portuguese, Brazilian
+ИEØ_ΙΙØZ (NEO_IIOZ) :: Chinese Traditional
+madnjpn (madnjpn.) :: Georgian
+Ásgeir Shiny Ásgeirsson (AsgeirShiny) :: Icelandic
+Mohammad Aftab Uddin (chirohorit) :: Bengali
+Yannis Karlaftis (meliseus) :: Greek
+felixxx :: German Informal
+randi (randi65535) :: Korean
+test65428 :: Greek
+zeronell :: Chinese Simplified
+julien Vinber (julienVinber) :: French
+Hyunwoo Park (oksure) :: Korean
+aram.rafeq.7 (aramrafeq2) :: Kurdish
+Raphael Moreno (RaphaelMoreno) :: Portuguese, Brazilian
+yn (user99) :: Arabic
+Pavel Zlatarov (pzlatarov) :: Bulgarian
+ingelres :: French
+mabdullah :: Arabic
+Skrabák Csaba (kekcsi) :: Hungarian
+Evert Meulie (Evert) :: Norwegian Bokmal
+Jasper Backer (jasperb) :: Dutch
+Alexandar Cavdarovski (ace.200112) :: Swedish
+구닥다리TV (yjj8353) :: Korean
+Onur Oskay (o.oskay) :: Turkish
+Sébastien Merveille (SebastienMerv) :: French
+Maxim Kouznetsov (masya.work) :: Hebrew
+neodvisnost :: Slovenian
+Soubi Agatsuma (bisouya) :: Hebrew
+Ilya Shaulov (ishaulov) :: Russian
+Konstantin Bobkov (b.konstantv) :: Russian
+Ruben Sutter (rubensutter) :: German
+jellium :: French
+Qxlkdr :: Swedish
+Hari (muhhari) :: Indonesian
+仙君御 (xjy) :: Chinese Simplified
+TapioM :: Finnish
+lingb58 :: Chinese Traditional
+Angel Pandey (angel-pandey) :: Nepali
+Supriya Shrestha (supriyashrestha) :: Nepali
+gprabhat :: Nepali
+CellCat :: Chinese Simplified
+Al Desrahim (aldesrahim) :: Indonesian
+ahmad abbaspour (deshneh.dar.diss) :: Persian
+Erjon K. (ekr) :: Albanian
+LiZerui (iamzrli) :: Chinese Traditional
+Ticker (ticker.com) :: Hebrew
+CrazyComputer :: Chinese Simplified
+Firr (FirrV) :: Russian
+João Faro (FaroJoaoFaro) :: Portuguese
+Danilo dos Santos Barbosa (bozochegou) :: Portuguese, Brazilian
+Chris (furesoft) :: German
+Silvia Isern (eiendragon) :: Catalan
+Dennis Kron Pedersen (ahjdp) :: Danish

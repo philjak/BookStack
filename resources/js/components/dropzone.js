@@ -1,8 +1,8 @@
 import {Component} from './component';
-import {Clipboard} from '../services/clipboard';
+import {Clipboard} from '../services/clipboard.ts';
 import {
     elem, getLoading, onSelect, removeLoading,
-} from '../services/dom';
+} from '../services/dom.ts';
 
 export class Dropzone extends Component {
 
@@ -181,10 +181,7 @@ export class Dropzone extends Component {
                 if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                     upload.markSuccess(component.successMessage);
                 } else if (this.readyState === XMLHttpRequest.DONE && this.status >= 400) {
-                    const content = this.responseText;
-                    const data = content.startsWith('{') ? JSON.parse(content) : {message: content};
-                    const message = data?.message || data?.error || content;
-                    upload.markError(message);
+                    upload.markError(window.$http.formatErrorResponseText(this.responseText));
                 }
             },
         });

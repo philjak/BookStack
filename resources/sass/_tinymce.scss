@@ -1,3 +1,6 @@
+@use "mixins";
+@use "vars";
+
 
 // Custom full screen mode
 .tox.tox-fullscreen {
@@ -21,6 +24,7 @@
   padding-block-end: 1rem;
   outline: 0;
   display: block;
+  max-width: 870px;
 }
 
 .wysiwyg-input.mce-content-body {
@@ -30,17 +34,19 @@
   display: block;
 }
 
+.wysiwyg-input.mce-content-body:before {
+  padding: 1rem;
+  top: 4px;
+  font-style: italic;
+  @include mixins.lightDark(color, rgba(34,47,62,.5), rgba(155,155,155,.5))
+}
+
 // Default styles for our custom root nodes
 .page-content.mce-content-body doc-root {
   display: block;
 }
 .page-content.mce-content-body code-block {
   display: block;
-}
-
-// In editor line height override
-.page-content.mce-content-body p {
-  line-height: 1.6;
 }
 
 // Pad out bottom of editor
@@ -71,23 +77,23 @@ body.page-content.mce-content-body  {
   pointer-events: none;
 }
 .page-content.mce-content-body details doc-root {
-  padding: $-s;
-  margin-left: (2px - $-s);
-  margin-right: (2px - $-s);
-  margin-bottom: (2px - $-s);
-  margin-top: (2px - $-s);
+  padding: vars.$s;
+  margin-left: (2px - vars.$s);
+  margin-right: (2px - vars.$s);
+  margin-bottom: (2px - vars.$s);
+  margin-top: (2px - vars.$s);
   overflow: hidden;
 }
 
 // Allow alignment to be reflected in media embed wrappers
 .page-content.mce-content-body .mce-preview-object.align-right {
   float: right !important;
-  margin: $-xs 0 $-xs $-s;
+  margin: vars.$xs 0 vars.$xs vars.$s;
 }
 
 .page-content.mce-content-body .mce-preview-object.align-left {
   float: left !important;
-  margin: $-xs $-m $-m 0;
+  margin: vars.$xs vars.$m vars.$m 0;
 }
 
 .page-content.mce-content-body .mce-preview-object.align-center {
@@ -101,6 +107,16 @@ body.page-content.mce-content-body  {
   display: block;
   margin: 0 !important;
   float: none !important;
+}
+
+.page-content.mce-content-body td[data-mce-selected]::after,
+.page-content.mce-content-body th[data-mce-selected]::after {
+  top: 1px;
+  left: 1px;
+  bottom: 1px;
+  right: 1px;
+  outline: 1px dashed #1a85ff;
+  outline-offset: 0;
 }
 
 /**
@@ -160,7 +176,7 @@ body.page-content.mce-content-body  {
  * Fake task list checkboxes
  */
 .page-content.mce-content-body .task-list-item {
-  margin-left: 0;
+  margin-inline-start: 0;
   position: relative;
 }
 .page-content.mce-content-body .task-list-item > input[type="checkbox"] {
@@ -173,11 +189,11 @@ body.page-content.mce-content-body  {
   width: 12px;
   height: 12px;
   border-radius: 2px;
-  margin-right: 8px;
+  margin-inline-end: 8px;
   vertical-align: text-top;
   cursor: pointer;
   position: absolute;
-  left: -24px;
+  inset-inline-start: -24px;
   top: 4px;
 }
 

@@ -3,6 +3,7 @@
 namespace BookStack\References;
 
 use BookStack\App\Model;
+use BookStack\Entities\Queries\EntityQueries;
 use BookStack\References\ModelResolvers\BookLinkModelResolver;
 use BookStack\References\ModelResolvers\BookshelfLinkModelResolver;
 use BookStack\References\ModelResolvers\ChapterLinkModelResolver;
@@ -47,7 +48,7 @@ class CrossLinkParser
     /**
      * Get a list of href values from the given document.
      *
-     * @returns string[]
+     * @return string[]
      */
     protected function getLinksFromContent(string $html): array
     {
@@ -85,12 +86,14 @@ class CrossLinkParser
      */
     public static function createWithEntityResolvers(): self
     {
+        $queries = app()->make(EntityQueries::class);
+
         return new self([
-            new PagePermalinkModelResolver(),
-            new PageLinkModelResolver(),
-            new ChapterLinkModelResolver(),
-            new BookLinkModelResolver(),
-            new BookshelfLinkModelResolver(),
+            new PagePermalinkModelResolver($queries->pages),
+            new PageLinkModelResolver($queries->pages),
+            new ChapterLinkModelResolver($queries->chapters),
+            new BookLinkModelResolver($queries->books),
+            new BookshelfLinkModelResolver($queries->shelves),
         ]);
     }
 }

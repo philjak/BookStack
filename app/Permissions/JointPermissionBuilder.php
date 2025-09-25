@@ -4,10 +4,10 @@ namespace BookStack\Permissions;
 
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\BookChild;
-use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Entity;
 use BookStack\Entities\Models\Page;
+use BookStack\Entities\Queries\EntityQueries;
 use BookStack\Permissions\Models\JointPermission;
 use BookStack\Users\Models\Role;
 use Illuminate\Database\Eloquent\Builder;
@@ -20,10 +20,16 @@ use Illuminate\Support\Facades\DB;
  */
 class JointPermissionBuilder
 {
+    public function __construct(
+        protected EntityQueries $queries,
+    ) {
+    }
+
+
     /**
      * Re-generate all entity permission from scratch.
      */
-    public function rebuildForAll()
+    public function rebuildForAll(): void
     {
         JointPermission::query()->truncate();
 
@@ -36,7 +42,7 @@ class JointPermissionBuilder
         });
 
         // Chunk through all bookshelves
-        Bookshelf::query()->withTrashed()->select(['id', 'owned_by'])
+        $this->queries->shelves->start()->withTrashed()->select(['id', 'owned_by'])
             ->chunk(50, function (EloquentCollection $shelves) use ($roles) {
                 $this->createManyJointPermissions($shelves->all(), $roles);
             });
@@ -45,7 +51,7 @@ class JointPermissionBuilder
     /**
      * Rebuild the entity jointPermissions for a particular entity.
      */
-    public function rebuildForEntity(Entity $entity)
+    public function rebuildForEntity(Entity $entity): void
     {
         $entities = [$entity];
         if ($entity instanceof Book) {
@@ -88,7 +94,7 @@ class JointPermissionBuilder
         });
 
         // Chunk through all bookshelves
-        Bookshelf::query()->select(['id', 'owned_by'])
+        $this->queries->shelves->start()->select(['id', 'owned_by'])
             ->chunk(100, function ($shelves) use ($roles) {
                 $this->createManyJointPermissions($shelves->all(), $roles);
             });
@@ -99,7 +105,7 @@ class JointPermissionBuilder
      */
     protected function bookFetchQuery(): Builder
     {
-        return Book::query()->withTrashed()
+        return $this->queries->books->start()->withTrashed()
             ->select(['id', 'owned_by'])->with([
                 'chapters' => function ($query) {
                     $query->withTrashed()->select(['id', 'owned_by', 'book_id']);
@@ -113,7 +119,7 @@ class JointPermissionBuilder
     /**
      * Build joint permissions for the given book and role combinations.
      */
-    protected function buildJointPermissionsForBooks(EloquentCollection $books, array $roles, bool $deleteOld = false)
+    protected function buildJointPermissionsForBooks(EloquentCollection $books, array $roles, bool $deleteOld = false): void
     {
         $entities = clone $books;
 
@@ -137,7 +143,7 @@ class JointPermissionBuilder
     /**
      * Rebuild the entity jointPermissions for a collection of entities.
      */
-    protected function buildJointPermissionsForEntities(array $entities)
+    protected function buildJointPermissionsForEntities(array $entities): void
     {
         $roles = Role::query()->get()->values()->all();
         $this->deleteManyJointPermissionsForEntities($entities);
@@ -149,21 +155,19 @@ class JointPermissionBuilder
      *
      * @param Entity[] $entities
      */
-    protected function deleteManyJointPermissionsForEntities(array $entities)
+    protected function deleteManyJointPermissionsForEntities(array $entities): void
     {
         $simpleEntities = $this->entitiesToSimpleEntities($entities);
         $idsByType = $this->entitiesToTypeIdMap($simpleEntities);
 
-        DB::transaction(function () use ($idsByType) {
-            foreach ($idsByType as $type => $ids) {
-                foreach (array_chunk($ids, 1000) as $idChunk) {
-                    DB::table('joint_permissions')
-                        ->where('entity_type', '=', $type)
-                        ->whereIn('entity_id', $idChunk)
-                        ->delete();
-                }
+        foreach ($idsByType as $type => $ids) {
+            foreach (array_chunk($ids, 1000) as $idChunk) {
+                DB::table('joint_permissions')
+                    ->where('entity_type', '=', $type)
+                    ->whereIn('entity_id', $idChunk)
+                    ->delete();
             }
-        });
+        }
     }
 
     /**
@@ -189,7 +193,7 @@ class JointPermissionBuilder
      * @param Entity[] $originalEntities
      * @param Role[]   $roles
      */
-    protected function createManyJointPermissions(array $originalEntities, array $roles)
+    protected function createManyJointPermissions(array $originalEntities, array $roles): void
     {
         $entities = $this->entitiesToSimpleEntities($originalEntities);
         $jointPermissions = [];
@@ -219,11 +223,9 @@ class JointPermissionBuilder
             }
         }
 
-        DB::transaction(function () use ($jointPermissions) {
-            foreach (array_chunk($jointPermissions, 1000) as $jointPermissionChunk) {
-                DB::table('joint_permissions')->insert($jointPermissionChunk);
-            }
-        });
+        foreach (array_chunk($jointPermissions, 1000) as $jointPermissionChunk) {
+            DB::table('joint_permissions')->insert($jointPermissionChunk);
+        }
     }
 
     /**

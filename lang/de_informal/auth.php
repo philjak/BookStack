@@ -33,7 +33,7 @@ return [
     'social_registration_text' => 'Mit einem dieser Dienste registrieren oder anmelden',
 
     'register_thanks' => 'Vielen Dank für deine Registrierung!',
-    'register_confirm' => 'Bitte prüfe deinen Posteingang und bestätige die Registrierung.',
+    'register_confirm' => 'Bitte prüfe deinen Posteingang und bestätige die Registrierung, um :appName nutzen zu können.',
     'registrations_disabled' => 'Eine Registrierung ist momentan nicht möglich',
     'registration_email_domain_invalid' => 'Du kannst dich mit dieser E-Mail nicht registrieren.',
     'register_success' => 'Vielen Dank für deine Registrierung! Du bist jetzt registriert und eingeloggt.',
@@ -82,7 +82,7 @@ return [
 
     // Multi-factor Authentication
     'mfa_setup' => 'Multi-Faktor-Authentifizierung einrichten',
-    'mfa_setup_desc' => 'Richte eine Multi-Faktor-Authentifizierung als zusätzliche Sicherheitsstufe für dein Benutzerkonto ein.',
+    'mfa_setup_desc' => 'Richte Multi-Faktor-Authentifizierung als zusätzliche Sicherheitsstufe für dein Benutzerkonto ein.',
     'mfa_setup_configured' => 'Bereits konfiguriert',
     'mfa_setup_reconfigure' => 'Umkonfigurieren',
     'mfa_setup_remove_confirmation' => 'Bist du sicher, dass du diese Multi-Faktor-Authentifizierungsmethode entfernen möchtest?',
@@ -91,7 +91,7 @@ return [
     'mfa_option_totp_title' => 'Mobile App',
     'mfa_option_totp_desc' => 'Um Mehrfach-Faktor-Authentifizierung nutzen zu können, benötigst du eine mobile Anwendung, die TOTP unterstützt, wie Google Authenticator, Authy oder Microsoft Authenticator.',
     'mfa_option_backup_codes_title' => 'Backup Code',
-    'mfa_option_backup_codes_desc' => 'Speichere eine Reihe von einmaligen Backup-Codes an einem sicheren Ort. Du kannst damit deine identität bestätigen.',
+    'mfa_option_backup_codes_desc' => 'Erzeugt eine Reihe von einmalig nutzbaren Backup-Codes, welche Du bei der Anmeldung eingibst, um deine Identität zu bestätigen. Achte darauf diese an einem sicheren Ort aufzubewahren.',
     'mfa_gen_confirm_and_enable' => 'Bestätigen und aktivieren',
     'mfa_gen_backup_codes_title' => 'Backup-Codes einrichten',
     'mfa_gen_backup_codes_desc' => 'Speichere die folgende Liste der Codes an einem sicheren Ort. Wenn du auf das System zugreifst, kannst du einen der Codes als zweiten Authentifizierungsmechanismus verwenden.',

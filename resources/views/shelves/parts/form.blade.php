@@ -1,7 +1,3 @@
-@push('head')
-    <script src="{{ versioned_asset('libs/tinymce/tinymce.min.js') }}" nonce="{{ $cspNonce }}"></script>
-@endpush
-
 {{ csrf_field() }}
 <div class="form-group title-input">
     <label for="name">{{ trans('common.name') }}</label>
@@ -38,7 +34,7 @@
         </div>
         <ul refs="shelf-sort@shelf-book-list"
             aria-labelledby="shelf-sort-books-label"
-            class="scroll-box">
+            class="scroll-box configured-option-list">
             @foreach (($shelf->visibleBooks ?? []) as $book)
                 @include('shelves.parts.shelf-sort-book-item', ['book' => $book])
             @endforeach
@@ -49,7 +45,7 @@
         <input type="text" refs="shelf-sort@book-search" class="scroll-box-search" placeholder="{{ trans('common.search') }}">
         <ul refs="shelf-sort@all-book-list"
             aria-labelledby="shelf-sort-all-books-label"
-            class="scroll-box">
+            class="scroll-box available-option-list">
             @foreach ($books as $book)
                 @include('shelves.parts.shelf-sort-book-item', ['book' => $book])
             @endforeach

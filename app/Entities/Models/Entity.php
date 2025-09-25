@@ -12,7 +12,7 @@ use BookStack\Activity\Models\View;
 use BookStack\Activity\Models\Viewable;
 use BookStack\Activity\Models\Watch;
 use BookStack\App\Model;
-use BookStack\App\Sluggable;
+use BookStack\App\SluggableInterface;
 use BookStack\Entities\Tools\SlugGenerator;
 use BookStack\Permissions\JointPermissionBuilder;
 use BookStack\Permissions\Models\EntityPermission;
@@ -22,10 +22,12 @@ use BookStack\References\Reference;
 use BookStack\Search\SearchIndex;
 use BookStack\Search\SearchTerm;
 use BookStack\Users\Models\HasCreatorAndUpdater;
-use BookStack\Users\Models\HasOwner;
+use BookStack\Users\Models\OwnableInterface;
+use BookStack\Users\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -42,17 +44,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon     $deleted_at
  * @property int        $created_by
  * @property int        $updated_by
+ * @property int        $owned_by
  * @property Collection $tags
  *
  * @method static Entity|Builder visible()
  * @method static Builder withLastView()
  * @method static Builder withViewCount()
  */
-abstract class Entity extends Model implements Sluggable, Favouritable, Viewable, Deletable, Loggable
+abstract class Entity extends Model implements
+    SluggableInterface,
+    Favouritable,
+    Viewable,
+    DeletableInterface,
+    OwnableInterface,
+    Loggable
 {
     use SoftDeletes;
     use HasCreatorAndUpdater;
-    use HasOwner;
 
     /**
      * @var string - Name of property where the main text content is found
@@ -137,7 +145,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      */
     public function activity(): MorphMany
     {
-        return $this->morphMany(Activity::class, 'entity')
+        return $this->morphMany(Activity::class, 'loggable')
             ->orderBy('created_at', 'desc');
     }
 
@@ -197,6 +205,20 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     public function jointPermissions(): MorphMany
     {
         return $this->morphMany(JointPermission::class, 'entity');
+    }
+
+    /**
+     * Get the user who owns this entity.
+     * @return BelongsTo<User, $this>
+     */
+    public function ownedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'owned_by');
+    }
+
+    public function getOwnerFieldName(): string
+    {
+        return 'owned_by';
     }
 
     /**
@@ -283,10 +305,14 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     public function getParent(): ?self
     {
         if ($this instanceof Page) {
-            return $this->chapter_id ? $this->chapter()->withTrashed()->first() : $this->book()->withTrashed()->first();
+            /** @var BelongsTo<Chapter|Book, Page>  $builder */
+            $builder = $this->chapter_id ? $this->chapter() : $this->book();
+            return $builder->withTrashed()->first();
         }
         if ($this instanceof Chapter) {
-            return $this->book()->withTrashed()->first();
+            /** @var BelongsTo<Book, Page>  $builder */
+            $builder = $this->book();
+            return $builder->withTrashed()->first();
         }
 
         return null;
@@ -295,7 +321,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     /**
      * Rebuild the permissions for this entity.
      */
-    public function rebuildPermissions()
+    public function rebuildPermissions(): void
     {
         app()->make(JointPermissionBuilder::class)->rebuildForEntity(clone $this);
     }
@@ -303,7 +329,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
     /**
      * Index the current entity for search.
      */
-    public function indexForSearch()
+    public function indexForSearch(): void
     {
         app()->make(SearchIndex::class)->indexEntity(clone $this);
     }
@@ -313,7 +339,7 @@ abstract class Entity extends Model implements Sluggable, Favouritable, Viewable
      */
     public function refreshSlug(): string
     {
-        $this->slug = app()->make(SlugGenerator::class)->generate($this);
+        $this->slug = app()->make(SlugGenerator::class)->generate($this, $this->name);
 
         return $this->slug;
     }

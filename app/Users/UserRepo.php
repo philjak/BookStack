@@ -2,6 +2,7 @@
 
 namespace BookStack\Users;
 
+use BookStack\Access\UserInviteException;
 use BookStack\Access\UserInviteService;
 use BookStack\Activity\ActivityType;
 use BookStack\Entities\EntityProvider;
@@ -83,6 +84,7 @@ class UserRepo
      * As per "createWithoutActivity" but records a "create" activity.
      *
      * @param array{name: string, email: string, password: ?string, external_auth_id: ?string, language: ?string, roles: ?array} $data
+     * @throws UserInviteException
      */
     public function create(array $data, bool $sendInvite = false): User
     {
@@ -98,13 +100,13 @@ class UserRepo
     }
 
     /**
-     * Update the given user with the given data.
+     * Update the given user with the given data, but do not create an activity.
      *
      * @param array{name: ?string, email: ?string, external_auth_id: ?string, password: ?string, roles: ?array<int>, language: ?string} $data
      *
      * @throws UserUpdateException
      */
-    public function update(User $user, array $data, bool $manageUsersAllowed): User
+    public function updateWithoutActivity(User $user, array $data, bool $manageUsersAllowed): User
     {
         if (!empty($data['name'])) {
             $user->name = $data['name'];
@@ -132,6 +134,21 @@ class UserRepo
         }
 
         $user->save();
+
+        return $user;
+    }
+
+    /**
+     * Update the given user with the given data.
+     *
+     * @param array{name: ?string, email: ?string, external_auth_id: ?string, password: ?string, roles: ?array<int>, language: ?string} $data
+     *
+     * @throws UserUpdateException
+     */
+    public function update(User $user, array $data, bool $manageUsersAllowed): User
+    {
+        $user = $this->updateWithoutActivity($user, $data, $manageUsersAllowed);
+
         Activity::add(ActivityType::USER_UPDATE, $user);
 
         return $user;

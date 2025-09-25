@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Un utilisateur avec l\'adresse :email existe déjà.',
+    'auth_pre_register_theme_prevention' => 'Le compte utilisateur n\'a pas pu être enregistré avec les informations fournies',
     'email_already_confirmed' => 'Cet e-mail a déjà été validé, vous pouvez vous connecter.',
     'email_confirmation_invalid' => 'Cette confirmation est invalide. Veuillez essayer de vous inscrire à nouveau.',
     'email_confirmation_expired' => 'Le jeton de confirmation est périmé. Un nouvel e-mail vous a été envoyé.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'La requête du système d\'authentification externe n\'est pas reconnue par un processus démarré par cette application. Naviguer après une connexion peut causer ce problème.',
     'saml_fail_authed' => 'Connexion avec :system échouée, le système n\'a pas fourni l\'autorisation réussie',
     'oidc_already_logged_in' => 'Déjà connecté',
-    'oidc_user_not_registered' => 'L\'utilisateur :name n\'est pas enregistré et l\'enregistrement automatique est désactivé',
     'oidc_no_email_address' => 'Impossible de trouver une adresse e-mail pour cet utilisateur, dans les données fournies par le système d\'authentification externe',
     'oidc_fail_authed' => 'La connexion en utilisant :system a échoué, le système n\'a pas fourni d\'autorisation avec succès',
     'social_no_action_defined' => 'Pas d\'action définie',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Pilote de compte de réseaux sociaux absent',
     'social_driver_not_configured' => 'Vos préférences pour le compte :socialAccount sont incorrectes.',
     'invite_token_expired' => 'Le lien de cette invitation a expiré. Vous pouvez essayer de réinitialiser votre mot de passe.',
+    'login_user_not_found' => 'Impossible de trouver un utilisateur pour cette action.',
 
     // System
     'path_not_writable' => 'Impossible d\'écrire dans :filePath. Assurez-vous d\'avoir les droits d\'écriture sur le serveur',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Vous ne pouvez pas supprimer le dernier administrateur',
     'users_cannot_delete_guest' => 'Vous ne pouvez pas supprimer l\'utilisateur invité',
+    'users_could_not_send_invite' => 'Impossible de créer l\'utilisateur à cause d\'une erreur d\'envoi de l\'email d\'invitation',
 
     // Roles
     'role_cannot_be_edited' => 'Ce rôle ne peut pas être modifié',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Une erreur est survenue',
     'app_down' => ':appName n\'est pas en service pour le moment',
     'back_soon' => 'Nous serons bientôt de retour.',
+
+    // Import
+    'import_zip_cant_read' => 'Impossible de lire le fichier ZIP.',
+    'import_zip_cant_decode_data' => 'Impossible de trouver et de décoder le contenu ZIP data.json.',
+    'import_zip_no_data' => 'Les données du fichier ZIP n\'ont pas de livre, de chapitre ou de page attendus.',
+    'import_validation_failed' => 'L\'importation du ZIP n\'a pas été validée avec les erreurs :',
+    'import_zip_failed_notification' => 'Impossible d\'importer le fichier ZIP.',
+    'import_perms_books' => 'Vous n\'avez pas les permissions requises pour créer des livres.',
+    'import_perms_chapters' => 'Vous n\'avez pas les permissions requises pour créer des chapitres.',
+    'import_perms_pages' => 'Vous n\'avez pas les permissions requises pour créer des pages.',
+    'import_perms_images' => 'Vous n\'avez pas les permissions requises pour créer des images.',
+    'import_perms_attachments' => 'Vous n\'avez pas les permissions requises pour créer des pièces jointes.',
 
     // API errors
     'api_no_authorization_found' => 'Aucun jeton d\'autorisation trouvé pour la demande',

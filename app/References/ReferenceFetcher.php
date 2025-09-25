@@ -23,7 +23,7 @@ class ReferenceFetcher
     public function getReferencesToEntity(Entity $entity): Collection
     {
         $references = $this->queryReferencesToEntity($entity)->get();
-        $this->mixedEntityListLoader->loadIntoRelations($references->all(), 'from');
+        $this->mixedEntityListLoader->loadIntoRelations($references->all(), 'from', true);
 
         return $references;
     }
@@ -41,7 +41,8 @@ class ReferenceFetcher
     {
         $baseQuery = Reference::query()
             ->where('to_type', '=', $entity->getMorphClass())
-            ->where('to_id', '=', $entity->id);
+            ->where('to_id', '=', $entity->id)
+            ->whereHas('from');
 
         return $this->permissions->restrictEntityRelationQuery(
             $baseQuery,

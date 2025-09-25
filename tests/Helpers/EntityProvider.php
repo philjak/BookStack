@@ -33,9 +33,9 @@ class EntityProvider
     ];
 
     /**
-     * Get an un-fetched page from the system.
+     * Get an unfetched page from the system.
      */
-    public function page(callable $queryFilter = null): Page
+    public function page(callable|null $queryFilter = null): Page
     {
         /** @var Page $page */
         $page = Page::query()->when($queryFilter, $queryFilter)->whereNotIn('id', $this->fetchCache['page'])->first();
@@ -63,9 +63,9 @@ class EntityProvider
     }
 
     /**
-     * Get an un-fetched chapter from the system.
+     * Get an unfetched chapter from the system.
      */
-    public function chapter(callable $queryFilter = null): Chapter
+    public function chapter(callable|null $queryFilter = null): Chapter
     {
         /** @var Chapter $chapter */
         $chapter = Chapter::query()->when($queryFilter, $queryFilter)->whereNotIn('id', $this->fetchCache['chapter'])->first();
@@ -79,9 +79,9 @@ class EntityProvider
     }
 
     /**
-     * Get an un-fetched book from the system.
+     * Get an unfetched book from the system.
      */
-    public function book(callable $queryFilter = null): Book
+    public function book(callable|null $queryFilter = null): Book
     {
         /** @var Book $book */
         $book = Book::query()->when($queryFilter, $queryFilter)->whereNotIn('id', $this->fetchCache['book'])->first();
@@ -100,9 +100,9 @@ class EntityProvider
     }
 
     /**
-     * Get an un-fetched shelf from the system.
+     * Get an unfetched shelf from the system.
      */
-    public function shelf(callable $queryFilter = null): Bookshelf
+    public function shelf(callable|null $queryFilter = null): Bookshelf
     {
         /** @var Bookshelf $shelf */
         $shelf = Bookshelf::query()->when($queryFilter, $queryFilter)->whereNotIn('id', $this->fetchCache['bookshelf'])->first();
@@ -205,6 +205,29 @@ class EntityProvider
         $pageRepo->updatePageDraft($draftPage, $input);
         $this->addToCache($draftPage);
         return $draftPage;
+    }
+
+    /**
+     * Send an entity to the recycle bin.
+     */
+    public function sendToRecycleBin(Entity $entity)
+    {
+        $trash = app()->make(TrashCan::class);
+
+        if ($entity instanceof Page) {
+            $trash->softDestroyPage($entity);
+        } elseif ($entity instanceof Chapter) {
+            $trash->softDestroyChapter($entity);
+        } elseif ($entity instanceof Book) {
+            $trash->softDestroyBook($entity);
+        } elseif ($entity instanceof Bookshelf) {
+            $trash->softDestroyBookshelf($entity);
+        }
+
+        $entity->refresh();
+        if (is_null($entity->deleted_at)) {
+            throw new \Exception("Could not send entity type [{$entity->getMorphClass()}] to the recycle bin");
+        }
     }
 
     /**

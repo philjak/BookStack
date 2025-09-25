@@ -8,6 +8,7 @@ use BookStack\Entities\Models\Entity;
 use BookStack\Entities\Repos\DeletionRepo;
 use BookStack\Entities\Tools\TrashCan;
 use BookStack\Http\Controller;
+use BookStack\Permissions\Permission;
 
 class RecycleBinController extends Controller
 {
@@ -20,8 +21,8 @@ class RecycleBinController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->checkPermission('settings-manage');
-            $this->checkPermission('restrictions-manage-all');
+            $this->checkPermission(Permission::SettingsManage);
+            $this->checkPermission(Permission::RestrictionsManageAll);
 
             return $next($request);
         });
@@ -116,9 +117,9 @@ class RecycleBinController extends Controller
      *
      * @throws \Exception
      */
-    public function empty()
+    public function empty(TrashCan $trash)
     {
-        $deleteCount = (new TrashCan())->empty();
+        $deleteCount = $trash->empty();
 
         $this->logActivity(ActivityType::RECYCLE_BIN_EMPTY);
         $this->showSuccessNotification(trans('settings.recycle_bin_destroy_notification', ['count' => $deleteCount]));

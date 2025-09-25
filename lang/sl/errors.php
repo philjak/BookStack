@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Uporabnik z e-pošto :email že obstaja, vendar z drugačnimi poverilnicami.',
+    'auth_pre_register_theme_prevention' => 'User account could not be registered for the provided details',
     'email_already_confirmed' => 'E-naslov je že bil potrjen, poskusite se prijaviti.',
     'email_confirmation_invalid' => 'Ta potrditveni žeton ni veljaven ali je že bil uporabljen. Poizkusite znova.',
     'email_confirmation_expired' => 'Potrditveni žeton je potekel. Nova potrditvena e-pošta je bila poslana.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Zahteva iz zunanjega sistema za preverjanje pristnosti ni prepoznana s strani procesa zagnanega s strani te aplikacije. Pomik nazaj po prijavi je lahko vzrok teh težav.',
     'saml_fail_authed' => 'Prijava z uporabo :system ni uspela, sistem ni zagotovil uspešne avtorizacije',
     'oidc_already_logged_in' => 'Already logged in',
-    'oidc_user_not_registered' => 'The user :name is not registered and automatic registration is disabled',
     'oidc_no_email_address' => 'Could not find an email address, for this user, in the data provided by the external authentication system',
     'oidc_fail_authed' => 'Login using :system failed, system did not provide successful authorization',
     'social_no_action_defined' => 'Akcija ni določena',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Socialni vtičnik ni najden',
     'social_driver_not_configured' => 'Vaše nastavitve :socialAccount niso pravilo nastavljene.',
     'invite_token_expired' => 'Ta povezava je potekla. Namesto tega lahko ponastavite vaše geslo računa.',
+    'login_user_not_found' => 'A user for this action could not be found.',
 
     // System
     'path_not_writable' => 'Poti :filePath ni bilo mogoče naložiti. Prepričajte se, da je zapisljiva na strežnik.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Ne morete odstraniti edinega administratorja',
     'users_cannot_delete_guest' => 'Ne morete odstraniti uporabnika gost',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'Te vloge mi možno urejati',
@@ -94,7 +96,7 @@ return [
     // Error pages
     '404_page_not_found' => 'Strani ni mogoče najti',
     'sorry_page_not_found' => 'Oprostite, strani ki jo iščete, ni mogoče najti.',
-    'sorry_page_not_found_permission_warning' => 'Če pričakujete, da ta stran obstaja, mogoče nimate pravic ogleda zanjo.',
+    'sorry_page_not_found_permission_warning' => 'Stran ne obstaja ali pa za ogled nimaš ustreznih pravic.',
     'image_not_found' => 'Image Not Found',
     'image_not_found_subtitle' => 'Sorry, The image file you were looking for could not be found.',
     'image_not_found_details' => 'If you expected this image to exist it might have been deleted.',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Prišlo je do napake',
     'app_down' => ':appName trenutno ni dosegljiva',
     'back_soon' => 'Kmalu bo ponovno dosegljiva.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'You are lacking the required permissions to create books.',
+    'import_perms_chapters' => 'You are lacking the required permissions to create chapters.',
+    'import_perms_pages' => 'You are lacking the required permissions to create pages.',
+    'import_perms_images' => 'You are lacking the required permissions to create images.',
+    'import_perms_attachments' => 'You are lacking the required permission to create attachments.',
 
     // API errors
     'api_no_authorization_found' => 'Avtorizacija ni bila najdena',

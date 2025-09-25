@@ -7,9 +7,11 @@ parameters:
         - app
 
     # The level 8 is the highest level
-    level: 1
+    level: 3
 
-    phpVersion: 80002
+    phpVersion:
+        min: 80200
+        max: 80400
 
     bootstrapFiles:
       - bootstrap/phpstan.php
@@ -19,5 +21,4 @@ parameters:
 
     excludePaths:
         - ./Config/**/*.php
-
-    checkMissingIterableValueType: false
+        - ./dev/**/*.php

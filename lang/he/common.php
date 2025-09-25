@@ -20,7 +20,7 @@ return [
     'description' => 'תיאור',
     'role' => 'תפקיד',
     'cover_image' => 'תמונת נושא',
-    'cover_image_description' => 'התמונה צריכה להיות בסביבות 440x250px',
+    'cover_image_description' => 'התמונה צריכה להיות לפחות בגודל של 440 על 250 למרות שהיא תוצג בצורה דינמית ותותאם בהתאם להתאים לממשק המשתמש במצבים שונים על פי הדרישה, ולכן המימדים יהיו שונים.',
 
     // Actions
     'actions' => 'פעולות',
@@ -30,6 +30,8 @@ return [
     'create' => 'צור',
     'update' => 'עדכן',
     'edit' => 'ערוך',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'מיין',
     'move' => 'הזז',
     'copy' => 'העתק',
@@ -52,7 +54,7 @@ return [
     'filter_clear' => 'נקה מסננים',
     'download' => 'הורדה',
     'open_in_tab' => 'פתח בכרטיסייה חדשה',
-    'open' => 'Open',
+    'open' => 'פתח',
 
     // Sort Options
     'sort_options' => 'אפשרויות מיון',
@@ -76,7 +78,7 @@ return [
     'grid_view' => 'תצוגת רשת',
     'list_view' => 'תצוגת רשימה',
     'default' => 'ברירת מחדל',
-    'breadcrumb' => 'Breadcrumb',
+    'breadcrumb' => 'סימון מסלול',
     'status' => 'סטטוס',
     'status_active' => 'פעיל',
     'status_inactive' => 'לא פעיל',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'מדיניות הפרטיות',
     'terms_of_service' => 'תנאי שימוש',
+
+    // OpenSearch
+    'opensearch_description' => 'חפש :appName',
 ];

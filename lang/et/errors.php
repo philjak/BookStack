@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'See e-posti aadress on juba seotud teise kasutajaga.',
+    'auth_pre_register_theme_prevention' => 'Etteantud detailidega kasutajakontot ei õnnestunud registreerida',
     'email_already_confirmed' => 'E-posti aadress on juba kinnitatud. Proovi sisse logida.',
     'email_confirmation_invalid' => 'Kinnituslink ei ole kehtiv või on seda juba kasutatud. Proovi uuesti registreeruda.',
     'email_confirmation_expired' => 'Kinnituslink on aegunud. Sulle saadeti aadressi kinnitamiseks uus e-kiri.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Välisest autentimissüsteemist tulnud päringut ei algatatud sellest rakendusest. Seda viga võib põhjustada pärast sisselogimist tagasi liikumine.',
     'saml_fail_authed' => 'Sisenemine :system kaudu ebaõnnestus, süsteem ei andnud volitust',
     'oidc_already_logged_in' => 'Juba sisse logitud',
-    'oidc_user_not_registered' => 'Kasutaja :name ei ole registreeritud ning automaatne registreerimine on keelatud',
     'oidc_no_email_address' => 'Selle kasutaja e-posti aadressi ei õnnestunud välisest autentimissüsteemist leida',
     'oidc_fail_authed' => 'Sisenemine :system kaudu ebaõnnestus, süsteem ei andnud volitust',
     'social_no_action_defined' => 'Tegevus on defineerimata',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Sotsiaalmeedia kontode draiverit ei leitud',
     'social_driver_not_configured' => 'Sinu :socialAccount konto seaded ei ole korrektsed.',
     'invite_token_expired' => 'Link on aegunud. Võid selle asemel proovida oma konto parooli lähtestada.',
+    'login_user_not_found' => 'Selle tegevuse jaoks ei leitud kasutajat.',
 
     // System
     'path_not_writable' => 'Faili asukohaga :filePath ei õnnestunud üles laadida. Veendu, et serveril on kirjutusõigused.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Ainsat administraatorit ei saa kustutada',
     'users_cannot_delete_guest' => 'Külaliskasutajat ei saa kustutada',
+    'users_could_not_send_invite' => 'Kasutajat ei õnnestunud luua, kuna kutse e-kirja saatmine ebaõnnestus',
 
     // Roles
     'role_cannot_be_edited' => 'Seda rolli ei saa muuta',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Tekkis viga',
     'app_down' => ':appName on hetkel maas',
     'back_soon' => 'See on varsti tagasi.',
+
+    // Import
+    'import_zip_cant_read' => 'ZIP-faili lugemine ebaõnnestus.',
+    'import_zip_cant_decode_data' => 'ZIP-failist ei leitud data.json sisu.',
+    'import_zip_no_data' => 'ZIP-failist ei leitud raamatute, peatükkide või lehtede sisu.',
+    'import_validation_failed' => 'Imporditud ZIP-faili valideerimine ebaõnnestus vigadega:',
+    'import_zip_failed_notification' => 'ZIP-faili importimine ebaõnnestus.',
+    'import_perms_books' => 'Sul puuduvad õigused raamatute lisamiseks.',
+    'import_perms_chapters' => 'Sul puuduvad õigused peatükkide lisamiseks.',
+    'import_perms_pages' => 'Sul puuduvad õigused lehtede lisamiseks.',
+    'import_perms_images' => 'Sul puuduvad õigused piltide lisamiseks.',
+    'import_perms_attachments' => 'Sul puuduvad õigused manuste lisamiseks.',
 
     // API errors
     'api_no_authorization_found' => 'Päringust ei leitud volitustunnust',

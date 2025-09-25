@@ -4,12 +4,14 @@ namespace BookStack\Entities\Controllers;
 
 use BookStack\Activity\ActivityType;
 use BookStack\Entities\Models\PageRevision;
+use BookStack\Entities\Queries\PageQueries;
 use BookStack\Entities\Repos\PageRepo;
 use BookStack\Entities\Repos\RevisionRepo;
 use BookStack\Entities\Tools\PageContent;
 use BookStack\Exceptions\NotFoundException;
 use BookStack\Facades\Activity;
 use BookStack\Http\Controller;
+use BookStack\Permissions\Permission;
 use BookStack\Util\SimpleListOptions;
 use Illuminate\Http\Request;
 use Ssddanbrown\HtmlDiff\Diff;
@@ -18,6 +20,7 @@ class PageRevisionController extends Controller
 {
     public function __construct(
         protected PageRepo $pageRepo,
+        protected PageQueries $pageQueries,
         protected RevisionRepo $revisionRepo,
     ) {
     }
@@ -29,7 +32,7 @@ class PageRevisionController extends Controller
      */
     public function index(Request $request, string $bookSlug, string $pageSlug)
     {
-        $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        $page = $this->pageQueries->findVisibleBySlugsOrFail($bookSlug, $pageSlug);
         $listOptions = SimpleListOptions::fromRequest($request, 'page_revisions', true)->withSortOptions([
             'id' => trans('entities.pages_revisions_sort_number')
         ]);
@@ -41,7 +44,6 @@ class PageRevisionController extends Controller
             ->selectRaw("IF(markdown = '', false, true) as is_markdown")
             ->with(['page.book', 'createdBy'])
             ->reorder('id', $listOptions->getOrder())
-            ->reorder('created_at', $listOptions->getOrder())
             ->paginate(50);
 
         $this->setPageTitle(trans('entities.pages_revisions_named', ['pageName' => $page->getShortName()]));
@@ -50,6 +52,7 @@ class PageRevisionController extends Controller
             'revisions'   => $revisions,
             'page'        => $page,
             'listOptions' => $listOptions,
+            'oldestRevisionId' => $page->revisions()->min('id'),
         ]);
     }
 
@@ -60,7 +63,7 @@ class PageRevisionController extends Controller
      */
     public function show(string $bookSlug, string $pageSlug, int $revisionId)
     {
-        $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        $page = $this->pageQueries->findVisibleBySlugsOrFail($bookSlug, $pageSlug);
         /** @var ?PageRevision $revision */
         $revision = $page->revisions()->where('id', '=', $revisionId)->first();
         if ($revision === null) {
@@ -89,14 +92,14 @@ class PageRevisionController extends Controller
      */
     public function changes(string $bookSlug, string $pageSlug, int $revisionId)
     {
-        $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
+        $page = $this->pageQueries->findVisibleBySlugsOrFail($bookSlug, $pageSlug);
         /** @var ?PageRevision $revision */
         $revision = $page->revisions()->where('id', '=', $revisionId)->first();
         if ($revision === null) {
             throw new NotFoundException();
         }
 
-        $prev = $revision->getPrevious();
+        $prev = $revision->getPreviousRevision();
         $prevContent = $prev->html ?? '';
         $diff = Diff::excecute($prevContent, $revision->html);
 
@@ -121,8 +124,8 @@ class PageRevisionController extends Controller
      */
     public function restore(string $bookSlug, string $pageSlug, int $revisionId)
     {
-        $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
-        $this->checkOwnablePermission('page-update', $page);
+        $page = $this->pageQueries->findVisibleBySlugsOrFail($bookSlug, $pageSlug);
+        $this->checkOwnablePermission(Permission::PageUpdate, $page);
 
         $page = $this->pageRepo->restoreRevision($page, $revisionId);
 
@@ -136,8 +139,8 @@ class PageRevisionController extends Controller
      */
     public function destroy(string $bookSlug, string $pageSlug, int $revId)
     {
-        $page = $this->pageRepo->getBySlug($bookSlug, $pageSlug);
-        $this->checkOwnablePermission('page-delete', $page);
+        $page = $this->pageQueries->findVisibleBySlugsOrFail($bookSlug, $pageSlug);
+        $this->checkOwnablePermission(Permission::PageDelete, $page);
 
         $revision = $page->revisions()->where('id', '=', $revId)->first();
         if ($revision === null) {
@@ -162,7 +165,7 @@ class PageRevisionController extends Controller
      */
     public function destroyUserDraft(string $pageId)
     {
-        $page = $this->pageRepo->getById($pageId);
+        $page = $this->pageQueries->findVisibleByIdOrFail($pageId);
         $this->revisionRepo->deleteDraftsForCurrentUser($page);
 
         return response('', 200);

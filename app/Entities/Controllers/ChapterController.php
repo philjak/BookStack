@@ -5,6 +5,8 @@ namespace BookStack\Entities\Controllers;
 use BookStack\Activity\Models\View;
 use BookStack\Activity\Tools\UserEntityWatchOptions;
 use BookStack\Entities\Models\Book;
+use BookStack\Entities\Queries\ChapterQueries;
+use BookStack\Entities\Queries\EntityQueries;
 use BookStack\Entities\Repos\ChapterRepo;
 use BookStack\Entities\Tools\BookContents;
 use BookStack\Entities\Tools\Cloner;
@@ -15,7 +17,9 @@ use BookStack\Exceptions\NotFoundException;
 use BookStack\Exceptions\NotifyException;
 use BookStack\Exceptions\PermissionsException;
 use BookStack\Http\Controller;
+use BookStack\Permissions\Permission;
 use BookStack\References\ReferenceFetcher;
+use BookStack\Util\DatabaseTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -24,7 +28,9 @@ class ChapterController extends Controller
 {
     public function __construct(
         protected ChapterRepo $chapterRepo,
-        protected ReferenceFetcher $referenceFetcher
+        protected ChapterQueries $queries,
+        protected EntityQueries $entityQueries,
+        protected ReferenceFetcher $referenceFetcher,
     ) {
     }
 
@@ -33,12 +39,15 @@ class ChapterController extends Controller
      */
     public function create(string $bookSlug)
     {
-        $book = Book::visible()->where('slug', '=', $bookSlug)->firstOrFail();
-        $this->checkOwnablePermission('chapter-create', $book);
+        $book = $this->entityQueries->books->findVisibleBySlugOrFail($bookSlug);
+        $this->checkOwnablePermission(Permission::ChapterCreate, $book);
 
         $this->setPageTitle(trans('entities.chapters_create'));
 
-        return view('chapters.create', ['book' => $book, 'current' => $book]);
+        return view('chapters.create', [
+            'book' => $book,
+            'current' => $book,
+        ]);
     }
 
     /**
@@ -49,13 +58,14 @@ class ChapterController extends Controller
     public function store(Request $request, string $bookSlug)
     {
         $validated = $this->validate($request, [
-            'name'             => ['required', 'string', 'max:255'],
-            'description_html' => ['string', 'max:2000'],
-            'tags'             => ['array'],
+            'name'                => ['required', 'string', 'max:255'],
+            'description_html'    => ['string', 'max:2000'],
+            'tags'                => ['array'],
+            'default_template_id' => ['nullable', 'integer'],
         ]);
 
-        $book = Book::visible()->where('slug', '=', $bookSlug)->firstOrFail();
-        $this->checkOwnablePermission('chapter-create', $book);
+        $book = $this->entityQueries->books->findVisibleBySlugOrFail($bookSlug);
+        $this->checkOwnablePermission(Permission::ChapterCreate, $book);
 
         $chapter = $this->chapterRepo->create($validated, $book);
 
@@ -67,11 +77,11 @@ class ChapterController extends Controller
      */
     public function show(string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-view', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
 
         $sidebarTree = (new BookContents($chapter->book))->getTree();
-        $pages = $chapter->getVisiblePages();
+        $pages = $this->entityQueries->pages->visibleForChapterList($chapter->id)->get();
+
         $nextPreviousLocator = new NextPreviousContentLocator($chapter, $sidebarTree);
         View::incrementFor($chapter);
 
@@ -95,8 +105,8 @@ class ChapterController extends Controller
      */
     public function edit(string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-update', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission(Permission::ChapterUpdate, $chapter);
 
         $this->setPageTitle(trans('entities.chapters_edit_named', ['chapterName' => $chapter->getShortName()]));
 
@@ -111,13 +121,14 @@ class ChapterController extends Controller
     public function update(Request $request, string $bookSlug, string $chapterSlug)
     {
         $validated = $this->validate($request, [
-            'name'             => ['required', 'string', 'max:255'],
-            'description_html' => ['string', 'max:2000'],
-            'tags'             => ['array'],
+            'name'                => ['required', 'string', 'max:255'],
+            'description_html'    => ['string', 'max:2000'],
+            'tags'                => ['array'],
+            'default_template_id' => ['nullable', 'integer'],
         ]);
 
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-update', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission(Permission::ChapterUpdate, $chapter);
 
         $this->chapterRepo->update($chapter, $validated);
 
@@ -131,8 +142,8 @@ class ChapterController extends Controller
      */
     public function showDelete(string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-delete', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission(Permission::ChapterDelete, $chapter);
 
         $this->setPageTitle(trans('entities.chapters_delete_named', ['chapterName' => $chapter->getShortName()]));
 
@@ -147,8 +158,8 @@ class ChapterController extends Controller
      */
     public function destroy(string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-delete', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission(Permission::ChapterDelete, $chapter);
 
         $this->chapterRepo->destroy($chapter);
 
@@ -162,10 +173,10 @@ class ChapterController extends Controller
      */
     public function showMove(string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
         $this->setPageTitle(trans('entities.chapters_move_named', ['chapterName' => $chapter->getShortName()]));
-        $this->checkOwnablePermission('chapter-update', $chapter);
-        $this->checkOwnablePermission('chapter-delete', $chapter);
+        $this->checkOwnablePermission(Permission::ChapterUpdate, $chapter);
+        $this->checkOwnablePermission(Permission::ChapterDelete, $chapter);
 
         return view('chapters.move', [
             'chapter' => $chapter,
@@ -180,9 +191,9 @@ class ChapterController extends Controller
      */
     public function move(Request $request, string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-update', $chapter);
-        $this->checkOwnablePermission('chapter-delete', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission(Permission::ChapterUpdate, $chapter);
+        $this->checkOwnablePermission(Permission::ChapterDelete, $chapter);
 
         $entitySelection = $request->get('entity_selection', null);
         if ($entitySelection === null || $entitySelection === '') {
@@ -209,8 +220,7 @@ class ChapterController extends Controller
      */
     public function showCopy(string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-view', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
 
         session()->flashInput(['name' => $chapter->name]);
 
@@ -228,19 +238,18 @@ class ChapterController extends Controller
      */
     public function copy(Request $request, Cloner $cloner, string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-view', $chapter);
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
 
         $entitySelection = $request->get('entity_selection') ?: null;
-        $newParentBook = $entitySelection ? $this->chapterRepo->findParentByIdentifier($entitySelection) : $chapter->getParent();
+        $newParentBook = $entitySelection ? $this->entityQueries->findVisibleByStringIdentifier($entitySelection) : $chapter->getParent();
 
-        if (is_null($newParentBook)) {
+        if (!$newParentBook instanceof Book) {
             $this->showErrorNotification(trans('errors.selected_book_not_found'));
 
             return redirect($chapter->getUrl('/copy'));
         }
 
-        $this->checkOwnablePermission('chapter-create', $newParentBook);
+        $this->checkOwnablePermission(Permission::ChapterCreate, $newParentBook);
 
         $newName = $request->get('name') ?: $chapter->name;
         $chapterCopy = $cloner->cloneChapter($chapter, $newParentBook, $newName);
@@ -254,12 +263,14 @@ class ChapterController extends Controller
      */
     public function convertToBook(HierarchyTransformer $transformer, string $bookSlug, string $chapterSlug)
     {
-        $chapter = $this->chapterRepo->getBySlug($bookSlug, $chapterSlug);
-        $this->checkOwnablePermission('chapter-update', $chapter);
-        $this->checkOwnablePermission('chapter-delete', $chapter);
-        $this->checkPermission('book-create-all');
+        $chapter = $this->queries->findVisibleBySlugsOrFail($bookSlug, $chapterSlug);
+        $this->checkOwnablePermission(Permission::ChapterUpdate, $chapter);
+        $this->checkOwnablePermission(Permission::ChapterDelete, $chapter);
+        $this->checkPermission(Permission::BookCreateAll);
 
-        $book = $transformer->transformChapterToBook($chapter);
+        $book = (new DatabaseTransaction(function () use ($chapter, $transformer) {
+            return $transformer->transformChapterToBook($chapter);
+        }))->run();
 
         return redirect($book->getUrl());
     }

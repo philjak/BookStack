@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Ein Benutzer mit der E-Mail-Adresse :email ist bereits mit anderen Anmeldedaten registriert.',
+    'auth_pre_register_theme_prevention' => 'Das Benutzerkonto kann mit den bereitgestellten Informationen nicht erstellen werden',
     'email_already_confirmed' => 'Die E-Mail-Adresse ist bereits bestätigt. Bitte melde dich an.',
     'email_confirmation_invalid' => 'Der Bestätigungslink ist nicht gültig oder wurde bereits verwendet. Bitte registriere dich erneut.',
     'email_confirmation_expired' => 'Der Bestätigungslink ist abgelaufen. Es wurde eine neue Bestätigungs-E-Mail gesendet.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Die Anfrage vom externen Authentifizierungssystem wird von einem von dieser Anwendung gestarteten Prozess nicht erkannt. Das Zurückblättern nach einem Login könnte dieses Problem verursachen.',
     'saml_fail_authed' => 'Anmeldung mit :system fehlgeschlagen, System konnte keine erfolgreiche Autorisierung bereitstellen',
     'oidc_already_logged_in' => 'Bereits angemeldet',
-    'oidc_user_not_registered' => 'Der Benutzer :name ist nicht registriert und die automatische Registrierung ist deaktiviert',
     'oidc_no_email_address' => 'Es konnte keine E-Mail-Adresse für diesen Benutzer in den vom externen Authentifizierungssystem bereitgestellten Daten gefunden werden',
     'oidc_fail_authed' => 'Anmeldung mit :system fehlgeschlagen, System hat keine erfolgreiche Autorisierung geliefert',
     'social_no_action_defined' => 'Es ist keine Aktion definiert',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Treiber für Social-Media-Konten nicht gefunden',
     'social_driver_not_configured' => 'Dein :socialAccount-Konto ist nicht korrekt konfiguriert.',
     'invite_token_expired' => 'Dieser Einladungslink ist abgelaufen. Du kannst stattdessen versuchen, dein Passwort zurückzusetzen.',
+    'login_user_not_found' => 'Ein Benutzer für diese Aktion konnte nicht gefunden werden.',
 
     // System
     'path_not_writable' => 'Die Datei kann nicht in den angegebenen Pfad :filePath hochgeladen werden. Stelle sicher, dass dieser Ordner auf dem Server beschreibbar ist.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Du kannst den einzigen Administrator nicht löschen.',
     'users_cannot_delete_guest' => 'Du kannst den Gast-Benutzer nicht löschen',
+    'users_could_not_send_invite' => 'Benutzer konnte nicht erstellt werden, da die Einladungs-E-Mail nicht gesendet werden konnte',
 
     // Roles
     'role_cannot_be_edited' => 'Diese Rolle kann nicht bearbeitet werden.',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Es ist ein Fehler aufgetreten',
     'app_down' => ':appName befindet sich aktuell im Wartungsmodus.',
     'back_soon' => 'Wir werden so schnell wie möglich wieder online sein.',
+
+    // Import
+    'import_zip_cant_read' => 'ZIP-Datei konnte nicht gelesen werden.',
+    'import_zip_cant_decode_data' => 'Konnte Inhalt der data.json im ZIP nicht finden und dekodieren.',
+    'import_zip_no_data' => 'ZIP-Datei hat kein erwartetes Buch, Kapitel oder Seiteninhalt.',
+    'import_validation_failed' => 'ZIP Import konnte aufgrund folgender Fehler nicht validiert werden:',
+    'import_zip_failed_notification' => 'Importieren der ZIP-Datei fehlgeschlagen.',
+    'import_perms_books' => 'Dir fehlt die erforderliche Berechtigung, um Bücher zu erstellen.',
+    'import_perms_chapters' => 'Dir fehlt die erforderliche Berechtigung, um Kapitel zu erstellen.',
+    'import_perms_pages' => 'Dir fehlt die erforderliche Berechtigung, um Seiten zu erstellen.',
+    'import_perms_images' => 'Dir fehlt die erforderliche Berechtigung, um Bilder zu erstellen.',
+    'import_perms_attachments' => 'Dir fehlt die erforderliche Berechtigung, um Anhänge zu erstellen.',
 
     // API errors
     'api_no_authorization_found' => 'Kein Autorisierungs-Token für die Anfrage gefunden',

@@ -3,6 +3,7 @@
 namespace Tests\Api;
 
 use BookStack\Entities\Models\Book;
+use BookStack\Entities\Repos\BaseRepo;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
@@ -24,6 +25,31 @@ class BooksApiTest extends TestCase
                 'id'   => $firstBook->id,
                 'name' => $firstBook->name,
                 'slug' => $firstBook->slug,
+                'owned_by' => $firstBook->owned_by,
+                'created_by' => $firstBook->created_by,
+                'updated_by' => $firstBook->updated_by,
+                'cover' => null,
+            ],
+        ]]);
+    }
+
+    public function test_index_endpoint_includes_cover_if_set()
+    {
+        $this->actingAsApiEditor();
+        $book = $this->entities->book();
+
+        $baseRepo = $this->app->make(BaseRepo::class);
+        $image = $this->files->uploadedImage('book_cover');
+        $baseRepo->updateCoverImage($book, $image);
+
+        $resp = $this->getJson($this->baseEndpoint . '?filter[id]=' . $book->id);
+        $resp->assertJson(['data' => [
+            [
+                'id'   => $book->id,
+                'cover' => [
+                    'id' => $book->cover->id,
+                    'url' => $book->cover->url,
+                ],
             ],
         ]]);
     }
@@ -146,6 +172,23 @@ class BooksApiTest extends TestCase
         ]);
     }
 
+    public function test_read_endpoint_contents_nested_pages_has_permissions_applied()
+    {
+        $this->actingAsApiEditor();
+
+        $book = $this->entities->bookHasChaptersAndPages();
+        $chapter = $book->chapters()->first();
+        $chapterPage = $chapter->pages()->first();
+        $customName = 'MyNonVisiblePageWithinAChapter';
+        $chapterPage->name = $customName;
+        $chapterPage->save();
+
+        $this->permissions->disableEntityInheritedPermissions($chapterPage);
+
+        $resp = $this->getJson($this->baseEndpoint . "/{$book->id}");
+        $resp->assertJsonMissing(['name' => $customName]);
+    }
+
     public function test_update_endpoint()
     {
         $this->actingAsApiEditor();
@@ -243,63 +286,5 @@ class BooksApiTest extends TestCase
 
         $resp->assertStatus(204);
         $this->assertActivityExists('book_delete');
-    }
-
-    public function test_export_html_endpoint()
-    {
-        $this->actingAsApiEditor();
-        $book = $this->entities->book();
-
-        $resp = $this->get($this->baseEndpoint . "/{$book->id}/export/html");
-        $resp->assertStatus(200);
-        $resp->assertSee($book->name);
-        $resp->assertHeader('Content-Disposition', 'attachment; filename="' . $book->slug . '.html"');
-    }
-
-    public function test_export_plain_text_endpoint()
-    {
-        $this->actingAsApiEditor();
-        $book = $this->entities->book();
-
-        $resp = $this->get($this->baseEndpoint . "/{$book->id}/export/plaintext");
-        $resp->assertStatus(200);
-        $resp->assertSee($book->name);
-        $resp->assertHeader('Content-Disposition', 'attachment; filename="' . $book->slug . '.txt"');
-    }
-
-    public function test_export_pdf_endpoint()
-    {
-        $this->actingAsApiEditor();
-        $book = $this->entities->book();
-
-        $resp = $this->get($this->baseEndpoint . "/{$book->id}/export/pdf");
-        $resp->assertStatus(200);
-        $resp->assertHeader('Content-Disposition', 'attachment; filename="' . $book->slug . '.pdf"');
-    }
-
-    public function test_export_markdown_endpoint()
-    {
-        $this->actingAsApiEditor();
-        $book = Book::visible()->has('pages')->has('chapters')->first();
-
-        $resp = $this->get($this->baseEndpoint . "/{$book->id}/export/markdown");
-        $resp->assertStatus(200);
-        $resp->assertHeader('Content-Disposition', 'attachment; filename="' . $book->slug . '.md"');
-        $resp->assertSee('# ' . $book->name);
-        $resp->assertSee('# ' . $book->pages()->first()->name);
-        $resp->assertSee('# ' . $book->chapters()->first()->name);
-    }
-
-    public function test_cant_export_when_not_have_permission()
-    {
-        $types = ['html', 'plaintext', 'pdf', 'markdown'];
-        $this->actingAsApiEditor();
-        $this->permissions->removeUserRolePermissions($this->users->editor(), ['content-export']);
-
-        $book = $this->entities->book();
-        foreach ($types as $type) {
-            $resp = $this->get($this->baseEndpoint . "/{$book->id}/export/{$type}");
-            $this->assertPermissionError($resp);
-        }
     }
 }

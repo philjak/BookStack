@@ -9,6 +9,8 @@ class Kernel extends HttpKernel
     /**
      * The application's global HTTP middleware stack.
      * These middleware are run during every request to your application.
+     *
+     * @var list<class-string>
      */
     protected $middleware = [
         \BookStack\Http\Middleware\PreventRequestsDuringMaintenance::class,
@@ -21,14 +23,14 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware groups.
      *
-     * @var array
+     * @var array<string, array<int, class-string>>
      */
     protected $middlewareGroups = [
         'web' => [
             \BookStack\Http\Middleware\ApplyCspRules::class,
             \BookStack\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
+            \BookStack\Http\Middleware\StartSessionExtended::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \BookStack\Http\Middleware\VerifyCsrfToken::class,
             \BookStack\Http\Middleware\CheckEmailConfirmed::class,
@@ -45,11 +47,11 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware.
+     * The application's middleware aliases.
      *
-     * @var array
+     * @var array<string, class-string>
      */
-    protected $routeMiddleware = [
+    protected $middlewareAliases = [
         'auth'       => \BookStack\Http\Middleware\Authenticate::class,
         'can'        => \BookStack\Http\Middleware\CheckUserHasPermission::class,
         'guest'      => \BookStack\Http\Middleware\RedirectIfAuthenticated::class,

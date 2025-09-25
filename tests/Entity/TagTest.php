@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class TagTest extends TestCase
 {
-    protected $defaultTagCount = 20;
+    protected int $defaultTagCount = 20;
 
     /**
      * Get an instance of a page that has many tags.
@@ -193,6 +193,24 @@ class TagTest extends TestCase
         $resp->assertSee('Tags can be assigned via the page editor sidebar');
     }
 
+    public function test_tag_index_does_not_include_tags_on_recycle_bin_items()
+    {
+        $page = $this->entities->page();
+        $page->tags()->create(['name' => 'DeleteRecord', 'value' => 'itemToDeleteTest']);
+
+        $resp = $this->asEditor()->get('/tags');
+        $resp->assertSee('DeleteRecord');
+        $resp = $this->asEditor()->get('/tags?name=DeleteRecord');
+        $resp->assertSee('itemToDeleteTest');
+
+        $this->entities->sendToRecycleBin($page);
+
+        $resp = $this->asEditor()->get('/tags');
+        $resp->assertDontSee('DeleteRecord');
+        $resp = $this->asEditor()->get('/tags?name=DeleteRecord');
+        $resp->assertDontSee('itemToDeleteTest');
+    }
+
     public function test_tag_classes_visible_on_entities()
     {
         $this->asEditor();
@@ -211,5 +229,40 @@ class TagTest extends TestCase
         $resp = $this->asEditor()->get($page->getUrl());
         $resp->assertDontSee('tag-name-<>', false);
         $resp->assertSee('tag-name-&lt;&gt;', false);
+    }
+
+    public function test_parent_tag_classes_visible()
+    {
+        $page = $this->entities->pageWithinChapter();
+        $page->chapter->tags()->create(['name' => 'My Chapter Tag', 'value' => 'abc123']);
+        $page->book->tags()->create(['name' => 'My Book Tag', 'value' => 'def456']);
+        $this->asEditor();
+
+        $html = $this->withHtml($this->get($page->getUrl()));
+        $html->assertElementExists('body.chapter-tag-pair-mychaptertag-abc123');
+        $html->assertElementExists('body.book-tag-pair-mybooktag-def456');
+
+        $html = $this->withHtml($this->get($page->chapter->getUrl()));
+        $html->assertElementExists('body.book-tag-pair-mybooktag-def456');
+    }
+
+    public function test_parent_tag_classes_not_visible_if_cannot_see_parent()
+    {
+        $page = $this->entities->pageWithinChapter();
+        $page->chapter->tags()->create(['name' => 'My Chapter Tag', 'value' => 'abc123']);
+        $page->book->tags()->create(['name' => 'My Book Tag', 'value' => 'def456']);
+        $editor = $this->users->editor();
+        $this->actingAs($editor);
+
+        $this->permissions->setEntityPermissions($page, ['view'], [$editor->roles()->first()]);
+        $this->permissions->disableEntityInheritedPermissions($page->chapter);
+
+        $html = $this->withHtml($this->get($page->getUrl()));
+        $html->assertElementNotExists('body.chapter-tag-pair-mychaptertag-abc123');
+        $html->assertElementExists('body.book-tag-pair-mybooktag-def456');
+
+        $this->permissions->disableEntityInheritedPermissions($page->book);
+        $html = $this->withHtml($this->get($page->getUrl()));
+        $html->assertElementNotExists('body.book-tag-pair-mybooktag-def456');
     }
 }

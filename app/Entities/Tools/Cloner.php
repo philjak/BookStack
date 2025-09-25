@@ -7,28 +7,24 @@ use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Entity;
-use BookStack\Entities\Models\HasCoverImage;
+use BookStack\Entities\Models\CoverImageInterface;
 use BookStack\Entities\Models\Page;
 use BookStack\Entities\Repos\BookRepo;
 use BookStack\Entities\Repos\ChapterRepo;
 use BookStack\Entities\Repos\PageRepo;
+use BookStack\Permissions\Permission;
 use BookStack\Uploads\Image;
 use BookStack\Uploads\ImageService;
 use Illuminate\Http\UploadedFile;
 
 class Cloner
 {
-    protected PageRepo $pageRepo;
-    protected ChapterRepo $chapterRepo;
-    protected BookRepo $bookRepo;
-    protected ImageService $imageService;
-
-    public function __construct(PageRepo $pageRepo, ChapterRepo $chapterRepo, BookRepo $bookRepo, ImageService $imageService)
-    {
-        $this->pageRepo = $pageRepo;
-        $this->chapterRepo = $chapterRepo;
-        $this->bookRepo = $bookRepo;
-        $this->imageService = $imageService;
+    public function __construct(
+        protected PageRepo $pageRepo,
+        protected ChapterRepo $chapterRepo,
+        protected BookRepo $bookRepo,
+        protected ImageService $imageService,
+    ) {
     }
 
     /**
@@ -54,7 +50,7 @@ class Cloner
 
         $copyChapter = $this->chapterRepo->create($chapterDetails, $parent);
 
-        if (userCan('page-create', $copyChapter)) {
+        if (userCan(Permission::PageCreate, $copyChapter)) {
             /** @var Page $page */
             foreach ($original->getVisiblePages() as $page) {
                 $this->clonePage($page, $copyChapter, $page->name);
@@ -66,7 +62,7 @@ class Cloner
 
     /**
      * Clone the given book.
-     * Clones all child chapters & pages.
+     * Clones all child chapters and pages.
      */
     public function cloneBook(Book $original, string $newName): Book
     {
@@ -77,13 +73,13 @@ class Cloner
         $copyBook = $this->bookRepo->create($bookDetails);
 
         // Clone contents
-        $directChildren = $original->getDirectChildren();
+        $directChildren = $original->getDirectVisibleChildren();
         foreach ($directChildren as $child) {
-            if ($child instanceof Chapter && userCan('chapter-create', $copyBook)) {
+            if ($child instanceof Chapter && userCan(Permission::ChapterCreate, $copyBook)) {
                 $this->cloneChapter($child, $copyBook, $child->name);
             }
 
-            if ($child instanceof Page && !$child->draft && userCan('page-create', $copyBook)) {
+            if ($child instanceof Page && !$child->draft && userCan(Permission::PageCreate, $copyBook)) {
                 $this->clonePage($child, $copyBook, $child->name);
             }
         }
@@ -91,7 +87,7 @@ class Cloner
         // Clone bookshelf relationships
         /** @var Bookshelf $shelf */
         foreach ($original->shelves as $shelf) {
-            if (userCan('bookshelf-update', $shelf)) {
+            if (userCan(Permission::BookshelfUpdate, $shelf)) {
                 $shelf->appendBook($copyBook);
             }
         }
@@ -110,7 +106,7 @@ class Cloner
         $inputData['tags'] = $this->entityTagsToInputArray($entity);
 
         // Add a cover to the data if existing on the original entity
-        if ($entity instanceof HasCoverImage) {
+        if ($entity instanceof CoverImageInterface) {
             $cover = $entity->cover()->first();
             if ($cover) {
                 $inputData['image'] = $this->imageToUploadedFile($cover);

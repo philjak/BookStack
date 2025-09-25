@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Ένας χρήστης με email :email υπάρχει ήδη αλλά με διαφορετικά διαπιστευτήρια.',
+    'auth_pre_register_theme_prevention' => 'User account could not be registered for the provided details',
     'email_already_confirmed' => 'Το email έχει ήδη επιβεβαιωθεί, Δοκιμάστε να συνδεθείτε.',
     'email_confirmation_invalid' => 'Αυτό το διακριτικό επιβεβαίωσης δεν είναι έγκυρο ή έχει ήδη χρησιμοποιηθεί, Παρακαλώ δοκιμάστε να εγγραφείτε ξανά.',
     'email_confirmation_expired' => 'Το διακριτικό επιβεβαίωσης έχει λήξει, έχει σταλεί ένα νέο email επιβεβαίωσης.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Το αίτημα από το εξωτερικό σύστημα ελέγχου ταυτότητας δεν αναγνωρίζεται από μια διαδικασία που ξεκίνησε από αυτή την εφαρμογή. Η πλοήγηση πίσω μετά από μια σύνδεση θα μπορούσε να προκαλέσει αυτό το ζήτημα.',
     'saml_fail_authed' => 'Η σύνδεση με τη χρήση :system απέτυχε, το σύστημα δεν παρείχε επιτυχή εξουσιοδότηση',
     'oidc_already_logged_in' => 'Ήδη συνδεδεμένος',
-    'oidc_user_not_registered' => 'Ο χρήστης :name δεν είναι εγγεγραμμένος και η αυτόματη εγγραφή είναι απενεργοποιημένη',
     'oidc_no_email_address' => 'Δεν ήταν δυνατή η εύρεση μιας διεύθυνσης ηλεκτρονικού ταχυδρομείου, για αυτόν τον χρήστη, στα δεδομένα που παρέχονται από το εξωτερικό σύστημα ελέγχου ταυτότητας',
     'oidc_fail_authed' => 'Η σύνδεση με τη χρήση :system απέτυχε, το σύστημα δεν παρείχε επιτυχή εξουσιοδότηση',
     'social_no_action_defined' => 'Καμία ενέργεια δεν ορίστηκε',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Δεν βρέθηκε κοινωνικός οδηγός',
     'social_driver_not_configured' => 'Οι κοινωνικές ρυθμίσεις του :socialAccount δεν έχουν ρυθμιστεί σωστά.',
     'invite_token_expired' => 'Αυτός ο σύνδεσμος πρόσκλησης έχει λήξει. Αντ\' αυτού μπορείτε να προσπαθήσετε να επαναφέρετε τον κωδικό πρόσβασής σας.',
+    'login_user_not_found' => 'A user for this action could not be found.',
 
     // System
     'path_not_writable' => 'Η διαδρομή αρχείου :filePath δεν μπόρεσε να μεταφορτωθεί. Βεβαιωθείτε ότι είναι εγγράψιμη στο διακομιστή.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Δεν μπορείτε να διαγράψετε τον μοναδικό διαχειριστή',
     'users_cannot_delete_guest' => 'Δεν μπορείτε να διαγράψετε τον επισκέπτη',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'Αυτός ο ρόλος δεν μπορεί να επεξεργαστεί',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Προέκυψε Ένα Σφάλμα',
     'app_down' => ':appName είναι προσωρινά μη διαθέσιμη',
     'back_soon' => 'Θα υπάρξει σύντομα υποστήριξη.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'You are lacking the required permissions to create books.',
+    'import_perms_chapters' => 'You are lacking the required permissions to create chapters.',
+    'import_perms_pages' => 'You are lacking the required permissions to create pages.',
+    'import_perms_images' => 'You are lacking the required permissions to create images.',
+    'import_perms_attachments' => 'You are lacking the required permission to create attachments.',
 
     // API errors
     'api_no_authorization_found' => 'Δεν βρέθηκε διακριτικό εξουσιοδότησης κατόπιν αιτήματος',

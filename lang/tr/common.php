@@ -20,7 +20,7 @@ return [
     'description' => 'Açıklama',
     'role' => 'Rol',
     'cover_image' => 'Kapak resmi',
-    'cover_image_description' => 'Bu görsel yaklaşık 440x250px boyutlarında olmalıdır.',
+    'cover_image_description' => 'This image should be approximately 440x250px although it will be flexibly scaled & cropped to fit the user interface in different scenarios as required, so actual dimensions for display will differ.',
 
     // Actions
     'actions' => 'İşlemler',
@@ -30,6 +30,8 @@ return [
     'create' => 'Oluştur',
     'update' => 'Güncelle',
     'edit' => 'Düzenle',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Sırala',
     'move' => 'Taşı',
     'copy' => 'Kopyala',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Gizlilik Politikası',
     'terms_of_service' => 'Hizmet Şartları',
+
+    // OpenSearch
+    'opensearch_description' => 'Search :appName',
 ];

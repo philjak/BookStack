@@ -2,9 +2,7 @@
 
 namespace BookStack\Uploads;
 
-use BookStack\Entities\Models\Book;
-use BookStack\Entities\Models\Bookshelf;
-use BookStack\Entities\Models\Page;
+use BookStack\Entities\Queries\EntityQueries;
 use BookStack\Exceptions\ImageUploadException;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -15,11 +13,12 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ImageService
 {
-    protected static array $supportedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    protected static array $supportedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'avif'];
 
     public function __construct(
         protected ImageStorage $storage,
         protected ImageResizer $resizer,
+        protected EntityQueries $queries,
     ) {
     }
 
@@ -32,11 +31,12 @@ class ImageService
         UploadedFile $uploadedFile,
         string $type,
         int $uploadedTo = 0,
-        int $resizeWidth = null,
-        int $resizeHeight = null,
-        bool $keepRatio = true
+        ?int $resizeWidth = null,
+        ?int $resizeHeight = null,
+        bool $keepRatio = true,
+        string $imageName = '',
     ): Image {
-        $imageName = $uploadedFile->getClientOriginalName();
+        $imageName = $imageName ?: $uploadedFile->getClientOriginalName();
         $imageData = file_get_contents($uploadedFile->getRealPath());
 
         if ($resizeWidth !== null || $resizeHeight !== null) {
@@ -135,15 +135,36 @@ class ImageService
     }
 
     /**
+     * Get the raw data content from an image.
+     *
+     * @throws Exception
+     * @return ?resource
+     */
+    public function getImageStream(Image $image): mixed
+    {
+        $disk = $this->storage->getDisk();
+
+        return $disk->stream($image->path);
+    }
+
+    /**
      * Destroy an image along with its revisions, thumbnails and remaining folders.
      *
      * @throws Exception
      */
     public function destroy(Image $image): void
     {
-        $disk = $this->storage->getDisk($image->type);
-        $disk->destroyAllMatchingNameFromPath($image->path);
+        $this->destroyFileAtPath($image->type, $image->path);
         $image->delete();
+    }
+
+    /**
+     * Destroy the underlying image file at the given path.
+     */
+    public function destroyFileAtPath(string $type, string $path): void
+    {
+        $disk = $this->storage->getDisk($type);
+        $disk->destroyAllMatchingNameFromPath($path);
     }
 
     /**
@@ -278,15 +299,15 @@ class ImageService
         }
 
         if ($imageType === 'gallery' || $imageType === 'drawio') {
-            return Page::visible()->where('id', '=', $image->uploaded_to)->exists();
+            return $this->queries->pages->visibleForList()->where('id', '=', $image->uploaded_to)->exists();
         }
 
         if ($imageType === 'cover_book') {
-            return Book::visible()->where('id', '=', $image->uploaded_to)->exists();
+            return $this->queries->books->visibleForList()->where('id', '=', $image->uploaded_to)->exists();
         }
 
         if ($imageType === 'cover_bookshelf') {
-            return Bookshelf::visible()->where('id', '=', $image->uploaded_to)->exists();
+            return $this->queries->shelves->visibleForList()->where('id', '=', $image->uploaded_to)->exists();
         }
 
         return false;

@@ -20,7 +20,7 @@ return [
     'description' => 'Kuvaus',
     'role' => 'Rooli',
     'cover_image' => 'Kansikuva',
-    'cover_image_description' => 'Kuvan tulee olla noin 440x250px.',
+    'cover_image_description' => 'Kuvan tulee olla noin 440x250 pikselin kokoinen. Kuvan koko ja rajaus voi vaihdella käyttötilanteesta riippuen.',
 
     // Actions
     'actions' => 'Toiminnot',
@@ -30,6 +30,8 @@ return [
     'create' => 'Luo',
     'update' => 'Päivitä',
     'edit' => 'Muokkaa',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Järjestä',
     'move' => 'Siirrä',
     'copy' => 'Kopioi',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Tietosuojaseloste',
     'terms_of_service' => 'Palvelun käyttöehdot',
+
+    // OpenSearch
+    'opensearch_description' => 'Search :appName',
 ];

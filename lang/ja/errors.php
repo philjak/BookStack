@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => ':emailを持つユーザは既に存在しますが、資格情報が異なります。',
+    'auth_pre_register_theme_prevention' => '指定された内容によるユーザーアカウントの登録はできません。',
     'email_already_confirmed' => 'Eメールは既に確認済みです。ログインしてください。',
     'email_confirmation_invalid' => 'この確認トークンは無効か、または既に使用済みです。登録を再試行してください。',
     'email_confirmation_expired' => '確認トークンは有効期限切れです。確認メールを再送しました。',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => '外部認証システムからの要求がアプリケーションによって開始されたプロセスによって認識されません。ログイン後に戻るとこの問題が発生する可能性があります。',
     'saml_fail_authed' => ':systemを利用したログインに失敗しました。システムは正常な認証を提供しませんでした。',
     'oidc_already_logged_in' => '既にログインしています',
-    'oidc_user_not_registered' => 'ユーザー :name は登録されておらず、自動登録は無効になっています',
     'oidc_no_email_address' => '外部認証システムから提供されたデータに、このユーザーのメールアドレスが見つかりませんでした',
     'oidc_fail_authed' => ':systemを利用したログインに失敗しました。システムは正常な認証を提供しませんでした。',
     'social_no_action_defined' => 'アクションが定義されていません',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Social driverが見つかりません',
     'social_driver_not_configured' => 'あなたの:socialAccount設定は正しく構成されていません。',
     'invite_token_expired' => 'この招待リンクの有効期限が切れています。 代わりにアカウントのパスワードをリセットしてみてください。',
+    'login_user_not_found' => 'このアクションのユーザーが見つかりません。',
 
     // System
     'path_not_writable' => 'ファイルパス :filePath へアップロードできませんでした。サーバ上での書き込みが許可されているか確認してください。',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => '唯一の管理者を削除することはできません',
     'users_cannot_delete_guest' => 'ゲストユーザを削除することはできません',
+    'users_could_not_send_invite' => '招待メールの送信に失敗したため、ユーザーを作成できませんでした。',
 
     // Roles
     'role_cannot_be_edited' => 'この役割は編集できません',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'エラーが発生しました',
     'app_down' => ':appNameは現在停止しています',
     'back_soon' => '回復までしばらくお待ちください。',
+
+    // Import
+    'import_zip_cant_read' => 'ZIPファイルを読み込めません。',
+    'import_zip_cant_decode_data' => 'ZIPファイル内に data.json が見つからないかデコードできませんでした。',
+    'import_zip_no_data' => 'ZIPファイルのデータにブック、チャプター、またはページコンテンツがありません。',
+    'import_validation_failed' => 'エラーによりインポートZIPの検証に失敗しました:',
+    'import_zip_failed_notification' => 'ZIP ファイルのインポートに失敗しました。',
+    'import_perms_books' => 'ブックを作成するために必要な権限がありません。',
+    'import_perms_chapters' => 'チャプタを作成するために必要な権限がありません。',
+    'import_perms_pages' => 'ページを作成するために必要な権限がありません。',
+    'import_perms_images' => '画像を作成するために必要な権限がありません。',
+    'import_perms_attachments' => '添付ファイルを作成するために必要な権限がありません。',
 
     // API errors
     'api_no_authorization_found' => 'リクエストに認証トークンが見つかりません',
