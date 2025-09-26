@@ -8,7 +8,7 @@ return new class extends Migration
     /**
      * Mapping of old polymorphic types to new simpler values.
      */
-    protected $changeMap = [
+    protected array $changeMap = [
         'BookStack\\Bookshelf' => 'bookshelf',
         'BookStack\\Book'      => 'book',
         'BookStack\\Chapter'   => 'chapter',
@@ -18,7 +18,7 @@ return new class extends Migration
     /**
      * Mapping of tables and columns that contain polymorphic types.
      */
-    protected $columnsByTable = [
+    protected array $columnsByTable = [
         'activities'         => 'entity_type',
         'comments'           => 'entity_type',
         'deletions'          => 'deletable_type',
@@ -32,10 +32,8 @@ return new class extends Migration
 
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         foreach ($this->columnsByTable as $table => $column) {
             foreach ($this->changeMap as $oldVal => $newVal) {
@@ -48,10 +46,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         foreach ($this->columnsByTable as $table => $column) {
             foreach ($this->changeMap as $oldVal => $newVal) {

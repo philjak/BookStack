@@ -27,7 +27,7 @@ return [
     'notifications_save' => 'Einstellungen speichern',
     'notifications_update_success' => 'Benachrichtigungseinstellungen wurden aktualisiert!',
     'notifications_watched' => 'Beobachtete und ignorierte Elemente',
-    'notifications_watched_desc' => ' Nachfolgend finden Sie die Elemente, für die benutzerdefinierten Überwachungspräferenzen gelten. Um Ihre Einstellungen für diese Elemente zu aktualisieren, sehen Sie sich das Element an und suchen dann die Überwachungsoptionen in der Seitenleiste.',
+    'notifications_watched_desc' => 'Nachfolgend finden Sie die Elemente, für die benutzerdefinierten Überwachungspräferenzen gelten. Um Ihre Einstellungen für diese Elemente zu aktualisieren, sehen Sie sich das Element an und suchen dann die Überwachungsoptionen in der Seitenleiste.',
 
     'auth' => 'Zugang & Sicherheit',
     'auth_change_password' => 'Passwort ändern',
@@ -35,12 +35,12 @@ return [
     'auth_change_password_success' => 'Das Passwort wurde aktualisiert!',
 
     'profile' => 'Profildetails',
-    'profile_desc' => 'Verwalten Sie die Details Ihres Kontos welche Sie gegenüber anderen Benutzern repräsentiert, zusätzlich zu den Details die für die Kommunikation und Personalisierung des Systems genutzt werden.',
-    'profile_view_public' => 'Öffentliches Profil zeigen',
-    'profile_name_desc' => 'Konfigurieren Sie Ihren Anzeigenamen, der durch die Aktivität, die Sie ausführen, für andere Benutzer und Ihre eigenen Inhalte im System sichtbar ist.',
+    'profile_desc' => 'Verwalten Sie die Details Ihres Kontos, welches Sie gegenüber anderen Benutzern repräsentiert, zusätzlich zu den Details, die für die Kommunikation und Personalisierung des Systems genutzt werden.',
+    'profile_view_public' => 'Öffentliches Profil anzeigen',
+    'profile_name_desc' => 'Konfigurieren Sie Ihren Anzeigenamen, der durch die Aktivität, die Sie ausführen, und die Ihnen gehörenden Inhalte für andere Benutzer sichtbar ist.',
     'profile_email_desc' => 'Diese E-Mail wird für Benachrichtigungen und, je nach aktiver Systemauthentifizierung, den Systemzugriff verwendet.',
     'profile_email_no_permission' => 'Leider haben Sie nicht die Berechtigung, Ihre E-Mail-Adresse zu ändern. Wenn Sie diese ändern möchten, wenden Sie sich bitte an Ihren Administrator.',
-    'profile_avatar_desc' => 'Wählen Sie ein Bild, dass anderen im System angezeigt wird, um Sie zu repräsentieren. Idealerweise sollte dieses Bild quadratisch und etwa 256px breit und hoch sein.',
+    'profile_avatar_desc' => 'Wählen Sie ein Bild aus, das anderen im System angezeigt wird, um Sie zu repräsentieren. Idealerweise sollte dieses Bild quadratisch und etwa 256px breit und hoch sein.',
     'profile_admin_options' => 'Administratoroptionen',
     'profile_admin_options_desc' => 'Weitere Administrator-Optionen wie zum Beispiel die Verwaltung von Rollenzuweisungen für Ihr Benutzerkonto finden Sie im Bereich "Einstellungen > Benutzer" der Anwendung.',
 

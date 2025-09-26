@@ -4,9 +4,9 @@ namespace BookStack\Users\Controllers;
 
 use BookStack\Exceptions\UserUpdateException;
 use BookStack\Http\ApiController;
+use BookStack\Permissions\Permission;
 use BookStack\Users\Models\User;
 use BookStack\Users\UserRepo;
-use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\Password;
@@ -26,38 +26,39 @@ class UserApiController extends ApiController
 
         // Checks for all endpoints in this controller
         $this->middleware(function ($request, $next) {
-            $this->checkPermission('users-manage');
+            $this->checkPermission(Permission::UsersManage);
             $this->preventAccessInDemoMode();
 
             return $next($request);
         });
     }
 
-    protected function rules(int $userId = null): array
+    protected function rules(?int $userId = null): array
     {
         return [
             'create' => [
-                'name'  => ['required', 'min:2', 'max:100'],
+                'name'  => ['required', 'string', 'min:1', 'max:100'],
                 'email' => [
-                    'required', 'min:2', 'email', new Unique('users', 'email'),
+                    'required', 'string', 'email', 'min:2', new Unique('users', 'email'),
                 ],
                 'external_auth_id' => ['string'],
                 'language'         => ['string', 'max:15', 'alpha_dash'],
-                'password'         => [Password::default()],
+                'password'         => ['string', Password::default()],
                 'roles'            => ['array'],
                 'roles.*'          => ['integer'],
                 'send_invite'      => ['boolean'],
             ],
             'update' => [
-                'name'  => ['min:2', 'max:100'],
+                'name'  => ['string', 'min:1', 'max:100'],
                 'email' => [
-                    'min:2',
+                    'string',
                     'email',
-                    (new Unique('users', 'email'))->ignore($userId ?? null),
+                    'min:2',
+                    (new Unique('users', 'email'))->ignore($userId),
                 ],
                 'external_auth_id' => ['string'],
                 'language'         => ['string', 'max:15', 'alpha_dash'],
-                'password'         => [Password::default()],
+                'password'         => ['string', Password::default()],
                 'roles'            => ['array'],
                 'roles.*'          => ['integer'],
             ],
@@ -80,7 +81,7 @@ class UserApiController extends ApiController
         return $this->apiListingResponse($users, [
             'id', 'name', 'slug', 'email', 'external_auth_id',
             'created_at', 'updated_at', 'last_activity_at',
-        ], [Closure::fromCallable([$this, 'listFormatter'])]);
+        ], [$this->listFormatter(...)]);
     }
 
     /**
@@ -124,7 +125,7 @@ class UserApiController extends ApiController
     {
         $data = $this->validate($request, $this->rules($id)['update']);
         $user = $this->userRepo->getById($id);
-        $this->userRepo->update($user, $data, userCan('users-manage'));
+        $this->userRepo->update($user, $data, userCan(Permission::UsersManage));
         $this->singleFormatter($user);
 
         return response()->json($user);

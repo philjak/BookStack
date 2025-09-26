@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
          bootstrap="vendor/autoload.php"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
          colors="true">
-  <coverage>
-    <include>
-      <directory suffix=".php">app/</directory>
-    </include>
-  </coverage>
   <testsuites>
     <testsuite name="Application Test Suite">
       <directory>./tests/</directory>
@@ -20,7 +16,10 @@
     <server name="APP_THEME" value="none"/>
     <server name="APP_AUTO_LANG_PUBLIC" value="true"/>
     <server name="APP_URL" value="http://bookstack.dev"/>
+    <server name="APP_TIMEZONE" value="UTC"/>
+    <server name="APP_DISPLAY_TIMEZONE" value="UTC"/>
     <server name="ALLOWED_IFRAME_HOSTS" value=""/>
+    <server name="ALLOWED_IFRAME_SOURCES" value="https://*.draw.io https://*.youtube.com https://*.youtube-nocookie.com https://*.vimeo.com"/>
     <server name="ALLOWED_SSR_HOSTS" value="*"/>
     <server name="CACHE_DRIVER" value="array"/>
     <server name="SESSION_DRIVER" value="array"/>
@@ -28,6 +27,7 @@
     <server name="DB_CONNECTION" value="mysql_testing"/>
     <server name="BCRYPT_ROUNDS" value="4"/>
     <server name="MAIL_DRIVER" value="array"/>
+    <server name="MAIL_PORT" value="587"/>
     <server name="MAIL_VERIFY_SSL" value="true"/>
     <server name="LOG_CHANNEL" value="single"/>
     <server name="AUTH_METHOD" value="standard"/>
@@ -59,7 +59,13 @@
     <server name="LOG_FAILED_LOGIN_MESSAGE" value=""/>
     <server name="LOG_FAILED_LOGIN_CHANNEL" value="testing"/>
     <server name="WKHTMLTOPDF" value="false"/>
+    <server name="EXPORT_PDF_COMMAND" value="false"/>
     <server name="APP_DEFAULT_DARK_MODE" value="false"/>
     <server name="IP_ADDRESS_PRECISION" value="4"/>
   </php>
+  <source>
+    <include>
+      <directory suffix=".php">app/</directory>
+    </include>
+  </source>
 </phpunit>

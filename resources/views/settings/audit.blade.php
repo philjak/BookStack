@@ -26,11 +26,11 @@
                             class="input-base text-left">{{ $filters['event'] ?: trans('settings.audit_event_filter_no_filter') }}</button>
                     <ul refs="dropdown@menu" class="dropdown-menu">
                         <li @if($filters['event'] === '') class="active" @endif><a
-                                    href="{{ sortUrl('/settings/audit', array_filter(request()->except('page')), ['event' => '']) }}"
+                                    href="{{ $filterSortUrl->withOverrideData(['event' => ''])->build() }}"
                                     class="text-item">{{ trans('settings.audit_event_filter_no_filter') }}</a></li>
                         @foreach($activityTypes as $type)
                             <li @if($type === $filters['event']) class="active" @endif><a
-                                        href="{{ sortUrl('/settings/audit', array_filter(request()->except('page')), ['event' => $type]) }}"
+                                        href="{{ $filterSortUrl->withOverrideData(['event' => $type])->build() }}"
                                         class="text-item">{{ $type }}</a></li>
                         @endforeach
                     </ul>
@@ -94,8 +94,8 @@
                                     class="mr-xs hide-over-m">{{ trans('settings.audit_table_event') }}
                                 :</strong> {{ $activity->type }}</div>
                         <div class="flex-3 px-m py-xxs min-width-l">
-                            @if($activity->entity)
-                                @include('entities.icon-link', ['entity' => $activity->entity])
+                            @if($activity->loggable instanceof \BookStack\Entities\Models\Entity)
+                                @include('entities.icon-link', ['entity' => $activity->loggable])
                             @elseif($activity->detail && $activity->isForEntity())
                                 <div>
                                     {{ trans('settings.audit_deleted_item') }} <br>

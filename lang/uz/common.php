@@ -20,7 +20,7 @@ return [
     'description' => 'Tavsif',
     'role' => 'Rol',
     'cover_image' => 'Muqova rasmi',
-    'cover_image_description' => 'Bu rasm taxminan 440x250px boʻlishi kerak.',
+    'cover_image_description' => 'This image should be approximately 440x250px although it will be flexibly scaled & cropped to fit the user interface in different scenarios as required, so actual dimensions for display will differ.',
 
     // Actions
     'actions' => 'Harakatlar',
@@ -30,6 +30,8 @@ return [
     'create' => 'Yaratish',
     'update' => 'Yangilash',
     'edit' => 'Tahrirlash',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Saralash',
     'move' => 'Ko‘chirish',
     'copy' => 'Nusxalash',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Maxfiylik siyosati',
     'terms_of_service' => 'Xizmat ko‘rsatish shartlari',
+
+    // OpenSearch
+    'opensearch_description' => 'Search :appName',
 ];

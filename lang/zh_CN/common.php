@@ -20,7 +20,7 @@ return [
     'description' => '概要',
     'role' => '角色',
     'cover_image' => '封面图片',
-    'cover_image_description' => '此图像大小应约为 440x250 像素。',
+    'cover_image_description' => '此图像的大小应约为 440 x 250 像素，但会根据需要灵活缩放和裁剪以适应不同场景下的用户界面，因此实际显示尺寸会有所不同。',
 
     // Actions
     'actions' => '操作',
@@ -30,6 +30,8 @@ return [
     'create' => '创建',
     'update' => '更新',
     'edit' => '编辑',
+    'archive' => '存档',
+    'unarchive' => '取消存档',
     'sort' => '排序',
     'move' => '移动',
     'copy' => '复制',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => '隐私政策',
     'terms_of_service' => '服务条款',
+
+    // OpenSearch
+    'opensearch_description' => '搜索 :appName',
 ];

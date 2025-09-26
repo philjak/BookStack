@@ -20,7 +20,7 @@ return [
     'description' => 'Opis',
     'role' => 'Uloga',
     'cover_image' => 'Naslovna slika',
-    'cover_image_description' => 'Ova slika treba biti približno 440x250px.',
+    'cover_image_description' => 'This image should be approximately 440x250px although it will be flexibly scaled & cropped to fit the user interface in different scenarios as required, so actual dimensions for display will differ.',
 
     // Actions
     'actions' => 'Akcije',
@@ -30,6 +30,8 @@ return [
     'create' => 'Kreiraj',
     'update' => 'Ažuriraj',
     'edit' => 'Uredi',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Sortiraj',
     'move' => 'Pomjeri',
     'copy' => 'Kopiraj',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Pravila o privatnosti',
     'terms_of_service' => 'Uslovi korištenja',
+
+    // OpenSearch
+    'opensearch_description' => 'Search :appName',
 ];

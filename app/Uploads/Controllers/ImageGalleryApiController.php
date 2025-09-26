@@ -2,8 +2,9 @@
 
 namespace BookStack\Uploads\Controllers;
 
-use BookStack\Entities\Models\Page;
+use BookStack\Entities\Queries\PageQueries;
 use BookStack\Http\ApiController;
+use BookStack\Permissions\Permission;
 use BookStack\Uploads\Image;
 use BookStack\Uploads\ImageRepo;
 use BookStack\Uploads\ImageResizer;
@@ -18,6 +19,7 @@ class ImageGalleryApiController extends ApiController
     public function __construct(
         protected ImageRepo $imageRepo,
         protected ImageResizer $imageResizer,
+        protected PageQueries $pageQueries,
     ) {
     }
 
@@ -64,11 +66,11 @@ class ImageGalleryApiController extends ApiController
      */
     public function create(Request $request)
     {
-        $this->checkPermission('image-create-all');
+        $this->checkPermission(Permission::ImageCreateAll);
         $data = $this->validate($request, $this->rules()['create']);
-        Page::visible()->findOrFail($data['uploaded_to']);
+        $page = $this->pageQueries->findVisibleByIdOrFail($data['uploaded_to']);
 
-        $image = $this->imageRepo->saveNew($data['image'], $data['type'], $data['uploaded_to']);
+        $image = $this->imageRepo->saveNew($data['image'], $data['type'], $page->id);
 
         if (isset($data['name'])) {
             $image->refresh();
@@ -101,8 +103,8 @@ class ImageGalleryApiController extends ApiController
     {
         $data = $this->validate($request, $this->rules()['update']);
         $image = $this->imageRepo->getById($id);
-        $this->checkOwnablePermission('page-view', $image->getPage());
-        $this->checkOwnablePermission('image-update', $image);
+        $this->checkOwnablePermission(Permission::PageView, $image->getPage());
+        $this->checkOwnablePermission(Permission::ImageUpdate, $image);
 
         $this->imageRepo->updateImageDetails($image, $data);
         if (isset($data['image'])) {
@@ -120,8 +122,8 @@ class ImageGalleryApiController extends ApiController
     public function delete(string $id)
     {
         $image = $this->imageRepo->getById($id);
-        $this->checkOwnablePermission('page-view', $image->getPage());
-        $this->checkOwnablePermission('image-delete', $image);
+        $this->checkOwnablePermission(Permission::PageView, $image->getPage());
+        $this->checkOwnablePermission(Permission::ImageDelete, $image);
         $this->imageRepo->destroyImage($image);
 
         return response('', 204);
@@ -145,10 +147,10 @@ class ImageGalleryApiController extends ApiController
             $data['content']['html'] = "<div drawio-diagram=\"{$image->id}\"><img src=\"{$escapedUrl}\"></div>";
             $data['content']['markdown'] = $data['content']['html'];
         } else {
-            $escapedDisplayThumb = htmlentities($image->thumbs['display']);
+            $escapedDisplayThumb = htmlentities($image->getAttribute('thumbs')['display']);
             $data['content']['html'] = "<a href=\"{$escapedUrl}\" target=\"_blank\"><img src=\"{$escapedDisplayThumb}\" alt=\"{$escapedName}\"></a>";
             $mdEscapedName = str_replace(']', '', str_replace('[', '', $image->name));
-            $mdEscapedThumb = str_replace(']', '', str_replace('[', '', $image->thumbs['display']));
+            $mdEscapedThumb = str_replace(']', '', str_replace('[', '', $image->getAttribute('thumbs')['display']));
             $data['content']['markdown'] = "![{$mdEscapedName}]({$mdEscapedThumb})";
         }
 

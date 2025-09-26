@@ -6,7 +6,7 @@ return [
 
     // Buttons
     'cancel' => 'Ακύρωση',
-    'close' => 'Close',
+    'close' => 'Κλείσιμο',
     'confirm' => 'Οκ',
     'back' => 'Πίσω',
     'save' => 'Αποθήκευση',
@@ -20,7 +20,7 @@ return [
     'description' => 'Περιγραφή',
     'role' => 'Ρόλος',
     'cover_image' => 'Εικόνα εξώφυλλου',
-    'cover_image_description' => 'Αυτή η εικόνα πρέπει να είναι περίπου 440x250px.',
+    'cover_image_description' => 'Αυτή η εικόνα θα πρέπει να είναι περίπου 440x250px, αν και θα κλιμακωθεί και θα περικοπεί με ευελιξία ώστε να ταιριάζει στη διεπαφή χρήστη σε διαφορετικά σενάρια όπως απαιτείται, επομένως οι πραγματικές διαστάσεις για την εμφάνιση θα διαφέρουν.',
 
     // Actions
     'actions' => 'Ενέργειες',
@@ -30,6 +30,8 @@ return [
     'create' => 'Δημιουργία',
     'update' => 'Ενημέρωση',
     'edit' => 'Επεξεργασία',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Ταξινόμηση',
     'move' => 'Μετακίνηση',
     'copy' => 'Αντιγραφή',
@@ -42,7 +44,7 @@ return [
     'remove' => 'Αφαίρεση',
     'add' => 'Προσθήκη',
     'configure' => 'Διαμόρφωση',
-    'manage' => 'Manage',
+    'manage' => 'Διαχείριση',
     'fullscreen' => 'Πλήρης οθόνη',
     'favourite' => 'Αγαπημένα',
     'unfavourite' => 'Αφαίρεση από Αγαπημένα',
@@ -52,7 +54,7 @@ return [
     'filter_clear' => 'Διαγραφή φίλτρου',
     'download' => 'Λήψη',
     'open_in_tab' => 'Άνοιγμα σε Καρτέλα',
-    'open' => 'Open',
+    'open' => 'Άνοιγμα',
 
     // Sort Options
     'sort_options' => 'Επιλογές ταξινόμησης',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Πολιτική Απορρήτου',
     'terms_of_service' => 'Όροι χρήσης',
+
+    // OpenSearch
+    'opensearch_description' => 'Αναζήτηση :appName',
 ];

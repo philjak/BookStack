@@ -2,6 +2,7 @@
 /node_modules
 /.vscode
 /composer
+/coverage
 Homestead.yaml
 .env
 .idea
@@ -31,3 +32,4 @@ webpack-stats.json
 phpstan.neon
 esbuild-meta.json
 .phpactor.json
+/*.zip

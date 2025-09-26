@@ -3,8 +3,10 @@
 namespace BookStack\Entities\Controllers;
 
 use BookStack\Entities\Models\Bookshelf;
+use BookStack\Entities\Queries\BookshelfQueries;
 use BookStack\Entities\Repos\BookshelfRepo;
 use BookStack\Http\ApiController;
+use BookStack\Permissions\Permission;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
@@ -13,7 +15,8 @@ use Illuminate\Validation\ValidationException;
 class BookshelfApiController extends ApiController
 {
     public function __construct(
-        protected BookshelfRepo $bookshelfRepo
+        protected BookshelfRepo $bookshelfRepo,
+        protected BookshelfQueries $queries,
     ) {
     }
 
@@ -22,7 +25,10 @@ class BookshelfApiController extends ApiController
      */
     public function list()
     {
-        $shelves = Bookshelf::visible();
+        $shelves = $this->queries
+            ->visibleForList()
+            ->with(['cover:id,name,url'])
+            ->addSelect(['created_by', 'updated_by']);
 
         return $this->apiListingResponse($shelves, [
             'id', 'name', 'slug', 'description', 'created_at', 'updated_at', 'created_by', 'updated_by', 'owned_by',
@@ -40,7 +46,7 @@ class BookshelfApiController extends ApiController
      */
     public function create(Request $request)
     {
-        $this->checkPermission('bookshelf-create-all');
+        $this->checkPermission(Permission::BookshelfCreateAll);
         $requestData = $this->validate($request, $this->rules()['create']);
 
         $bookIds = $request->get('books', []);
@@ -54,7 +60,7 @@ class BookshelfApiController extends ApiController
      */
     public function read(string $id)
     {
-        $shelf = Bookshelf::visible()->findOrFail($id);
+        $shelf = $this->queries->findVisibleByIdOrFail(intval($id));
         $shelf = $this->forJsonDisplay($shelf);
         $shelf->load([
             'createdBy', 'updatedBy', 'ownedBy',
@@ -78,8 +84,8 @@ class BookshelfApiController extends ApiController
      */
     public function update(Request $request, string $id)
     {
-        $shelf = Bookshelf::visible()->findOrFail($id);
-        $this->checkOwnablePermission('bookshelf-update', $shelf);
+        $shelf = $this->queries->findVisibleByIdOrFail(intval($id));
+        $this->checkOwnablePermission(Permission::BookshelfUpdate, $shelf);
 
         $requestData = $this->validate($request, $this->rules()['update']);
         $bookIds = $request->get('books', null);
@@ -97,8 +103,8 @@ class BookshelfApiController extends ApiController
      */
     public function delete(string $id)
     {
-        $shelf = Bookshelf::visible()->findOrFail($id);
-        $this->checkOwnablePermission('bookshelf-delete', $shelf);
+        $shelf = $this->queries->findVisibleByIdOrFail(intval($id));
+        $this->checkOwnablePermission(Permission::BookshelfDelete, $shelf);
 
         $this->bookshelfRepo->destroy($shelf);
 

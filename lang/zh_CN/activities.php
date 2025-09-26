@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'Webhook 已删除',
     'webhook_delete_notification' => 'Webhook 删除成功',
 
+    // Imports
+    'import_create' => '创建导入',
+    'import_create_notification' => '导入上传成功',
+    'import_run' => '更新导入',
+    'import_run_notification' => '内容成功导入',
+    'import_delete' => '删除导入',
+    'import_delete_notification' => '导入删除成功',
+
     // Users
     'user_create' => '用户已创建',
     'user_create_notification' => '用户创建成功',
@@ -93,9 +101,9 @@ return [
     'user_delete_notification' => '成功移除用户',
 
     // API Tokens
-    'api_token_create' => 'API 令牌已创建',
+    'api_token_create' => '已创建 API 令牌',
     'api_token_create_notification' => '成功创建 API 令牌',
-    'api_token_update' => 'API 令牌已更新',
+    'api_token_update' => '已更新 API 令牌',
     'api_token_update_notification' => 'API 令牌更新成功',
     'api_token_delete' => '已删除 API 令牌',
     'api_token_delete_notification' => 'API 令牌删除成功',
@@ -118,6 +126,14 @@ return [
     'comment_create'              => '评论已添加',
     'comment_update'              => '评论已更新',
     'comment_delete'              => '评论已删除',
+
+    // Sort Rules
+    'sort_rule_create' => '创建排序规则',
+    'sort_rule_create_notification' => '排序规则创建成功',
+    'sort_rule_update' => '更新排序规则',
+    'sort_rule_update_notification' => '排序规则更新成功',
+    'sort_rule_delete' => '删除排序规则',
+    'sort_rule_delete_notification' => '排序规则删除成功',
 
     // Other
     'permissions_update'          => '权限已更新',

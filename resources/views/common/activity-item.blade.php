@@ -16,15 +16,15 @@
 
     {{ $activity->getText() }}
 
-    @if($activity->entity && is_null($activity->entity->deleted_at))
-        <a href="{{ $activity->entity->getUrl() }}">{{ $activity->entity->name }}</a>
+    @if($activity->loggable && is_null($activity->loggable->deleted_at))
+        <a href="{{ $activity->loggable->getUrl() }}">{{ $activity->loggable->name }}</a>
     @endif
 
-    @if($activity->entity && !is_null($activity->entity->deleted_at))
-        "{{ $activity->entity->name }}"
+    @if($activity->loggable && !is_null($activity->loggable->deleted_at))
+        "{{ $activity->loggable->name }}"
     @endif
 
     <br>
 
-    <span class="text-muted"><small>@icon('time'){{ $activity->created_at->diffForHumans() }}</small></span>
+    <span class="text-muted" title="{{ $dates->absolute($activity->created_at) }}"><small>@icon('time'){{ $dates->relative($activity->created_at) }}</small></span>
 </div>

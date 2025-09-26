@@ -10,9 +10,11 @@ const isProd = process.argv[2] === 'production';
 
 // Gather our input files
 const entryPoints = {
-    app: path.join(__dirname, '../../resources/js/app.js'),
+    app: path.join(__dirname, '../../resources/js/app.ts'),
     code: path.join(__dirname, '../../resources/js/code/index.mjs'),
     'legacy-modes': path.join(__dirname, '../../resources/js/code/legacy-modes.mjs'),
+    markdown: path.join(__dirname, '../../resources/js/markdown/index.mts'),
+    wysiwyg: path.join(__dirname, '../../resources/js/wysiwyg/index.ts'),
 };
 
 // Locate our output directory
@@ -30,6 +32,19 @@ esbuild.build({
     format: 'esm',
     minify: isProd,
     logLevel: 'info',
+    loader: {
+        '.svg': 'text',
+    },
+    absWorkingDir: path.join(__dirname, '../..'),
+    alias: {
+        '@icons': './resources/icons',
+        lexical: './resources/js/wysiwyg/lexical/core',
+        '@lexical': './resources/js/wysiwyg/lexical',
+    },
+    banner: {
+        js: '// See the "/licenses" URI for full package license details',
+        css: '/* See the "/licenses" URI for full package license details */',
+    },
 }).then(result => {
     fs.writeFileSync('esbuild-meta.json', JSON.stringify(result.metafile));
 }).catch(() => process.exit(1));

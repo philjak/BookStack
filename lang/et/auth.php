@@ -91,7 +91,7 @@ return [
     'mfa_option_totp_title' => 'Mobiilirakendus',
     'mfa_option_totp_desc' => 'Mitmeastmelise autentimise kasutamiseks on sul vaja TOTP-toega mobiilirakendust, nagu Google Authenticator, Authy või Microsoft Authenticator.',
     'mfa_option_backup_codes_title' => 'Varukoodid',
-    'mfa_option_backup_codes_desc' => 'Hoiusta kindlas kohas komplekt ühekordseid varukoode, millega saad oma isikut tuvastada.',
+    'mfa_option_backup_codes_desc' => 'Genereerib komplekti ühekordseid tagavarakoode, mille abil saad sisselogimisel oma isikut tuvastada. Hoia neid kindlas ja turvalises kohas.',
     'mfa_gen_confirm_and_enable' => 'Kinnita ja lülita sisse',
     'mfa_gen_backup_codes_title' => 'Varukoodide seadistamine',
     'mfa_gen_backup_codes_desc' => 'Hoiusta allolevad koodid turvalises kohas. Saad neid kasutada sisselogimisel sekundaarse autentimismeetodina.',

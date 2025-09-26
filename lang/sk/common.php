@@ -20,7 +20,7 @@ return [
     'description' => 'Popis',
     'role' => 'Rola',
     'cover_image' => 'Obal knihy',
-    'cover_image_description' => 'Tento obrázok by mal byť približne 300 x 170 pixelov.',
+    'cover_image_description' => 'This image should be approximately 440x250px although it will be flexibly scaled & cropped to fit the user interface in different scenarios as required, so actual dimensions for display will differ.',
 
     // Actions
     'actions' => 'Akcie',
@@ -30,6 +30,8 @@ return [
     'create' => 'Vytvoriť',
     'update' => 'Aktualizovať',
     'edit' => 'Editovať',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Zoradiť',
     'move' => 'Presunúť',
     'copy' => 'Kopírovať',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Zásady ochrany osobných údajov',
     'terms_of_service' => 'Podmienky používania',
+
+    // OpenSearch
+    'opensearch_description' => 'Search :appName',
 ];

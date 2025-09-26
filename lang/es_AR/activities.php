@@ -10,7 +10,7 @@ return [
     'page_create_notification'    => 'Página creada correctamente',
     'page_update'                 => 'página actualizada',
     'page_update_notification'    => 'Página actualizada correctamente',
-    'page_delete'                 => 'página borrada',
+    'page_delete'                 => 'borró la página',
     'page_delete_notification'    => 'Página eliminada correctamente',
     'page_restore'                => 'página restaurada',
     'page_restore_notification'   => 'Página restaurada correctamente',
@@ -59,7 +59,7 @@ return [
     'favourite_remove_notification' => '".name" se eliminó de sus favoritos',
 
     // Watching
-    'watch_update_level_notification' => 'Preferencias de suscripciones actualizadas correctamente',
+    'watch_update_level_notification' => 'Preferencias de visualización actualizadas con éxito',
 
     // Auth
     'auth_login' => 'sesión iniciada',
@@ -84,11 +84,19 @@ return [
     'webhook_delete' => 'webhook eliminado',
     'webhook_delete_notification' => 'Webhook eliminado correctamente',
 
+    // Imports
+    'import_create' => 'importación creada',
+    'import_create_notification' => 'Importación cargada correctamente',
+    'import_run' => 'importación actualizada',
+    'import_run_notification' => 'Contenido importado correctamente',
+    'import_delete' => 'importación borrada',
+    'import_delete_notification' => 'Importación borrada correctamente',
+
     // Users
     'user_create' => 'usuario creado',
     'user_create_notification' => 'Usuario creado correctamente',
     'user_update' => 'usuario actualizado',
-    'user_update_notification' => 'Usuario actualizado correctamente',
+    'user_update_notification' => 'Usuario actualizado con éxito',
     'user_delete' => 'usuario eliminado',
     'user_delete_notification' => 'El usuario fue eliminado correctamente',
 
@@ -97,7 +105,7 @@ return [
     'api_token_create_notification' => 'Token de API creado correctamente',
     'api_token_update' => 'token de API actualizado',
     'api_token_update_notification' => 'Token de API actualizado correctamente',
-    'api_token_delete' => 'token de API eliminado',
+    'api_token_delete' => 'API token eliminado',
     'api_token_delete_notification' => 'Token de API eliminado correctamente',
 
     // Roles
@@ -115,9 +123,17 @@ return [
 
     // Comments
     'commented_on'                => 'comentado',
-    'comment_create'              => 'comentario añadido',
+    'comment_create'              => 'comentario agregado',
     'comment_update'              => 'comentario actualizado',
-    'comment_delete'              => 'comentario borrado',
+    'comment_delete'              => 'comentario eliminado',
+
+    // Sort Rules
+    'sort_rule_create' => 'regla de ordenación creada',
+    'sort_rule_create_notification' => 'Regla de ordenación creada correctamente',
+    'sort_rule_update' => 'regla de ordenación actualizada',
+    'sort_rule_update_notification' => 'Regla de ordenación actualizada correctamente',
+    'sort_rule_delete' => 'regla de ordenación eliminada',
+    'sort_rule_delete_notification' => 'Regla de ordenación eliminada correctamente',
 
     // Other
     'permissions_update'          => 'permisos actualizados',

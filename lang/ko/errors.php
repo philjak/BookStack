@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => '이메일 :email 이 이미 존재하지만 다른 자격 증명을 가진 사용자입니다.',
+    'auth_pre_register_theme_prevention' => '제공된 세부 정보로 사용자 계정을 등록할 수 없습니다',
     'email_already_confirmed' => '이메일이 이미 확인되었으니 로그인해 보세요.',
     'email_confirmation_invalid' => '이 확인 토큰이 유효하지 않거나 이미 사용되었습니다. 다시 등록해 주세요.',
     'email_confirmation_expired' => '확인 토큰이 만료되었습니다. 새 확인 이메일이 전송되었습니다.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => '이 애플리케이션에서 시작한 프로세스에서 외부 인증 시스템의 요청을 인식하지 못합니다. 로그인 후 다시 이동하면 이 문제가 발생할 수 있습니다.',
     'saml_fail_authed' => ':system 을 사용하여 로그인, 시스템이 성공적인 인증을 제공하지 않음',
     'oidc_already_logged_in' => '이미 로그인했습니다.',
-    'oidc_user_not_registered' => '사용자 :name 이 등록되지 않았으며 자동 등록이 비활성화되었습니다.',
     'oidc_no_email_address' => '외부 인증 시스템에서 제공한 데이터에서 이 사용자의 이메일 주소를 찾을 수 없습니다.',
     'oidc_fail_authed' => ':system 을 사용하여 로그인, 시스템이 성공적인 인증을 제공하지 않음',
     'social_no_action_defined' => '정의된 동작 없음',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => '소셜 드라이버를 찾을 수 없습니다.',
     'social_driver_not_configured' => '소셜 계정 :socialAccount 가(이) 올바르게 구성되지 않았습니다.',
     'invite_token_expired' => '이 초대 링크가 만료되었습니다. 대신 계정 비밀번호 재설정을 시도해 보세요.',
+    'login_user_not_found' => '이 동작의 사용자를 찾을 수 없습니다.',
 
     // System
     'path_not_writable' => '파일 경로 :filePath 에 업로드할 수 없습니다. 서버에 저장이 가능한지 확인하세요.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Admin을 삭제할 수 없습니다.',
     'users_cannot_delete_guest' => 'Guest를 삭제할 수 없습니다.',
+    'users_could_not_send_invite' => '초대 이메일을 보내는 데 실패하여 사용자를 생성할 수 없습니다.',
 
     // Roles
     'role_cannot_be_edited' => '권한을 수정할 수 없습니다.',
@@ -92,7 +94,7 @@ return [
     'empty_comment' => '빈 댓글은 등록할 수 없습니다.',
 
     // Error pages
-    '404_page_not_found' => '404 Not Found',
+    '404_page_not_found' => '페이지를 찾을 수 없습니다.',
     'sorry_page_not_found' => '문서를 못 찾았습니다.',
     'sorry_page_not_found_permission_warning' => '문서를 볼 권한이 없습니다.',
     'image_not_found' => '이미지를 찾을 수 없습니다',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => '문제가 생겼습니다.',
     'app_down' => ':appName에 문제가 생겼습니다.',
     'back_soon' => '곧 돌아갑니다.',
+
+    // Import
+    'import_zip_cant_read' => 'ZIP 파일을 읽을 수 없습니다.',
+    'import_zip_cant_decode_data' => 'ZIP data.json 콘텐츠를 찾아서 디코딩할 수 없습니다.',
+    'import_zip_no_data' => '컨텐츠 ZIP 파일 데이터에 데이터가 비어있습니다.',
+    'import_validation_failed' => '컨텐츠 ZIP 파일을 가져오려다 실패했습니다. 이유:',
+    'import_zip_failed_notification' => '컨텐츠 ZIP 파일을 가져오지 못했습니다.',
+    'import_perms_books' => '책을 만드는 데 필요한 권한이 없습니다.',
+    'import_perms_chapters' => '챕터를 만드는 데 필요한 권한이 없습니다.',
+    'import_perms_pages' => '페이지를 만드는 데 필요한 권한이 없습니다.',
+    'import_perms_images' => '이미지를 만드는 데 필요한 권한이 없습니다.',
+    'import_perms_attachments' => '첨부 파일을 만드는 데 필요한 권한이 없습니다.',
 
     // API errors
     'api_no_authorization_found' => '요청에서 인증 토큰을 찾을 수 없습니다.',

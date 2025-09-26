@@ -266,8 +266,8 @@ class BookTest extends TestCase
     {
         $book = $this->entities->book();
 
-        $input = '<h1>Test</h1><p id="abc" href="beans">Content<a href="#cat" data-a="b">a</a><section>Hello</section></p>';
-        $expected = '<p>Content<a href="#cat">a</a></p>';
+        $input = '<h1>Test</h1><p id="abc" href="beans">Content<a href="#cat" target="_blank" data-a="b">a</a><section>Hello</section></p>';
+        $expected = '<p>Content<a href="#cat" target="_blank">a</a></p>';
 
         $this->asEditor()->put($book->getUrl(), [
             'name' => $book->name,
@@ -317,7 +317,7 @@ class BookTest extends TestCase
         $copy = Book::query()->where('name', '=', 'My copy book')->first();
 
         $resp->assertRedirect($copy->getUrl());
-        $this->assertEquals($book->getDirectChildren()->count(), $copy->getDirectChildren()->count());
+        $this->assertEquals($book->getDirectVisibleChildren()->count(), $copy->getDirectVisibleChildren()->count());
 
         $this->get($copy->getUrl())->assertSee($book->description_html, false);
     }
@@ -329,7 +329,7 @@ class BookTest extends TestCase
 
         // Hide child content
         /** @var BookChild $page */
-        foreach ($book->getDirectChildren() as $child) {
+        foreach ($book->getDirectVisibleChildren() as $child) {
             $this->permissions->setEntityPermissions($child, [], []);
         }
 
@@ -337,7 +337,7 @@ class BookTest extends TestCase
         /** @var Book $copy */
         $copy = Book::query()->where('name', '=', 'My copy book')->first();
 
-        $this->assertEquals(0, $copy->getDirectChildren()->count());
+        $this->assertEquals(0, $copy->getDirectVisibleChildren()->count());
     }
 
     public function test_copy_does_not_copy_pages_or_chapters_if_user_cant_create()

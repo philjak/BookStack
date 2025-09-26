@@ -23,6 +23,7 @@ return [
 
         'database' => [
             'driver'       => 'database',
+            'connection'   => null,
             'table'        => 'jobs',
             'queue'        => 'default',
             'retry_after'  => 90,
@@ -38,6 +39,12 @@ return [
             'after_commit' => false,
         ],
 
+    ],
+
+    // Job batching
+    'batching' => [
+        'database' => 'mysql',
+        'table' => 'job_batches',
     ],
 
     // Failed queue job logging

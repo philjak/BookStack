@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Používateľ s emailom :email už existuje, ale s inými údajmi.',
+    'auth_pre_register_theme_prevention' => 'User account could not be registered for the provided details',
     'email_already_confirmed' => 'Email bol už overený, skúste sa prihlásiť.',
     'email_confirmation_invalid' => 'Tento potvrdzujúci token nie je platný alebo už bol použitý, skúste sa prosím registrovať znova.',
     'email_confirmation_expired' => 'Potvrdzujúci token expiroval, bol odoslaný nový potvrdzujúci email.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Požiadavka z externého autentifikačného systému nie je rozpoznaná procesom spusteným touto aplikáciou. Tento problém môže spôsobiť navigácia späť po prihlásení.',
     'saml_fail_authed' => 'Prihlásenie pomocou :system zlyhalo, systém neposkytol úspešnú autorizáciu',
     'oidc_already_logged_in' => 'Používateľ sa už prihlásil',
-    'oidc_user_not_registered' => 'Používateľ :name nie je zaregistrovaný a automatická registrácia je zakázaná',
     'oidc_no_email_address' => 'V údajoch poskytnutých externým overovacím systémom sa nepodarilo nájsť e-mailovú adresu tohto používateľa',
     'oidc_fail_authed' => 'Prihlásenie pomocou :system zlyhalo, systém neposkytol úspešnú autorizáciu',
     'social_no_action_defined' => 'Nebola definovaná žiadna akcia',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Ovládač socialnych sietí nebol nájdený',
     'social_driver_not_configured' => 'Nastavenia Vášho :socialAccount účtu nie sú správne.',
     'invite_token_expired' => 'Platnosť tohto odkazu na pozvánku vypršala. Namiesto toho sa môžete pokúsiť obnoviť heslo účtu.',
+    'login_user_not_found' => 'A user for this action could not be found.',
 
     // System
     'path_not_writable' => 'Do cesty :filePath sa nedá nahrávať. Uistite sa, že je zapisovateľná serverom.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Nemôžete zmazať posledného správcu',
     'users_cannot_delete_guest' => 'Nemôžete zmazať hosťa',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'Táto rola nemôže byť upravovaná',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Nastala chyba',
     'app_down' => ':appName je momentálne nedostupná',
     'back_soon' => 'Čoskoro bude opäť dostupná.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'You are lacking the required permissions to create books.',
+    'import_perms_chapters' => 'You are lacking the required permissions to create chapters.',
+    'import_perms_pages' => 'You are lacking the required permissions to create pages.',
+    'import_perms_images' => 'You are lacking the required permissions to create images.',
+    'import_perms_attachments' => 'You are lacking the required permission to create attachments.',
 
     // API errors
     'api_no_authorization_found' => 'V žiadosti sa nenašiel žiadny autorizačný token',

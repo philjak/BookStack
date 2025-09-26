@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Email为 :email 的用户已经存在，但具有不同的凭据。',
+    'auth_pre_register_theme_prevention' => '无法根据所提供的信息注册帐户',
     'email_already_confirmed' => 'Email已被确认，请尝试登录。',
     'email_confirmation_invalid' => '此确认令牌无效或已被使用，请重新注册。',
     'email_confirmation_expired' => '确认令牌已过期，已发送新的确认电子邮件。',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => '来自外部身份验证系统的请求没有被本应用程序认证，在登录后返回上一页可能会导致此问题。',
     'saml_fail_authed' => '使用 :system 登录失败，登录系统未返回成功登录授权信息。',
     'oidc_already_logged_in' => '您已经登陆了',
-    'oidc_user_not_registered' => '用户 :name 尚未注册，自助注册功能已被禁用',
     'oidc_no_email_address' => '无法找到有效的 Email 地址，此用户数据由外部身份验证系统托管',
     'oidc_fail_authed' => '使用 :system 登录失败，登录系统未返回成功登录授权信息',
     'social_no_action_defined' => '没有定义行为',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => '未找到社交驱动程序',
     'social_driver_not_configured' => '您的:socialAccount社交设置不正确。',
     'invite_token_expired' => '此邀请链接已过期。 您可以尝试重置您的账户密码。',
+    'login_user_not_found' => '找不到执行此操作的用户。',
 
     // System
     'path_not_writable' => '无法上传到文件路径“:filePath”，请确保它可写入服务器。',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => '您不能删除唯一的管理员账户',
     'users_cannot_delete_guest' => '您不能删除访客用户',
+    'users_could_not_send_invite' => '由于邀请电子邮件发送失败，无法创建用户',
 
     // Roles
     'role_cannot_be_edited' => '无法编辑该角色',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => '出现错误',
     'app_down' => ':appName现在正在关闭',
     'back_soon' => '请耐心等待网站的恢复。',
+
+    // Import
+    'import_zip_cant_read' => '无法读取 ZIP 文件。',
+    'import_zip_cant_decode_data' => '无法找到并解码 ZIP data.json 内容。',
+    'import_zip_no_data' => 'ZIP 文件数据没有预期的书籍、章节或页面内容。',
+    'import_validation_failed' => '导入 ZIP 验证失败，出现错误：',
+    'import_zip_failed_notification' => 'ZIP 文件导入失败。',
+    'import_perms_books' => '您缺少创建书籍所需的权限。',
+    'import_perms_chapters' => '您缺少创建章节所需的权限。',
+    'import_perms_pages' => '您缺少创建页面所需的权限。',
+    'import_perms_images' => '您缺少创建图片所需的权限。',
+    'import_perms_attachments' => '您缺少创建附件所需的权限。',
 
     // API errors
     'api_no_authorization_found' => '未在请求中找到授权令牌',

@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Sähköpostiosoite :email on jo käytössä toisessa käyttäjätunnuksessa.',
+    'auth_pre_register_theme_prevention' => 'Käyttäjätiliä ei voitu rekisteröidä annetuille tiedoille',
     'email_already_confirmed' => 'Sähköposti on jo vahvistettu, yritä kirjautua sisään.',
     'email_confirmation_invalid' => 'Tämä vahvistuslinkki ei ole voimassa tai sitä on jo käytetty, yritä rekisteröityä uudelleen.',
     'email_confirmation_expired' => 'Vahvistuslinkki on vanhentunut, uusi vahvistussähköposti on lähetetty.',
@@ -24,7 +25,6 @@ return [
 Sovellus ei tunnista ulkoisen todennuspalvelun pyyntöä. Ongelman voi aiheuttaa siirtyminen selaimessa takaisin edelliseen näkymään kirjautumisen jälkeen.',
     'saml_fail_authed' => 'Sisäänkirjautuminen :system käyttäen epäonnistui, järjestelmä ei antanut valtuutusta',
     'oidc_already_logged_in' => 'Olet jo kirjautunut sisään',
-    'oidc_user_not_registered' => 'Käyttäjää :nimi ei ole rekisteröity ja automaattinen rekisteröinti on pois käytöstä',
     'oidc_no_email_address' => 'Ulkoisen todennuspalvelun antamista tiedoista ei löytynyt tämän käyttäjän sähköpostiosoitetta',
     'oidc_fail_authed' => 'Sisäänkirjautuminen :system käyttäen epäonnistui, järjestelmä ei antanut valtuutusta',
     'social_no_action_defined' => 'Ei määriteltyä toimenpidettä',
@@ -38,6 +38,7 @@ Sovellus ei tunnista ulkoisen todennuspalvelun pyyntöä. Ongelman voi aiheuttaa
     'social_driver_not_found' => 'Sosiaalisen median tilin ajuria ei löytynyt',
     'social_driver_not_configured' => ':socialAccount-tilin asetuksia ei ole määritetty oikein.',
     'invite_token_expired' => 'Tämä kutsulinkki on vanhentunut. Voit sen sijaan yrittää palauttaa tilisi salasanan.',
+    'login_user_not_found' => 'Käyttäjää tälle toiminnolle ei löytynyt.',
 
     // System
     'path_not_writable' => 'Tiedostopolkuun :filePath ei voitu ladata tiedostoa. Tarkista polun kirjoitusoikeudet.',
@@ -78,6 +79,7 @@ Sovellus ei tunnista ulkoisen todennuspalvelun pyyntöä. Ongelman voi aiheuttaa
     // Users
     'users_cannot_delete_only_admin' => 'Ainoaa ylläpitäjää ei voi poistaa',
     'users_cannot_delete_guest' => 'Vieraskäyttäjää ei voi poistaa',
+    'users_could_not_send_invite' => 'Käyttäjää ei voitu luoda kutsun lähettämisen jälkeen',
 
     // Roles
     'role_cannot_be_edited' => 'Tätä roolia ei voi muokata',
@@ -103,6 +105,18 @@ Sovellus ei tunnista ulkoisen todennuspalvelun pyyntöä. Ongelman voi aiheuttaa
     'error_occurred' => 'Tapahtui virhe',
     'app_down' => ':appName on kaatunut',
     'back_soon' => 'Se palautetaan pian.',
+
+    // Import
+    'import_zip_cant_read' => 'ZIP-tiedostoa ei voitu lukea.',
+    'import_zip_cant_decode_data' => 'ZIP-tiedoston data.json sisältöä ei löydy eikä sitä voitu purkaa.',
+    'import_zip_no_data' => 'ZIP-tiedostoilla ei ole odotettua kirjaa, lukua tai sivun sisältöä.',
+    'import_validation_failed' => 'Tuonti ZIP epäonnistui virheiden kanssa:',
+    'import_zip_failed_notification' => 'ZIP-tiedoston tuominen epäonnistui.',
+    'import_perms_books' => 'Sinulla ei ole tarvittavia oikeuksia luoda kirjoja.',
+    'import_perms_chapters' => 'Sinulla ei ole tarvittavia oikeuksia luoda kappaleita.',
+    'import_perms_pages' => 'Sinulla ei ole tarvittavia oikeuksia luoda sivuja.',
+    'import_perms_images' => 'Sinulla ei ole tarvittavia oikeuksia luoda kuvia.',
+    'import_perms_attachments' => 'Sinulla ei ole tarvittavaa lupaa luoda liitteitä.',
 
     // API errors
     'api_no_authorization_found' => 'Pyynnöstä ei löytynyt valtuutuskoodia',

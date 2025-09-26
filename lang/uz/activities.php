@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'o‘chirilgan webhook',
     'webhook_delete_notification' => 'Webhook muvaffaqiyatli o‘chirildi',
 
+    // Imports
+    'import_create' => 'created import',
+    'import_create_notification' => 'Import successfully uploaded',
+    'import_run' => 'updated import',
+    'import_run_notification' => 'Content successfully imported',
+    'import_delete' => 'deleted import',
+    'import_delete_notification' => 'Import successfully deleted',
+
     // Users
     'user_create' => 'created user',
     'user_create_notification' => 'User successfully created',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Foydalanuvchi muvaffaqiyatli olib tashlandi',
 
     // API Tokens
-    'api_token_create' => 'created api token',
+    'api_token_create' => 'created API token',
     'api_token_create_notification' => 'API token successfully created',
-    'api_token_update' => 'updated api token',
+    'api_token_update' => 'updated API token',
     'api_token_update_notification' => 'API token successfully updated',
-    'api_token_delete' => 'deleted api token',
+    'api_token_delete' => 'deleted API token',
     'api_token_delete_notification' => 'API token successfully deleted',
 
     // Roles
@@ -118,6 +126,14 @@ return [
     'comment_create'              => 'added comment',
     'comment_update'              => 'updated comment',
     'comment_delete'              => 'deleted comment',
+
+    // Sort Rules
+    'sort_rule_create' => 'created sort rule',
+    'sort_rule_create_notification' => 'Sort rule successfully created',
+    'sort_rule_update' => 'updated sort rule',
+    'sort_rule_update_notification' => 'Sort rule successfully updated',
+    'sort_rule_delete' => 'deleted sort rule',
+    'sort_rule_delete_notification' => 'Sort rule successfully deleted',
 
     // Other
     'permissions_update'          => 'yangilangan huquqlar',

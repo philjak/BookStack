@@ -13,6 +13,8 @@ use BookStack\Activity\Tools\UserEntityWatchOptions;
 use BookStack\Activity\WatchLevels;
 use BookStack\Entities\Models\Entity;
 use BookStack\Settings\UserNotificationPreferences;
+use Illuminate\Contracts\Notifications\Dispatcher;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
@@ -196,7 +198,7 @@ class WatchTest extends TestCase
         $notifications = Notification::fake();
 
         $this->asAdmin()->post("/comment/{$entities['page']->id}", [
-            'text' => 'My new comment'
+            'html' => '<p>My new comment</p>'
         ]);
         $notifications->assertSentTo($editor, CommentCreationNotification::class);
     }
@@ -217,12 +219,12 @@ class WatchTest extends TestCase
         $notifications = Notification::fake();
 
         $this->actingAs($editor)->post("/comment/{$entities['page']->id}", [
-            'text' => 'My new comment'
+            'html' => '<p>My new comment</p>'
         ]);
         $comment = $entities['page']->comments()->orderBy('id', 'desc')->first();
 
         $this->asAdmin()->post("/comment/{$entities['page']->id}", [
-            'text' => 'My new comment response',
+            'html' => '<p>My new comment response</p>',
             'parent_id' => $comment->local_id,
         ]);
         $notifications->assertSentTo($editor, CommentCreationNotification::class);
@@ -257,7 +259,7 @@ class WatchTest extends TestCase
 
         // Comment post
         $this->actingAs($admin)->post("/comment/{$entities['page']->id}", [
-            'text' => 'My new comment response',
+            'html' => '<p>My new comment response</p>',
         ]);
 
         $notifications->assertSentTo($editor, function (CommentCreationNotification $notification) use ($editor, $admin, $entities) {
@@ -365,6 +367,29 @@ class WatchTest extends TestCase
         }
     }
 
+    public function test_failed_notifications_dont_block_and_log_errors()
+    {
+        $logger = $this->withTestLogger();
+        $editor = $this->users->editor();
+        $admin = $this->users->admin();
+        $page = $this->entities->page();
+        $book = $page->book;
+        $activityLogger = app()->make(ActivityLogger::class);
+
+        $watches = new UserEntityWatchOptions($editor, $book);
+        $watches->updateLevelByValue(WatchLevels::UPDATES);
+
+        $mockDispatcher = $this->mock(Dispatcher::class);
+        $mockDispatcher->shouldReceive('send')->once()
+            ->andThrow(\Exception::class, 'Failed to connect to mail server');
+
+        $this->actingAs($admin);
+
+        $activityLogger->add(ActivityType::PAGE_UPDATE, $page);
+
+        $this->assertTrue($logger->hasErrorThatContains("Failed to send email notification to user [id:{$editor->id}] with error: Failed to connect to mail server"));
+    }
+
     public function test_notifications_not_sent_if_lacking_view_permission_for_related_item()
     {
         $notifications = Notification::fake();
@@ -376,7 +401,7 @@ class WatchTest extends TestCase
         $this->permissions->disableEntityInheritedPermissions($page);
 
         $this->asAdmin()->post("/comment/{$page->id}", [
-            'text' => 'My new comment response',
+            'html' => '<p>My new comment response</p>',
         ])->assertOk();
 
         $notifications->assertNothingSentTo($editor);

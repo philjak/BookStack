@@ -15,7 +15,7 @@ return [
     'page_restore'                => 'obnovil(a) stránku',
     'page_restore_notification'   => 'Stránka úspešne obnovená',
     'page_move'                   => 'presunul(a) stránku',
-    'page_move_notification'      => 'Page successfully moved',
+    'page_move_notification'      => 'Stránka bola úspešne presunutá',
 
     // Chapters
     'chapter_create'              => 'vytvoril(a) kapitolu',
@@ -25,7 +25,7 @@ return [
     'chapter_delete'              => 'odstránil(a) kapitolu',
     'chapter_delete_notification' => 'Kapitola úspešne odstránená',
     'chapter_move'                => 'presunul(a) kapitolu',
-    'chapter_move_notification' => 'Chapter successfully moved',
+    'chapter_move_notification' => 'Kapitola bola úspešne presunutá',
 
     // Books
     'book_create'                 => 'vytvoril(a) knihu',
@@ -51,8 +51,8 @@ return [
 
     // Revisions
     'revision_restore' => 'restored revision',
-    'revision_delete' => 'deleted revision',
-    'revision_delete_notification' => 'Revision successfully deleted',
+    'revision_delete' => 'odstránil(a) revíziu',
+    'revision_delete_notification' => 'Revízia úspešne odstránená',
 
     // Favourites
     'favourite_add_notification' => '":name" bol pridaný medzi obľúbené',
@@ -62,7 +62,7 @@ return [
     'watch_update_level_notification' => 'Watch preferences successfully updated',
 
     // Auth
-    'auth_login' => 'logged in',
+    'auth_login' => 'sa prihlásil(a)',
     'auth_register' => 'registered as new user',
     'auth_password_reset_request' => 'requested user password reset',
     'auth_password_reset_update' => 'reset user password',
@@ -72,8 +72,8 @@ return [
     'mfa_remove_method_notification' => 'Viacúrovňový spôsob overenia úspešne odstránený',
 
     // Settings
-    'settings_update' => 'updated settings',
-    'settings_update_notification' => 'Settings successfully updated',
+    'settings_update' => 'aktualizované nastavenia',
+    'settings_update_notification' => 'Nastavenia boli úspešne aktualizované',
     'maintenance_action_run' => 'ran maintenance action',
 
     // Webhooks
@@ -84,20 +84,28 @@ return [
     'webhook_delete' => 'odstránil(a) si webhook',
     'webhook_delete_notification' => 'Webhook úspešne odstránený',
 
+    // Imports
+    'import_create' => 'created import',
+    'import_create_notification' => 'Import successfully uploaded',
+    'import_run' => 'updated import',
+    'import_run_notification' => 'Content successfully imported',
+    'import_delete' => 'deleted import',
+    'import_delete_notification' => 'Import successfully deleted',
+
     // Users
-    'user_create' => 'created user',
+    'user_create' => 'užívateľ vytvorený',
     'user_create_notification' => 'User successfully created',
-    'user_update' => 'updated user',
+    'user_update' => 'používateľ aktualizovaný',
     'user_update_notification' => 'Používateľ úspešne upravený',
-    'user_delete' => 'deleted user',
+    'user_delete' => 'odstránený používateľ',
     'user_delete_notification' => 'Používateľ úspešne zmazaný',
 
     // API Tokens
-    'api_token_create' => 'created api token',
+    'api_token_create' => 'created API token',
     'api_token_create_notification' => 'API token successfully created',
-    'api_token_update' => 'updated api token',
+    'api_token_update' => 'updated API token',
     'api_token_update_notification' => 'API token successfully updated',
-    'api_token_delete' => 'deleted api token',
+    'api_token_delete' => 'deleted API token',
     'api_token_delete_notification' => 'API token successfully deleted',
 
     // Roles
@@ -105,7 +113,7 @@ return [
     'role_create_notification' => 'Rola úspešne vytvorená',
     'role_update' => 'updated role',
     'role_update_notification' => 'Rola úspešne aktualizovaná',
-    'role_delete' => 'deleted role',
+    'role_delete' => 'odstrániť rolu',
     'role_delete_notification' => 'Rola úspešne zmazaná',
 
     // Recycle Bin
@@ -115,9 +123,17 @@ return [
 
     // Comments
     'commented_on'                => 'komentoval(a)',
-    'comment_create'              => 'added comment',
-    'comment_update'              => 'updated comment',
-    'comment_delete'              => 'deleted comment',
+    'comment_create'              => 'pridal(a) komentár',
+    'comment_update'              => 'aktualizoval(a) komentár',
+    'comment_delete'              => 'odstrániť komentár',
+
+    // Sort Rules
+    'sort_rule_create' => 'created sort rule',
+    'sort_rule_create_notification' => 'Sort rule successfully created',
+    'sort_rule_update' => 'updated sort rule',
+    'sort_rule_update_notification' => 'Sort rule successfully updated',
+    'sort_rule_delete' => 'deleted sort rule',
+    'sort_rule_delete_notification' => 'Sort rule successfully deleted',
 
     // Other
     'permissions_update'          => 'aktualizované oprávnenia',

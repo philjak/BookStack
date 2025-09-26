@@ -6,7 +6,7 @@ return [
 
     // Buttons
     'cancel' => 'Atšaukti',
-    'close' => 'Close',
+    'close' => 'Uždaryti',
     'confirm' => 'Patvirtinti',
     'back' => 'Grįžti',
     'save' => 'Išsaugoti',
@@ -20,7 +20,7 @@ return [
     'description' => 'Apibūdinimas',
     'role' => 'Vaidmuo',
     'cover_image' => 'Viršelio nuotrauka',
-    'cover_image_description' => 'Ši nuotrauka turi būti maždaug 440x250px.',
+    'cover_image_description' => 'This image should be approximately 440x250px although it will be flexibly scaled & cropped to fit the user interface in different scenarios as required, so actual dimensions for display will differ.',
 
     // Actions
     'actions' => 'Veiksmai',
@@ -30,6 +30,8 @@ return [
     'create' => 'Sukurti',
     'update' => 'Atnaujinti',
     'edit' => 'Redaguoti',
+    'archive' => 'Archive',
+    'unarchive' => 'Un-Archive',
     'sort' => 'Rūšiuoti',
     'move' => 'Perkelti',
     'copy' => 'Kopijuoti',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Privatumo politika',
     'terms_of_service' => 'Paslaugų teikimo paslaugos',
+
+    // OpenSearch
+    'opensearch_description' => 'Search :appName',
 ];

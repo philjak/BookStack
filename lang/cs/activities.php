@@ -40,14 +40,14 @@ return [
     'book_sort_notification'      => 'Kniha byla úspěšně seřazena',
 
     // Bookshelves
-    'bookshelf_create'            => 'vytvořit knihovnu',
-    'bookshelf_create_notification'    => 'Knihovna byla úspěšně vytvořena',
-    'bookshelf_create_from_book'    => 'převést knihu na knihovnu',
-    'bookshelf_create_from_book_notification'    => 'Kniha byla úspěšně převedena na knihovnu',
-    'bookshelf_update'                 => 'aktualizovat knihovnu',
-    'bookshelf_update_notification'    => 'Knihovna byla úspěšně aktualizována',
-    'bookshelf_delete'                 => 'odstranit knihovnu',
-    'bookshelf_delete_notification'    => 'Knihovna byla úspěšně smazána',
+    'bookshelf_create'            => 'vytvořil polici',
+    'bookshelf_create_notification'    => 'Police byla úspěšně vytvořena',
+    'bookshelf_create_from_book'    => 'převést knihu na polici',
+    'bookshelf_create_from_book_notification'    => 'Kniha byla úspěšně převedena na polici',
+    'bookshelf_update'                 => 'aktualizovat polici',
+    'bookshelf_update_notification'    => 'Police byla úspěšně aktualizována',
+    'bookshelf_delete'                 => 'odstranil polici',
+    'bookshelf_delete_notification'    => 'Police byla úspěšně odstraněna',
 
     // Revisions
     'revision_restore' => 'obnovil revizi',
@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'odstranil/a webhook',
     'webhook_delete_notification' => 'Webhook byl úspěšně odstraněn',
 
+    // Imports
+    'import_create' => 'vytvořil/a import',
+    'import_create_notification' => 'Import byl úspěšně nahrán',
+    'import_run' => 'aktualizoval/a import',
+    'import_run_notification' => 'Obsah byl úspěšně importován',
+    'import_delete' => 'odstranil/a import',
+    'import_delete_notification' => 'Import byl úspěšně odstraněn',
+
     // Users
     'user_create' => 'vytvořil uživatele',
     'user_create_notification' => 'Uživatel byl úspěšně vytvořen',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Uživatel byl úspěšně odstraněn',
 
     // API Tokens
-    'api_token_create' => 'vytvořil api token',
+    'api_token_create' => 'API token byl vytvořen',
     'api_token_create_notification' => 'API token úspěšně vytvořen',
-    'api_token_update' => 'aktualizoval api token',
+    'api_token_update' => 'API token byl aktualizován',
     'api_token_update_notification' => 'API token úspěšně aktualizován',
-    'api_token_delete' => 'odstranil api token',
+    'api_token_delete' => 'API token byl odstraněn',
     'api_token_delete_notification' => 'API token úspěšně odstraněn',
 
     // Roles
@@ -118,6 +126,14 @@ return [
     'comment_create'              => 'přidal komentář',
     'comment_update'              => 'aktualizoval komentář',
     'comment_delete'              => 'odstranil komentář',
+
+    // Sort Rules
+    'sort_rule_create' => 'vytvořil/a pravidlo řazení',
+    'sort_rule_create_notification' => 'Pravidlo řazení bylo úspěšně vytvořeno',
+    'sort_rule_update' => 'aktualizoval/a pravidlo řazení',
+    'sort_rule_update_notification' => 'Pravidlo řazení bylo úspěšně aktualizováno',
+    'sort_rule_delete' => 'odstranil/a pravidlo řazení',
+    'sort_rule_delete_notification' => 'Pravidlo řazení bylo úspěšně odstraněno',
 
     // Other
     'permissions_update'          => 'oprávnění upravena',

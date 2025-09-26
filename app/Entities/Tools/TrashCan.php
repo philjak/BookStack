@@ -8,18 +8,25 @@ use BookStack\Entities\Models\Bookshelf;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Deletion;
 use BookStack\Entities\Models\Entity;
-use BookStack\Entities\Models\HasCoverImage;
+use BookStack\Entities\Models\CoverImageInterface;
 use BookStack\Entities\Models\Page;
+use BookStack\Entities\Queries\EntityQueries;
 use BookStack\Exceptions\NotifyException;
 use BookStack\Facades\Activity;
 use BookStack\Uploads\AttachmentService;
 use BookStack\Uploads\ImageService;
+use BookStack\Util\DatabaseTransaction;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 
 class TrashCan
 {
+    public function __construct(
+        protected EntityQueries $queries,
+    ) {
+    }
+
     /**
      * Send a shelf to the recycle bin.
      *
@@ -203,7 +210,13 @@ class TrashCan
         }
 
         // Remove book template usages
-        Book::query()->where('default_template_id', '=', $page->id)
+        $this->queries->books->start()
+            ->where('default_template_id', '=', $page->id)
+            ->update(['default_template_id' => null]);
+
+        // Remove chapter template usages
+        $this->queries->chapters->start()
+            ->where('default_template_id', '=', $page->id)
             ->update(['default_template_id' => null]);
 
         $page->forceDelete();
@@ -345,25 +358,26 @@ class TrashCan
 
     /**
      * Destroy the given entity.
+     * Returns the number of total entities destroyed in the operation.
      *
      * @throws Exception
      */
     public function destroyEntity(Entity $entity): int
     {
-        if ($entity instanceof Page) {
-            return $this->destroyPage($entity);
-        }
-        if ($entity instanceof Chapter) {
-            return $this->destroyChapter($entity);
-        }
-        if ($entity instanceof Book) {
-            return $this->destroyBook($entity);
-        }
-        if ($entity instanceof Bookshelf) {
-            return $this->destroyShelf($entity);
-        }
+        $result = (new DatabaseTransaction(function () use ($entity) {
+            if ($entity instanceof Page) {
+                return $this->destroyPage($entity);
+            } else if ($entity instanceof Chapter) {
+                return $this->destroyChapter($entity);
+            } else if ($entity instanceof Book) {
+                return $this->destroyBook($entity);
+            } else if ($entity instanceof Bookshelf) {
+                return $this->destroyShelf($entity);
+            }
+            return null;
+        }))->run();
 
-        return 0;
+        return $result ?? 0;
     }
 
     /**
@@ -384,7 +398,7 @@ class TrashCan
         $entity->referencesTo()->delete();
         $entity->referencesFrom()->delete();
 
-        if ($entity instanceof HasCoverImage && $entity->cover()->exists()) {
+        if ($entity instanceof CoverImageInterface && $entity->cover()->exists()) {
             $imageService = app()->make(ImageService::class);
             $imageService->destroy($entity->cover()->first());
         }

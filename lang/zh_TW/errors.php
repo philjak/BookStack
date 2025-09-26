@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => '電子郵件為 :email 已存在，但帳號密碼不同。',
+    'auth_pre_register_theme_prevention' => '無法使用資料建立帳號',
     'email_already_confirmed' => '已確認電子郵件，請嘗試登入。',
     'email_confirmation_invalid' => '這個確認權杖無效或已被使用，請嘗試重新註冊。',
     'email_confirmation_expired' => '這個確認權杖無效或已被使用，已傳送新的確認電子郵件。',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => '此應用程式啟動的處理程序無法識別來自外部認證系統的請求。登入後回上一頁可能會造成此問題。',
     'saml_fail_authed' => '使用 :system 登入失敗，系統未提供成功的授權',
     'oidc_already_logged_in' => '已登入',
-    'oidc_user_not_registered' => '使用者 :name 未註冊，並已停用自動註冊',
     'oidc_no_email_address' => '在外部認證系統提供的資料中找不到該使用者的電子郵件地址',
     'oidc_fail_authed' => '使用 :system 登入失敗，系統未提供成功的授權',
     'social_no_action_defined' => '未定義動作',
@@ -37,36 +37,37 @@ return [
     'social_driver_not_found' => '找不到社交驅動程式',
     'social_driver_not_configured' => '您的 :socialAccount 社交設定不正確。',
     'invite_token_expired' => '此邀請連結已過期。您可以嘗試重設您的帳號密碼。',
+    'login_user_not_found' => '使用者不存在',
 
     // System
     'path_not_writable' => '無法上傳到 :filePath 檔案路徑。請確定其對伺服器來說是可寫入的。',
     'cannot_get_image_from_url' => '無法從 :url 取得圖片',
     'cannot_create_thumbs' => '伺服器無法建立縮圖。請檢查您是否安裝了 PHP 的 GD 擴充程式。',
     'server_upload_limit' => '伺服器不允許上傳這個大的檔案。請嘗試較小的檔案。',
-    'server_post_limit' => 'The server cannot receive the provided amount of data. Try again with less data or a smaller file.',
+    'server_post_limit' => '伺服器無法處理提供的資料，請嘗試刪減內容或較小的檔案',
     'uploaded'  => '伺服器不允許上傳這個大的檔案。請嘗試較小的檔案。',
 
     // Drawing & Images
     'image_upload_error' => '上傳圖片時發生錯誤',
     'image_upload_type_error' => '上傳圖片類型無效',
-    'image_upload_replace_type' => 'Image file replacements must be of the same type',
-    'image_upload_memory_limit' => 'Failed to handle image upload and/or create thumbnails due to system resource limits.',
-    'image_thumbnail_memory_limit' => 'Failed to create image size variations due to system resource limits.',
-    'image_gallery_thumbnail_memory_limit' => 'Failed to create gallery thumbnails due to system resource limits.',
+    'image_upload_replace_type' => '必須使用的檔案類型才能置換圖檔',
+    'image_upload_memory_limit' => '由於系統限制，無法處理上傳的檔案或縮圖',
+    'image_thumbnail_memory_limit' => '由於系統限制，無法建立不同尺寸的圖片',
+    'image_gallery_thumbnail_memory_limit' => '由於系統限制，無法建立縮圖',
     'drawing_data_not_found' => '無法載入繪圖資料，繪圖檔案可能不存在，或您可能沒有權限存取它。',
 
     // Attachments
     'attachment_not_found' => '找不到附件',
-    'attachment_upload_error' => 'An error occurred uploading the attachment file',
+    'attachment_upload_error' => '上傳檔案時發生錯誤',
 
     // Pages
     'page_draft_autosave_fail' => '無法儲存草稿。請確保您在儲存此頁面前已連線至網際網路',
-    'page_draft_delete_fail' => 'Failed to delete page draft and fetch current page saved content',
+    'page_draft_delete_fail' => '無法刪除草稿並取得最新的頁面存檔',
     'page_custom_home_deletion' => '無法刪除被設定為首頁的頁面',
 
     // Entities
     'entity_not_found' => '找不到實體',
-    'bookshelf_not_found' => '未找到書棧',
+    'bookshelf_not_found' => '未找到書架',
     'book_not_found' => '找不到書本',
     'page_not_found' => '找不到頁面',
     'chapter_not_found' => '找不到章節',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => '您不能刪除唯一的管理員帳號',
     'users_cannot_delete_guest' => '您不能刪除訪客使用者',
+    'users_could_not_send_invite' => '由於寄送邀請電子郵件失敗，因此無法建立使用者',
 
     // Roles
     'role_cannot_be_edited' => '無法編輯這個角色',
@@ -103,6 +105,18 @@ return [
     'app_down' => ':appName 離線中',
     'back_soon' => '它應該很快就會重新上線。',
 
+    // Import
+    'import_zip_cant_read' => '無法讀取 ZIP 檔案。',
+    'import_zip_cant_decode_data' => '無法尋找並解碼 ZIP data.json 內容。',
+    'import_zip_no_data' => 'ZIP 檔案資料沒有預期的書本、章節或頁面內容。',
+    'import_validation_failed' => '匯入 ZIP 驗證失敗，發生錯誤：',
+    'import_zip_failed_notification' => '匯入 ZIP 檔案失敗。',
+    'import_perms_books' => '您缺乏建立書本所需的權限。',
+    'import_perms_chapters' => '您缺乏建立章節所需的權限。',
+    'import_perms_pages' => '您缺乏建立頁面所需的權限。',
+    'import_perms_images' => '您缺乏建立影像所需的權限。',
+    'import_perms_attachments' => '您缺乏建立附件所需的權限。',
+
     // API errors
     'api_no_authorization_found' => '在請求上找不到授權權杖',
     'api_bad_authorization_format' => '在請求中找到授權權杖，但格式似乎不正確',
@@ -115,5 +129,5 @@ return [
     'maintenance_test_email_failure' => '寄送測試電子郵件時發生錯誤:',
 
     // HTTP errors
-    'http_ssr_url_no_match' => 'The URL does not match the configured allowed SSR hosts',
+    'http_ssr_url_no_match' => 'URL 與設置的 SSR 主機不符',
 ];

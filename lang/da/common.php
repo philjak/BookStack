@@ -6,7 +6,7 @@ return [
 
     // Buttons
     'cancel' => 'Annuller',
-    'close' => 'Close',
+    'close' => 'Luk',
     'confirm' => 'Bekræft',
     'back' => 'Tilbage',
     'save' => 'Gem',
@@ -20,16 +20,18 @@ return [
     'description' => 'Beskrivelse',
     'role' => 'Rolle',
     'cover_image' => 'Coverbillede',
-    'cover_image_description' => 'Dette billede skal være omtrent 440x250px.',
+    'cover_image_description' => 'Dette billede skal være omkring 440x250px selvom det vil være fleksibelt skaleret & beskåret for at passe til brugergrænsefladen i forskellige scenarier efter behov. Så de faktiske dimensioner for visning vil være forskellige.',
 
     // Actions
     'actions' => 'Handlinger',
     'view' => 'Vis',
     'view_all' => 'Vis alle',
-    'new' => 'New',
+    'new' => 'Ny',
     'create' => 'Opret',
     'update' => 'Opdater',
     'edit' => 'Rediger',
+    'archive' => 'Arkiver',
+    'unarchive' => 'Tilbagekald',
     'sort' => 'Sorter',
     'move' => 'Flyt',
     'copy' => 'Kopier',
@@ -42,17 +44,17 @@ return [
     'remove' => 'Fjern',
     'add' => 'Tilføj',
     'configure' => 'Konfigurer',
-    'manage' => 'Manage',
+    'manage' => 'Administrer',
     'fullscreen' => 'Fuld skærm',
     'favourite' => 'Foretrukken',
     'unfavourite' => 'Fjern som foretrukken',
     'next' => 'Næste',
     'previous' => 'Forrige',
-    'filter_active' => 'Aktivt Filter:',
-    'filter_clear' => 'Nulstil Filter',
+    'filter_active' => 'Aktivt filter:',
+    'filter_clear' => 'Nulstil filter',
     'download' => 'Hent',
     'open_in_tab' => 'Åben i ny fane',
-    'open' => 'Open',
+    'open' => 'Åbn',
 
     // Sort Options
     'sort_options' => 'Sorteringsindstillinger',
@@ -84,14 +86,14 @@ return [
     'none' => 'Ingen',
 
     // Header
-    'homepage' => 'Homepage',
+    'homepage' => 'Forside',
     'header_menu_expand' => 'Udvid header menu',
     'profile_menu' => 'Profilmenu',
     'view_profile' => 'Vis profil',
     'edit_profile' => 'Redigér Profil',
     'dark_mode' => 'Mørk tilstand',
     'light_mode' => 'Lys tilstand',
-    'global_search' => 'Global Search',
+    'global_search' => 'Global søgning',
 
     // Layout tabs
     'tab_info' => 'Info',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Privatlivspolitik',
     'terms_of_service' => 'Tjenestevilkår',
+
+    // OpenSearch
+    'opensearch_description' => 'Søg :appName',
 ];

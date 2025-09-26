@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Korisnik s mailom :email već postoji, ali s drugom vjerodajnicom.',
+    'auth_pre_register_theme_prevention' => 'User account could not be registered for the provided details',
     'email_already_confirmed' => 'Email je već potvrđen, pokušajte se logirati.',
     'email_confirmation_invalid' => 'Ova vjerodajnica nije valjana ili je već bila korištena. Pokušajte se ponovno registrirati.',
     'email_confirmation_expired' => 'Ova vjerodajnica je istekla. Poslan je novi email za pristup.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Sustav za autentifikaciju nije prepoznat. Ovaj problem možda je nastao zbog vraćanja nakon prijave.',
     'saml_fail_authed' => 'Prijava pomoću :system nije uspjela zbog neuspješne autorizacije',
     'oidc_already_logged_in' => 'Već ste prijavljeni',
-    'oidc_user_not_registered' => 'Korisnik :name nije registriran i automatska registracija je onemogućena',
     'oidc_no_email_address' => 'Nije moguće pronaći adresu e-pošte za ovog korisnika u podacima koje pruža vanjski sustav za autentifikaciju',
     'oidc_fail_authed' => 'Prijavljivanje putem :system nije uspjelo. Sustav nije uspješno odobrio autorizaciju',
     'social_no_action_defined' => 'Nije definirana nijedna radnja',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Nije pronađeno',
     'social_driver_not_configured' => 'Postavke vašeg :socialAccount računa nisu ispravno postavljene.',
     'invite_token_expired' => 'Vaša pozivnica je istekla. Pokušajte ponovno postaviti lozinku.',
+    'login_user_not_found' => 'A user for this action could not be found.',
 
     // System
     'path_not_writable' => 'Datoteka :filePath ne može se prenijeti. Učinite je lakše prepoznatljivom vašem serveru.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Ne možete izbrisati',
     'users_cannot_delete_guest' => 'Ne možete izbrisati',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'Ne može se urediti',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Došlo je do pogreške',
     'app_down' => ':appName trenutno nije dostupna',
     'back_soon' => 'Uskoro će se vratiti.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'You are lacking the required permissions to create books.',
+    'import_perms_chapters' => 'You are lacking the required permissions to create chapters.',
+    'import_perms_pages' => 'You are lacking the required permissions to create pages.',
+    'import_perms_images' => 'You are lacking the required permissions to create images.',
+    'import_perms_attachments' => 'You are lacking the required permission to create attachments.',
 
     // API errors
     'api_no_authorization_found' => 'Nije pronađena autorizacija',

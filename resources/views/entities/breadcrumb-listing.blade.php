@@ -1,12 +1,15 @@
-<div class="dropdown-search" components="dropdown dropdown-search"
+<div components="dropdown dropdown-search"
      option:dropdown-search:url="/search/entity/siblings?entity_type={{$entity->getType()}}&entity_id={{ $entity->id }}"
      option:dropdown-search:local-search-selector=".entity-list-item"
->
-    <div class="dropdown-search-toggle-breadcrumb" refs="dropdown@toggle"
-         aria-haspopup="true" aria-expanded="false" tabindex="0">
-        <div class="separator">@icon('chevron-right')</div>
-    </div>
-    <div refs="dropdown@menu" class="dropdown-search-dropdown card" role="menu">
+     class="dropdown-search">
+    <button class="dropdown-search-toggle-breadcrumb"
+            refs="dropdown@toggle"
+            aria-haspopup="true"
+            aria-expanded="false"
+            title="{{ trans('entities.breadcrumb_siblings_for_' . $entity->getType()) }}">
+        <div role="presentation" class="separator">@icon('chevron-right')</div>
+    </button>
+    <div refs="dropdown@menu" class="dropdown-search-dropdown card">
         <div class="dropdown-search-search">
             @icon('search')
             <input refs="dropdown-search@searchInput"
@@ -18,6 +21,6 @@
         <div refs="dropdown-search@loading">
             @include('common.loading-icon')
         </div>
-        <div refs="dropdown-search@listContainer" class="dropdown-search-list px-m" tabindex="-1"></div>
+        <div refs="dropdown-search@listContainer" class="dropdown-search-list px-m" tabindex="-1" role="list"></div>
     </div>
 </div>

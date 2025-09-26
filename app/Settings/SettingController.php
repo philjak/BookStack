@@ -3,14 +3,14 @@
 namespace BookStack\Settings;
 
 use BookStack\Activity\ActivityType;
+use BookStack\App\AppVersion;
 use BookStack\Http\Controller;
+use BookStack\Permissions\Permission;
 use BookStack\Users\Models\User;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
-    protected array $settingCategories = ['features', 'customization', 'registration'];
-
     /**
      * Handle requests to the settings index path.
      */
@@ -25,15 +25,12 @@ class SettingController extends Controller
     public function category(string $category)
     {
         $this->ensureCategoryExists($category);
-        $this->checkPermission('settings-manage');
+        $this->checkPermission(Permission::SettingsManage);
         $this->setPageTitle(trans('settings.settings'));
 
-        // Get application version
-        $version = trim(file_get_contents(base_path('version')));
-
-        return view('settings.' . $category, [
+        return view('settings.categories.' . $category, [
             'category'  => $category,
-            'version'   => $version,
+            'version'   => AppVersion::get(),
             'guestUser' => User::getGuest(),
         ]);
     }
@@ -45,7 +42,7 @@ class SettingController extends Controller
     {
         $this->ensureCategoryExists($category);
         $this->preventAccessInDemoMode();
-        $this->checkPermission('settings-manage');
+        $this->checkPermission(Permission::SettingsManage);
         $this->validate($request, [
             'app_logo' => ['nullable', ...$this->getImageValidationRules()],
             'app_icon' => ['nullable', ...$this->getImageValidationRules()],
@@ -59,7 +56,7 @@ class SettingController extends Controller
 
     protected function ensureCategoryExists(string $category): void
     {
-        if (!in_array($category, $this->settingCategories)) {
+        if (!view()->exists('settings.categories.' . $category)) {
             abort(404);
         }
     }

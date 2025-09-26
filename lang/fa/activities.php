@@ -6,7 +6,7 @@
 return [
 
     // Pages
-    'page_create'                 => 'تاریخ ایجاد',
+    'page_create'                 => 'صفحه ایجاد شد',
     'page_create_notification'    => 'صفحه با موفقیت ایجاد شد',
     'page_update'                 => 'به روزرسانی صفحه',
     'page_update_notification'    => 'صفحه با موفقیت به روزرسانی شد',
@@ -84,6 +84,14 @@ return [
     'webhook_delete' => 'حذف وب هوک',
     'webhook_delete_notification' => 'وب هوک با موفقیت حذف شد',
 
+    // Imports
+    'import_create' => 'ورودی ایجاد شد',
+    'import_create_notification' => 'فایل با موفقیت آپلود شد',
+    'import_run' => 'آیتم واردشده بروزرسانی شد',
+    'import_run_notification' => 'محتوا با موفقیت انتقال یافت',
+    'import_delete' => 'آیتم ورودی حدف شده',
+    'import_delete_notification' => 'آیتم واردشده با موفقیت حذف شد',
+
     // Users
     'user_create' => 'کاربر ایجاد شده',
     'user_create_notification' => 'کاربر با موفقیت به ایجاد شد',
@@ -93,7 +101,7 @@ return [
     'user_delete_notification' => 'کاربر با موفقیت حذف شد',
 
     // API Tokens
-    'api_token_create' => 'توکن api ایجاد شده',
+    'api_token_create' => 'ایجاد توکن API',
     'api_token_create_notification' => 'توکن api با موفقیت ایجاد شد',
     'api_token_update' => 'توکن api بروز شده',
     'api_token_update_notification' => 'توکن API با موفقیت بروزرسانی شد',
@@ -118,6 +126,14 @@ return [
     'comment_create'              => 'نظر اضافه شده',
     'comment_update'              => 'نظر به روز شده',
     'comment_delete'              => 'نظر حذف شده',
+
+    // Sort Rules
+    'sort_rule_create' => 'قانون مرتب‌سازی ایجاد شد',
+    'sort_rule_create_notification' => 'قانون مرتب‌سازی با موفقیت ایجاد شد',
+    'sort_rule_update' => 'قانون مرتب‌سازی به‌روزرسانی شد',
+    'sort_rule_update_notification' => 'قانون مرتب‌سازی با موفقیت به‌روزرسانی شد',
+    'sort_rule_delete' => 'قانون مرتب‌سازی حذف شد',
+    'sort_rule_delete_notification' => 'قانون مرتب‌سازی با موفقیت حذف شد',
 
     // Other
     'permissions_update'          => 'به روزرسانی مجوزها',

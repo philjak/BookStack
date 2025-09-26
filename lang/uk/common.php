@@ -20,7 +20,7 @@ return [
     'description' => 'Опис',
     'role' => 'Роль',
     'cover_image' => 'Обкладинка',
-    'cover_image_description' => 'Це зображення має бути приблизно 440x250px.',
+    'cover_image_description' => 'Це зображення має бути приблизно 440х250пікс, щоб його було легко масштабувати та обводити відповідно до інтерфейсу користувача у різних сценаріях, як це необхідно, тому реальні розміри для відображення відрізняються.',
 
     // Actions
     'actions' => 'Дії',
@@ -30,6 +30,8 @@ return [
     'create' => 'Створити',
     'update' => 'Оновити',
     'edit' => 'Редагувати',
+    'archive' => 'Архів',
+    'unarchive' => 'Розархівувати',
     'sort' => 'Сортувати',
     'move' => 'Перемістити',
     'copy' => 'Копіювати',
@@ -107,4 +109,7 @@ return [
     // Not directly used but available for convenience to users.
     'privacy_policy' => 'Політика приватності',
     'terms_of_service' => 'Умови використання',
+
+    // OpenSearch
+    'opensearch_description' => 'Шукати :appName',
 ];

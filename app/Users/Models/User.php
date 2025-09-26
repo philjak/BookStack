@@ -10,8 +10,9 @@ use BookStack\Activity\Models\Loggable;
 use BookStack\Activity\Models\Watch;
 use BookStack\Api\ApiToken;
 use BookStack\App\Model;
-use BookStack\App\Sluggable;
+use BookStack\App\SluggableInterface;
 use BookStack\Entities\Tools\SlugGenerator;
+use BookStack\Permissions\Permission;
 use BookStack\Translation\LocaleDefinition;
 use BookStack\Translation\LocaleManager;
 use BookStack\Uploads\Image;
@@ -45,8 +46,9 @@ use Illuminate\Support\Collection;
  * @property string     $system_name
  * @property Collection $roles
  * @property Collection $mfaValues
+ * @property ?Image     $avatar
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract, Loggable, Sluggable
+class User extends Model implements AuthenticatableContract, CanResetPasswordContract, Loggable, SluggableInterface
 {
     use HasFactory;
     use Authenticatable;
@@ -63,7 +65,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = ['name', 'email'];
 
@@ -72,7 +74,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * The attributes excluded from the model's JSON form.
      *
-     * @var array
+     * @var list<string>
      */
     protected $hidden = [
         'password', 'remember_token', 'system_name', 'email_confirmed', 'external_auth_id', 'email',
@@ -117,14 +119,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * The roles that belong to the user.
      *
-     * @return BelongsToMany
+     * @return BelongsToMany<Role, $this>
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
-        if ($this->id === 0) {
-            return;
-        }
-
         return $this->belongsToMany(Role::class);
     }
 
@@ -158,8 +156,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * Check if the user has a particular permission.
      */
-    public function can(string $permissionName): bool
+    public function can(string|Permission $permission): bool
     {
+        $permissionName = is_string($permission) ? $permission : $permission->value;
         return $this->permissions()->contains($permissionName);
     }
 
@@ -183,9 +182,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Clear any cached permissions on this instance.
+     * Clear any cached permissions in this instance.
      */
-    public function clearPermissionCache()
+    public function clearPermissionCache(): void
     {
         $this->permissions = null;
     }
@@ -193,7 +192,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * Attach a role to this user.
      */
-    public function attachRole(Role $role)
+    public function attachRole(Role $role): void
     {
         $this->roles()->attach($role->id);
         $this->unsetRelation('roles');
@@ -209,15 +208,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     /**
      * Check if the user has a social account,
-     * If a driver is passed it checks for that single account type.
-     *
-     * @param bool|string $socialDriver
-     *
-     * @return bool
+     * If a driver is passed, it checks for that single account type.
      */
-    public function hasSocialAccount($socialDriver = false)
+    public function hasSocialAccount(string $socialDriver = ''): bool
     {
-        if ($socialDriver === false) {
+        if (empty($socialDriver)) {
             return $this->socialAccounts()->count() > 0;
         }
 
@@ -371,7 +366,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function refreshSlug(): string
     {
-        $this->slug = app()->make(SlugGenerator::class)->generate($this);
+        $this->slug = app()->make(SlugGenerator::class)->generate($this, $this->name);
 
         return $this->slug;
     }

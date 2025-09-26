@@ -10,6 +10,7 @@ return [
 
     // Auth
     'error_user_exists_different_creds' => 'Потребител с емайл :email вече съществува но с други данни.',
+    'auth_pre_register_theme_prevention' => 'User account could not be registered for the provided details',
     'email_already_confirmed' => 'Емейлът вече беше потвърден. Моля опитрайте да влезете.',
     'email_confirmation_invalid' => 'Този код за достъп не е валиден или вече е бил използван, Моля опитай да се регистрираш отново.',
     'email_confirmation_expired' => 'Кодът за потвърждение изтече, нов емейл за потвърждение беше изпратен.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Заявката от външната система не е разпознат от процеса започнат от това приложение. Връщането назад след влизане може да породи този проблем.',
     'saml_fail_authed' => 'Влизането чрез :system не беше успешно, системата не успя да удостовери потребителя',
     'oidc_already_logged_in' => 'Вече си вписан',
-    'oidc_user_not_registered' => 'Потребителят :name не е регистриран, а автоматичната регистрация е изключена',
     'oidc_no_email_address' => 'Не можах да намеря имейл адрес за този потребител в данните, предоставени от външната удостоверителна система',
     'oidc_fail_authed' => 'Вписването чрез :system не беше успешно, тъй като системата не предостави успешна оторизация',
     'social_no_action_defined' => 'Действието не беше дефинирано',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Кодът за връзка със социалната мрежа не съществува',
     'social_driver_not_configured' => 'Социалните настройки на твоя :socialAccount не са конфигурирани правилно.',
     'invite_token_expired' => 'Твоята покана е изтекла. Вместо това може да пробваш да възстановиш паролата на профила си.',
+    'login_user_not_found' => 'A user for this action could not be found.',
 
     // System
     'path_not_writable' => 'Не може да се качи файл в :filePath. Увери се на сървъра, че в пътя може да се записва.',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Не можеш да изтриеш единствения администратор',
     'users_cannot_delete_guest' => 'Не можеш да изтриеш потребителя на госта',
+    'users_could_not_send_invite' => 'Could not create user since invite email failed to send',
 
     // Roles
     'role_cannot_be_edited' => 'Ролята не може да бъде редактирана',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Възникна грешка',
     'app_down' => ':appName не е достъпно в момента',
     'back_soon' => 'Ще се върне обратно онлайн скоро.',
+
+    // Import
+    'import_zip_cant_read' => 'Could not read ZIP file.',
+    'import_zip_cant_decode_data' => 'Could not find and decode ZIP data.json content.',
+    'import_zip_no_data' => 'ZIP file data has no expected book, chapter or page content.',
+    'import_validation_failed' => 'Import ZIP failed to validate with errors:',
+    'import_zip_failed_notification' => 'Failed to import ZIP file.',
+    'import_perms_books' => 'You are lacking the required permissions to create books.',
+    'import_perms_chapters' => 'You are lacking the required permissions to create chapters.',
+    'import_perms_pages' => 'You are lacking the required permissions to create pages.',
+    'import_perms_images' => 'You are lacking the required permissions to create images.',
+    'import_perms_attachments' => 'You are lacking the required permission to create attachments.',
 
     // API errors
     'api_no_authorization_found' => 'Но беше намерен код за достъп в заявката',

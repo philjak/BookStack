@@ -9,7 +9,8 @@ return [
     'permissionJson' => 'Nemáte povolení k provedení požadované akce.',
 
     // Auth
-    'error_user_exists_different_creds' => 'Uživatel s emailem :email již existuje ale s jinými přihlašovacími údaji.',
+    'error_user_exists_different_creds' => 'Uživatel s emailem :email již existuje, ale s jinými přihlašovacími údaji.',
+    'auth_pre_register_theme_prevention' => 'Zadané údaje nedovolují zaregistrovat uživatelský účet',
     'email_already_confirmed' => 'Emailová adresa již byla potvrzena. Zkuste se přihlásit.',
     'email_confirmation_invalid' => 'Tento potvrzovací odkaz již neplatí nebo už byl použit. Zkuste prosím registraci znovu.',
     'email_confirmation_expired' => 'Tento potvrzovací odkaz již neplatí, byl Vám odeslán nový potvrzovací e-mail.',
@@ -23,7 +24,6 @@ return [
     'saml_invalid_response_id' => 'Požadavek z externího ověřovacího systému nebyl rozpoznám procesem, který tato aplikace spustila. Tento problém může způsobit stisknutí tlačítka Zpět po přihlášení.',
     'saml_fail_authed' => 'Přihlášení pomocí :system selhalo, systém neposkytl úspěšnou autorizaci',
     'oidc_already_logged_in' => 'Již jste přihlášeni',
-    'oidc_user_not_registered' => 'Uživatel :name není registrován a automatická registrace je zakázána',
     'oidc_no_email_address' => 'Nelze najít e-mailovou adresu pro tohoto uživatele v datech poskytnutých externím přihlašovacím systémem',
     'oidc_fail_authed' => 'Přihlášení pomocí :system selhalo, systém neposkytl úspěšnou autorizaci',
     'social_no_action_defined' => 'Nebyla zvolena žádá akce',
@@ -37,6 +37,7 @@ return [
     'social_driver_not_found' => 'Doplněk pro tohoto správce identity nebyl nalezen.',
     'social_driver_not_configured' => 'Nastavení vašeho účtu na :socialAccount není správné. :socialAccount musí mít vaše svolení pro naší aplikaci vás přihlásit.',
     'invite_token_expired' => 'Odkaz v pozvánce již bohužel vypršel. Namísto toho ale můžete zkusit resetovat heslo do Vašeho účtu.',
+    'login_user_not_found' => 'Uživatele pro tuto akci se nepodařilo najít.',
 
     // System
     'path_not_writable' => 'Nelze zapisovat na cestu k souboru :filePath. Zajistěte aby se dalo nahrávat na server.',
@@ -66,7 +67,7 @@ return [
 
     // Entities
     'entity_not_found' => 'Prvek nenalezen',
-    'bookshelf_not_found' => 'Knihovna nenalezena',
+    'bookshelf_not_found' => 'Police nenalezena',
     'book_not_found' => 'Kniha nenalezena',
     'page_not_found' => 'Stránka nenalezena',
     'chapter_not_found' => 'Kapitola nenalezena',
@@ -77,6 +78,7 @@ return [
     // Users
     'users_cannot_delete_only_admin' => 'Nemůžete odstranit posledního administrátora',
     'users_cannot_delete_guest' => 'Uživatele Host není možno odstranit',
+    'users_could_not_send_invite' => 'Nebylo možné vytvořit uživatele, protože se nepodařilo odeslat email s pozvánkou',
 
     // Roles
     'role_cannot_be_edited' => 'Tuto roli nelze editovat',
@@ -102,6 +104,18 @@ return [
     'error_occurred' => 'Nastala chyba',
     'app_down' => ':appName je momentálně vypnutá',
     'back_soon' => 'Brzy bude opět v provozu.',
+
+    // Import
+    'import_zip_cant_read' => 'Nelze načíst ZIP soubor.',
+    'import_zip_cant_decode_data' => 'Nelze najít a dekódovat data.json v archivu ZIP.',
+    'import_zip_no_data' => 'ZIP archiv neobsahuje knihy, kapitoly nebo stránky.',
+    'import_validation_failed' => 'Importování ZIP selhalo s chybami:',
+    'import_zip_failed_notification' => 'Nepodařilo se naimportovat ZIP soubor.',
+    'import_perms_books' => 'Chybí vám požadovaná oprávnění k vytvoření knih.',
+    'import_perms_chapters' => 'Chybí vám požadovaná oprávnění k vytvoření kapitol.',
+    'import_perms_pages' => 'Chybí vám požadovaná oprávnění k vytvoření stránek.',
+    'import_perms_images' => 'Chybí vám požadovaná oprávnění k vytvoření obrázků.',
+    'import_perms_attachments' => 'Chybí vám požadovaná oprávnění k vytvoření příloh.',
 
     // API errors
     'api_no_authorization_found' => 'V požadavku nebyl nalezen žádný autorizační token',

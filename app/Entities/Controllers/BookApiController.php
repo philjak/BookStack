@@ -6,16 +6,21 @@ use BookStack\Api\ApiEntityListFormatter;
 use BookStack\Entities\Models\Book;
 use BookStack\Entities\Models\Chapter;
 use BookStack\Entities\Models\Entity;
+use BookStack\Entities\Queries\BookQueries;
+use BookStack\Entities\Queries\PageQueries;
 use BookStack\Entities\Repos\BookRepo;
 use BookStack\Entities\Tools\BookContents;
 use BookStack\Http\ApiController;
+use BookStack\Permissions\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class BookApiController extends ApiController
 {
     public function __construct(
-        protected BookRepo $bookRepo
+        protected BookRepo $bookRepo,
+        protected BookQueries $queries,
+        protected PageQueries $pageQueries,
     ) {
     }
 
@@ -24,7 +29,10 @@ class BookApiController extends ApiController
      */
     public function list()
     {
-        $books = Book::visible();
+        $books = $this->queries
+            ->visibleForList()
+            ->with(['cover:id,name,url'])
+            ->addSelect(['created_by', 'updated_by']);
 
         return $this->apiListingResponse($books, [
             'id', 'name', 'slug', 'description', 'created_at', 'updated_at', 'created_by', 'updated_by', 'owned_by',
@@ -40,7 +48,7 @@ class BookApiController extends ApiController
      */
     public function create(Request $request)
     {
-        $this->checkPermission('book-create-all');
+        $this->checkPermission(Permission::BookCreateAll);
         $requestData = $this->validate($request, $this->rules()['create']);
 
         $book = $this->bookRepo->create($requestData);
@@ -56,7 +64,7 @@ class BookApiController extends ApiController
      */
     public function read(string $id)
     {
-        $book = Book::visible()->findOrFail($id);
+        $book = $this->queries->findVisibleByIdOrFail(intval($id));
         $book = $this->forJsonDisplay($book);
         $book->load(['createdBy', 'updatedBy', 'ownedBy']);
 
@@ -65,7 +73,8 @@ class BookApiController extends ApiController
             ->withType()
             ->withField('pages', function (Entity $entity) {
                 if ($entity instanceof Chapter) {
-                    return (new ApiEntityListFormatter($entity->pages->all()))->format();
+                    $pages = $this->pageQueries->visibleForChapterList($entity->id)->get()->all();
+                    return (new ApiEntityListFormatter($pages))->format();
                 }
                 return null;
             })->format();
@@ -83,8 +92,8 @@ class BookApiController extends ApiController
      */
     public function update(Request $request, string $id)
     {
-        $book = Book::visible()->findOrFail($id);
-        $this->checkOwnablePermission('book-update', $book);
+        $book = $this->queries->findVisibleByIdOrFail(intval($id));
+        $this->checkOwnablePermission(Permission::BookUpdate, $book);
 
         $requestData = $this->validate($request, $this->rules()['update']);
         $book = $this->bookRepo->update($book, $requestData);
@@ -100,8 +109,8 @@ class BookApiController extends ApiController
      */
     public function delete(string $id)
     {
-        $book = Book::visible()->findOrFail($id);
-        $this->checkOwnablePermission('book-delete', $book);
+        $book = $this->queries->findVisibleByIdOrFail(intval($id));
+        $this->checkOwnablePermission(Permission::BookDelete, $book);
 
         $this->bookRepo->destroy($book);
 

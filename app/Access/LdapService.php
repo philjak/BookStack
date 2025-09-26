@@ -72,6 +72,26 @@ class LdapService
     }
 
     /**
+     * Build the user display name from the (potentially multiple) attributes defined by the configuration.
+     */
+    protected function getUserDisplayName(array $userDetails, array $displayNameAttrs, string $defaultValue): string
+    {
+        $displayNameParts = [];
+        foreach ($displayNameAttrs as $dnAttr) {
+            $dnComponent = $this->getUserResponseProperty($userDetails, $dnAttr, null);
+            if ($dnComponent) {
+                $displayNameParts[] = $dnComponent;
+            }
+        }
+
+        if (empty($displayNameParts)) {
+            return $defaultValue;
+        }
+
+        return implode(' ', $displayNameParts);
+    }
+
+    /**
      * Get the details of a user from LDAP using the given username.
      * User found via configurable user filter.
      *
@@ -81,21 +101,25 @@ class LdapService
     {
         $idAttr = $this->config['id_attribute'];
         $emailAttr = $this->config['email_attribute'];
-        $displayNameAttr = $this->config['display_name_attribute'];
+        $displayNameAttrs = explode('|', $this->config['display_name_attribute']);
         $thumbnailAttr = $this->config['thumbnail_attribute'];
 
         $user = $this->getUserWithAttributes($userName, array_filter([
-            'cn', 'dn', $idAttr, $emailAttr, $displayNameAttr, $thumbnailAttr,
+            'cn', 'dn', $idAttr, $emailAttr, ...$displayNameAttrs, $thumbnailAttr,
         ]));
 
         if (is_null($user)) {
             return null;
         }
 
-        $userCn = $this->getUserResponseProperty($user, 'cn', null);
+        $nameDefault = $this->getUserResponseProperty($user, 'cn', null);
+        if (is_null($nameDefault)) {
+            $nameDefault = ldap_explode_dn($user['dn'], 1)[0] ?? $user['dn'];
+        }
+
         $formatted = [
             'uid'   => $this->getUserResponseProperty($user, $idAttr, $user['dn']),
-            'name'  => $this->getUserResponseProperty($user, $displayNameAttr, $userCn),
+            'name'  => $this->getUserDisplayName($user, $displayNameAttrs, $nameDefault),
             'dn'    => $user['dn'],
             'email' => $this->getUserResponseProperty($user, $emailAttr, null),
             'avatar' => $thumbnailAttr ? $this->getUserResponseProperty($user, $thumbnailAttr, null) : null,
@@ -209,6 +233,12 @@ class LdapService
             $this->ldap->setOption(null, LDAP_OPT_X_TLS_REQUIRE_CERT, LDAP_OPT_X_TLS_NEVER);
         }
 
+        // Configure any user-provided CA cert files for LDAP.
+        // This option works globally and must be set before a connection is created.
+        if ($this->config['tls_ca_cert']) {
+            $this->configureTlsCaCerts($this->config['tls_ca_cert']);
+        }
+
         $ldapHost = $this->parseServerString($this->config['server']);
         $ldapConnection = $this->ldap->connect($ldapHost);
 
@@ -223,7 +253,14 @@ class LdapService
 
         // Start and verify TLS if it's enabled
         if ($this->config['start_tls']) {
-            $started = $this->ldap->startTls($ldapConnection);
+            try {
+                $started = $this->ldap->startTls($ldapConnection);
+            } catch (\Exception $exception) {
+                $error = $exception->getMessage() . ' :: ' . ldap_error($ldapConnection);
+                ldap_get_option($ldapConnection, LDAP_OPT_DIAGNOSTIC_MESSAGE, $detail);
+                Log::info("LDAP STARTTLS failure: {$error} {$detail}");
+                throw new LdapException('Could not start TLS connection. Further details in the application log.');
+            }
             if (!$started) {
                 throw new LdapException('Could not start TLS connection');
             }
@@ -232,6 +269,33 @@ class LdapService
         $this->ldapConnection = $ldapConnection;
 
         return $this->ldapConnection;
+    }
+
+    /**
+     * Configure TLS CA certs globally for ldap use.
+     * This will detect if the given path is a directory or file, and set the relevant
+     * LDAP TLS options appropriately otherwise throw an exception if no file/folder found.
+     *
+     * Note: When using a folder, certificates are expected to be correctly named by hash
+     * which can be done via the c_rehash utility.
+     *
+     * @throws LdapException
+     */
+    protected function configureTlsCaCerts(string $caCertPath): void
+    {
+        $errMessage = "Provided path [{$caCertPath}] for LDAP TLS CA certs could not be resolved to an existing location";
+        $path = realpath($caCertPath);
+        if ($path === false) {
+            throw new LdapException($errMessage);
+        }
+
+        if (is_dir($path)) {
+            $this->ldap->setOption(null, LDAP_OPT_X_TLS_CACERTDIR, $path);
+        } else if (is_file($path)) {
+            $this->ldap->setOption(null, LDAP_OPT_X_TLS_CACERTFILE, $path);
+        } else {
+            throw new LdapException($errMessage);
+        }
     }
 
     /**
@@ -249,13 +313,18 @@ class LdapService
 
     /**
      * Build a filter string by injecting common variables.
+     * Both "${var}" and "{var}" style placeholders are supported.
+     * Dollar based are old format but supported for compatibility.
      */
     protected function buildFilter(string $filterString, array $attrs): string
     {
         $newAttrs = [];
         foreach ($attrs as $key => $attrText) {
-            $newKey = '${' . $key . '}';
-            $newAttrs[$newKey] = $this->ldap->escape($attrText);
+            $escapedText = $this->ldap->escape($attrText);
+            $oldVarKey = '${' . $key . '}';
+            $newVarKey = '{' . $key . '}';
+            $newAttrs[$oldVarKey] = $escapedText;
+            $newAttrs[$newVarKey] = $escapedText;
         }
 
         return strtr($filterString, $newAttrs);
@@ -276,94 +345,105 @@ class LdapService
             return [];
         }
 
-        $userGroups = $this->groupFilter($user);
+        $userGroups = $this->extractGroupsFromSearchResponseEntry($user);
         $allGroups = $this->getGroupsRecursive($userGroups, []);
+        $formattedGroups = $this->extractGroupNamesFromLdapGroupDns($allGroups);
 
         if ($this->config['dump_user_groups']) {
             throw new JsonDebugException([
-                'details_from_ldap'             => $user,
-                'parsed_direct_user_groups'     => $userGroups,
-                'parsed_recursive_user_groups'  => $allGroups,
+                'details_from_ldap'            => $user,
+                'parsed_direct_user_groups'    => $userGroups,
+                'parsed_recursive_user_groups' => $allGroups,
+                'parsed_resulting_group_names' => $formattedGroups,
             ]);
         }
 
-        return $allGroups;
+        return $formattedGroups;
+    }
+
+    protected function extractGroupNamesFromLdapGroupDns(array $groupDNs): array
+    {
+        $names = [];
+
+        foreach ($groupDNs as $groupDN) {
+            $exploded = $this->ldap->explodeDn($groupDN, 1);
+            if ($exploded !== false && count($exploded) > 0) {
+                $names[] = $exploded[0];
+            }
+        }
+
+        return array_unique($names);
     }
 
     /**
-     * Get the parent groups of an array of groups.
+     * Build an array of all relevant groups DNs after recursively scanning
+     * across parents of the groups given.
      *
      * @throws LdapException
      */
-    private function getGroupsRecursive(array $groupsArray, array $checked): array
+    protected function getGroupsRecursive(array $groupDNs, array $checked): array
     {
         $groupsToAdd = [];
-        foreach ($groupsArray as $groupName) {
-            if (in_array($groupName, $checked)) {
+        foreach ($groupDNs as $groupDN) {
+            if (in_array($groupDN, $checked)) {
                 continue;
             }
 
-            $parentGroups = $this->getGroupGroups($groupName);
+            $parentGroups = $this->getParentsOfGroup($groupDN);
             $groupsToAdd = array_merge($groupsToAdd, $parentGroups);
-            $checked[] = $groupName;
+            $checked[] = $groupDN;
         }
 
-        $groupsArray = array_unique(array_merge($groupsArray, $groupsToAdd), SORT_REGULAR);
+        $uniqueDNs = array_unique(array_merge($groupDNs, $groupsToAdd), SORT_REGULAR);
 
         if (empty($groupsToAdd)) {
-            return $groupsArray;
+            return $uniqueDNs;
         }
 
-        return $this->getGroupsRecursive($groupsArray, $checked);
+        return $this->getGroupsRecursive($uniqueDNs, $checked);
     }
 
     /**
-     * Get the parent groups of a single group.
-     *
      * @throws LdapException
      */
-    private function getGroupGroups(string $groupName): array
+    protected function getParentsOfGroup(string $groupDN): array
     {
+        $groupsAttr = strtolower($this->config['group_attribute']);
         $ldapConnection = $this->getConnection();
         $this->bindSystemUser($ldapConnection);
 
         $followReferrals = $this->config['follow_referrals'] ? 1 : 0;
         $this->ldap->setOption($ldapConnection, LDAP_OPT_REFERRALS, $followReferrals);
-
-        $baseDn = $this->config['base_dn'];
-        $groupsAttr = strtolower($this->config['group_attribute']);
-
-        $groupFilter = 'CN=' . $this->ldap->escape($groupName);
-        $groups = $this->ldap->searchAndGetEntries($ldapConnection, $baseDn, $groupFilter, [$groupsAttr]);
-        if ($groups['count'] === 0) {
+        $read = $this->ldap->read($ldapConnection, $groupDN, '(objectClass=*)', [$groupsAttr]);
+        $results = $this->ldap->getEntries($ldapConnection, $read);
+        if ($results['count'] === 0) {
             return [];
         }
 
-        return $this->groupFilter($groups[0]);
+        return $this->extractGroupsFromSearchResponseEntry($results[0]);
     }
 
     /**
-     * Filter out LDAP CN and DN language in a ldap search return.
-     * Gets the base CN (common name) of the string.
+     * Extract an array of group DN values from the given LDAP search response entry
      */
-    protected function groupFilter(array $userGroupSearchResponse): array
+    protected function extractGroupsFromSearchResponseEntry(array $ldapEntry): array
     {
         $groupsAttr = strtolower($this->config['group_attribute']);
-        $ldapGroups = [];
+        $groupDNs = [];
         $count = 0;
 
-        if (isset($userGroupSearchResponse[$groupsAttr]['count'])) {
-            $count = (int) $userGroupSearchResponse[$groupsAttr]['count'];
+        if (isset($ldapEntry[$groupsAttr]['count'])) {
+            $count = (int) $ldapEntry[$groupsAttr]['count'];
         }
 
         for ($i = 0; $i < $count; $i++) {
-            $dnComponents = $this->ldap->explodeDn($userGroupSearchResponse[$groupsAttr][$i], 1);
-            if (!in_array($dnComponents[0], $ldapGroups)) {
-                $ldapGroups[] = $dnComponents[0];
+            $dn = $ldapEntry[$groupsAttr][$i];
+            if (!in_array($dn, $groupDNs)) {
+                $groupDNs[] = $dn;
             }
         }
 
-        return $ldapGroups;
+        return $groupDNs;
     }
 
     /**

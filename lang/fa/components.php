@@ -18,7 +18,7 @@ return [
     'image_search_hint' => 'جستجو بر اساس نام تصویر',
     'image_uploaded' => 'بارگذاری شده :uploadedDate',
     'image_uploaded_by' => 'بارگذاری شده توسط:userName',
-    'image_uploaded_to' => 'بارگذاری شده در صفحه:pageLink',
+    'image_uploaded_to' => 'بارگذاری شده در صفحه :pageLink',
     'image_updated' => 'به‌روزرسانی شده در:updateDate',
     'image_load_more' => 'بارگذاری بیشتر',
     'image_image_name' => 'نام تصویر',
@@ -34,8 +34,8 @@ return [
     'image_delete_success' => 'تصویر با موفقیت حذف شد',
     'image_replace' => 'جایگزینی تصویر',
     'image_replace_success' => 'تصویر با موفقیت به روز شد',
-    'image_rebuild_thumbs' => 'Regenerate Size Variations',
-    'image_rebuild_thumbs_success' => 'Image size variations successfully rebuilt!',
+    'image_rebuild_thumbs' => 'بازتولید اندازه‌های گوناگونی از تصویر',
+    'image_rebuild_thumbs_success' => 'اندازه‌های گوناگونی از تصویر با موفقیت بازتولید شدند.',
 
     // Code Editor
     'code_editor' => 'ویرایش کد',

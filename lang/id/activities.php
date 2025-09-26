@@ -15,7 +15,7 @@ return [
     'page_restore'                => 'halaman telah dipulihkan',
     'page_restore_notification'   => 'Halaman berhasil dipulihkan',
     'page_move'                   => 'halaman dipindahkan',
-    'page_move_notification'      => 'Page successfully moved',
+    'page_move_notification'      => 'Halaman berhasil dipindahkan',
 
     // Chapters
     'chapter_create'              => 'membuat bab',
@@ -25,7 +25,7 @@ return [
     'chapter_delete'              => 'hapus bab',
     'chapter_delete_notification' => 'Bab berhasil dihapus',
     'chapter_move'                => 'bab dipindahkan',
-    'chapter_move_notification' => 'Chapter successfully moved',
+    'chapter_move_notification' => 'Bab berhasil dipindahkan',
 
     // Books
     'book_create'                 => 'membuat buku',
@@ -50,31 +50,31 @@ return [
     'bookshelf_delete_notification'    => 'Rak berhasil dihapus',
 
     // Revisions
-    'revision_restore' => 'restored revision',
-    'revision_delete' => 'deleted revision',
-    'revision_delete_notification' => 'Revision successfully deleted',
+    'revision_restore' => 'revisi yang dipulihkan',
+    'revision_delete' => 'revisi yang dihapus',
+    'revision_delete_notification' => 'Revisi berhasil dihapus',
 
     // Favourites
     'favourite_add_notification' => '":name" telah ditambahkan ke favorit Anda',
     'favourite_remove_notification' => '":name" telah dihapus dari favorit Anda',
 
     // Watching
-    'watch_update_level_notification' => 'Watch preferences successfully updated',
+    'watch_update_level_notification' => 'Preferensi pantauan berhasil diperbarui',
 
     // Auth
-    'auth_login' => 'logged in',
-    'auth_register' => 'registered as new user',
-    'auth_password_reset_request' => 'requested user password reset',
-    'auth_password_reset_update' => 'reset user password',
-    'mfa_setup_method' => 'configured MFA method',
+    'auth_login' => 'telah masuk',
+    'auth_register' => 'daftar sebagai user baru',
+    'auth_password_reset_request' => 'permintaan pengguna mengatur ulang kata sandi',
+    'auth_password_reset_update' => 'atur ulang kata sandi pengguna',
+    'mfa_setup_method' => 'metode MFA yang dikonfigurasi',
     'mfa_setup_method_notification' => 'Metode multi-faktor sukses dikonfigurasi',
-    'mfa_remove_method' => 'removed MFA method',
+    'mfa_remove_method' => 'menghapus metode MFA',
     'mfa_remove_method_notification' => 'Metode multi-faktor sukses dihapus',
 
     // Settings
-    'settings_update' => 'updated settings',
-    'settings_update_notification' => 'Settings successfully updated',
-    'maintenance_action_run' => 'ran maintenance action',
+    'settings_update' => 'memperbarui setelan',
+    'settings_update_notification' => 'Pengaturan berhasil diperbarui',
+    'maintenance_action_run' => 'menjalankan tindakan pemeliharaan',
 
     // Webhooks
     'webhook_create' => 'membuat webhook',
@@ -84,40 +84,56 @@ return [
     'webhook_delete' => 'menghapus webhook',
     'webhook_delete_notification' => 'Webhook berhasil dihapus',
 
+    // Imports
+    'import_create' => 'telat membuat impor',
+    'import_create_notification' => 'Impor berhasil diunggah',
+    'import_run' => 'telah memperbarui impor',
+    'import_run_notification' => 'Konten berhasil diimpor',
+    'import_delete' => 'telah menghapus impor',
+    'import_delete_notification' => 'Impor berhasil dihapus',
+
     // Users
-    'user_create' => 'created user',
-    'user_create_notification' => 'User successfully created',
-    'user_update' => 'updated user',
+    'user_create' => 'pengguna yang dibuat',
+    'user_create_notification' => 'Pengguna berhasil dibuat',
+    'user_update' => 'perbarui Pengguna',
     'user_update_notification' => 'Pengguna berhasil diperbarui',
-    'user_delete' => 'deleted user',
+    'user_delete' => 'pengguna yang dihapus',
     'user_delete_notification' => 'Pengguna berhasil dihapus',
 
     // API Tokens
-    'api_token_create' => 'created api token',
-    'api_token_create_notification' => 'API token successfully created',
-    'api_token_update' => 'updated api token',
-    'api_token_update_notification' => 'API token successfully updated',
-    'api_token_delete' => 'deleted api token',
-    'api_token_delete_notification' => 'API token successfully deleted',
+    'api_token_create' => 'API token yang dibuat',
+    'api_token_create_notification' => 'Token API berhasil dibuat',
+    'api_token_update' => 'token API yang diperbarui',
+    'api_token_update_notification' => 'token API berhasil dirubah',
+    'api_token_delete' => 'token API yang dihapus',
+    'api_token_delete_notification' => 'token API berhasil dihapus ',
 
     // Roles
-    'role_create' => 'created role',
+    'role_create' => 'telah membuat peran',
     'role_create_notification' => 'Peran berhasil dibuat',
-    'role_update' => 'updated role',
+    'role_update' => 'telah memperbarui peran',
     'role_update_notification' => 'Peran berhasil diperbarui',
-    'role_delete' => 'deleted role',
+    'role_delete' => 'telah menghapus peran',
     'role_delete_notification' => 'Peran berhasil dihapus',
 
     // Recycle Bin
-    'recycle_bin_empty' => 'emptied recycle bin',
-    'recycle_bin_restore' => 'restored from recycle bin',
-    'recycle_bin_destroy' => 'removed from recycle bin',
+    'recycle_bin_empty' => 'telah mengosongkan tempat sampah',
+    'recycle_bin_restore' => 'telah mengembalikan dari tempat sampah',
+    'recycle_bin_destroy' => 'telah menghapus dari tempat sampah',
 
     // Comments
     'commented_on'                => 'berkomentar pada',
-    'comment_create'              => 'added comment',
-    'comment_update'              => 'updated comment',
-    'comment_delete'              => 'deleted comment',
+    'comment_create'              => 'telah menambah komentar',
+    'comment_update'              => 'telah memperbarui komentar',
+    'comment_delete'              => 'telah menghapus komentar',
+
+    // Sort Rules
+    'sort_rule_create' => 'telah membuat aturan penyortiran',
+    'sort_rule_create_notification' => 'Aturan penyortiran berhasil dibuat',
+    'sort_rule_update' => 'telah mengubah aturan penyortiran',
+    'sort_rule_update_notification' => 'Aturan penyortiran berhasil diubah',
+    'sort_rule_delete' => 'telah menghapus aturan penyortiran',
+    'sort_rule_delete_notification' => 'Aturan penyortiran berhasil dihapus',
 
     // Other
     'permissions_update'          => 'izin diperbarui',

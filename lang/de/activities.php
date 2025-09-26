@@ -10,11 +10,11 @@ return [
     'page_create_notification'    => 'Seite erfolgreich erstellt',
     'page_update'                 => 'aktualisierte Seite',
     'page_update_notification'    => 'Seite erfolgreich aktualisiert',
-    'page_delete'                 => 'hat die Seite gelöscht',
+    'page_delete'                 => 'löschte Seite',
     'page_delete_notification'    => 'Seite erfolgreich gelöscht',
-    'page_restore'                => 'hat die Seite wiederhergestellt',
+    'page_restore'                => 'wiederherstellte Seite',
     'page_restore_notification'   => 'Seite erfolgreich wiederhergestellt',
-    'page_move'                   => 'Seite verschoben',
+    'page_move'                   => 'verschob Seite',
     'page_move_notification'      => 'Seite erfolgreich verschoben',
 
     // Chapters
@@ -37,13 +37,13 @@ return [
     'book_delete'                 => 'löschte Buch',
     'book_delete_notification'    => 'Buch erfolgreich gelöscht',
     'book_sort'                   => 'sortierte Buch',
-    'book_sort_notification'      => 'Das Buch wurde erfolgreich umsortiert',
+    'book_sort_notification'      => 'Buch wurde erfolgreich umsortiert',
 
     // Bookshelves
     'bookshelf_create'            => 'erstellte Regal',
     'bookshelf_create_notification'    => 'Regal erfolgreich erstellt',
     'bookshelf_create_from_book'    => 'konvertierte Buch zu Regal',
-    'bookshelf_create_from_book_notification'    => 'Buch erfolgreich in ein Regal konvertiert',
+    'bookshelf_create_from_book_notification'    => 'Buch erfolgreich in Regal konvertiert',
     'bookshelf_update'                 => 'aktualisierte Regal',
     'bookshelf_update_notification'    => 'Regal erfolgreich aktualisiert',
     'bookshelf_delete'                 => 'löschte Regal',
@@ -62,27 +62,35 @@ return [
     'watch_update_level_notification' => 'Beobachtungseinstellungen erfolgreich aktualisiert',
 
     // Auth
-    'auth_login' => 'hat sich eingeloggt',
-    'auth_register' => 'hat sich als neuer Benutzer registriert',
-    'auth_password_reset_request' => 'hat eine Rücksetzung des Benutzerpassworts beantragt',
-    'auth_password_reset_update' => 'hat Benutzerpasswort zurückgesetzt',
-    'mfa_setup_method' => 'hat MFA-Methode konfiguriert',
+    'auth_login' => 'loggte sich ein',
+    'auth_register' => 'registrierte sich als neuer User',
+    'auth_password_reset_request' => 'forderte Rücksetzung des Benutzerpassworts an',
+    'auth_password_reset_update' => 'setzte Benutzerpasswort zurück',
+    'mfa_setup_method' => 'konfigurierte MFA-Methode',
     'mfa_setup_method_notification' => 'Multi-Faktor-Methode erfolgreich konfiguriert',
-    'mfa_remove_method' => 'hat MFA-Methode entfernt',
+    'mfa_remove_method' => 'entfernte MFA-Methode',
     'mfa_remove_method_notification' => 'Multi-Faktor-Methode erfolgreich entfernt',
 
     // Settings
-    'settings_update' => 'hat Einstellungen aktualisiert',
+    'settings_update' => 'aktualisierte Einstellungen',
     'settings_update_notification' => 'Einstellungen erfolgreich aktualisiert',
-    'maintenance_action_run' => 'hat Wartungsarbeiten ausgeführt',
+    'maintenance_action_run' => 'führte Wartungsaktion aus',
 
     // Webhooks
     'webhook_create' => 'erstellte Webhook',
-    'webhook_create_notification' => 'Webhook wurde erfolgreich eingerichtet',
+    'webhook_create_notification' => 'Webhook erfolgreich erstellt',
     'webhook_update' => 'aktualisierte Webhook',
-    'webhook_update_notification' => 'Webhook wurde erfolgreich aktualisiert',
+    'webhook_update_notification' => 'Webhook erfolgreich aktualisiert',
     'webhook_delete' => 'löschte Webhook',
     'webhook_delete_notification' => 'Webhook erfolgreich gelöscht',
+
+    // Imports
+    'import_create' => 'Import erstellt',
+    'import_create_notification' => 'Import erfolgreich hochgeladen',
+    'import_run' => 'Import aktualisiert',
+    'import_run_notification' => 'Inhalt erfolgreich importiert',
+    'import_delete' => 'Import gelöscht',
+    'import_delete_notification' => 'Import erfolgreich gelöscht',
 
     // Users
     'user_create' => 'hat Benutzer erzeugt:',
@@ -93,11 +101,11 @@ return [
     'user_delete_notification' => 'Benutzer erfolgreich entfernt',
 
     // API Tokens
-    'api_token_create' => 'hat API-Token erzeugt:',
+    'api_token_create' => 'API-Token erstellt',
     'api_token_create_notification' => 'API-Token erfolgreich erstellt',
-    'api_token_update' => 'hat API-Token aktualisiert:',
+    'api_token_update' => 'API-Token aktualisiert',
     'api_token_update_notification' => 'API-Token erfolgreich aktualisiert',
-    'api_token_delete' => 'hat API-Token gelöscht:',
+    'api_token_delete' => 'API-Token gelöscht',
     'api_token_delete_notification' => 'API-Token erfolgreich gelöscht',
 
     // Roles
@@ -118,6 +126,14 @@ return [
     'comment_create'              => 'Kommentar hinzugefügt',
     'comment_update'              => 'Kommentar aktualisiert',
     'comment_delete'              => 'Kommentar gelöscht',
+
+    // Sort Rules
+    'sort_rule_create' => 'hat eine Sortierregel erstellt',
+    'sort_rule_create_notification' => 'Sortierregel erfolgreich angelegt',
+    'sort_rule_update' => 'hat eine Sortierregel aktualisiert',
+    'sort_rule_update_notification' => 'Sortierregel erfolgreich aktualisiert',
+    'sort_rule_delete' => 'hat eine Sortierregel gelöscht',
+    'sort_rule_delete_notification' => 'Sortierregel erfolgreich gelöscht',
 
     // Other
     'permissions_update'          => 'hat die Berechtigungen aktualisiert',

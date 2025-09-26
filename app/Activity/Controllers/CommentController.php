@@ -3,15 +3,19 @@
 namespace BookStack\Activity\Controllers;
 
 use BookStack\Activity\CommentRepo;
-use BookStack\Entities\Models\Page;
+use BookStack\Activity\Tools\CommentTree;
+use BookStack\Activity\Tools\CommentTreeNode;
+use BookStack\Entities\Queries\PageQueries;
 use BookStack\Http\Controller;
+use BookStack\Permissions\Permission;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
 class CommentController extends Controller
 {
     public function __construct(
-        protected CommentRepo $commentRepo
+        protected CommentRepo $commentRepo,
+        protected PageQueries $pageQueries,
     ) {
     }
 
@@ -22,12 +26,13 @@ class CommentController extends Controller
      */
     public function savePageComment(Request $request, int $pageId)
     {
-        $this->validate($request, [
-            'text'      => ['required', 'string'],
+        $input = $this->validate($request, [
+            'html'      => ['required', 'string'],
             'parent_id' => ['nullable', 'integer'],
+            'content_ref' => ['string'],
         ]);
 
-        $page = Page::visible()->find($pageId);
+        $page = $this->pageQueries->findVisibleById($pageId);
         if ($page === null) {
             return response('Not found', 404);
         }
@@ -38,15 +43,13 @@ class CommentController extends Controller
         }
 
         // Create a new comment.
-        $this->checkPermission('comment-create-all');
-        $comment = $this->commentRepo->create($page, $request->get('text'), $request->get('parent_id'));
+        $this->checkPermission(Permission::CommentCreateAll);
+        $contentRef = $input['content_ref'] ?? '';
+        $comment = $this->commentRepo->create($page, $input['html'], $input['parent_id'] ?? null, $contentRef);
 
         return view('comments.comment-branch', [
             'readOnly' => false,
-            'branch' => [
-                'comment' => $comment,
-                'children' => [],
-            ]
+            'branch' => new CommentTreeNode($comment, 0, []),
         ]);
     }
 
@@ -57,17 +60,60 @@ class CommentController extends Controller
      */
     public function update(Request $request, int $commentId)
     {
-        $this->validate($request, [
-            'text' => ['required', 'string'],
+        $input = $this->validate($request, [
+            'html' => ['required', 'string'],
         ]);
 
         $comment = $this->commentRepo->getById($commentId);
-        $this->checkOwnablePermission('page-view', $comment->entity);
-        $this->checkOwnablePermission('comment-update', $comment);
+        $this->checkOwnablePermission(Permission::PageView, $comment->entity);
+        $this->checkOwnablePermission(Permission::CommentUpdate, $comment);
 
-        $comment = $this->commentRepo->update($comment, $request->get('text'));
+        $comment = $this->commentRepo->update($comment, $input['html']);
 
-        return view('comments.comment', ['comment' => $comment, 'readOnly' => false]);
+        return view('comments.comment', [
+            'comment' => $comment,
+            'readOnly' => false,
+        ]);
+    }
+
+    /**
+     * Mark a comment as archived.
+     */
+    public function archive(int $id)
+    {
+        $comment = $this->commentRepo->getById($id);
+        $this->checkOwnablePermission(Permission::PageView, $comment->entity);
+        if (!userCan(Permission::CommentUpdate, $comment) && !userCan(Permission::CommentDelete, $comment)) {
+            $this->showPermissionError();
+        }
+
+        $this->commentRepo->archive($comment);
+
+        $tree = new CommentTree($comment->entity);
+        return view('comments.comment-branch', [
+            'readOnly' => false,
+            'branch' => $tree->getCommentNodeForId($id),
+        ]);
+    }
+
+    /**
+     * Unmark a comment as archived.
+     */
+    public function unarchive(int $id)
+    {
+        $comment = $this->commentRepo->getById($id);
+        $this->checkOwnablePermission(Permission::PageView, $comment->entity);
+        if (!userCan(Permission::CommentUpdate, $comment) && !userCan(Permission::CommentDelete, $comment)) {
+            $this->showPermissionError();
+        }
+
+        $this->commentRepo->unarchive($comment);
+
+        $tree = new CommentTree($comment->entity);
+        return view('comments.comment-branch', [
+            'readOnly' => false,
+            'branch' => $tree->getCommentNodeForId($id),
+        ]);
     }
 
     /**
@@ -76,7 +122,7 @@ class CommentController extends Controller
     public function destroy(int $id)
     {
         $comment = $this->commentRepo->getById($id);
-        $this->checkOwnablePermission('comment-delete', $comment);
+        $this->checkOwnablePermission(Permission::CommentDelete, $comment);
 
         $this->commentRepo->delete($comment);
 

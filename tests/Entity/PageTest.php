@@ -86,6 +86,32 @@ class PageTest extends TestCase
         $resp->assertSee('# a title');
     }
 
+    public function test_page_creation_allows_summary_to_be_set()
+    {
+        $book = $this->entities->book();
+
+        $this->asEditor()->get($book->getUrl('/create-page'));
+        $draft = Page::query()->where('book_id', '=', $book->id)
+            ->where('draft', '=', true)->first();
+
+        $details = [
+            'html'    => '<h1>a title</h1>',
+            'name'    => 'My page with summary',
+            'summary' => 'Here is my changelog message for a new page!',
+        ];
+        $resp = $this->post($book->getUrl("/draft/{$draft->id}"), $details);
+        $resp->assertRedirect();
+
+        $this->assertDatabaseHas('page_revisions', [
+            'page_id' => $draft->id,
+            'summary' => 'Here is my changelog message for a new page!',
+        ]);
+
+        $draft->refresh();
+        $resp = $this->get($draft->getUrl('/revisions'));
+        $resp->assertSee('Here is my changelog message for a new page!');
+    }
+
     public function test_page_delete()
     {
         $page = $this->entities->page();
@@ -274,7 +300,7 @@ class PageTest extends TestCase
         ]);
 
         $resp = $this->asAdmin()->get('/pages/recently-updated');
-        $this->withHtml($resp)->assertElementContains('.entity-list .page:nth-child(1)', 'Updated 1 second ago by ' . $user->name);
+        $this->withHtml($resp)->assertElementContains('.entity-list .page:nth-child(1) small', 'by ' . $user->name);
     }
 
     public function test_recently_updated_pages_view_shows_parent_chain()
@@ -329,5 +355,15 @@ class PageTest extends TestCase
 
         $resp = $this->get('/');
         $this->withHtml($resp)->assertElementContains('#recently-updated-pages', $page->name);
+    }
+
+    public function test_page_edit_without_update_permissions_but_with_view_redirects_to_page()
+    {
+        $page = $this->entities->page();
+
+        $resp = $this->asViewer()->get($page->getUrl('/edit'));
+        $resp->assertRedirect($page->getUrl());
+
+        $resp->assertSessionHas('error', 'You do not have permission to access the requested page.');
     }
 }

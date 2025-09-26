@@ -2,13 +2,13 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -23,29 +23,22 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        $sm = Schema::getConnection()->getDoctrineSchemaManager();
-        $pages = $sm->listTableDetails('pages');
-        $books = $sm->listTableDetails('books');
-        $chapters = $sm->listTableDetails('chapters');
-
-        if ($pages->hasIndex('search')) {
+        if (Schema::hasIndex('pages', 'search')) {
             Schema::table('pages', function (Blueprint $table) {
                 $table->dropIndex('search');
             });
         }
 
-        if ($books->hasIndex('search')) {
+        if (Schema::hasIndex('books', 'search')) {
             Schema::table('books', function (Blueprint $table) {
                 $table->dropIndex('search');
             });
         }
 
-        if ($chapters->hasIndex('search')) {
+        if (Schema::hasIndex('chapters', 'search')) {
             Schema::table('chapters', function (Blueprint $table) {
                 $table->dropIndex('search');
             });

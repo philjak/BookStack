@@ -12,10 +12,10 @@ return [
     'active_url'           => ':attribute ni veljaven URL.',
     'after'                => ':attribute mora biti datum po :date.',
     'alpha'                => ':attribute lahko vsebuje samo črke.',
-    'alpha_dash'           => ':attribute lahko vsebuje samo ?rke, ?tevilke in ?rtice.',
+    'alpha_dash'           => ':attribute lahko vsebuje samo črke, številke, pomišljaje in podčrtaje.',
     'alpha_num'            => ':attribute lahko vsebuje samo črke in številke.',
     'array'                => ':attribute mora biti niz.',
-    'backup_codes'         => 'The provided code is not valid or has already been used.',
+    'backup_codes'         => 'Podana koda ni veljavna ali je že uporabljena.',
     'before'               => ':attribute mora biti datum pred :date.',
     'between'              => [
         'numeric' => ':attribute mora biti med :min in :max.',
@@ -32,7 +32,7 @@ return [
     'digits_between'       => ':attribute mora biti med :min in :max števkami.',
     'email'                => ':attribute mora biti veljaven e-naslov.',
     'ends_with' => 'The :attribute se mora končati z eno od določenih: :vrednost/values',
-    'file'                 => 'The :attribute must be provided as a valid file.',
+    'file'                 => ':attribute ni veljavna datoteka.',
     'filled'               => 'Polje ne sme biti prazno.',
     'gt'                   => [
         'numeric' => ':attribute mora biti večji kot :vrednost.',
@@ -100,10 +100,15 @@ return [
     ],
     'string'               => ':attribute mora biti niz.',
     'timezone'             => ':attribute mora biti veljavna cona.',
-    'totp'                 => 'The provided code is not valid or has expired.',
+    'totp'                 => 'Podana koda ni veljavna ali je zapadla.',
     'unique'               => ':attribute je že zaseden.',
     'url'                  => ':attribute oblika ni veljavna.',
     'uploaded'             => 'Datoteke ni bilo mogoče naložiti. Strežnik morda ne sprejema datotek te velikosti.',
+
+    'zip_file' => 'The :attribute needs to reference a file within the ZIP.',
+    'zip_file_mime' => 'The :attribute needs to reference a file of type :validTypes, found :foundType.',
+    'zip_model_expected' => 'Data object expected but ":type" found.',
+    'zip_unique' => 'The :attribute must be unique for the object type within the ZIP.',
 
     // Custom validation lines
     'custom' => [

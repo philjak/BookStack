@@ -1,7 +1,3 @@
-@push('head')
-    <script src="{{ versioned_asset('libs/tinymce/tinymce.min.js') }}" nonce="{{ $cspNonce }}"></script>
-@endpush
-
 {{ csrf_field() }}
 <div class="form-group title-input">
     <label for="name">{{ trans('common.name') }}</label>
@@ -40,24 +36,10 @@
 
 <div class="form-group collapsible" component="collapsible" id="template-control">
     <button refs="collapsible@trigger" type="button" class="collapse-title text-link" aria-expanded="false">
-        <label for="template-manager">{{ trans('entities.books_default_template') }}</label>
+        <label for="template-manager">{{ trans('entities.default_template') }}</label>
     </button>
     <div refs="collapsible@content" class="collapse-content">
-        <div class="flex-container-row gap-l justify-space-between pb-xs wrap">
-            <p class="text-muted small my-none min-width-xs flex">
-                {{ trans('entities.books_default_template_explain') }}
-            </p>
-
-            <div class="min-width-m">
-                @include('form.page-picker', [
-                    'name' => 'default_template_id',
-                    'placeholder' => trans('entities.books_default_template_select'),
-                    'value' => $book->default_template_id ?? null,
-                    'selectorEndpoint' => '/search/entity-selector-templates',
-                ])
-            </div>
-        </div>
-
+        @include('entities.template-selector', ['entity' => $book ?? null])
     </div>
 </div>
 
